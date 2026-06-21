@@ -1,0 +1,1186 @@
+import { createFileRoute } from "@tanstack/react-router";
+import { useEffect, useRef, useState } from "react";
+import {
+  ArrowUpRight,
+  Mail,
+  MapPin,
+  Phone,
+  Download,
+  Github,
+  Linkedin,
+  GraduationCap,
+  Globe2,
+  FileText,
+  ExternalLink,
+  Sparkles,
+  Compass,
+  Layers,
+  Satellite,
+  Droplets,
+  Mountain,
+  Cpu,
+  CloudRain,
+  Building2,
+  Leaf,
+  BrainCircuit,
+  Map as MapIcon,
+} from "lucide-react";
+import { useReveal, useCountUp, useInView } from "@/hooks/use-reveal";
+import ProjectMap from "@/components/ProjectMap";
+
+export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: "Md Ali Ahnaf Abid Mayukh — GIS & GeoAI Researcher" },
+      {
+        name: "description",
+        content:
+          "Civil Engineer and GIS & Remote Sensing researcher exploring GeoAI, flood risk, and climate resilience through geospatial intelligence.",
+      },
+      { property: "og:title", content: "Md Ali Ahnaf Abid Mayukh — GIS & GeoAI Researcher" },
+      {
+        property: "og:description",
+        content:
+          "Portfolio of Md Ali Ahnaf Abid Mayukh — geospatial data, environmental monitoring, and machine learning for climate resilience.",
+      },
+    ],
+  }),
+  component: Portfolio,
+});
+
+/* ---------- Data ---------- */
+
+const NAV = [
+  { id: "about", label: "About" },
+  { id: "research", label: "Research" },
+  { id: "publications", label: "Publications" },
+  { id: "projects", label: "Projects" },
+  { id: "experience", label: "Experience" },
+  { id: "skills", label: "Skills" },
+  { id: "contact", label: "Contact" },
+];
+
+const STATS = [
+  { value: 10, suffix: "+", label: "Research Projects" },
+  { value: 9, suffix: "+", label: "Publications & Papers" },
+  { value: 500, suffix: "+", label: "Literature Sources Reviewed" },
+  { value: 400000, suffix: "+ ft", label: "Fiber Network Designed", compact: true },
+  { value: 25, suffix: "+", label: "Engineers Mentored" },
+  { value: 20, suffix: "+", label: "Students Trained" },
+];
+
+const INTERESTS = [
+  { icon: MapIcon, label: "GIS & Remote Sensing" },
+  { icon: BrainCircuit, label: "GeoAI" },
+  { icon: Leaf, label: "Environmental Monitoring" },
+  { icon: CloudRain, label: "Climate Change" },
+  { icon: Droplets, label: "Flood Risk Analysis" },
+  { icon: Mountain, label: "Ecohydrological Modeling" },
+  { icon: Cpu, label: "ML for Geospatial Analysis" },
+  { icon: Compass, label: "Disaster Management Systems" },
+  { icon: Building2, label: "Urban Environmental Infrastructure" },
+  { icon: Layers, label: "Sustainable Construction Materials" },
+];
+
+const JOURNAL = [
+  {
+    title:
+      "Spatiotemporal Shoreline Change Assessment And Machine Learning Projections For Coastal Louisiana",
+    venue: "Geodata and AI",
+    year: 2025,
+  },
+  {
+    title: "Improvement Of Engineering Properties Of Different Materials Using Microbial Treatment",
+    venue: "Journal of Harbin Engineering University",
+    year: 2024,
+  },
+];
+
+const CONFERENCE = [
+  "GIS-Based Multi-Temporal Land Cover Dynamics in Terrell County, Texas",
+  "Hybrid Hydro-Geomorphic AHP Framework for Flash Flood Susceptibility",
+  "Spatiotemporal Land Cover Change and Inundation Susceptibility in Texas",
+  "Flood Susceptibility Mapping in San Antonio Using AHP-GIS",
+  "Flood Susceptibility Assessment in Bangladesh Using SPI-GIS Framework",
+  "Rooftop Solar Adoption in Dhaka Residential Sector",
+  "Turbidity Dynamics and Urban Expansion in the Buriganga River",
+];
+
+type ProjectTag = "GIS" | "Remote Sensing" | "GeoAI" | "Hydrology";
+const PROJECTS: {
+  title: string;
+  tech: string[];
+  desc: string;
+  tags: ProjectTag[];
+  location?: { lng: number; lat: number; label: string };
+}[] = [
+  {
+    title: "Shoreline Dynamics & Machine Learning Prediction",
+    tech: ["Google Earth Engine", "ArcGIS Pro", "XGBoost"],
+    desc: "Analyzed shoreline changes at Cameron Beach, Louisiana and projected future movement using machine learning.",
+    tags: ["Remote Sensing", "GeoAI"],
+    location: { lng: -93.3, lat: 29.8, label: "Louisiana, USA" },
+  },
+  {
+    title: "Sentinel-2 Cloud Masking Framework",
+    tech: ["Google Earth Engine", "Python"],
+    desc: "Developed and evaluated multiple cloud masking approaches including ML and deep-learning workflows.",
+    tags: ["Remote Sensing", "GeoAI"],
+  },
+  {
+    title: "Terrell County Land Cover Dynamics",
+    tech: ["ArcGIS Pro", "Landsat", "NLCD"],
+    desc: "Investigated desertification and vegetation recovery trends linked to oil development.",
+    tags: ["GIS", "Remote Sensing"],
+    location: { lng: -101.8, lat: 30.2, label: "Terrell County, TX" },
+  },
+  {
+    title: "Kerr County Flood Susceptibility Mapping",
+    tech: ["ArcGIS Pro", "AHP", "GIS"],
+    desc: "Developed a flood susceptibility model using geomorphological factors and ROC validation.",
+    tags: ["GIS", "Hydrology"],
+    location: { lng: -99.35, lat: 30.05, label: "Kerr County, TX" },
+  },
+  {
+    title: "LiDAR-Based DEM Generation",
+    tech: ["LiDAR", "ArcGIS Pro"],
+    desc: "Generated high-resolution digital elevation models for Louisiana floodplain analysis.",
+    tags: ["GIS", "Remote Sensing"],
+  },
+  {
+    title: "Buriganga River Environmental Monitoring",
+    tech: ["Google Earth Engine", "GIS"],
+    desc: "Mapped turbidity patterns and urban encroachment impacts from 2013 to 2023.",
+    tags: ["Remote Sensing", "Hydrology"],
+    location: { lng: 90.4, lat: 23.8, label: "Dhaka, Bangladesh" },
+  },
+  {
+    title: "Urban Stormwater Modeling",
+    tech: ["SWMM"],
+    desc: "Performed hydrologic and hydraulic analysis of Azimpur Colony, Dhaka.",
+    tags: ["Hydrology"],
+    location: { lng: 90.4, lat: 23.8, label: "Dhaka, Bangladesh" },
+  },
+];
+
+const PROJECT_FILTERS: (ProjectTag | "All")[] = [
+  "All",
+  "GIS",
+  "Remote Sensing",
+  "GeoAI",
+  "Hydrology",
+];
+
+const TIMELINE = [
+  {
+    year: "Oct 2025 — Present",
+    role: "Outside Plant Engineer — Civil Infrastructure",
+    org: "SKARION Engineering Services Ltd, Virginia, USA",
+    bullets: [
+      "Designed 400,000+ ft of XGS-PON fiber networks",
+      "Completed 500+ residential fiber deployments",
+      "Authored HLD/LLD packages, BOM documentation",
+      "Aerial & underground OSP designs in ArcGIS Pro and AutoCAD",
+      "Ensured NESC and NEC compliance",
+      "Mentored 25+ junior engineers",
+    ],
+  },
+  {
+    year: "Feb 2026 — Present",
+    role: "Research Assistant",
+    org: "North South University",
+    bullets: [
+      "Developed Advanced Foundation Analysis course materials",
+      "Applied FEM-based numerical modeling",
+      "Conducted PRISMA-ScR reviews synthesizing 500+ sources",
+      "Contributed to journal & book chapter publications",
+    ],
+  },
+  {
+    year: "Jan 2025 — Present",
+    role: "Instructor",
+    org: "LEAD Academy",
+    bullets: [
+      "Designed AutoCAD curriculum — 13 modules",
+      "Produced 87 video lectures",
+      "Built 30 quizzes & 4 capstone projects",
+    ],
+  },
+  {
+    year: "Apr 2025 — Present",
+    role: "AutoCAD Instructor",
+    org: "Caturjo Architecture Academy",
+    bullets: [
+      "Delivered 10-week AutoCAD training",
+      "Trained industry professionals & polytechnic graduates",
+      "Conducted webinars & live Q&A sessions",
+    ],
+  },
+  {
+    year: "Nov 2023 — Oct 2025",
+    role: "Chief Instructor — AutoCAD",
+    org: "IUT CAD Society",
+    bullets: [
+      "Taught batches of 30+ students online and offline",
+      "Head Organizer, Drafting Contest 2025 (104 participants)",
+    ],
+  },
+];
+
+const SKILL_GROUPS = [
+  {
+    group: "GIS & Remote Sensing",
+    items: [
+      ["ArcGIS Pro", 92],
+      ["ArcMap", 88],
+      ["Google Earth Engine", 90],
+    ] as [string, number][],
+  },
+  {
+    group: "Hydrological Modeling",
+    items: [
+      ["HEC-RAS", 82],
+      ["SWMM", 85],
+      ["EPANET", 78],
+      ["eTank", 74],
+    ] as [string, number][],
+  },
+  {
+    group: "Engineering Software",
+    items: [
+      ["AutoCAD 2D & 3D", 94],
+      ["ETABS", 78],
+      ["PLAXIS 2D", 80],
+      ["PLAXIS 3D", 72],
+    ] as [string, number][],
+  },
+  {
+    group: "Programming",
+    items: [
+      ["Python", 86],
+      ["JavaScript", 72],
+      ["C++", 68],
+    ] as [string, number][],
+  },
+];
+
+const LEADERSHIP = [
+  ["Expert Reviewer", "IPCC Special Report on Climate Change and Cities"],
+  ["Reviewer", "European Journal of Engineering Research and Reviews"],
+  ["Student Member", "IEEE"],
+  ["Head of Public Relations", "IUT Photographic Society"],
+  ["Program Executive", "Space and Environment Research Center (SERC)"],
+  ["Head of Creative Fields", "IUT Supply Chain Alliance"],
+];
+
+/* ---------- Component ---------- */
+
+function Portfolio() {
+  useEffect(() => {
+    const SELECTOR = [
+      "section:not(#top) h2",
+      "section:not(#top) h3",
+      "section:not(#top) > div > p",
+      "section:not(#top) .rounded-2xl",
+      "section:not(#top) .rounded-xl",
+      "section:not(#top) li",
+      "section:not(#top) [data-anim]",
+      "footer > *",
+    ].join(",");
+
+    const els = Array.from(document.querySelectorAll<HTMLElement>(SELECTOR));
+    els.forEach((el, i) => {
+      el.classList.add("anim-init");
+      // light per-item stagger based on DOM order within its parent
+      const idx = Array.from(el.parentElement?.children ?? []).indexOf(el);
+      const delay = Math.min(idx, 8) * 70;
+      el.style.transitionDelay = `${delay}ms`;
+      void i;
+    });
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            e.target.classList.add("anim-in");
+            io.unobserve(e.target);
+          }
+        });
+      },
+      { threshold: 0.12, rootMargin: "0px 0px -60px 0px" },
+    );
+    els.forEach((el) => io.observe(el));
+    return () => io.disconnect();
+  }, []);
+
+  return (
+    <div className="min-h-screen bg-background text-foreground">
+      <Nav />
+      <Hero />
+      <About />
+      <Interests />
+      <Publications />
+      <Projects />
+      <Experience />
+      <Education />
+      <Skills />
+      <Leadership />
+      <TestScores />
+      <Contact />
+      <Footer />
+    </div>
+  );
+}
+
+/* ---------- Nav ---------- */
+
+function Nav() {
+  const [scrolled, setScrolled] = useState(false);
+  useEffect(() => {
+    const on = () => setScrolled(window.scrollY > 12);
+    on();
+    window.addEventListener("scroll", on, { passive: true });
+    return () => window.removeEventListener("scroll", on);
+  }, []);
+  return (
+    <header
+      className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-background/80 backdrop-blur-md border-b border-border"
+          : "bg-transparent"
+      }`}
+    >
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 h-16 flex items-center justify-between">
+        <a href="#top" className="flex items-center gap-2 group">
+          <span className="font-display text-2xl leading-none">A.</span>
+          <span className="text-xs text-muted-foreground tracking-widest uppercase hidden sm:inline">
+            Mayukh
+          </span>
+        </a>
+        <nav className="hidden md:flex items-center gap-7 text-sm">
+          {NAV.map((n) => (
+            <a
+              key={n.id}
+              href={`#${n.id}`}
+              className="text-muted-foreground hover:text-foreground transition-colors"
+            >
+              {n.label}
+            </a>
+          ))}
+        </nav>
+        <a
+          href="#contact"
+          className="hidden md:inline-flex items-center gap-1.5 text-sm border border-foreground/80 rounded-full px-4 py-1.5 hover:bg-foreground hover:text-background transition-colors"
+        >
+          Let's collaborate <ArrowUpRight className="w-3.5 h-3.5" />
+        </a>
+      </div>
+    </header>
+  );
+}
+
+/* ---------- Hero ---------- */
+
+function Hero() {
+  return (
+    <section id="top" className="relative pt-32 pb-24 overflow-hidden bg-contours">
+      <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
+      {/* Decorative SVG topo */}
+      <svg
+        className="absolute -right-24 -top-10 w-[640px] h-[640px] opacity-30 pointer-events-none animate-contour"
+        viewBox="0 0 600 600"
+        fill="none"
+      >
+        {Array.from({ length: 14 }).map((_, i) => (
+          <circle
+            key={i}
+            cx="300"
+            cy="300"
+            r={40 + i * 22}
+            stroke="currentColor"
+            strokeWidth="0.7"
+            className="text-primary"
+            strokeDasharray="2 6"
+          />
+        ))}
+      </svg>
+
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-10 items-end">
+        <div className="lg:col-span-8 hero-stage">
+          <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6">
+            <Sparkles className="w-3.5 h-3.5 text-accent" />
+            Portfolio · 2025
+          </div>
+          <h1 className="font-display text-[clamp(2.75rem,7vw,6.5rem)] leading-[0.95] tracking-tight text-balance">
+            Md Ali Ahnaf
+            <br />
+            Abid <em className="text-accent not-italic">Mayukh</em>
+            <span className="text-primary">.</span>
+          </h1>
+          <p className="mt-8 text-base md:text-lg text-muted-foreground max-w-2xl text-pretty">
+            Civil Engineer · GIS & Remote Sensing Researcher · GeoAI Enthusiast.
+            Transforming geospatial data into actionable insights for environmental
+            sustainability, climate resilience, and infrastructure planning.
+          </p>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <a
+              href="#publications"
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground rounded-full px-5 py-2.5 text-sm hover:bg-primary/90 transition-colors"
+            >
+              View Research <ArrowUpRight className="w-4 h-4" />
+            </a>
+            <a
+              href="#projects"
+              className="inline-flex items-center gap-2 border border-foreground/30 rounded-full px-5 py-2.5 text-sm hover:border-foreground transition-colors"
+            >
+              Explore Projects
+            </a>
+            <a
+              href="/Md-Ali-Ahnaf-Abid-Mayukh-CV.pdf"
+              download
+              className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Download className="w-4 h-4" /> Download CV
+            </a>
+            <a
+              href="#contact"
+              className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
+            >
+              <Mail className="w-4 h-4" /> Contact
+            </a>
+          </div>
+        </div>
+
+        {/* Side card */}
+        <div className="lg:col-span-4 lg:pl-6">
+          <div className="rounded-2xl border border-border bg-card/70 backdrop-blur-sm p-6 shadow-sm">
+            <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-muted-foreground">
+              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+              Currently
+            </div>
+            <p className="mt-3 font-display text-2xl leading-tight">
+              Outside Plant Engineer at SKARION & Research Assistant at NSU.
+            </p>
+            <div className="mt-5 border-t border-border pt-4 text-sm text-muted-foreground space-y-2">
+              <div className="flex items-center gap-2">
+                <MapPin className="w-4 h-4" /> Dhaka, Bangladesh · Remote USA
+              </div>
+              <div className="flex items-center gap-2">
+                <GraduationCap className="w-4 h-4" /> B.Sc. Civil Engineering, IUT
+              </div>
+              <div className="flex items-center gap-2">
+                <Globe2 className="w-4 h-4" /> Geoenvironmental focus
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Marquee */}
+      <div className="relative mt-20 border-y border-border bg-card/40 overflow-hidden">
+        <div className="flex gap-12 py-4 animate-marquee whitespace-nowrap font-display text-2xl text-muted-foreground">
+          {[...Array(2)].flatMap((_, i) =>
+            [
+              "GIS & Remote Sensing",
+              "GeoAI",
+              "Flood Risk",
+              "Climate Resilience",
+              "Ecohydrology",
+              "Machine Learning",
+              "Sustainable Infrastructure",
+            ].map((t, j) => (
+              <span key={`${i}-${j}`} className="flex items-center gap-12">
+                {t} <span className="text-accent">◆</span>
+              </span>
+            )),
+          )}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- About ---------- */
+
+function About() {
+  const ref = useReveal<HTMLDivElement>();
+  return (
+    <section id="about" className="py-28">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <SectionHeader eyebrow="01 · About" title="About me" />
+        <div ref={ref} className="reveal grid lg:grid-cols-12 gap-12 mt-12">
+          <div className="lg:col-span-7 space-y-6 text-lg text-pretty text-foreground/85 leading-relaxed">
+            <p>
+              I am a researcher and engineer passionate about leveraging geospatial
+              technologies to understand environmental systems and support
+              evidence-based decision making.
+            </p>
+            <p>
+              My work combines GIS, remote sensing, ecohydrological modeling, and
+              machine learning to address flood risk, climate change, and
+              sustainable infrastructure across academia and industry.
+            </p>
+            <p>
+              I have contributed to peer-reviewed publications, international
+              conferences, large-scale infrastructure projects, and climate-related
+              initiatives.
+            </p>
+          </div>
+          <div className="lg:col-span-5">
+            <div className="rounded-2xl border border-border bg-card p-6">
+              <div className="text-xs uppercase tracking-widest text-muted-foreground">
+                Focus areas
+              </div>
+              <ul className="mt-4 grid grid-cols-2 gap-3 text-sm">
+                {[
+                  "GIS & Remote Sensing",
+                  "Ecohydrological Modeling",
+                  "Flood Risk Assessment",
+                  "Environmental Monitoring",
+                  "Climate Change Research",
+                  "GeoAI & Machine Learning",
+                ].map((f) => (
+                  <li
+                    key={f}
+                    className="flex items-start gap-2 text-foreground/80"
+                  >
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                    {f}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </div>
+        </div>
+
+        <Stats />
+      </div>
+    </section>
+  );
+}
+
+function Stats() {
+  const { ref, inView } = useInView<HTMLDivElement>();
+  return (
+    <div
+      ref={ref}
+      className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 border-y border-border"
+    >
+      {STATS.map((s, i) => (
+        <Stat key={i} {...s} start={inView} />
+      ))}
+    </div>
+  );
+}
+
+function Stat({
+  value,
+  suffix,
+  label,
+  start,
+  compact,
+}: {
+  value: number;
+  suffix: string;
+  label: string;
+  start: boolean;
+  compact?: boolean;
+}) {
+  const v = useCountUp(value, start);
+  const display = compact
+    ? v >= 1000
+      ? `${(v / 1000).toFixed(0)}k`
+      : v.toString()
+    : v.toLocaleString();
+  return (
+    <div className="p-6 lg:p-8 border-border [&:not(:last-child)]:border-r">
+      <div className="font-display text-4xl lg:text-5xl tracking-tight">
+        {display}
+        <span className="text-accent">{suffix}</span>
+      </div>
+      <div className="mt-2 text-xs uppercase tracking-widest text-muted-foreground">
+        {label}
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Interests ---------- */
+
+function Interests() {
+  const ref = useReveal<HTMLDivElement>();
+  return (
+    <section id="research" className="py-28 bg-secondary/60">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <SectionHeader eyebrow="02 · Research" title="Research interests" />
+        <div
+          ref={ref}
+          className="reveal mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3"
+        >
+          {INTERESTS.map(({ icon: Icon, label }, i) => (
+            <div
+              key={label}
+              style={{ transitionDelay: `${i * 40}ms` }}
+              className="group relative rounded-xl border border-border bg-card p-5 hover:border-accent/60 hover:-translate-y-1 transition-all duration-300"
+            >
+              <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
+                <Icon className="w-4.5 h-4.5" strokeWidth={1.5} />
+              </div>
+              <div className="text-sm font-medium leading-snug">{label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Publications ---------- */
+
+function Publications() {
+  const [tab, setTab] = useState<"journal" | "conference">("journal");
+  return (
+    <section id="publications" className="py-28">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <SectionHeader eyebrow="03 · Publications" title="Selected publications" />
+        <div className="mt-10 flex items-center gap-2 border-b border-border">
+          {(
+            [
+              ["journal", `Journal Papers (${JOURNAL.length})`],
+              ["conference", `Conference Papers (${CONFERENCE.length})`],
+            ] as const
+          ).map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setTab(key)}
+              className={`px-5 py-3 text-sm transition-colors border-b-2 -mb-px ${
+                tab === key
+                  ? "border-accent text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-8 divide-y divide-border">
+          {tab === "journal"
+            ? JOURNAL.map((p, i) => (
+                <article
+                  key={i}
+                  className="group grid md:grid-cols-12 gap-4 py-7 hover:bg-secondary/50 transition-colors px-2 -mx-2 rounded-md"
+                >
+                  <div className="md:col-span-1 font-mono text-sm text-muted-foreground">
+                    {p.year}
+                  </div>
+                  <div className="md:col-span-9">
+                    <h3 className="font-display text-2xl leading-snug">{p.title}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground italic">
+                      {p.venue}
+                    </p>
+                  </div>
+                  <div className="md:col-span-2 md:text-right">
+                    <a
+                      href="#"
+                      className="inline-flex items-center gap-1 text-sm text-foreground/80 hover:text-accent transition-colors"
+                    >
+                      DOI <ExternalLink className="w-3.5 h-3.5" />
+                    </a>
+                  </div>
+                </article>
+              ))
+            : CONFERENCE.map((title, i) => (
+                <article
+                  key={i}
+                  className="group grid md:grid-cols-12 gap-4 py-6 hover:bg-secondary/50 transition-colors px-2 -mx-2 rounded-md"
+                >
+                  <div className="md:col-span-1 font-mono text-sm text-muted-foreground">
+                    C.{String(i + 1).padStart(2, "0")}
+                  </div>
+                  <div className="md:col-span-10">
+                    <h3 className="font-display text-xl leading-snug">{title}</h3>
+                  </div>
+                  <div className="md:col-span-1 md:text-right">
+                    <a
+                      href="#"
+                      className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-accent transition-colors"
+                    >
+                      <FileText className="w-4 h-4" />
+                    </a>
+                  </div>
+                </article>
+              ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Projects ---------- */
+
+function Projects() {
+  const [filter, setFilter] = useState<(typeof PROJECT_FILTERS)[number]>("All");
+  const list = PROJECTS.filter((p) => filter === "All" || p.tags.includes(filter as ProjectTag));
+
+  return (
+    <section id="projects" className="py-28 bg-secondary/60">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <SectionHeader eyebrow="04 · Projects" title="Featured projects" />
+
+        {/* World map */}
+        <WorldMap />
+
+        <div className="mt-12 flex flex-wrap gap-2">
+          {PROJECT_FILTERS.map((f) => (
+            <button
+              key={f}
+              onClick={() => setFilter(f)}
+              className={`text-xs uppercase tracking-widest px-4 py-2 rounded-full border transition-colors ${
+                filter === f
+                  ? "bg-foreground text-background border-foreground"
+                  : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/50"
+              }`}
+            >
+              {f}
+            </button>
+          ))}
+        </div>
+
+        <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+          {list.map((p) => (
+            <article
+              key={p.title}
+              className="group relative rounded-2xl border border-border bg-card p-6 hover:border-accent/60 transition-all hover:-translate-y-1 duration-300 flex flex-col"
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div className="flex flex-wrap gap-1.5">
+                  {p.tags.map((t) => (
+                    <span
+                      key={t}
+                      className="text-[10px] uppercase tracking-widest text-accent border border-accent/30 px-2 py-0.5 rounded-full"
+                    >
+                      {t}
+                    </span>
+                  ))}
+                </div>
+                <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:rotate-12 transition-all" />
+              </div>
+              <h3 className="font-display text-2xl leading-tight mt-5">
+                {p.title}
+              </h3>
+              <p className="mt-3 text-sm text-muted-foreground flex-1">{p.desc}</p>
+              <div className="mt-5 pt-4 border-t border-border flex flex-wrap gap-1.5">
+                {p.tech.map((t) => (
+                  <span
+                    key={t}
+                    className="text-[11px] font-mono text-foreground/70 bg-secondary px-2 py-1 rounded"
+                  >
+                    {t}
+                  </span>
+                ))}
+              </div>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+function WorldMap() {
+  const points = PROJECTS.filter((p) => p.location).map((p) => p.location!);
+  const unique = Array.from(
+    new Map(points.map((p) => [`${p.lng}-${p.lat}`, p])).values(),
+  );
+  return (
+    <div className="mt-12 relative rounded-2xl border border-border bg-card overflow-hidden">
+      <div className="absolute top-4 left-4 z-10 text-xs uppercase tracking-widest text-muted-foreground flex items-center gap-2 bg-background/80 backdrop-blur px-3 py-1.5 rounded-full border border-border">
+        <Satellite className="w-3.5 h-3.5 text-accent" />
+        Project locations
+      </div>
+      <div className="relative aspect-[2/1] min-h-[420px]">
+        <ProjectMap points={unique} />
+      </div>
+    </div>
+  );
+}
+
+/* ---------- Experience ---------- */
+
+function Experience() {
+  const ref = useReveal<HTMLDivElement>();
+  return (
+    <section id="experience" className="py-28">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <SectionHeader
+          eyebrow="05 · Experience"
+          title="Professional & research timeline"
+        />
+        <div ref={ref} className="reveal mt-14 relative">
+          <div className="absolute left-3 md:left-1/2 top-0 bottom-0 w-px bg-border" />
+          <div className="space-y-12">
+            {TIMELINE.map((t, i) => (
+              <div
+                key={i}
+                className={`relative md:grid md:grid-cols-2 md:gap-12 ${
+                  i % 2 === 0 ? "" : "md:[&>*:first-child]:order-2"
+                }`}
+              >
+                <div className="absolute left-3 md:left-1/2 top-2 -translate-x-1/2 w-3 h-3 rounded-full bg-accent ring-4 ring-background" />
+                <div className="pl-10 md:pl-0 md:pr-10 md:text-right">
+                  <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                    {t.year}
+                  </div>
+                  <h3 className="font-display text-2xl mt-2">{t.role}</h3>
+                  <div className="text-sm text-foreground/70">{t.org}</div>
+                </div>
+                <div className="pl-10 md:pl-10 mt-3 md:mt-0">
+                  <ul className="space-y-1.5 text-sm text-foreground/80">
+                    {t.bullets.map((b) => (
+                      <li key={b} className="flex gap-2">
+                        <span className="text-accent">→</span>
+                        {b}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Education ---------- */
+
+function Education() {
+  return (
+    <section className="py-20 bg-primary text-primary-foreground">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 grid md:grid-cols-12 gap-10 items-start">
+        <div className="md:col-span-4">
+          <div className="text-xs uppercase tracking-widest text-primary-foreground/60">
+            06 · Education
+          </div>
+          <h2 className="font-display text-4xl md:text-5xl mt-3">Education.</h2>
+        </div>
+        <div className="md:col-span-8 space-y-6">
+          <div className="border-t border-primary-foreground/20 pt-6">
+            <div className="flex items-baseline justify-between gap-4 flex-wrap">
+              <h3 className="font-display text-3xl">
+                Islamic University of Technology (IUT)
+              </h3>
+              <span className="font-mono text-sm text-primary-foreground/60">
+                Jun 2021 — Oct 2025
+              </span>
+            </div>
+            <div className="mt-2 text-primary-foreground/80">
+              B.Sc. in Civil Engineering · Concentration: Geoenvironmental
+              Engineering · CGPA 3.09 / 4.00
+            </div>
+            <div className="mt-6 rounded-xl border border-primary-foreground/15 p-5 bg-primary-foreground/5">
+              <div className="text-xs uppercase tracking-widest text-primary-foreground/60">
+                Thesis
+              </div>
+              <p className="mt-2 font-display text-xl leading-snug">
+                Experimental Study on Seepage Control in Sand Embankments Stabilized
+                with Sodium Lignosulfonate and Supplementary Polymers
+              </p>
+              <p className="mt-3 text-sm text-primary-foreground/70">
+                Supervisor: Prof. Dr. Hossain Md. Shahin
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Skills ---------- */
+
+function Skills() {
+  const { ref, inView } = useInView<HTMLDivElement>();
+  return (
+    <section id="skills" className="py-28">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <SectionHeader eyebrow="07 · Skills" title="Technical toolkit" />
+        <div ref={ref} className="mt-14 grid md:grid-cols-2 gap-x-12 gap-y-12">
+          {SKILL_GROUPS.map((g) => (
+            <div key={g.group}>
+              <div className="text-xs uppercase tracking-widest text-accent">
+                {g.group}
+              </div>
+              <div className="mt-5 space-y-4">
+                {g.items.map(([name, pct]) => (
+                  <div key={name}>
+                    <div className="flex justify-between text-sm">
+                      <span>{name}</span>
+                      <span className="font-mono text-muted-foreground">
+                        {pct}%
+                      </span>
+                    </div>
+                    <div className="mt-2 h-1.5 rounded-full bg-secondary overflow-hidden">
+                      <div
+                        className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-[1400ms] ease-out"
+                        style={{ width: inView ? `${pct}%` : "0%" }}
+                      />
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Leadership ---------- */
+
+function Leadership() {
+  return (
+    <section className="py-24 bg-secondary/60">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <SectionHeader eyebrow="08 · Leadership" title="Extracurricular & service" />
+        <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {LEADERSHIP.map(([role, org]) => (
+            <div
+              key={role + org}
+              className="rounded-xl border border-border bg-card p-5 hover:border-accent/50 transition-colors"
+            >
+              <div className="text-xs uppercase tracking-widest text-accent">
+                {role}
+              </div>
+              <div className="mt-2 font-display text-xl leading-snug">{org}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Test scores ---------- */
+
+function TestScores() {
+  return (
+    <section className="py-24">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <SectionHeader eyebrow="09 · Test scores" title="Standardized tests" />
+        <div className="mt-10 grid md:grid-cols-2 gap-6">
+          <div className="rounded-2xl border border-border bg-card p-8">
+            <div className="flex items-baseline justify-between">
+              <h3 className="font-display text-3xl">GRE</h3>
+              <span className="font-display text-5xl text-accent">312</span>
+            </div>
+            <div className="mt-6 grid grid-cols-3 gap-4 text-center">
+              {[
+                ["Quant", "161"],
+                ["Verbal", "151"],
+                ["AWA", "3.5"],
+              ].map(([k, v]) => (
+                <div key={k} className="border border-border rounded-lg p-3">
+                  <div className="font-mono text-xl">{v}</div>
+                  <div className="text-xs uppercase tracking-widest text-muted-foreground mt-1">
+                    {k}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-2xl border border-border bg-card p-8">
+            <div className="flex items-baseline justify-between">
+              <h3 className="font-display text-3xl">IELTS</h3>
+              <span className="font-display text-5xl text-accent">7.5</span>
+            </div>
+            <div className="mt-6 grid grid-cols-4 gap-3 text-center">
+              {[
+                ["Listening", "7.0"],
+                ["Reading", "7.0"],
+                ["Writing", "7.5"],
+                ["Speaking", "8.0"],
+              ].map(([k, v]) => (
+                <div key={k} className="border border-border rounded-lg p-3">
+                  <div className="font-mono text-xl">{v}</div>
+                  <div className="text-xs uppercase tracking-widest text-muted-foreground mt-1">
+                    {k}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ---------- Contact ---------- */
+
+function Contact() {
+  const [sent, setSent] = useState(false);
+  const formRef = useRef<HTMLFormElement>(null);
+  return (
+    <section id="contact" className="py-28 bg-secondary/60 relative overflow-hidden">
+      <div className="absolute inset-0 bg-contours opacity-60 pointer-events-none" />
+      <div className="relative mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-12">
+        <div className="lg:col-span-5">
+          <SectionHeader eyebrow="10 · Contact" title="Let's build something resilient." />
+          <p className="mt-6 text-lg text-foreground/80 max-w-md">
+            Open to research collaboration, consulting, and graduate opportunities
+            in GIS, GeoAI, and climate resilience.
+          </p>
+          <div className="mt-8 space-y-4 text-sm">
+            <a
+              href="mailto:ahnafabid2@iut-dhaka.edu"
+              className="flex items-center gap-3 hover:text-accent transition-colors"
+            >
+              <Mail className="w-4 h-4" /> ahnafabid2@iut-dhaka.edu
+            </a>
+            <div className="flex items-center gap-3">
+              <Phone className="w-4 h-4" /> +880 1408 199 798
+            </div>
+            <div className="flex items-center gap-3">
+              <MapPin className="w-4 h-4" /> Dhaka, Bangladesh
+            </div>
+          </div>
+          <div className="mt-8 flex flex-wrap gap-2">
+            {[
+              ["LinkedIn", Linkedin],
+              ["Scholar", GraduationCap],
+              ["Website", Globe2],
+              ["ResearchGate", Github],
+            ].map(([label, Icon]) => {
+              const I = Icon as typeof Linkedin;
+              return (
+                <a
+                  key={label as string}
+                  href="#"
+                  className="inline-flex items-center gap-2 text-sm border border-border rounded-full px-4 py-2 hover:border-foreground/50 transition-colors"
+                >
+                  <I className="w-4 h-4" /> {label as string}
+                </a>
+              );
+            })}
+          </div>
+        </div>
+
+        <form
+          ref={formRef}
+          onSubmit={(e) => {
+            e.preventDefault();
+            setSent(true);
+            formRef.current?.reset();
+            setTimeout(() => setSent(false), 4000);
+          }}
+          className="lg:col-span-7 rounded-2xl border border-border bg-card p-8 space-y-5"
+        >
+          <div className="grid md:grid-cols-2 gap-5">
+            <Field label="Name" name="name" required />
+            <Field label="Email" name="email" type="email" required />
+          </div>
+          <Field label="Subject" name="subject" required />
+          <Field label="Message" name="message" required textarea />
+          <button
+            type="submit"
+            className="inline-flex items-center gap-2 bg-foreground text-background rounded-full px-6 py-3 text-sm hover:bg-accent transition-colors"
+          >
+            {sent ? "Sent — thanks!" : "Let's Collaborate"}
+            <ArrowUpRight className="w-4 h-4" />
+          </button>
+        </form>
+      </div>
+    </section>
+  );
+}
+
+function Field({
+  label,
+  name,
+  type = "text",
+  required,
+  textarea,
+}: {
+  label: string;
+  name: string;
+  type?: string;
+  required?: boolean;
+  textarea?: boolean;
+}) {
+  return (
+    <label className="block">
+      <span className="text-xs uppercase tracking-widest text-muted-foreground">
+        {label}
+      </span>
+      {textarea ? (
+        <textarea
+          name={name}
+          required={required}
+          rows={5}
+          className="mt-2 w-full bg-transparent border-b border-border focus:border-accent outline-none py-2 resize-none transition-colors"
+        />
+      ) : (
+        <input
+          name={name}
+          type={type}
+          required={required}
+          className="mt-2 w-full bg-transparent border-b border-border focus:border-accent outline-none py-2 transition-colors"
+        />
+      )}
+    </label>
+  );
+}
+
+/* ---------- Footer ---------- */
+
+function Footer() {
+  return (
+    <footer className="bg-primary text-primary-foreground">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-20">
+        <p className="font-display text-3xl md:text-5xl leading-tight max-w-3xl text-balance">
+          Using geospatial intelligence and environmental data to build resilient
+          and sustainable futures.
+        </p>
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-primary-foreground/15 pt-6 text-sm">
+          <div className="text-primary-foreground/70">
+            © {new Date().getFullYear()} Md Ali Ahnaf Abid Mayukh. All rights reserved.
+          </div>
+          <div className="flex items-center gap-4">
+            <a href="#" className="hover:text-accent transition-colors">LinkedIn</a>
+            <a href="#" className="hover:text-accent transition-colors">Scholar</a>
+            <a href="#" className="hover:text-accent transition-colors">ResearchGate</a>
+            <a
+              href="/Md-Ali-Ahnaf-Abid-Mayukh-CV.pdf"
+              download
+              className="inline-flex items-center gap-2 border border-primary-foreground/30 rounded-full px-4 py-2 hover:bg-primary-foreground hover:text-primary transition-colors"
+            >
+              <Download className="w-4 h-4" /> Download CV
+            </a>
+          </div>
+        </div>
+      </div>
+    </footer>
+  );
+}
+
+/* ---------- Shared ---------- */
+
+function SectionHeader({ eyebrow, title }: { eyebrow: string; title: string }) {
+  return (
+    <div className="flex items-end justify-between gap-6 flex-wrap">
+      <div>
+        <div className="text-xs uppercase tracking-[0.25em] text-accent">{eyebrow}</div>
+        <h2 className="font-display text-4xl md:text-6xl leading-none mt-3 tracking-tight">
+          {title}
+        </h2>
+      </div>
+      <div className="hidden md:flex items-center gap-2 text-xs uppercase tracking-widest text-muted-foreground">
+        <span className="w-10 h-px bg-border" /> Section
+      </div>
+    </div>
+  );
+}
