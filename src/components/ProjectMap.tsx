@@ -1,6 +1,31 @@
 import { useEffect, useRef, useState } from "react";
 
-type Point = { lng: number; lat: number; label: string };
+type Point = { lng: number; lat: number; label: string; projects: string[] };
+
+function escapeHtml(value: string) {
+  return value
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#39;");
+}
+
+function getTooltipContent(point: Point) {
+  const projectItems = point.projects
+    .map((project) => `<li style="margin:0">${escapeHtml(project)}</li>`)
+    .join("");
+
+  return `
+    <div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:12px;line-height:1.5;color:#f8fafc;min-width:220px">
+      <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#94a3b8;margin-bottom:6px">${escapeHtml(point.label)}</div>
+      <div style="font-size:13px;font-weight:600;margin-bottom:6px">Projects</div>
+      <ul style="margin:0;padding-left:16px">
+        ${projectItems}
+      </ul>
+    </div>
+  `;
+}
 
 declare global {
   interface Window {
@@ -140,13 +165,18 @@ export default function ProjectMap({ points }: { points: Point[] }) {
             const marker = new g.maps.Marker({
               map,
               position: pos,
-              title: p.label,
+              title: `${p.label}: ${p.projects.join(", ")}`,
               animation: g.maps.Animation.DROP,
             });
+            marker.addListener("mouseover", () => {
+              info.setContent(getTooltipContent(p));
+              info.open({ anchor: marker, map });
+            });
+            marker.addListener("mouseout", () => {
+              info.close();
+            });
             marker.addListener("click", () => {
-              info.setContent(
-                `<div style="font-family:Inter,sans-serif;font-size:13px;font-weight:600;color:#111">${p.label}</div>`,
-              );
+              info.setContent(getTooltipContent(p));
               info.open({ anchor: marker, map });
               map.panTo(pos);
               map.setZoom(Math.max(map.getZoom() ?? 6, 8));
@@ -202,6 +232,22 @@ export default function ProjectMap({ points }: { points: Point[] }) {
               .custom-leaflet-popup .leaflet-popup-content {
                 margin: 8px 12px !important;
               }
+              .custom-leaflet-tooltip {
+                background: rgba(15, 23, 42, 0.94) !important;
+                backdrop-filter: blur(8px);
+                border: 1px solid rgba(255, 255, 255, 0.1);
+                border-radius: 12px;
+                box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.5), 0 4px 6px -2px rgba(0, 0, 0, 0.5);
+                color: #f8fafc !important;
+                padding: 0 !important;
+              }
+              .custom-leaflet-tooltip::before {
+                border-top-color: rgba(15, 23, 42, 0.94) !important;
+              }
+              .custom-leaflet-tooltip .leaflet-tooltip-content {
+                margin: 0;
+                padding: 10px 12px;
+              }
               .custom-leaflet-marker {
                 background: none !important;
                 border: none !important;
@@ -256,20 +302,15 @@ export default function ProjectMap({ points }: { points: Point[] }) {
             });
 
             const marker = L.marker([p.lat, p.lng], { icon: customIcon }).addTo(map);
-
-            const popupContent = `
-              <div class="text-sm font-semibold select-none">
-                ${p.label}
-              </div>
-            `;
-
-            marker.bindPopup(popupContent, {
-              closeButton: false,
-              className: "custom-leaflet-popup",
+            marker.bindTooltip(getTooltipContent(p), {
+              className: "custom-leaflet-tooltip",
+              direction: "top",
+              offset: [0, -12],
+              opacity: 1,
+              sticky: true,
             });
 
             marker.on("click", () => {
-              marker.openPopup();
               map.setView([p.lat, p.lng], Math.max(map.getZoom() ?? 6, 8));
             });
           });

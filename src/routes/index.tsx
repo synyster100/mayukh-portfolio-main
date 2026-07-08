@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { Link, createFileRoute } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import {
   ArrowUpRight,
@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { useReveal, useCountUp, useInView } from "@/hooks/use-reveal";
 import ProjectMap from "@/components/ProjectMap";
+import { PROJECT_CATEGORIES, PROJECTS } from "@/data/projects";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -106,70 +107,7 @@ const CONFERENCE = [
   "Turbidity Dynamics and Urban Expansion in the Buriganga River",
 ];
 
-type ProjectTag = "GIS" | "Remote Sensing" | "GeoAI" | "Hydrology";
-const PROJECTS: {
-  title: string;
-  tech: string[];
-  desc: string;
-  tags: ProjectTag[];
-  location?: { lng: number; lat: number; label: string };
-}[] = [
-  {
-    title: "Shoreline Dynamics & Machine Learning Prediction",
-    tech: ["Google Earth Engine", "ArcGIS Pro", "XGBoost"],
-    desc: "Analyzed shoreline changes at Cameron Beach, Louisiana and projected future movement using machine learning.",
-    tags: ["Remote Sensing", "GeoAI"],
-    location: { lng: -93.3, lat: 29.8, label: "Louisiana, USA" },
-  },
-  {
-    title: "Sentinel-2 Cloud Masking Framework",
-    tech: ["Google Earth Engine", "Python"],
-    desc: "Developed and evaluated multiple cloud masking approaches including ML and deep-learning workflows.",
-    tags: ["Remote Sensing", "GeoAI"],
-  },
-  {
-    title: "Terrell County Land Cover Dynamics",
-    tech: ["ArcGIS Pro", "Landsat", "NLCD"],
-    desc: "Investigated desertification and vegetation recovery trends linked to oil development.",
-    tags: ["GIS", "Remote Sensing"],
-    location: { lng: -101.8, lat: 30.2, label: "Terrell County, TX" },
-  },
-  {
-    title: "Kerr County Flood Susceptibility Mapping",
-    tech: ["ArcGIS Pro", "AHP", "GIS"],
-    desc: "Developed a flood susceptibility model using geomorphological factors and ROC validation.",
-    tags: ["GIS", "Hydrology"],
-    location: { lng: -99.35, lat: 30.05, label: "Kerr County, TX" },
-  },
-  {
-    title: "LiDAR-Based DEM Generation",
-    tech: ["LiDAR", "ArcGIS Pro"],
-    desc: "Generated high-resolution digital elevation models for Louisiana floodplain analysis.",
-    tags: ["GIS", "Remote Sensing"],
-  },
-  {
-    title: "Buriganga River Environmental Monitoring",
-    tech: ["Google Earth Engine", "GIS"],
-    desc: "Mapped turbidity patterns and urban encroachment impacts from 2013 to 2023.",
-    tags: ["Remote Sensing", "Hydrology"],
-    location: { lng: 90.4, lat: 23.8, label: "Dhaka, Bangladesh" },
-  },
-  {
-    title: "Urban Stormwater Modeling",
-    tech: ["SWMM"],
-    desc: "Performed hydrologic and hydraulic analysis of Azimpur Colony, Dhaka.",
-    tags: ["Hydrology"],
-    location: { lng: 90.4, lat: 23.8, label: "Dhaka, Bangladesh" },
-  },
-];
-
-const PROJECT_FILTERS: (ProjectTag | "All")[] = [
-  "All",
-  "GIS",
-  "Remote Sensing",
-  "GeoAI",
-  "Hydrology",
-];
+const PROJECT_FILTERS = ["All", ...PROJECT_CATEGORIES] as const;
 
 const TIMELINE = [
   {
@@ -186,7 +124,7 @@ const TIMELINE = [
     ],
   },
   {
-    year: "Feb 2026 — Present",
+    year: "Feb 2026 — Jun 2026",
     role: "Research Assistant",
     org: "North South University",
     bullets: [
@@ -429,12 +367,12 @@ function Hero() {
             >
               View Research <ArrowUpRight className="w-4 h-4" />
             </a>
-            <a
-              href="#projects"
+            <Link
+              to="/projects"
               className="inline-flex items-center gap-2 border border-foreground/30 rounded-full px-5 py-2.5 text-sm hover:border-foreground transition-colors"
             >
-              Explore Projects
-            </a>
+              Explore Projects <ArrowUpRight className="w-4 h-4" />
+            </Link>
             <a
               href="/Md-Ali-Ahnaf-Abid-Mayukh-CV.pdf"
               download
@@ -721,66 +659,108 @@ function Publications() {
 
 function Projects() {
   const [filter, setFilter] = useState<(typeof PROJECT_FILTERS)[number]>("All");
-  const list = PROJECTS.filter((p) => filter === "All" || p.tags.includes(filter as ProjectTag));
+  const groupedProjects = PROJECT_CATEGORIES.map((category) => ({
+    category,
+    projects: PROJECTS.filter((project) => project.category === category),
+  }));
+
+  const sections =
+    filter === "All"
+      ? groupedProjects
+      : groupedProjects.filter(({ category }) => category === filter);
+  const filterOptions = PROJECT_FILTERS.map((value) => ({
+    value,
+    count:
+      value === "All"
+        ? PROJECTS.length
+        : groupedProjects.find(({ category }) => category === value)?.projects.length ?? 0,
+  }));
 
   return (
     <section id="projects" className="py-28 bg-secondary/60">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <SectionHeader eyebrow="04 · Projects" title="Featured projects" />
+        <div className="flex items-end justify-between gap-6 flex-wrap">
+          <SectionHeader eyebrow="04 · Projects" title="Featured projects" />
+          <Link
+            to="/projects"
+            className="inline-flex items-center gap-2 rounded-full border border-foreground/30 px-4 py-2 text-sm text-muted-foreground hover:border-foreground hover:text-foreground transition-colors"
+          >
+            Detailed showcase <ArrowUpRight className="w-4 h-4" />
+          </Link>
+        </div>
 
         {/* World map */}
         <WorldMap />
 
         <div className="mt-12 flex flex-wrap gap-2">
-          {PROJECT_FILTERS.map((f) => (
+          {filterOptions.map(({ value, count }) => (
             <button
-              key={f}
-              onClick={() => setFilter(f)}
+              key={value}
+              onClick={() => setFilter(value)}
               className={`text-xs uppercase tracking-widest px-4 py-2 rounded-full border transition-colors ${
-                filter === f
+                filter === value
                   ? "bg-foreground text-background border-foreground"
                   : "border-border text-muted-foreground hover:text-foreground hover:border-foreground/50"
               }`}
             >
-              {f}
+              {value} ({count})
             </button>
           ))}
         </div>
 
-        <div className="mt-8 grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-          {list.map((p) => (
-            <article
-              key={p.title}
-              className="group relative rounded-2xl border border-border bg-card p-6 hover:border-accent/60 transition-all hover:-translate-y-1 duration-300 flex flex-col"
-            >
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex flex-wrap gap-1.5">
-                  {p.tags.map((t) => (
-                    <span
-                      key={t}
-                      className="text-[10px] uppercase tracking-widest text-accent border border-accent/30 px-2 py-0.5 rounded-full"
-                    >
-                      {t}
-                    </span>
-                  ))}
+        <div className="mt-8 space-y-10">
+          {sections.map(({ category, projects }) => (
+            <div key={category}>
+              {filter === "All" && (
+                <div className="mb-5 flex items-end justify-between gap-4">
+                  <div>
+                    <h3 className="font-display text-3xl">{category}</h3>
+                    <p className="mt-1 text-sm text-muted-foreground">
+                      {projects.length} project{projects.length === 1 ? "" : "s"} showcased in this track.
+                    </p>
+                  </div>
                 </div>
-                <ArrowUpRight className="w-5 h-5 text-muted-foreground group-hover:text-accent group-hover:rotate-12 transition-all" />
-              </div>
-              <h3 className="font-display text-2xl leading-tight mt-5">
-                {p.title}
-              </h3>
-              <p className="mt-3 text-sm text-muted-foreground flex-1">{p.desc}</p>
-              <div className="mt-5 pt-4 border-t border-border flex flex-wrap gap-1.5">
-                {p.tech.map((t) => (
-                  <span
-                    key={t}
-                    className="text-[11px] font-mono text-foreground/70 bg-secondary px-2 py-1 rounded"
+              )}
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {projects.map((p) => (
+                  <article
+                    key={p.title}
+                    className="group relative rounded-2xl border border-border bg-card p-6 hover:border-accent/60 transition-all hover:-translate-y-1 duration-300 flex flex-col"
                   >
-                    {t}
-                  </span>
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex flex-wrap gap-1.5">
+                        <span className="text-[10px] uppercase tracking-widest text-accent border border-accent/30 px-2 py-0.5 rounded-full">
+                          {p.category}
+                        </span>
+                      </div>
+                      <Link
+                        to="/projects/$slug"
+                        params={{ slug: p.slug }}
+                        aria-label={`Open ${p.title}`}
+                        className="rounded-full p-1 text-muted-foreground hover:text-accent transition-colors"
+                      >
+                        <ArrowUpRight className="w-5 h-5 group-hover:rotate-12 transition-all" />
+                      </Link>
+                    </div>
+                    <h3 className="font-display text-2xl leading-tight mt-5">
+                      {p.title}
+                    </h3>
+                    <p className="mt-3 text-sm text-muted-foreground flex-1">{p.desc}</p>
+                    <div className="mt-5 pt-4 border-t border-border flex flex-wrap gap-1.5">
+                      {p.tech.map((t) => (
+                        <span
+                          key={t}
+                          className="text-[11px] font-mono text-foreground/70 bg-secondary px-2 py-1 rounded"
+                        >
+                          {t}
+                        </span>
+                      ))}
+                    </div>
+                  </article>
                 ))}
               </div>
-            </article>
+            </div>
           ))}
         </div>
       </div>
@@ -789,9 +769,24 @@ function Projects() {
 }
 
 function WorldMap() {
-  const points = PROJECTS.filter((p) => p.location).map((p) => p.location!);
-  const unique = Array.from(
-    new Map(points.map((p) => [`${p.lng}-${p.lat}`, p])).values(),
+  const points = Array.from(
+    PROJECTS.reduce((locations, project) => {
+      if (!project.location) return locations;
+
+      const key = `${project.location.lng}-${project.location.lat}`;
+      const existing = locations.get(key);
+
+      if (existing) {
+        existing.projects.push(project.title);
+        return locations;
+      }
+
+      locations.set(key, {
+        ...project.location,
+        projects: [project.title],
+      });
+      return locations;
+    }, new Map<string, { lng: number; lat: number; label: string; projects: string[] }>()).values(),
   );
   return (
     <div className="mt-12 relative rounded-2xl border border-border bg-card overflow-hidden">
@@ -800,7 +795,7 @@ function WorldMap() {
         Project locations
       </div>
       <div className="relative aspect-[2/1] min-h-[420px]">
-        <ProjectMap points={unique} />
+        <ProjectMap points={points} />
       </div>
     </div>
   );
@@ -1050,16 +1045,15 @@ function Contact() {
           </div>
           <div className="mt-8 flex flex-wrap gap-2">
             {[
-              ["LinkedIn", Linkedin],
-              ["Scholar", GraduationCap],
-              ["Website", Globe2],
-              ["ResearchGate", Github],
-            ].map(([label, Icon]) => {
+              ["LinkedIn", Linkedin, "https://www.linkedin.com/in/ali-ahnaf-abid-mayukh-csca%E2%84%A2-40aab5257/"],
+              ["Scholar", GraduationCap, "https://scholar.google.com/citations?user=xtAN2JUAAAAJ&hl=en"],
+              
+            ].map(([label, Icon, href]) => {
               const I = Icon as typeof Linkedin;
               return (
                 <a
                   key={label as string}
-                  href="#"
+                  href={href as string}
                   className="inline-flex items-center gap-2 text-sm border border-border rounded-full px-4 py-2 hover:border-foreground/50 transition-colors"
                 >
                   <I className="w-4 h-4" /> {label as string}
@@ -1150,9 +1144,8 @@ function Footer() {
             © {new Date().getFullYear()} Md Ali Ahnaf Abid Mayukh. All rights reserved.
           </div>
           <div className="flex items-center gap-4">
-            <a href="#" className="hover:text-accent transition-colors">LinkedIn</a>
-            <a href="#" className="hover:text-accent transition-colors">Scholar</a>
-            <a href="#" className="hover:text-accent transition-colors">ResearchGate</a>
+            <a href="https://www.linkedin.com/in/ali-ahnaf-abid-mayukh-csca%E2%84%A2-40aab5257/" className="hover:text-accent transition-colors">LinkedIn</a>
+            <a href="https://scholar.google.com/citations?user=xtAN2JUAAAAJ&hl=en" className="hover:text-accent transition-colors">Scholar</a>
             <a
               href="/Md-Ali-Ahnaf-Abid-Mayukh-CV.pdf"
               download
