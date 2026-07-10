@@ -718,57 +718,97 @@ function Projects() {
           ))}
         </div>
 
-        <div className="mt-8 space-y-10">
-          {sections.map(({ category, projects }) => (
-            <div key={category}>
-              {filter === "All" && (
-                <div className="mb-5 flex items-end justify-between gap-4">
-                  <div>
-                    <h3 className="font-display text-3xl">{category}</h3>
-                    <p className="mt-1 text-sm text-muted-foreground">
-                      {projects.length} project{projects.length === 1 ? "" : "s"} showcased in this track.
-                    </p>
+        <div className="mt-8">
+          {filter === "All" ? (
+            // Render all projects in a single grid without category headers
+            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {PROJECTS.map((p) => (
+                <Link
+                  key={p.title}
+                  to="/projects/$slug"
+                  params={{ slug: p.slug }}
+                  className="group relative rounded-2xl border border-border bg-card p-6 hover:border-accent/60 transition-all hover:-translate-y-1 duration-300 flex flex-col"
+                >
+                  <div className="flex items-start justify-between gap-3">
+                    <div className="flex flex-wrap gap-1.5">
+                      <span className="text-[10px] uppercase tracking-widest text-accent border border-accent/30 px-2 py-0.5 rounded-full">
+                        {p.category}
+                      </span>
+                    </div>
+                    <div className="rounded-full p-1 text-muted-foreground hover:text-accent transition-colors">
+                      <ArrowUpRight className="w-5 h-5 group-hover:rotate-12 transition-all" />
+                    </div>
+                  </div>
+                  <h3 className="font-display text-2xl leading-tight mt-5">
+                    {p.title}
+                  </h3>
+                  <p className="mt-3 text-sm text-muted-foreground flex-1">{p.desc}</p>
+                  <div className="mt-5 pt-4 border-t border-border flex flex-wrap gap-1.5">
+                    {p.tech.map((t) => (
+                      <span
+                        key={t}
+                        className="text-[11px] font-mono text-foreground/70 bg-secondary px-2 py-1 rounded"
+                      >
+                        {t}
+                      </span>
+                    ))}
+                  </div>
+                </Link>
+              ))}
+            </div>
+          ) : (
+            // Render projects grouped by category with headers
+            <div className="space-y-10">
+              {sections.map(({ category, projects }) => (
+                <div key={category}>
+                  <div className="mb-5 flex items-end justify-between gap-4">
+                    <div>
+                      <h3 className="font-display text-3xl">{category}</h3>
+                      <p className="mt-1 text-sm text-muted-foreground">
+                        {projects.length} project{projects.length === 1 ? "" : "s"} showcased in this track.
+                      </p>
+                    </div>
+                  </div>
+
+                  <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                    {projects.map((p) => (
+                      <Link
+                        key={p.title}
+                        to="/projects/$slug"
+                        params={{ slug: p.slug }}
+                        className="group relative rounded-2xl border border-border bg-card p-6 hover:border-accent/60 transition-all hover:-translate-y-1 duration-300 flex flex-col"
+                      >
+                        <div className="flex items-start justify-between gap-3">
+                          <div className="flex flex-wrap gap-1.5">
+                            <span className="text-[10px] uppercase tracking-widest text-accent border border-accent/30 px-2 py-0.5 rounded-full">
+                              {p.category}
+                            </span>
+                          </div>
+                          <div className="rounded-full p-1 text-muted-foreground hover:text-accent transition-colors">
+                            <ArrowUpRight className="w-5 h-5 group-hover:rotate-12 transition-all" />
+                          </div>
+                        </div>
+                        <h3 className="font-display text-2xl leading-tight mt-5">
+                          {p.title}
+                        </h3>
+                        <p className="mt-3 text-sm text-muted-foreground flex-1">{p.desc}</p>
+                        <div className="mt-5 pt-4 border-t border-border flex flex-wrap gap-1.5">
+                          {p.tech.map((t) => (
+                            <span
+                              key={t}
+                              className="text-[11px] font-mono text-foreground/70 bg-secondary px-2 py-1 rounded"
+                            >
+                              {t}
+                            </span>
+                          ))}
+                        </div>
+                      </Link>
+                    ))}
                   </div>
                 </div>
-              )}
-
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {projects.map((p) => (
-                  <Link
-                    key={p.title}
-                    to="/projects/$slug"
-                    params={{ slug: p.slug }}
-                    className="group relative rounded-2xl border border-border bg-card p-6 hover:border-accent/60 transition-all hover:-translate-y-1 duration-300 flex flex-col"
-                  >
-                    <div className="flex items-start justify-between gap-3">
-                      <div className="flex flex-wrap gap-1.5">
-                        <span className="text-[10px] uppercase tracking-widest text-accent border border-accent/30 px-2 py-0.5 rounded-full">
-                          {p.category}
-                        </span>
-                      </div>
-                      <div className="rounded-full p-1 text-muted-foreground hover:text-accent transition-colors">
-                        <ArrowUpRight className="w-5 h-5 group-hover:rotate-12 transition-all" />
-                      </div>
-                    </div>
-                    <h3 className="font-display text-2xl leading-tight mt-5">
-                      {p.title}
-                    </h3>
-                    <p className="mt-3 text-sm text-muted-foreground flex-1">{p.desc}</p>
-                    <div className="mt-5 pt-4 border-t border-border flex flex-wrap gap-1.5">
-                      {p.tech.map((t) => (
-                        <span
-                          key={t}
-                          className="text-[11px] font-mono text-foreground/70 bg-secondary px-2 py-1 rounded"
-                        >
-                          {t}
-                        </span>
-                      ))}
-                    </div>
-                  </Link>
-                ))}
-              </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
       </div>
     </section>
