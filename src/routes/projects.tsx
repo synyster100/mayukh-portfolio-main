@@ -1,4 +1,4 @@
-import { Link, createFileRoute } from "@tanstack/react-router";
+import { Link, Outlet, createFileRoute, useRouterState } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight, Layers3, MapPin } from "lucide-react";
 
 import { PROJECT_CATEGORIES, PROJECTS } from "@/data/projects";
@@ -22,6 +22,17 @@ function slugifyCategory(category: string) {
 }
 
 function ProjectsShowcasePage() {
+  const routerState = useRouterState();
+  const hasChildRoute = routerState.matches.some((match) => 
+    match.routeId.includes("$slug")
+  );
+
+  // If we have a child route (i.e., we're viewing a project detail), only render the Outlet
+  if (hasChildRoute) {
+    return <Outlet />;
+  }
+
+  // Otherwise, render the full projects showcase
   const groupedProjects = PROJECT_CATEGORIES.map((category) => ({
     category,
     id: slugifyCategory(category),
@@ -116,9 +127,11 @@ function ProjectsShowcasePage() {
 
               <div className="mt-8 grid gap-6">
                 {projects.map((project) => (
-                  <article
+                  <Link
                     key={project.title}
-                    className="rounded-3xl border border-border bg-card p-7 md:p-8 shadow-sm"
+                    to="/projects/$slug"
+                    params={{ slug: project.slug }}
+                    className="rounded-3xl border border-border bg-card p-7 md:p-8 shadow-sm hover:border-accent/60 transition-all"
                   >
                     <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
                       <div>
@@ -139,14 +152,9 @@ function ProjectsShowcasePage() {
                               </span>
                             )}
                           </div>
-                          <Link
-                            to="/projects/$slug"
-                            params={{ slug: project.slug }}
-                            aria-label={`Open ${project.title}`}
-                            className="rounded-full border border-border p-2 text-muted-foreground hover:text-accent hover:border-accent/40 transition-colors shrink-0"
-                          >
+                          <div className="rounded-full border border-border p-2 text-muted-foreground hover:text-accent hover:border-accent/40 transition-colors shrink-0">
                             <ArrowUpRight className="w-4 h-4" />
-                          </Link>
+                          </div>
                         </div>
 
                         <h3 className="mt-5 font-display text-3xl md:text-4xl leading-tight">
@@ -198,22 +206,9 @@ function ProjectsShowcasePage() {
                             {project.impact}
                           </p>
                         </div>
-
-                        <div className="rounded-2xl border border-border bg-secondary/50 p-5">
-                          <div className="text-xs uppercase tracking-[0.22em] text-muted-foreground">
-                            Project page
-                          </div>
-                          <Link
-                            to="/projects/$slug"
-                            params={{ slug: project.slug }}
-                            className="mt-4 inline-flex items-center gap-2 text-sm text-foreground hover:text-accent transition-colors"
-                          >
-                            View detailed project <ArrowUpRight className="w-4 h-4" />
-                          </Link>
-                        </div>
                       </div>
                     </div>
-                  </article>
+                  </Link>
                 ))}
               </div>
             </section>

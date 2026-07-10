@@ -13,14 +13,14 @@ function escapeHtml(value: string) {
 
 function getTooltipContent(point: Point) {
   const projectItems = point.projects
-    .map((project) => `<li style="margin:0">${escapeHtml(project)}</li>`)
+    .map((project) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(project)}</li>`)
     .join("");
 
   return `
-    <div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif;font-size:12px;line-height:1.5;color:#f8fafc;min-width:220px">
-      <div style="font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#94a3b8;margin-bottom:6px">${escapeHtml(point.label)}</div>
-      <div style="font-size:13px;font-weight:600;margin-bottom:6px">Projects</div>
-      <ul style="margin:0;padding-left:16px">
+    <div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif; font-size:14px; line-height:1.6; color:#f8fafc; min-width:260px; padding:12px">
+      <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:#a855f7; margin-bottom:8px; font-weight:600">${escapeHtml(point.label)}</div>
+      <div style="font-size:13px; font-weight:600; margin-bottom:8px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,0.3); padding-bottom:6px">Projects</div>
+      <ul style="margin:0; padding-left:0; list-style:none">
         ${projectItems}
       </ul>
     </div>

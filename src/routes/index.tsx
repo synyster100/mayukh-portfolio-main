@@ -344,7 +344,7 @@ function Hero() {
       </svg>
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-10 items-end">
-        <div className="lg:col-span-8 hero-stage">
+        <div className="lg:col-span-8 hero-stage order-2 lg:order-1">
           <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6">
             <Sparkles className="w-3.5 h-3.5 text-accent" />
             Portfolio · 2025
@@ -367,12 +367,12 @@ function Hero() {
             >
               View Research <ArrowUpRight className="w-4 h-4" />
             </a>
-            <Link
-              to="/projects"
+            <a
+              href="#projects"
               className="inline-flex items-center gap-2 border border-foreground/30 rounded-full px-5 py-2.5 text-sm hover:border-foreground transition-colors"
             >
               Explore Projects <ArrowUpRight className="w-4 h-4" />
-            </Link>
+            </a>
             <a
               href="/Md-Ali-Ahnaf-Abid-Mayukh-CV.pdf"
               download
@@ -389,8 +389,10 @@ function Hero() {
           </div>
         </div>
 
-        {/* Side card */}
-        <div className="lg:col-span-4 lg:pl-6">
+        {/* Profile picture and side card */}
+        <div className="lg:col-span-4 lg:pl-6 order-1 lg:order-2 flex flex-col gap-6">
+          <div className="relative">
+          </div>
           <div className="rounded-2xl border border-border bg-card/70 backdrop-blur-sm p-6 shadow-sm">
             <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-muted-foreground">
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
@@ -447,7 +449,17 @@ function About() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHeader eyebrow="01 · About" title="About me" />
         <div ref={ref} className="reveal grid lg:grid-cols-12 gap-12 mt-12">
-          <div className="lg:col-span-7 space-y-6 text-lg text-pretty text-foreground/85 leading-relaxed">
+          <div className="lg:col-span-5 order-2 lg:order-1">
+            <div className="relative">
+              <div className="absolute -inset-1 rounded-2xl bg-gradient-to-r from-primary to-accent blur-md opacity-30" />
+              <img
+                src="/profile.jpeg"
+                alt="Profile picture of Md Ali Ahnaf Abid Mayukh"
+                className="relative w-full aspect-[4/5] rounded-2xl object-cover border-4 border-card shadow-lg"
+              />
+            </div>
+          </div>
+          <div className="lg:col-span-7 space-y-6 text-lg text-pretty text-foreground/85 leading-relaxed order-1 lg:order-2">
             <p>
               I am a researcher and engineer passionate about leveraging geospatial
               technologies to understand environmental systems and support
@@ -463,9 +475,7 @@ function About() {
               conferences, large-scale infrastructure projects, and climate-related
               initiatives.
             </p>
-          </div>
-          <div className="lg:col-span-5">
-            <div className="rounded-2xl border border-border bg-card p-6">
+            <div className="rounded-2xl border border-border bg-card p-6 mt-8">
               <div className="text-xs uppercase tracking-widest text-muted-foreground">
                 Focus areas
               </div>
@@ -724,8 +734,10 @@ function Projects() {
 
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
                 {projects.map((p) => (
-                  <article
+                  <Link
                     key={p.title}
+                    to="/projects/$slug"
+                    params={{ slug: p.slug }}
                     className="group relative rounded-2xl border border-border bg-card p-6 hover:border-accent/60 transition-all hover:-translate-y-1 duration-300 flex flex-col"
                   >
                     <div className="flex items-start justify-between gap-3">
@@ -734,14 +746,9 @@ function Projects() {
                           {p.category}
                         </span>
                       </div>
-                      <Link
-                        to="/projects/$slug"
-                        params={{ slug: p.slug }}
-                        aria-label={`Open ${p.title}`}
-                        className="rounded-full p-1 text-muted-foreground hover:text-accent transition-colors"
-                      >
+                      <div className="rounded-full p-1 text-muted-foreground hover:text-accent transition-colors">
                         <ArrowUpRight className="w-5 h-5 group-hover:rotate-12 transition-all" />
-                      </Link>
+                      </div>
                     </div>
                     <h3 className="font-display text-2xl leading-tight mt-5">
                       {p.title}
@@ -757,7 +764,7 @@ function Projects() {
                         </span>
                       ))}
                     </div>
-                  </article>
+                  </Link>
                 ))}
               </div>
             </div>

@@ -59,16 +59,10 @@ function ProjectDetailPage() {
         <div className="relative mx-auto max-w-7xl px-6 lg:px-10 pt-28 pb-18">
           <div className="flex flex-wrap items-center gap-4 text-sm">
             <Link
-              to="/projects"
-              className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <ArrowLeft className="w-4 h-4" />
-              Back to project showcase
-            </Link>
-            <Link
               to="/"
               className="inline-flex items-center gap-2 text-muted-foreground hover:text-foreground transition-colors"
             >
+              <ArrowLeft className="w-4 h-4" />
               Back to portfolio
             </Link>
           </div>
