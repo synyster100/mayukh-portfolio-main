@@ -63,7 +63,7 @@ const NAV = [
 
 const STATS = [
   { value: 10, suffix: "+", label: "Research Projects" },
-  { value: 9, suffix: "+", label: "Publications & Papers" },
+  { value: 10, suffix: "+", label: "Publications & Papers" },
   { value: 500, suffix: "+", label: "Literature Sources Reviewed" },
   { value: 400000, suffix: "+ ft", label: "Fiber Network Designed", compact: true },
   { value: 25, suffix: "+", label: "Engineers Mentored" },
@@ -98,13 +98,46 @@ const JOURNAL = [
 ];
 
 const CONFERENCE = [
-  "GIS-Based Multi-Temporal Land Cover Dynamics in Terrell County, Texas",
-  "Hybrid Hydro-Geomorphic AHP Framework for Flash Flood Susceptibility",
-  "Spatiotemporal Land Cover Change and Inundation Susceptibility in Texas",
-  "Flood Susceptibility Mapping in San Antonio Using AHP-GIS",
-  "Flood Susceptibility Assessment in Bangladesh Using SPI-GIS Framework",
-  "Rooftop Solar Adoption in Dhaka Residential Sector",
-  "Turbidity Dynamics and Urban Expansion in the Buriganga River",
+  {
+    title: "GeoAI‑Enabled Remote Sensing Framework for Shoreline Change Forecasting at Pensacola Beach, Florida",
+    venue: "The 2026 World Congress on Advances in Civil, Environmental, & Materials Research (ACEM26)",
+    year: 2026,
+  },
+  {
+    title: "GIS-Based Multi-Temporal Land Cover Dynamics in Terrell County, Texas",
+    venue: "Unknown",
+    year: 2024,
+  },
+  {
+    title: "Hybrid Hydro-Geomorphic AHP Framework for Flash Flood Susceptibility",
+    venue: "Unknown",
+    year: 2024,
+  },
+  {
+    title: "Spatiotemporal Land Cover Change and Inundation Susceptibility in Texas",
+    venue: "Unknown",
+    year: 2024,
+  },
+  {
+    title: "Flood Susceptibility Mapping in San Antonio Using AHP-GIS",
+    venue: "Unknown",
+    year: 2024,
+  },
+  {
+    title: "Flood Susceptibility Assessment in Bangladesh Using SPI-GIS Framework",
+    venue: "Unknown",
+    year: 2024,
+  },
+  {
+    title: "Rooftop Solar Adoption in Dhaka Residential Sector",
+    venue: "Unknown",
+    year: 2024,
+  },
+  {
+    title: "Turbidity Dynamics and Urban Expansion in the Buriganga River",
+    venue: "Unknown",
+    year: 2024,
+  },
 ];
 
 const PROJECT_FILTERS = ["All", ...PROJECT_CATEGORIES] as const;
@@ -638,18 +671,21 @@ function Publications() {
                   </div>
                 </article>
               ))
-            : CONFERENCE.map((title, i) => (
+            : CONFERENCE.map((p, i) => (
                 <article
                   key={i}
                   className="group grid md:grid-cols-12 gap-4 py-6 hover:bg-secondary/50 transition-colors px-2 -mx-2 rounded-md"
                 >
                   <div className="md:col-span-1 font-mono text-sm text-muted-foreground">
-                    C.{String(i + 1).padStart(2, "0")}
+                    {p.year}
                   </div>
-                  <div className="md:col-span-10">
-                    <h3 className="font-display text-xl leading-snug">{title}</h3>
+                  <div className="md:col-span-9">
+                    <h3 className="font-display text-xl leading-snug">{p.title}</h3>
+                    <p className="mt-2 text-sm text-muted-foreground italic">
+                      {p.venue}
+                    </p>
                   </div>
-                  <div className="md:col-span-1 md:text-right">
+                  <div className="md:col-span-2 md:text-right">
                     <a
                       href="#"
                       className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-accent transition-colors"
