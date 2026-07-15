@@ -204,6 +204,7 @@ const TIMELINE = [
     year: "Oct 2025 — Present",
     role: "Outside Plant Engineer — Civil Infrastructure (Remote)",
     org: "SKARION Engineering, Virginia, USA",
+    orgUrl: "https://skarion.com/",
     bullets: [
       "Designed 400,000+ ft (500+ residential fiber deployments) of XGS-PON fiber networks, HLD/LLD packages and detailed BOMs.",
       "Delivered end-to-end OSP designs (aerial & underground) using ArcGIS Pro and AutoCAD, ensuring full compliance with NESC/NEC standards across projects in Williamson County, TX and North Carolina markets (Holly Springs, Greensboro).",
@@ -215,6 +216,7 @@ const TIMELINE = [
     year: "Jan 2026 — Jun 2026",
     role: "Research Assistant (RA)",
     org: "North South University, Dhaka, Bangladesh",
+    orgUrl: "https://www.northsouth.edu/",
     bullets: [
       "Collaborated with faculty at the Department of Civil and Environmental Engineering to develop course materials for the Advanced Foundation Analysis course, applying FEM-based numerical modeling to analyze soil–structure interaction and evaluate foundation performance under complex loading scenarios.",
       "Contributed to a review paper using a PRISMA-ScR-based scoping review on urban environmental infrastructure governance and a book chapter on sustainable construction materials, conducting large-scale literature synthesis (500+ sources) and supporting technical writing and content development."
@@ -225,8 +227,9 @@ const TIMELINE = [
     year: "Jan 2025 — Present",
     role: "Instructor",
     org: "LEAD Academy, Dhaka, BD",
+    orgUrl: "https://lead.academy/",
     bullets: [
-      "Developed an AutoCAD course with 13 learning modules with 87 video lectures (9+ hours) with 30 quizzes and 4 final projects. <a href='https://leadacademy.com/' target='_blank' rel='noopener' class='text-accent hover:underline'>Course Link</a> (Published on November, 2025)."
+      "Developed an AutoCAD course with 13 learning modules with 87 video lectures (9+ hours) with 30 quizzes and 4 final projects. <a href='https://lead.academy/course/autocad-from-scratch-2d-3d' target='_blank' rel='noopener' class='text-accent hover:underline'>Course Link</a> (Published on November, 2025)."
     ],
   },
   {
@@ -234,6 +237,7 @@ const TIMELINE = [
     year: "Apr 2025 — Present",
     role: "AutoCAD Instructor",
     org: "Caturjo Architecture Academy, Chattogram, Bangladesh",
+    orgUrl: "https://caturjosthapotto.com/",
     bullets: [
       "Delivered a structured 10-week (10+ hours) AutoCAD training program for industry professionals on civil engineering drafting practices in compliance with BNBC 2020 standards and provided learning materials accordingly.",
       "Trained 20 polytechnic graduate students, conducted live Q&A sessions and webinars."
@@ -244,6 +248,7 @@ const TIMELINE = [
     year: "Nov 2023 — Oct 2025",
     role: "Chief Instructor: AutoCAD",
     org: "IUT CAD Society, Gazipur, Bangladesh",
+    orgUrl: "https://www.facebook.com/iutcadsociety/",
     bullets: [
       "Taken live classes of a batch of over 30 undergrad students from various departments both online and offline.",
       "Made the question paper and managed 104 participants as the Head Organizer of the Drafting Contest in the Cennovation 2025."
@@ -254,6 +259,7 @@ const TIMELINE = [
     year: "Jun 2024 — Jul 2024",
     role: "Industrial Trainee",
     org: "DOHWA Engineering Co. Ltd., Dhaka, Bangladesh",
+    orgUrl: "https://www.dohwa.co.kr/?lang=en",
     bullets: [
       "Participated in 6 different heritage site restoration projects and construction site inspections inside Dhaka.",
       "Attended 2 interim workshops on coastal, water resource, and transportation engineering at Bangladesh Inland Water Transport Corporation (BIWTC) Headquarters and Roads and Highways Department (RHD).",
@@ -1077,7 +1083,20 @@ function Experience() {
                     {t.year}
                   </div>
                   <h3 className="font-display text-2xl mt-2">{t.role}</h3>
-                  <div className="text-sm text-foreground/70">{t.org}</div>
+                  <div className="text-sm text-foreground/70">
+                    {t.orgUrl ? (
+                      <a
+                        href={t.orgUrl}
+                        target="_blank"
+                        rel="noopener"
+                        className="hover:text-accent transition-colors underline decoration-border hover:decoration-accent"
+                      >
+                        {t.org}
+                      </a>
+                    ) : (
+                      t.org
+                    )}
+                  </div>
                 </div>
                 <div className="pl-10 md:pl-10 mt-3 md:mt-0">
                   <ul className="space-y-2 text-sm text-foreground/80 leading-relaxed">
