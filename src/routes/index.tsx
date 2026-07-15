@@ -597,7 +597,7 @@ function Stats() {
   return (
     <div
       ref={ref}
-      className="mt-20 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 border-y border-border"
+      className="mt-20 grid grid-cols-2 md:grid-cols-4 max-w-5xl mx-auto border-y border-border"
     >
       {STATS.map((s, i) => (
         <Stat key={i} {...s} start={inView} />
@@ -626,7 +626,7 @@ function Stat({
       : v.toString()
     : v.toLocaleString();
   return (
-    <div className="p-6 lg:p-8 border-border [&:not(:last-child)]:border-r">
+    <div className="p-6 lg:p-8 text-center border-border border-b [&:nth-last-child(-n+2)]:border-b-0 md:border-b-0 odd:border-r md:odd:border-r-0 md:[&:not(:last-child)]:border-r">
       <div className="font-display text-4xl lg:text-5xl tracking-tight">
         {display}
         <span className="text-accent">{suffix}</span>
