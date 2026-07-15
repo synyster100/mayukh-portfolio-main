@@ -58,7 +58,7 @@ function escapeHtml(value: string) {
 function getTooltipContent(point: Point) {
   const c = markerColor(point);
   let content = `
-    <div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif; font-size:14px; line-height:1.6; color:#f8fafc; min-width:260px; max-width:320px; padding:12px">
+    <div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif; font-size:14px; line-height:1.6; color:#f8fafc; min-width:260px; max-width:320px; padding:12px; word-break:break-word; overflow-wrap:break-word; white-space:normal;">
       <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:${c.fill}; margin-bottom:8px; font-weight:600">${escapeHtml(point.label)}</div>
   `;
 
@@ -72,7 +72,7 @@ function getTooltipContent(point: Point) {
 
   if (point.projects && point.projects.length > 0) {
     const items = point.projects
-      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(t.title)}</li>`)
+      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2); word-break:break-word; overflow-wrap:break-word; white-space:normal;">&bull; ${escapeHtml(t.title)}</li>`)
       .join("");
     content += `
       <div style="font-size:13px; font-weight:600; margin-bottom:6px; color:${COLORS.project.fill}; border-bottom:1px solid rgba(148,163,184,0.3); padding-bottom:5px">&#9679; Projects</div>
@@ -82,7 +82,7 @@ function getTooltipContent(point: Point) {
 
   if (point.journalPublications && point.journalPublications.length > 0) {
     const items = point.journalPublications
-      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(t.title)}</li>`)
+      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2); word-break:break-word; overflow-wrap:break-word; white-space:normal;">&bull; ${escapeHtml(t.title)}</li>`)
       .join("");
     content += `
       <div style="font-size:13px; font-weight:600; margin-bottom:6px; color:${COLORS.journal.fill}; border-bottom:1px solid rgba(148,163,184,0.3); padding-bottom:5px">&#9679; Journal Publications</div>
@@ -92,7 +92,7 @@ function getTooltipContent(point: Point) {
 
   if (point.conferencePublications && point.conferencePublications.length > 0) {
     const items = point.conferencePublications
-      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(t.title)}</li>`)
+      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2); word-break:break-word; overflow-wrap:break-word; white-space:normal;">&bull; ${escapeHtml(t.title)}</li>`)
       .join("");
     content += `
       <div style="font-size:13px; font-weight:600; margin-bottom:6px; color:${COLORS.conference.fill}; border-bottom:1px solid rgba(148,163,184,0.3); padding-bottom:5px">&#9679; Conference Publications</div>
@@ -108,10 +108,10 @@ function getTooltipContent(point: Point) {
 function getClickContent(point: Point) {
   const c = markerColor(point);
   const linkStyle = (color: string) =>
-    `color:${color}; text-decoration:none; font-size:13px; line-height:1.5; display:block; padding:6px 8px; border-radius:6px; margin-bottom:4px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); transition:background 0.15s;`;
+    `color:${color}; text-decoration:none; font-size:13px; line-height:1.5; display:block; padding:6px 8px; border-radius:6px; margin-bottom:4px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); transition:background 0.15s; word-break:break-word; overflow-wrap:break-word; white-space:normal;`;
 
   let content = `
-    <div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif; color:#f8fafc; min-width:260px; max-width:320px; padding:14px">
+    <div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif; color:#f8fafc; min-width:260px; max-width:320px; padding:14px; word-break:break-word; overflow-wrap:break-word; white-space:normal;">
       <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:${c.fill}; margin-bottom:12px; font-weight:600">${escapeHtml(point.label)}</div>
   `;
 
