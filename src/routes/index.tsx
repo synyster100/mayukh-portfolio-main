@@ -64,8 +64,6 @@ const NAV = [
 const STATS = [
   { value: 10, suffix: "+", label: "Research Projects" },
   { value: 10, suffix: "+", label: "Publications & Papers" },
-  { value: 500, suffix: "+", label: "Literature Sources Reviewed" },
-  { value: 400000, suffix: "+ ft", label: "Fiber Network Designed", compact: true },
   { value: 25, suffix: "+", label: "Engineers Mentored" },
   { value: 20, suffix: "+", label: "Students Trained" },
 ];
@@ -487,7 +485,7 @@ function Hero() {
               Currently
             </div>
             <p className="mt-3 font-display text-2xl leading-tight">
-              Outside Plant Engineer at SKARION Engineering & Former Research Assistant at NSU
+              Outside Plant Engineer at SKARION Engineering & Former Research Assistant at North South University
             </p>
             <div className="mt-5 border-t border-border pt-4 text-sm text-muted-foreground space-y-2">
               <div className="flex items-center gap-2">
