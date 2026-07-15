@@ -446,7 +446,7 @@ function Hero() {
             <span className="text-primary">.</span>
           </h1>
           <p className="mt-8 text-base md:text-lg text-muted-foreground max-w-2xl text-pretty">
-            Civil and Environmental Engineer · Geospatial Data Analyst · GeoAI Researcher. Transforming geospatial data into actionable insights for geoenvironmental engineering, environmental sustainability, climate resilience, and flood risk management.
+            Graduate Civil &amp; Environmental Eng. from IUT | Geospatial Data Analyst | CAD Expert and Instructor | ISCEA Certified Supply Chain Analyst
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <a
@@ -491,13 +491,10 @@ function Hero() {
             </p>
             <div className="mt-5 border-t border-border pt-4 text-sm text-muted-foreground space-y-2">
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4" /> Dhaka, Bangladesh · Remote USA
+                <MapPin className="w-4 h-4" /> Dhaka, Bangladesh
               </div>
               <div className="flex items-center gap-2">
                 <GraduationCap className="w-4 h-4" /> B.Sc. Civil Engineering, IUT
-              </div>
-              <div className="flex items-start gap-2">
-                <Globe2 className="w-4 h-4 mt-0.5" /> Research Focus: Geoenvironmental Engineering, GIS & Remote Sensing, Flood Risk Management, Shoreline Dynamics, GeoAI, Disaster Management, Environmental Modelling
               </div>
             </div>
           </div>
@@ -569,12 +566,13 @@ function About() {
               </div>
               <ul className="mt-4 grid grid-cols-2 gap-3 text-sm">
                 {[
+                  "Geoenvironmental Engineering",
                   "GIS & Remote Sensing",
-                  "Ecohydrological Modeling",
-                  "Flood Risk Assessment",
-                  "Environmental Monitoring",
-                  "Climate Change Research",
-                  "GeoAI & Machine Learning",
+                  "Flood Risk Management",
+                  "Shoreline Dynamics",
+                  "GeoAI",
+                  "Disaster Management",
+                  "Environmental Modelling"
                 ].map((f) => (
                   <li
                     key={f}
