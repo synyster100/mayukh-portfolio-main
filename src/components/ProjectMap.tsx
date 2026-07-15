@@ -1,6 +1,33 @@
 import { useEffect, useRef, useState } from "react";
 
-type Point = { lng: number; lat: number; label: string; projects?: string[]; publications?: string[] };
+export type Point = {
+  lng: number;
+  lat: number;
+  label: string;
+  projects?: string[];
+  journalPublications?: string[];
+  conferencePublications?: string[];
+};
+
+// Colour palette
+const COLORS = {
+  project:     { fill: "#2dd4bf", ring: "#0d9488", label: "Projects" },
+  journal:     { fill: "#fbbf24", ring: "#d97706", label: "Journal Publications" },
+  conference:  { fill: "#fb7185", ring: "#e11d48", label: "Conference Publications" },
+  mixed:       { fill: "#a78bfa", ring: "#7c3aed", label: "Multiple Types" },
+};
+
+function markerColor(point: Point) {
+  const hasProject  = (point.projects?.length ?? 0) > 0;
+  const hasJournal  = (point.journalPublications?.length ?? 0) > 0;
+  const hasConf     = (point.conferencePublications?.length ?? 0) > 0;
+  const typeCount   = [hasProject, hasJournal, hasConf].filter(Boolean).length;
+  if (typeCount > 1)  return COLORS.mixed;
+  if (hasProject)     return COLORS.project;
+  if (hasJournal)     return COLORS.journal;
+  if (hasConf)        return COLORS.conference;
+  return COLORS.project;
+}
 
 function escapeHtml(value: string) {
   return value
@@ -12,37 +39,57 @@ function escapeHtml(value: string) {
 }
 
 function getTooltipContent(point: Point) {
+  const c = markerColor(point);
   let content = `
     <div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif; font-size:14px; line-height:1.6; color:#f8fafc; min-width:260px; padding:12px">
-      <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:#a855f7; margin-bottom:8px; font-weight:600">${escapeHtml(point.label)}</div>
+      <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:${c.fill}; margin-bottom:8px; font-weight:600">${escapeHtml(point.label)}</div>
   `;
 
   if (point.projects && point.projects.length > 0) {
-    const projectItems = point.projects
-      .map((project) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(project)}</li>`)
+    const items = point.projects
+      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(t)}</li>`)
       .join("");
     content += `
-      <div style="font-size:13px; font-weight:600; margin-bottom:8px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,0.3); padding-bottom:6px">Projects</div>
-      <ul style="margin:0; padding-left:0; list-style:none; margin-bottom:8px">
-        ${projectItems}
-      </ul>
+      <div style="font-size:13px; font-weight:600; margin-bottom:6px; color:${COLORS.project.fill}; border-bottom:1px solid rgba(148,163,184,0.3); padding-bottom:5px">&#9679; Projects</div>
+      <ul style="margin:0; padding-left:0; list-style:none; margin-bottom:8px">${items}</ul>
     `;
   }
 
-  if (point.publications && point.publications.length > 0) {
-    const publicationItems = point.publications
-      .map((publication) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(publication)}</li>`)
+  if (point.journalPublications && point.journalPublications.length > 0) {
+    const items = point.journalPublications
+      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(t)}</li>`)
       .join("");
     content += `
-      <div style="font-size:13px; font-weight:600; margin-bottom:8px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,0.3); padding-bottom:6px">Publications</div>
-      <ul style="margin:0; padding-left:0; list-style:none">
-        ${publicationItems}
-      </ul>
+      <div style="font-size:13px; font-weight:600; margin-bottom:6px; color:${COLORS.journal.fill}; border-bottom:1px solid rgba(148,163,184,0.3); padding-bottom:5px">&#9679; Journal Publications</div>
+      <ul style="margin:0; padding-left:0; list-style:none; margin-bottom:8px">${items}</ul>
+    `;
+  }
+
+  if (point.conferencePublications && point.conferencePublications.length > 0) {
+    const items = point.conferencePublications
+      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(t)}</li>`)
+      .join("");
+    content += `
+      <div style="font-size:13px; font-weight:600; margin-bottom:6px; color:${COLORS.conference.fill}; border-bottom:1px solid rgba(148,163,184,0.3); padding-bottom:5px">&#9679; Conference Publications</div>
+      <ul style="margin:0; padding-left:0; list-style:none">${items}</ul>
     `;
   }
 
   content += `</div>`;
   return content;
+}
+
+/** SVG pin used as Google Maps custom marker icon URL */
+function svgPin(fill: string, ring: string): string {
+  const svg = `
+    <svg xmlns="http://www.w3.org/2000/svg" width="32" height="40" viewBox="0 0 32 40">
+      <ellipse cx="16" cy="38" rx="6" ry="2" fill="rgba(0,0,0,0.3)"/>
+      <circle cx="16" cy="16" r="14" fill="${ring}" opacity="0.35"/>
+      <circle cx="16" cy="16" r="10" fill="${fill}" stroke="${ring}" stroke-width="2.5"/>
+      <circle cx="16" cy="16" r="4" fill="white" opacity="0.9"/>
+      <line x1="16" y1="26" x2="16" y2="37" stroke="${ring}" stroke-width="2" stroke-linecap="round"/>
+    </svg>`.trim();
+  return `data:image/svg+xml;charset=UTF-8,${encodeURIComponent(svg)}`;
 }
 
 declare global {
@@ -126,8 +173,79 @@ function loadLeaflet(): Promise<any> {
   });
 }
 
+/** Legend component rendered in React over the map */
+function MapLegend() {
+  const entries = [
+    COLORS.project,
+    COLORS.journal,
+    COLORS.conference,
+    COLORS.mixed,
+  ];
+  return (
+    <div
+      style={{
+        position: "absolute",
+        bottom: "16px",
+        right: "16px",
+        zIndex: 9999,
+        pointerEvents: "auto",
+        background: "rgba(10, 15, 30, 0.82)",
+        backdropFilter: "blur(10px)",
+        border: "1px solid rgba(255,255,255,0.1)",
+        borderRadius: "12px",
+        padding: "10px 14px",
+        display: "flex",
+        flexDirection: "column",
+        gap: "7px",
+        boxShadow: "0 8px 32px rgba(0,0,0,0.45)",
+        minWidth: "190px",
+      }}
+    >
+      <div
+        style={{
+          fontSize: "10px",
+          letterSpacing: "0.12em",
+          textTransform: "uppercase",
+          color: "rgba(255,255,255,0.45)",
+          marginBottom: "2px",
+          fontFamily: "Inter, ui-sans-serif, sans-serif",
+        }}
+      >
+        Legend
+      </div>
+      {entries.map((e) => (
+        <div
+          key={e.label}
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "8px",
+            fontFamily: "Inter, ui-sans-serif, sans-serif",
+            fontSize: "12px",
+            color: "rgba(255,255,255,0.85)",
+          }}
+        >
+          <span
+            style={{
+              width: "12px",
+              height: "12px",
+              borderRadius: "50%",
+              background: e.fill,
+              border: `2px solid ${e.ring}`,
+              flexShrink: 0,
+              boxShadow: `0 0 6px ${e.fill}88`,
+            }}
+          />
+          {e.label}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 export default function ProjectMap({ points }: { points: Point[] }) {
   const ref = useRef<HTMLDivElement>(null);
+  const wrapperRef = useRef<HTMLDivElement>(null);
   const googleMapRef = useRef<any>(null);
   const leafletMapRef = useRef<any>(null);
   const [mapType, setMapType] = useState<"google" | "leaflet">("google");
@@ -150,8 +268,7 @@ export default function ProjectMap({ points }: { points: Point[] }) {
       loadGoogleMaps()
         .then(() => {
           if (cancelled || !ref.current || !window.google?.maps) return;
-          
-          // Clear any fallback map nodes
+
           ref.current.innerHTML = "";
 
           const g = window.google;
@@ -161,7 +278,7 @@ export default function ProjectMap({ points }: { points: Point[] }) {
             minZoom: 2,
             restriction: {
               latLngBounds: { north: 85, south: -85, west: -180, east: 180 },
-              strictBounds: true
+              strictBounds: true,
             },
             mapTypeId: "hybrid",
             tilt: 45,
@@ -184,12 +301,21 @@ export default function ProjectMap({ points }: { points: Point[] }) {
           points.forEach((p) => {
             const pos = { lat: p.lat, lng: p.lng };
             bounds.extend(pos);
+
+            const c = markerColor(p);
+
             const marker = new g.maps.Marker({
               map,
               position: pos,
-              title: `${p.label}: ${[...(p.projects || []), ...(p.publications || [])].join(", ")}`,
+              title: p.label,
               animation: g.maps.Animation.DROP,
+              icon: {
+                url: svgPin(c.fill, c.ring),
+                scaledSize: new g.maps.Size(32, 40),
+                anchor: new g.maps.Point(16, 38),
+              },
             });
+
             marker.addListener("mouseover", () => {
               info.setContent(getTooltipContent(p));
               info.open({ anchor: marker, map });
@@ -222,16 +348,13 @@ export default function ProjectMap({ points }: { points: Point[] }) {
         .then((L) => {
           if (cancelled || !ref.current || !L) return;
 
-          // Clear element
           ref.current.innerHTML = "";
 
-          // Create leaflet map wrapper div
           const mapEl = document.createElement("div");
           mapEl.style.width = "100%";
           mapEl.style.height = "100%";
           ref.current.appendChild(mapEl);
 
-          // Add custom leaflet dark popups styles if they don't exist yet
           const styleId = "leaflet-custom-dark-theme";
           if (!document.getElementById(styleId)) {
             const styleNode = document.createElement("style");
@@ -278,7 +401,6 @@ export default function ProjectMap({ points }: { points: Point[] }) {
             document.head.appendChild(styleNode);
           }
 
-          // Initialize Map
           const map = L.map(mapEl, {
             center: [20, -20],
             zoom: 2,
@@ -286,12 +408,11 @@ export default function ProjectMap({ points }: { points: Point[] }) {
             maxZoom: 18,
             zoomControl: true,
             scrollWheelZoom: true,
-            maxBounds: [[-85, -180], [85, 180]], // Restrict view
-            maxBoundsViscosity: 1.0
+            maxBounds: [[-85, -180], [85, 180]],
+            maxBoundsViscosity: 1.0,
           });
           leafletMapRef.current = map;
 
-          // Esri World Imagery Tile Layer
           L.tileLayer(
             "https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
             {
@@ -300,36 +421,43 @@ export default function ProjectMap({ points }: { points: Point[] }) {
             }
           ).addTo(map);
 
-          // Esri World Boundaries and Places (hybrid labels)
           L.tileLayer(
             "https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Boundaries_and_Places/MapServer/tile/{z}/{y}/{x}",
-            {
-              attribution: "Labels &copy; Esri",
-            }
+            { attribution: "Labels &copy; Esri" }
           ).addTo(map);
 
           const bounds = L.latLngBounds(points.map((p) => [p.lat, p.lng]));
 
           points.forEach((p) => {
+            const c = markerColor(p);
+
             const markerHtml = `
-              <div class="relative flex items-center justify-center w-6 h-6">
-                <span class="absolute inline-flex h-6 w-6 rounded-full bg-blue-500 opacity-75 animate-ping"></span>
-                <span class="relative inline-flex rounded-full h-3 w-3 bg-blue-600 border border-white shadow-lg"></span>
+              <div style="position:relative;display:flex;align-items:center;justify-content:center;width:28px;height:28px">
+                <span style="position:absolute;display:inline-flex;height:28px;width:28px;border-radius:50%;background:${c.fill};opacity:0.45;animation:ping 1.5s cubic-bezier(0,0,0.2,1) infinite"></span>
+                <span style="position:relative;display:inline-flex;border-radius:50%;height:14px;width:14px;background:${c.fill};border:2.5px solid ${c.ring};box-shadow:0 0 8px ${c.fill}99"></span>
               </div>
             `;
+
+            // Add ping keyframes once
+            if (!document.getElementById("leaflet-ping-keyframes")) {
+              const s = document.createElement("style");
+              s.id = "leaflet-ping-keyframes";
+              s.innerHTML = `@keyframes ping { 75%,100% { transform:scale(2); opacity:0; } }`;
+              document.head.appendChild(s);
+            }
 
             const customIcon = L.divIcon({
               className: "custom-leaflet-marker",
               html: markerHtml,
-              iconSize: [24, 24],
-              iconAnchor: [12, 12],
+              iconSize: [28, 28],
+              iconAnchor: [14, 14],
             });
 
             const marker = L.marker([p.lat, p.lng], { icon: customIcon }).addTo(map);
             marker.bindTooltip(getTooltipContent(p), {
               className: "custom-leaflet-tooltip",
               direction: "top",
-              offset: [0, -12],
+              offset: [0, -14],
               opacity: 1,
               sticky: true,
             });
@@ -342,9 +470,7 @@ export default function ProjectMap({ points }: { points: Point[] }) {
           if (points.length > 1) {
             map.fitBounds(bounds, { padding: [50, 50] });
             setTimeout(() => {
-              if (map.getZoom() > 4) {
-                map.setZoom(3);
-              }
+              if (map.getZoom() > 4) map.setZoom(3);
             }, 300);
           } else if (points.length === 1) {
             map.setView([points[0].lat, points[0].lng], 5);
@@ -365,10 +491,13 @@ export default function ProjectMap({ points }: { points: Point[] }) {
   }, [points, mapType]);
 
   return (
-    <div
-      ref={ref}
-      className="w-full h-full"
-      style={{ background: "linear-gradient(135deg, rgba(0,0,0,0.04), rgba(0,0,0,0.08))" }}
-    />
+    <div ref={wrapperRef} style={{ position: "relative", width: "100%", height: "100%", isolation: "isolate" }}>
+      <div
+        ref={ref}
+        className="w-full h-full"
+        style={{ background: "linear-gradient(135deg, rgba(0,0,0,0.04), rgba(0,0,0,0.08))" }}
+      />
+      <MapLegend />
+    </div>
   );
 }

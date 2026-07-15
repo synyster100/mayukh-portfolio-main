@@ -91,7 +91,7 @@ const JOURNAL = [
     title: "Spatiotemporal Shoreline Change Assessment And Machine Learning Projections For Coastal Louisiana",
     venue: "Geodata and AI, Vol. 7, Article 100089",
     year: 2025,
-    location: { lng: -92.7299, lat: 29.9511, label: "Louisiana, USA" },
+    location: { lng: -93.3197, lat: 29.7953, label: "Cameron Beach, Louisiana" },
     link: "https://doi.org/10.1016/j.geoai.2026.100089",
   },
   {
@@ -922,7 +922,7 @@ function Projects() {
 }
 
 function WorldMap() {
-  const locationMap = new Map<string, { lng: number; lat: number; label: string; projects?: string[]; publications?: string[] }>();
+  const locationMap = new Map<string, { lng: number; lat: number; label: string; projects?: string[]; journalPublications?: string[]; conferencePublications?: string[] }>();
 
   // Add project points
   PROJECTS.forEach((project) => {
@@ -941,7 +941,7 @@ function WorldMap() {
     }
   });
 
-  // Add publication points from JOURNAL
+  // Add publication points from JOURNAL (amber markers)
   JOURNAL.forEach((pub) => {
     if (!("location" in pub) || !pub.location) return;
 
@@ -949,16 +949,16 @@ function WorldMap() {
     const existing = locationMap.get(key);
 
     if (existing) {
-      existing.publications = [...(existing.publications || []), pub.title];
+      existing.journalPublications = [...(existing.journalPublications || []), pub.title];
     } else {
       locationMap.set(key, {
         ...pub.location,
-        publications: [pub.title],
+        journalPublications: [pub.title],
       });
     }
   });
 
-  // Add publication points from CONFERENCE
+  // Add publication points from CONFERENCE (rose markers)
   CONFERENCE.forEach((pub) => {
     if (!("location" in pub) || !pub.location) return;
 
@@ -966,11 +966,11 @@ function WorldMap() {
     const existing = locationMap.get(key);
 
     if (existing) {
-      existing.publications = [...(existing.publications || []), pub.title];
+      existing.conferencePublications = [...(existing.conferencePublications || []), pub.title];
     } else {
       locationMap.set(key, {
         ...pub.location,
-        publications: [pub.title],
+        conferencePublications: [pub.title],
       });
     }
   });
@@ -981,7 +981,7 @@ function WorldMap() {
     <div className="mt-12 relative rounded-2xl border border-border bg-card overflow-hidden">
       <div className="absolute top-4 left-4 z-10 text-xs uppercase tracking-widest text-muted-foreground flex items-center gap-2 bg-background/80 backdrop-blur px-3 py-1.5 rounded-full border border-border">
         <Satellite className="w-3.5 h-3.5 text-accent" />
-        Project & publication locations
+        Project &amp; publication locations
       </div>
       <div className="relative aspect-[2/1] min-h-[420px]">
         <ProjectMap points={points} />
@@ -989,6 +989,7 @@ function WorldMap() {
     </div>
   );
 }
+
 
 /* ---------- Experience ---------- */
 
