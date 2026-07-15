@@ -204,7 +204,7 @@ const TIMELINE = [
     year: "Oct 2025 — Present",
     role: "Outside Plant Engineer — Civil Infrastructure (Remote)",
     org: "SKARION Engineering, Virginia, USA",
-    orgUrl: "https://skarion.com/",
+    orgUrl: "https://skarionengineering.com/",
     bullets: [
       "Designed 400,000+ ft (500+ residential fiber deployments) of XGS-PON fiber networks, HLD/LLD packages and detailed BOMs.",
       "Delivered end-to-end OSP designs (aerial & underground) using ArcGIS Pro and AutoCAD, ensuring full compliance with NESC/NEC standards across projects in Williamson County, TX and North Carolina markets (Holly Springs, Greensboro).",
