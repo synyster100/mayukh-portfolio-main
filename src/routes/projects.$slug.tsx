@@ -2,6 +2,7 @@ import { Link, createFileRoute } from "@tanstack/react-router";
 import { ArrowLeft, ArrowUpRight, Layers3, MapPin } from "lucide-react";
 
 import { PROJECTS, getProjectBySlug } from "@/data/projects";
+import { PROJECT_IMAGE_URLS } from "@/assets/project-images";
 
 export const Route = createFileRoute("/projects/$slug")({
   head: ({ params }) => {
@@ -122,6 +123,18 @@ function ProjectDetailPage() {
           </div>
         </div>
       </section>
+
+      {PROJECT_IMAGE_URLS[project.slug] && (
+        <div className="mx-auto max-w-7xl px-6 lg:px-10 pt-10">
+          <div className="overflow-hidden rounded-3xl border border-border shadow-lg bg-card flex items-center justify-center">
+            <img
+              src={PROJECT_IMAGE_URLS[project.slug]}
+              alt={project.title}
+              className="w-full max-h-[600px] object-contain"
+            />
+          </div>
+        </div>
+      )}
 
       <section className="py-16 md:py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-10 grid gap-8 lg:grid-cols-[1.08fr_0.92fr]">

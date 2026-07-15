@@ -1,12 +1,18 @@
 import { useEffect, useRef, useState } from "react";
 
+export type PointLink = {
+  title: string;
+  url: string | null; // null = no link available
+};
+
 export type Point = {
   lng: number;
   lat: number;
   label: string;
-  projects?: string[];
-  journalPublications?: string[];
-  conferencePublications?: string[];
+  image?: string;
+  projects?: PointLink[];
+  journalPublications?: PointLink[];
+  conferencePublications?: PointLink[];
 };
 
 // Colour palette
@@ -29,6 +35,17 @@ function markerColor(point: Point) {
   return COLORS.project;
 }
 
+/** Returns the single URL to navigate to if there is exactly one item total, otherwise null */
+function getSingleUrl(point: Point): string | null {
+  const all: (PointLink | undefined)[] = [
+    ...(point.projects ?? []),
+    ...(point.journalPublications ?? []),
+    ...(point.conferencePublications ?? []),
+  ];
+  if (all.length === 1 && all[0]?.url) return all[0].url;
+  return null;
+}
+
 function escapeHtml(value: string) {
   return value
     .replaceAll("&", "&amp;")
@@ -41,13 +58,21 @@ function escapeHtml(value: string) {
 function getTooltipContent(point: Point) {
   const c = markerColor(point);
   let content = `
-    <div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif; font-size:14px; line-height:1.6; color:#f8fafc; min-width:260px; padding:12px">
+    <div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif; font-size:14px; line-height:1.6; color:#f8fafc; min-width:260px; max-width:320px; padding:12px">
       <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:${c.fill}; margin-bottom:8px; font-weight:600">${escapeHtml(point.label)}</div>
   `;
 
+  if (point.image) {
+    content += `
+      <div style="margin:-12px -12px 10px -12px; overflow:hidden; border-radius:8px 8px 0 0; background:#0f172a; display:flex; align-items:center; justify-content:center;">
+        <img src="${escapeHtml(point.image)}" alt="${escapeHtml(point.label)}" style="width:100%; max-height:180px; object-fit:contain; display:block" />
+      </div>
+    `;
+  }
+
   if (point.projects && point.projects.length > 0) {
     const items = point.projects
-      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(t)}</li>`)
+      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(t.title)}</li>`)
       .join("");
     content += `
       <div style="font-size:13px; font-weight:600; margin-bottom:6px; color:${COLORS.project.fill}; border-bottom:1px solid rgba(148,163,184,0.3); padding-bottom:5px">&#9679; Projects</div>
@@ -57,7 +82,7 @@ function getTooltipContent(point: Point) {
 
   if (point.journalPublications && point.journalPublications.length > 0) {
     const items = point.journalPublications
-      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(t)}</li>`)
+      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(t.title)}</li>`)
       .join("");
     content += `
       <div style="font-size:13px; font-weight:600; margin-bottom:6px; color:${COLORS.journal.fill}; border-bottom:1px solid rgba(148,163,184,0.3); padding-bottom:5px">&#9679; Journal Publications</div>
@@ -67,13 +92,47 @@ function getTooltipContent(point: Point) {
 
   if (point.conferencePublications && point.conferencePublications.length > 0) {
     const items = point.conferencePublications
-      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(t)}</li>`)
+      .map((t) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(t.title)}</li>`)
       .join("");
     content += `
       <div style="font-size:13px; font-weight:600; margin-bottom:6px; color:${COLORS.conference.fill}; border-bottom:1px solid rgba(148,163,184,0.3); padding-bottom:5px">&#9679; Conference Publications</div>
       <ul style="margin:0; padding-left:0; list-style:none">${items}</ul>
     `;
   }
+
+  content += `<div style="margin-top:10px; font-size:11px; color:rgba(148,163,184,0.6); text-align:center">Click marker to open</div></div>`;
+  return content;
+}
+
+/** Click popup — same as tooltip but items are clickable links */
+function getClickContent(point: Point) {
+  const c = markerColor(point);
+  const linkStyle = (color: string) =>
+    `color:${color}; text-decoration:none; font-size:13px; line-height:1.5; display:block; padding:6px 8px; border-radius:6px; margin-bottom:4px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); transition:background 0.15s;`;
+
+  let content = `
+    <div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif; color:#f8fafc; min-width:260px; max-width:320px; padding:14px">
+      <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:${c.fill}; margin-bottom:12px; font-weight:600">${escapeHtml(point.label)}</div>
+  `;
+
+  function renderSection(items: PointLink[], color: string, heading: string) {
+    if (!items.length) return "";
+    const rows = items.map((item) => {
+      if (item.url) {
+        const isInternal = item.url.startsWith("/");
+        return `<a href="${escapeHtml(item.url)}" ${isInternal ? "" : 'target="_blank" rel="noopener"'} style="${linkStyle(color)}">&#8599; ${escapeHtml(item.title)}</a>`;
+      }
+      return `<div style="${linkStyle("rgba(148,163,184,0.6)")}">${escapeHtml(item.title)} <span style="font-size:10px; opacity:0.6">(no link)</span></div>`;
+    }).join("");
+    return `
+      <div style="font-size:10px; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:${color}; margin-bottom:6px; opacity:0.8">${heading}</div>
+      <div style="margin-bottom:10px">${rows}</div>
+    `;
+  }
+
+  content += renderSection(point.projects ?? [], COLORS.project.fill, "Projects");
+  content += renderSection(point.journalPublications ?? [], COLORS.journal.fill, "Journal Publications");
+  content += renderSection(point.conferencePublications ?? [], COLORS.conference.fill, "Conference Publications");
 
   content += `</div>`;
   return content;
@@ -324,11 +383,20 @@ export default function ProjectMap({ points }: { points: Point[] }) {
               info.close();
             });
             marker.addListener("click", () => {
-              info.setContent(getTooltipContent(p));
-              info.open({ anchor: marker, map });
-              map.panTo(pos);
-              map.setZoom(Math.max(map.getZoom() ?? 6, 8));
-              map.setTilt(60);
+              const singleUrl = getSingleUrl(p);
+              if (singleUrl) {
+                if (singleUrl.startsWith("/")) {
+                  window.location.href = singleUrl;
+                } else {
+                  window.open(singleUrl, "_blank", "noopener");
+                }
+              } else {
+                // Multiple items — show clickable popup
+                info.setContent(getClickContent(p));
+                info.open({ anchor: marker, map });
+                map.panTo(pos);
+                map.setZoom(Math.max(map.getZoom() ?? 6, 8));
+              }
             });
           });
 
@@ -462,8 +530,25 @@ export default function ProjectMap({ points }: { points: Point[] }) {
               sticky: true,
             });
 
+            marker.bindPopup(getClickContent(p), {
+              className: "custom-leaflet-popup",
+              maxWidth: 340,
+              closeButton: true,
+            });
+
             marker.on("click", () => {
-              map.setView([p.lat, p.lng], Math.max(map.getZoom() ?? 6, 8));
+              const singleUrl = getSingleUrl(p);
+              if (singleUrl) {
+                marker.closeTooltip();
+                if (singleUrl.startsWith("/")) {
+                  window.location.href = singleUrl;
+                } else {
+                  window.open(singleUrl, "_blank", "noopener");
+                }
+              } else {
+                // Multiple items — popup already bound, just zoom in
+                map.setView([p.lat, p.lng], Math.max(map.getZoom() ?? 6, 8));
+              }
             });
           });
 

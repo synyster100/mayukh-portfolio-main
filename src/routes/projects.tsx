@@ -2,6 +2,7 @@ import { Link, Outlet, createFileRoute, useRouterState } from "@tanstack/react-r
 import { ArrowLeft, ArrowUpRight, Layers3, MapPin } from "lucide-react";
 
 import { PROJECT_CATEGORIES, PROJECTS } from "@/data/projects";
+import { PROJECT_IMAGE_URLS } from "@/assets/project-images";
 
 export const Route = createFileRoute("/projects")({
   head: () => ({
@@ -131,9 +132,18 @@ function ProjectsShowcasePage() {
                     key={project.title}
                     to="/projects/$slug"
                     params={{ slug: project.slug }}
-                    className="rounded-3xl border border-border bg-card p-7 md:p-8 shadow-sm hover:border-accent/60 transition-all"
+                    className="group rounded-3xl border border-border bg-card p-7 md:p-8 shadow-sm hover:border-accent/60 transition-all overflow-hidden block"
                   >
                     <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
+                      {PROJECT_IMAGE_URLS[project.slug] && (
+                        <div className="lg:col-span-2 -mx-7 -mt-7 md:-mx-8 md:-mt-8 mb-2 overflow-hidden rounded-t-3xl bg-card">
+                          <img
+                            src={PROJECT_IMAGE_URLS[project.slug]}
+                            alt={project.title}
+                            className="w-full max-h-[480px] object-contain transition-transform duration-500 group-hover:scale-[1.02]"
+                          />
+                        </div>
+                      )}
                       <div>
                         <div className="flex items-start justify-between gap-4">
                           <div className="flex flex-wrap items-center gap-2">

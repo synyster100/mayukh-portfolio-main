@@ -8,6 +8,7 @@ export type Project = {
   category: ProjectCategory;
   location?: { lng: number; lat: number; label: string };
   year?: string;
+  image?: string; // path relative to /public, e.g. "/images/projects/my-image.jpg"
   overview: string;
   highlights: string[];
   workflow: string[];
@@ -57,6 +58,7 @@ export const PROJECTS: Project[] = [
     category: "Remote Sensing",
     location: { lng: 90.43, lat: 24.2, label: "Sreepur, Gazipur" },
     year: "Topographic Survey Project",
+    image: "/images/projects/uav-topographic-survey-rbd.jpg",
     overview:
       "This applied survey project transformed UAV imagery into topographic mapping outputs to support resort land development and site planning.",
     highlights: [

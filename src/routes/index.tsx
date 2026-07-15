@@ -28,6 +28,7 @@ import {
 import { useReveal, useCountUp, useInView } from "@/hooks/use-reveal";
 import ProjectMap from "@/components/ProjectMap";
 import { PROJECT_CATEGORIES, PROJECTS } from "@/data/projects";
+import { PROJECT_IMAGE_URLS } from "@/assets/project-images";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -922,55 +923,59 @@ function Projects() {
 }
 
 function WorldMap() {
-  const locationMap = new Map<string, { lng: number; lat: number; label: string; projects?: string[]; journalPublications?: string[]; conferencePublications?: string[] }>();
+  const locationMap = new Map<string, { lng: number; lat: number; label: string; image?: string; projects?: { title: string; url: string | null }[]; journalPublications?: { title: string; url: string | null }[]; conferencePublications?: { title: string; url: string | null }[] }>();
 
-  // Add project points
+  // Add project points — link to internal detail page
   PROJECTS.forEach((project) => {
     if (!project.location) return;
 
     const key = `${project.location.lng}-${project.location.lat}`;
     const existing = locationMap.get(key);
+    const item = { title: project.title, url: `/projects/${project.slug}` };
 
     if (existing) {
-      existing.projects = [...(existing.projects || []), project.title];
+      existing.projects = [...(existing.projects || []), item];
     } else {
       locationMap.set(key, {
         ...project.location,
-        projects: [project.title],
+        image: PROJECT_IMAGE_URLS[project.slug],
+        projects: [item],
       });
     }
   });
 
-  // Add publication points from JOURNAL (amber markers)
+  // Add publication points from JOURNAL (amber markers) — link to external DOI/PDF
   JOURNAL.forEach((pub) => {
     if (!("location" in pub) || !pub.location) return;
 
     const key = `${pub.location.lng}-${pub.location.lat}`;
     const existing = locationMap.get(key);
+    const item = { title: pub.title, url: pub.link ?? null };
 
     if (existing) {
-      existing.journalPublications = [...(existing.journalPublications || []), pub.title];
+      existing.journalPublications = [...(existing.journalPublications || []), item];
     } else {
       locationMap.set(key, {
         ...pub.location,
-        journalPublications: [pub.title],
+        journalPublications: [item],
       });
     }
   });
 
-  // Add publication points from CONFERENCE (rose markers)
+  // Add publication points from CONFERENCE (rose markers) — link to external DOI/PDF
   CONFERENCE.forEach((pub) => {
     if (!("location" in pub) || !pub.location) return;
 
     const key = `${pub.location.lng}-${pub.location.lat}`;
     const existing = locationMap.get(key);
+    const item = { title: pub.title, url: pub.link ?? null };
 
     if (existing) {
-      existing.conferencePublications = [...(existing.conferencePublications || []), pub.title];
+      existing.conferencePublications = [...(existing.conferencePublications || []), item];
     } else {
       locationMap.set(key, {
         ...pub.location,
-        conferencePublications: [pub.title],
+        conferencePublications: [item],
       });
     }
   });
