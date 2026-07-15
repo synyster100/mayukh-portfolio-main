@@ -288,36 +288,35 @@ const SKILL_GROUPS = [
   {
     group: "GIS & Remote Sensing",
     items: [
-      ["ArcGIS Pro", 92],
-      ["ArcMap", 88],
-      ["Google Earth Engine", 90],
-    ] as [string, number][],
+      { name: "ArcGIS Pro" },
+      { name: "QGIS" },
+      { name: "Google Earth Engine" },
+    ],
   },
   {
-    group: "Hydrological Modeling",
+    group: "Engineering & Design",
     items: [
-      ["HEC-RAS", 82],
-      ["SWMM", 85],
-      ["EPANET", 78],
-      ["eTank", 74],
-    ] as [string, number][],
+      { name: "AutoCAD" },
+      { name: "ETABS" },
+      { name: "PLAXIS" },
+    ],
   },
   {
-    group: "Engineering Software",
+    group: "Hydrological Modelling",
     items: [
-      ["AutoCAD 2D & 3D", 94],
-      ["ETABS", 78],
-      ["PLAXIS 2D", 80],
-      ["PLAXIS 3D", 72],
-    ] as [string, number][],
+      { name: "HEC-RAS" },
+      { name: "EPANET" },
+      { name: "eTank" },
+      { name: "SWMM" },
+    ],
   },
   {
-    group: "Programming",
+    group: "Programming Languages",
     items: [
-      ["Python", 86],
-      ["JavaScript", 72],
-      ["C++", 68],
-    ] as [string, number][],
+      { name: "Python", level: "Advanced" },
+      { name: "C++", level: "Intermediate" },
+      { name: "JavaScript", level: "Basic" },
+    ],
   },
 ];
 
@@ -1165,32 +1164,38 @@ function Education() {
 /* ---------- Skills ---------- */
 
 function Skills() {
-  const { ref, inView } = useInView<HTMLDivElement>();
+  const ref = useReveal<HTMLDivElement>();
   return (
     <section id="skills" className="py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHeader eyebrow="07 · Skills" title="Technical toolkit" />
-        <div ref={ref} className="mt-14 grid md:grid-cols-2 gap-x-12 gap-y-12">
+        <div ref={ref} className="reveal mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {SKILL_GROUPS.map((g) => (
-            <div key={g.group}>
-              <div className="text-xs uppercase tracking-widest text-accent">
+            <div
+              key={g.group}
+              className="p-6 rounded-2xl border border-border bg-card/40 backdrop-blur-sm"
+            >
+              <h3 className="text-xs uppercase tracking-widest text-accent font-semibold mb-5 border-b border-border pb-3">
                 {g.group}
-              </div>
-              <div className="mt-5 space-y-4">
-                {g.items.map(([name, pct]) => (
-                  <div key={name}>
-                    <div className="flex justify-between text-sm">
-                      <span>{name}</span>
-                      <span className="font-mono text-muted-foreground">
-                        {pct}%
+              </h3>
+              <div className="flex flex-col gap-3">
+                {g.items.map((item) => (
+                  <div
+                    key={item.name}
+                    className="flex items-center justify-between py-1 border-b border-border/20 last:border-0"
+                  >
+                    <span className="text-sm text-foreground/85 font-medium">{item.name}</span>
+                    {"level" in item && item.level && (
+                      <span className={`text-[9px] uppercase font-mono tracking-wider px-2 py-0.5 rounded-md font-semibold ${
+                        item.level === "Advanced"
+                          ? "bg-accent/10 text-accent border border-accent/20"
+                          : item.level === "Intermediate"
+                          ? "bg-amber-500/10 text-amber-500 border border-amber-500/20"
+                          : "bg-muted text-muted-foreground border border-border"
+                      }`}>
+                        {item.level}
                       </span>
-                    </div>
-                    <div className="mt-2 h-1.5 rounded-full bg-secondary overflow-hidden">
-                      <div
-                        className="h-full bg-gradient-to-r from-primary to-accent rounded-full transition-all duration-[1400ms] ease-out"
-                        style={{ width: inView ? `${pct}%` : "0%" }}
-                      />
-                    </div>
+                    )}
                   </div>
                 ))}
               </div>
