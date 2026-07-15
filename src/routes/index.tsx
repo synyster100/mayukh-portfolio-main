@@ -1005,7 +1005,7 @@ function Experience() {
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHeader
           eyebrow="05 · Experience"
-          title="Professional & research timeline"
+          title="Professional Experience"
         />
         <div ref={ref} className="reveal mt-14 relative">
           <div className="absolute left-3 md:left-1/2 top-0 bottom-0 w-px bg-border" />
