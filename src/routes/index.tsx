@@ -261,6 +261,21 @@ const TIMELINE = [
       "Used AutoCAD LISPs for soil cut-and-fill calculations and Excel for engineering data analysis."
     ],
   },
+  {
+    category: "internship",
+    year: "Jul 2023 — Aug 2023",
+    role: "Civil Engineering Intern",
+    org: "Protiti. Architects & Engineers Ltd.",
+    bullets: [
+      "Gained practical knowledge and insights in Structural and Construction Engineering.",
+      "Developed proficiency in creating and interpreting construction drawings.",
+      "Enhanced client relations skills through direct interactions and project discussions.",
+      "Conducted and participated in construction site inspections to ensure compliance with design specifications and safety standards.",
+      "Improved AutoCAD skills, including drafting and designing structural elements.",
+      "Learned to prepare and manage Bills of Quantities (BOQ) for various projects.",
+      "Collaborated with experienced industry professionals, learning best practices and innovative techniques."
+    ],
+  },
 ];
 
 const SKILL_GROUPS = [
