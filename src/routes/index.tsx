@@ -200,56 +200,65 @@ const PROJECT_FILTERS = ["All", ...PROJECT_CATEGORIES] as const;
 
 const TIMELINE = [
   {
+    category: "professional",
     year: "Oct 2025 — Present",
     role: "Outside Plant Engineer — Civil Infrastructure (Remote)",
-    org: "SKARION Engineering",
+    org: "SKARION Engineering, Virginia, USA",
     bullets: [
-      "Designed 400,000+ ft of XGS-PON fiber networks",
-      "Completed 500+ residential fiber deployments",
-      "Authored HLD/LLD packages, BOM documentation",
-      "Aerial & underground OSP designs in ArcGIS Pro and AutoCAD",
-      "Ensured NESC and NEC compliance",
-      "Mentored 25+ junior engineers",
+      "Designed 400,000+ ft (500+ residential fiber deployments) of XGS-PON fiber networks, HLD/LLD packages and detailed BOMs.",
+      "Delivered end-to-end OSP designs (aerial & underground) using ArcGIS Pro and AutoCAD, ensuring full compliance with NESC/NEC standards across projects in Williamson County, TX and North Carolina markets (Holly Springs, Greensboro).",
+      "Mentored 25+ junior designers, cutting onboarding time by ~50% and improving overall team delivery efficiency."
     ],
   },
   {
-    year: "Feb 2026 — Jun 2026",
-    role: "Research Assistant",
-    org: "North South University",
+    category: "teaching-research",
+    year: "Jan 2026 — Jun 2026",
+    role: "Research Assistant (RA)",
+    org: "North South University, Dhaka, Bangladesh",
     bullets: [
-      "Developed Advanced Foundation Analysis course materials",
-      "Applied FEM-based numerical modeling",
-      "Conducted PRISMA-ScR reviews synthesizing 500+ sources",
-      "Contributed to journal & book chapter publications",
+      "Collaborated with faculty at the Department of Civil and Environmental Engineering to develop course materials for the Advanced Foundation Analysis course, applying FEM-based numerical modeling to analyze soil–structure interaction and evaluate foundation performance under complex loading scenarios.",
+      "Contributed to a review paper using a PRISMA-ScR-based scoping review on urban environmental infrastructure governance and a book chapter on sustainable construction materials, conducting large-scale literature synthesis (500+ sources) and supporting technical writing and content development."
     ],
   },
   {
+    category: "teaching-research",
     year: "Jan 2025 — Present",
     role: "Instructor",
-    org: "LEAD Academy",
+    org: "LEAD Academy, Dhaka, BD",
     bullets: [
-      "Designed AutoCAD curriculum — 13 modules",
-      "Produced 87 video lectures",
-      "Built 30 quizzes & 4 capstone projects",
+      "Developed an AutoCAD course with 13 learning modules with 87 video lectures (9+ hours) with 30 quizzes and 4 final projects. <a href='https://leadacademy.com/' target='_blank' rel='noopener' class='text-accent hover:underline'>Course Link</a> (Published on November, 2025)."
     ],
   },
   {
+    category: "teaching-research",
     year: "Apr 2025 — Present",
     role: "AutoCAD Instructor",
-    org: "Caturjo Architecture Academy",
+    org: "Caturjo Architecture Academy, Chattogram, Bangladesh",
     bullets: [
-      "Delivered 10-week AutoCAD training",
-      "Trained industry professionals & polytechnic graduates",
-      "Conducted webinars & live Q&A sessions",
+      "Delivered a structured 10-week (10+ hours) AutoCAD training program for industry professionals on civil engineering drafting practices in compliance with BNBC 2020 standards and provided learning materials accordingly.",
+      "Trained 20 polytechnic graduate students, conducted live Q&A sessions and webinars."
     ],
   },
   {
+    category: "teaching-research",
     year: "Nov 2023 — Oct 2025",
-    role: "Chief Instructor — AutoCAD",
-    org: "IUT CAD Society",
+    role: "Chief Instructor: AutoCAD",
+    org: "IUT CAD Society, Gazipur, Bangladesh",
     bullets: [
-      "Taught batches of 30+ students online and offline",
-      "Head Organizer, Drafting Contest 2025 (104 participants)",
+      "Taken live classes of a batch of over 30 undergrad students from various departments both online and offline.",
+      "Made the question paper and managed 104 participants as the Head Organizer of the Drafting Contest in the Cennovation 2025."
+    ],
+  },
+  {
+    category: "internship",
+    year: "Jun 2024 — Jul 2024",
+    role: "Industrial Trainee",
+    org: "DOHWA Engineering Co. Ltd., Dhaka, Bangladesh",
+    bullets: [
+      "Participated in 6 different heritage site restoration projects and construction site inspections inside Dhaka.",
+      "Attended 2 interim workshops on coastal, water resource, and transportation engineering at Bangladesh Inland Water Transport Corporation (BIWTC) Headquarters and Roads and Highways Department (RHD).",
+      "Used GIS for road network mapping and rural infrastructure planning through the ‘Western Economic Corridor & Regional Enhancement Program (WeCARE) Phase-I: Rural Connectivity, Market and Logistic Infrastructure Improvement Project’",
+      "Used AutoCAD LISPs for soil cut-and-fill calculations and Excel for engineering data analysis."
     ],
   },
 ];
@@ -1000,6 +1009,12 @@ function WorldMap() {
 
 function Experience() {
   const ref = useReveal<HTMLDivElement>();
+  const [activeTab, setActiveTab] = useState<"all" | "professional" | "teaching-research" | "internship">("all");
+
+  const filteredTimeline = TIMELINE.filter(
+    (t) => activeTab === "all" || t.category === activeTab
+  );
+
   return (
     <section id="experience" className="py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
@@ -1007,10 +1022,34 @@ function Experience() {
           eyebrow="05 · Experience"
           title="Professional Experience"
         />
+
+        <div className="mt-10 flex flex-wrap items-center gap-2 border-b border-border">
+          {(
+            [
+              ["all", "All Experience"],
+              ["professional", "Professional"],
+              ["teaching-research", "Teaching & Research"],
+              ["internship", "Internships"],
+            ] as const
+          ).map(([key, label]) => (
+            <button
+              key={key}
+              onClick={() => setActiveTab(key)}
+              className={`px-5 py-3 text-sm transition-colors border-b-2 -mb-px ${
+                activeTab === key
+                  ? "border-accent text-foreground"
+                  : "border-transparent text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              {label}
+            </button>
+          ))}
+        </div>
+
         <div ref={ref} className="reveal mt-14 relative">
           <div className="absolute left-3 md:left-1/2 top-0 bottom-0 w-px bg-border" />
           <div className="space-y-12">
-            {TIMELINE.map((t, i) => (
+            {filteredTimeline.map((t, i) => (
               <div
                 key={i}
                 className={`relative md:grid md:grid-cols-2 md:gap-12 ${
@@ -1026,11 +1065,11 @@ function Experience() {
                   <div className="text-sm text-foreground/70">{t.org}</div>
                 </div>
                 <div className="pl-10 md:pl-10 mt-3 md:mt-0">
-                  <ul className="space-y-1.5 text-sm text-foreground/80">
-                    {t.bullets.map((b) => (
-                      <li key={b} className="flex gap-2">
-                        <span className="text-accent">→</span>
-                        {b}
+                  <ul className="space-y-2 text-sm text-foreground/80 leading-relaxed">
+                    {t.bullets.map((b, idx) => (
+                      <li key={idx} className="flex gap-2">
+                        <span className="text-accent shrink-0">→</span>
+                        <span dangerouslySetInnerHTML={{ __html: b }} />
                       </li>
                     ))}
                   </ul>
