@@ -134,7 +134,7 @@ const CONFERENCE = [
   {
     authors: "<strong>Mayukh, A. A.</strong>, Chowdhury, M. S.",
     title: "GIS-Based Multi-Temporal Land Cover Dynamics in Terrell County, Texas: Assessing Oil-Driven Desertification and Rangeland Resilience (2001–2021)",
-    venue: "ASCE 202",
+    venue: "ASCE 2027",
     year: 2025,
     status: "[Accepted for presentation]",
     location: { lng: -101.9500, lat: 30.2200, label: "Terrell County, Texas, USA" },
