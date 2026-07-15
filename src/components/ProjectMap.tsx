@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 
-type Point = { lng: number; lat: number; label: string; projects: string[] };
+type Point = { lng: number; lat: number; label: string; projects?: string[]; publications?: string[] };
 
 function escapeHtml(value: string) {
   return value
@@ -12,19 +12,37 @@ function escapeHtml(value: string) {
 }
 
 function getTooltipContent(point: Point) {
-  const projectItems = point.projects
-    .map((project) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(project)}</li>`)
-    .join("");
-
-  return `
+  let content = `
     <div style="font-family:Inter,ui-sans-serif,system-ui,sans-serif; font-size:14px; line-height:1.6; color:#f8fafc; min-width:260px; padding:12px">
       <div style="font-size:11px; letter-spacing:0.15em; text-transform:uppercase; color:#a855f7; margin-bottom:8px; font-weight:600">${escapeHtml(point.label)}</div>
+  `;
+
+  if (point.projects && point.projects.length > 0) {
+    const projectItems = point.projects
+      .map((project) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(project)}</li>`)
+      .join("");
+    content += `
       <div style="font-size:13px; font-weight:600; margin-bottom:8px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,0.3); padding-bottom:6px">Projects</div>
-      <ul style="margin:0; padding-left:0; list-style:none">
+      <ul style="margin:0; padding-left:0; list-style:none; margin-bottom:8px">
         ${projectItems}
       </ul>
-    </div>
-  `;
+    `;
+  }
+
+  if (point.publications && point.publications.length > 0) {
+    const publicationItems = point.publications
+      .map((publication) => `<li style="margin:0; padding:4px 0; border-bottom:1px solid rgba(148,163,184,0.2)">&bull; ${escapeHtml(publication)}</li>`)
+      .join("");
+    content += `
+      <div style="font-size:13px; font-weight:600; margin-bottom:8px; color:#cbd5e1; border-bottom:1px solid rgba(148,163,184,0.3); padding-bottom:6px">Publications</div>
+      <ul style="margin:0; padding-left:0; list-style:none">
+        ${publicationItems}
+      </ul>
+    `;
+  }
+
+  content += `</div>`;
+  return content;
 }
 
 declare global {
@@ -141,6 +159,10 @@ export default function ProjectMap({ points }: { points: Point[] }) {
             center: { lat: 20, lng: -20 },
             zoom: 2,
             minZoom: 2,
+            restriction: {
+              latLngBounds: { north: 85, south: -85, west: -180, east: 180 },
+              strictBounds: true
+            },
             mapTypeId: "hybrid",
             tilt: 45,
             heading: 0,
@@ -165,7 +187,7 @@ export default function ProjectMap({ points }: { points: Point[] }) {
             const marker = new g.maps.Marker({
               map,
               position: pos,
-              title: `${p.label}: ${p.projects.join(", ")}`,
+              title: `${p.label}: ${[...(p.projects || []), ...(p.publications || [])].join(", ")}`,
               animation: g.maps.Animation.DROP,
             });
             marker.addListener("mouseover", () => {
@@ -264,6 +286,8 @@ export default function ProjectMap({ points }: { points: Point[] }) {
             maxZoom: 18,
             zoomControl: true,
             scrollWheelZoom: true,
+            maxBounds: [[-85, -180], [85, 180]], // Restrict view
+            maxBoundsViscosity: 1.0
           });
           leafletMapRef.current = map;
 

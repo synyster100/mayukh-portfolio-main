@@ -71,72 +71,129 @@ const STATS = [
 ];
 
 const INTERESTS = [
+  { icon: Leaf, label: "Geoenvironmental Engineering" },
   { icon: MapIcon, label: "GIS & Remote Sensing" },
+  { icon: Droplets, label: "Flood Risk Management" },
+  { icon: Compass, label: "Shoreline Dynamics" },
   { icon: BrainCircuit, label: "GeoAI" },
-  { icon: Leaf, label: "Environmental Monitoring" },
-  { icon: CloudRain, label: "Climate Change" },
-  { icon: Droplets, label: "Flood Risk Analysis" },
-  { icon: Mountain, label: "Ecohydrological Modeling" },
-  { icon: Cpu, label: "ML for Geospatial Analysis" },
-  { icon: Compass, label: "Disaster Management Systems" },
-  { icon: Building2, label: "Urban Environmental Infrastructure" },
-  { icon: Layers, label: "Sustainable Construction Materials" },
+  { icon: Satellite, label: "Disaster Management" },
+  { icon: Layers, label: "Environmental Modelling" },
 ];
 
 const JOURNAL = [
   {
-    title:
-      "Spatiotemporal Shoreline Change Assessment And Machine Learning Projections For Coastal Louisiana",
-    venue: "Geodata and AI",
-    year: 2025,
+    authors: "Ahmed, M. F., Sadik, M. S., <strong>Mayukh, A. A.</strong>, Labib, M. I.",
+    title: "Governance Models for Urban Environmental Infrastructure in the Global South: A Scoping Review of Socio-Economic Implications for Pathways to Sustainable Cities (SDG 11) and Institutional Partnerships (SDG 17)",
+    venue: "Journal of Lifestyle & SDGs Review. 6, e08255, 1-21",
+    year: 2026,
+    link: "https://doi.org/10.47172/2965-730X.SDGsReview.v6.n05.pe08255",
   },
   {
-    title: "Improvement Of Engineering Properties Of Different Materials Using Microbial Treatment",
-    venue: "Journal of Harbin Engineering University",
+    authors: "Chowdhury, M. S., <strong>Mayukh, A. A.</strong> & Kim, Y. J.",
+    title: "Spatiotemporal Shoreline Change Assessment And Machine Learning Projections For Coastal Louisiana",
+    venue: "Geodata and AI, Vol. 7, Article 100089",
+    year: 2025,
+    location: { lng: -92.7299, lat: 29.9511, label: "Louisiana, USA" },
+    link: "https://doi.org/10.1016/j.geoai.2026.100089",
+  },
+  {
+    authors: "Azad, S. B., Chowdhury, M. I., Sinha, R., & <strong>Mayukh, A. A.</strong>",
+    title: "Improvement Of Engineering Properties Of Different Materials Using Microbial Treatment - A Review",
+    venue: "Journal of Harbin Engineering University, 45(1), Article 01. 84-92",
     year: 2024,
+    link: "https://harbinengineeringjournal.com/index.php/journal/article/view/2295",
+  },
+  {
+    authors: "<strong>Mayukh, A. A.</strong>",
+    title: "Analyzing the Traffic Efficiency and Environmental Impact of the Cloverleaf Interchange at Bhanga, Bangladesh by Simulation",
+    venue: "Journal of Civil Engineering (IEB). 51(2), 81-86",
+    year: 2023,
+    location: { lng: 89.9771, lat: 23.3966, label: "Bhanga, Bangladesh" },
+    link: "https://jce-ieb.org/doc_file/5102002.pdf",
   },
 ];
 
 const CONFERENCE = [
   {
-    title: "GeoAI‑Enabled Remote Sensing Framework for Shoreline Change Forecasting at Pensacola Beach, Florida",
-    venue: "The 2026 World Congress on Advances in Civil, Environmental, & Materials Research (ACEM26)",
+    authors: "<strong>Mayukh, A. A.</strong>, Chowdhury, M. S., Kim, Y. J.",
+    title: "Comparative Machine Learning and Explainable Flood Susceptibility Mapping in Humphreys County, Tennessee Using AHP and SHAP",
+    venue: "ACEM26",
     year: 2026,
+    status: "[Accepted for presentation]",
+    location: { lng: -87.8803, lat: 35.8703, label: "Humphreys County, Tennessee, USA" },
+    link: null,
   },
   {
-    title: "GIS-Based Multi-Temporal Land Cover Dynamics in Terrell County, Texas",
-    venue: "Unknown",
-    year: 2024,
+    authors: "Chowdhury, M. S., <strong>Mayukh, A. A.</strong>, Kim, Y. J., An, J., Nam, B. H.",
+    title: "GeoAI-Enabled Remote Sensing Framework for Shoreline Change Forecasting at Pensacola Beach, Florida",
+    venue: "ACEM26",
+    year: 2026,
+    status: "[Accepted for presentation]",
+    location: { lng: -87.1370, lat: 30.3349, label: "Pensacola Beach, Florida, USA" },
+    link: null,
   },
   {
-    title: "Hybrid Hydro-Geomorphic AHP Framework for Flash Flood Susceptibility",
-    venue: "Unknown",
-    year: 2024,
+    authors: "<strong>Mayukh, A. A.</strong>, Chowdhury, M. S.",
+    title: "GIS-Based Multi-Temporal Land Cover Dynamics in Terrell County, Texas: Assessing Oil-Driven Desertification and Rangeland Resilience (2001–2021)",
+    venue: "ASCE 202",
+    year: 2025,
+    status: "[Accepted for presentation]",
+    location: { lng: -101.9500, lat: 30.2200, label: "Terrell County, Texas, USA" },
+    link: null,
   },
   {
-    title: "Spatiotemporal Land Cover Change and Inundation Susceptibility in Texas",
-    venue: "Unknown",
-    year: 2024,
+    authors: "<strong>Mayukh, A. A.</strong>, Chowdhury, M. S.",
+    title: "Hybrid Hydro-Geomorphic AHP Framework for Flash Flood Susceptibility: A Case Study of the Limestone Karst Terrain in Kerr County, Texas",
+    venue: "ASCE 2027",
+    year: 2025,
+    status: "[Accepted for presentation]",
+    location: { lng: -99.3500, lat: 30.0500, label: "Kerr County, Texas, USA" },
+    link: null,
   },
   {
-    title: "Flood Susceptibility Mapping in San Antonio Using AHP-GIS",
-    venue: "Unknown",
-    year: 2024,
+    authors: "Chowdhury, M. S., <strong>Mayukh, A. A.</strong>",
+    title: "Spatiotemporal Land Cover Change from 2003 to 2023 and 2033 Projections for Topography Derived Inundation Susceptibility in El Paso County, Texas",
+    venue: "ASCE 2027",
+    year: 2025,
+    status: "[Accepted for presentation]",
+    location: { lng: -104.8214, lat: 31.7619, label: "El Paso County, Texas, USA" },
+    link: null,
   },
   {
-    title: "Flood Susceptibility Assessment in Bangladesh Using SPI-GIS Framework",
-    venue: "Unknown",
-    year: 2024,
+    authors: "<strong>Mayukh, A. A.</strong>, Chowdhury, M. S., Kim, Y. J. & Youn, S.",
+    title: "Flood Susceptibility Mapping In San Antonio, Texas Using Multi-Criteria AHP-GIS Integration",
+    venue: "International Geoscience and Remote Sensing Symposium (IGARSS 2026)",
+    year: 2025,
+    status: "[Accepted for presentation]",
+    location: { lng: -98.4936, lat: 29.4241, label: "San Antonio, Texas, USA" },
+    link: null,
   },
   {
-    title: "Rooftop Solar Adoption in Dhaka Residential Sector",
-    venue: "Unknown",
-    year: 2024,
+    authors: "Prantor, R., <strong>Mayukh, A. A.</strong>, Abid, R. N., Rimi, N. N., Sharaf, K., Fariha, Z., & Joy, R.",
+    title: "Assessment Of Flood Susceptibility In Bangladesh: Integrating SPI Into A GIS-AHP Decision Framework",
+    venue: "International Conference on Civil Engineering Research & Innovations 2025 (ICCEI 2025) (pp. 1370-1375)",
+    year: 2025,
+    status: "",
+    location: { lng: 90.3563, lat: 23.6850, label: "Bangladesh" },
+    link: "https://icceiruet.org/wp-content/uploads/2025/12/98_Camera-Ready-Final-Paper_ICCEI-2025.pdf",
   },
   {
-    title: "Turbidity Dynamics and Urban Expansion in the Buriganga River",
-    venue: "Unknown",
-    year: 2024,
+    authors: "Nishat, M. H., Labib, A., Khan, N. M., Muntaha, S., & <strong>Mayukh, A. A.</strong>",
+    title: "Challenges And Opportunities For Implementing Rooftop Solar In Dhaka’s Residential Sector",
+    venue: "International Conference on Engineering Research, Innovation, and Education 2025 (ICERIE 2025) (pp. 239-245). Atlantis Press",
+    year: 2025,
+    status: "",
+    location: { lng: 90.3800, lat: 23.7100, label: "Dhaka, Bangladesh" },
+    link: "https://doi.org/10.2991/978-94-6463-884-4_29",
+  },
+  {
+    authors: "<strong>Mayukh, A. A.</strong>, & Labib, A.",
+    title: "A Decadal GIS-Based Analysis Of Turbidity Dynamics And Urban Expansion In The Buriganga River (2013–2023)",
+    venue: "Poster Presentation Segment, Cennovation 2025, Dhaka, Bangladesh",
+    year: 2025,
+    status: "",
+    location: { lng: 90.3800, lat: 23.7000, label: "Buriganga River, Dhaka, Bangladesh" },
+    link: "https://www.researchgate.net/publication/398942866_A_Decadal_GIS-Based_Analysis_of_Turbidity_Dynamics_and_Urban_Expansion_in_the_Buriganga_River_2013-2023",
   },
 ];
 
@@ -145,8 +202,8 @@ const PROJECT_FILTERS = ["All", ...PROJECT_CATEGORIES] as const;
 const TIMELINE = [
   {
     year: "Oct 2025 — Present",
-    role: "Outside Plant Engineer — Civil Infrastructure",
-    org: "SKARION Engineering Services Ltd, Virginia, USA",
+    role: "Outside Plant Engineer — Civil Infrastructure (Remote)",
+    org: "SKARION Engineering",
     bullets: [
       "Designed 400,000+ ft of XGS-PON fiber networks",
       "Completed 500+ residential fiber deployments",
@@ -389,9 +446,7 @@ function Hero() {
             <span className="text-primary">.</span>
           </h1>
           <p className="mt-8 text-base md:text-lg text-muted-foreground max-w-2xl text-pretty">
-            Civil Engineer · GIS & Remote Sensing Researcher · GeoAI Enthusiast.
-            Transforming geospatial data into actionable insights for environmental
-            sustainability, climate resilience, and infrastructure planning.
+            Civil and Environmental Engineer · Geospatial Data Analyst · GeoAI Researcher. Transforming geospatial data into actionable insights for geoenvironmental engineering, environmental sustainability, climate resilience, and flood risk management.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <a
@@ -432,7 +487,7 @@ function Hero() {
               Currently
             </div>
             <p className="mt-3 font-display text-2xl leading-tight">
-              Outside Plant Engineer at SKARION & Research Assistant at NSU.
+              Outside Plant Engineer at SKARION Engineering & Former Research Assistant at NSU
             </p>
             <div className="mt-5 border-t border-border pt-4 text-sm text-muted-foreground space-y-2">
               <div className="flex items-center gap-2">
@@ -441,8 +496,8 @@ function Hero() {
               <div className="flex items-center gap-2">
                 <GraduationCap className="w-4 h-4" /> B.Sc. Civil Engineering, IUT
               </div>
-              <div className="flex items-center gap-2">
-                <Globe2 className="w-4 h-4" /> Geoenvironmental focus
+              <div className="flex items-start gap-2">
+                <Globe2 className="w-4 h-4 mt-0.5" /> Research Focus: Geoenvironmental Engineering, GIS & Remote Sensing, Flood Risk Management, Shoreline Dynamics, GeoAI, Disaster Management, Environmental Modelling
               </div>
             </div>
           </div>
@@ -454,13 +509,13 @@ function Hero() {
         <div className="flex gap-12 py-4 animate-marquee whitespace-nowrap font-display text-2xl text-muted-foreground">
           {[...Array(2)].flatMap((_, i) =>
             [
+              "Geoenvironmental Engineering",
               "GIS & Remote Sensing",
+              "Flood Risk Management",
+              "Shoreline Dynamics",
               "GeoAI",
-              "Flood Risk",
-              "Climate Resilience",
-              "Ecohydrology",
-              "Machine Learning",
-              "Sustainable Infrastructure",
+              "Disaster Management",
+              "Environmental Modelling",
             ].map((t, j) => (
               <span key={`${i}-${j}`} className="flex items-center gap-12">
                 {t} <span className="text-accent">◆</span>
@@ -655,19 +710,28 @@ function Publications() {
                   <div className="md:col-span-1 font-mono text-sm text-muted-foreground">
                     {p.year}
                   </div>
-                  <div className="md:col-span-9">
+                  <div className="md:col-span-8">
+                    <p
+                      className="text-sm text-muted-foreground mb-2"
+                      dangerouslySetInnerHTML={{ __html: p.authors }}
+                    />
                     <h3 className="font-display text-2xl leading-snug">{p.title}</h3>
                     <p className="mt-2 text-sm text-muted-foreground italic">
                       {p.venue}
                     </p>
                   </div>
-                  <div className="md:col-span-2 md:text-right">
-                    <a
-                      href="#"
-                      className="inline-flex items-center gap-1 text-sm text-foreground/80 hover:text-accent transition-colors"
-                    >
-                      DOI <ExternalLink className="w-3.5 h-3.5" />
-                    </a>
+                  <div className="md:col-span-3 md:text-right">
+                    {p.link && (
+                      <a
+                        href={p.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-sm text-foreground/80 hover:text-accent transition-colors"
+                      >
+                        {p.link.includes("doi.org") ? "DOI" : "LINK"}{" "}
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    )}
                   </div>
                 </article>
               ))
@@ -679,19 +743,29 @@ function Publications() {
                   <div className="md:col-span-1 font-mono text-sm text-muted-foreground">
                     {p.year}
                   </div>
-                  <div className="md:col-span-9">
+                  <div className="md:col-span-8">
+                    <p
+                      className="text-sm text-muted-foreground mb-2"
+                      dangerouslySetInnerHTML={{ __html: p.authors }}
+                    />
                     <h3 className="font-display text-xl leading-snug">{p.title}</h3>
                     <p className="mt-2 text-sm text-muted-foreground italic">
                       {p.venue}
+                      {p.status && <span className="ml-2">{p.status}</span>}
                     </p>
                   </div>
-                  <div className="md:col-span-2 md:text-right">
-                    <a
-                      href="#"
-                      className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-accent transition-colors"
-                    >
-                      <FileText className="w-4 h-4" />
-                    </a>
+                  <div className="md:col-span-3 md:text-right">
+                    {p.link && (
+                      <a
+                        href={p.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-accent transition-colors"
+                      >
+                        {p.link.includes("doi.org") ? "DOI" : "LINK"}{" "}
+                        <ExternalLink className="w-3.5 h-3.5" />
+                      </a>
+                    )}
                   </div>
                 </article>
               ))}
@@ -852,30 +926,66 @@ function Projects() {
 }
 
 function WorldMap() {
-  const points = Array.from(
-    PROJECTS.reduce((locations, project) => {
-      if (!project.location) return locations;
+  const locationMap = new Map<string, { lng: number; lat: number; label: string; projects?: string[]; publications?: string[] }>();
 
-      const key = `${project.location.lng}-${project.location.lat}`;
-      const existing = locations.get(key);
+  // Add project points
+  PROJECTS.forEach((project) => {
+    if (!project.location) return;
 
-      if (existing) {
-        existing.projects.push(project.title);
-        return locations;
-      }
+    const key = `${project.location.lng}-${project.location.lat}`;
+    const existing = locationMap.get(key);
 
-      locations.set(key, {
+    if (existing) {
+      existing.projects = [...(existing.projects || []), project.title];
+    } else {
+      locationMap.set(key, {
         ...project.location,
         projects: [project.title],
       });
-      return locations;
-    }, new Map<string, { lng: number; lat: number; label: string; projects: string[] }>()).values(),
-  );
+    }
+  });
+
+  // Add publication points from JOURNAL
+  JOURNAL.forEach((pub) => {
+    if (!("location" in pub) || !pub.location) return;
+
+    const key = `${pub.location.lng}-${pub.location.lat}`;
+    const existing = locationMap.get(key);
+
+    if (existing) {
+      existing.publications = [...(existing.publications || []), pub.title];
+    } else {
+      locationMap.set(key, {
+        ...pub.location,
+        publications: [pub.title],
+      });
+    }
+  });
+
+  // Add publication points from CONFERENCE
+  CONFERENCE.forEach((pub) => {
+    if (!("location" in pub) || !pub.location) return;
+
+    const key = `${pub.location.lng}-${pub.location.lat}`;
+    const existing = locationMap.get(key);
+
+    if (existing) {
+      existing.publications = [...(existing.publications || []), pub.title];
+    } else {
+      locationMap.set(key, {
+        ...pub.location,
+        publications: [pub.title],
+      });
+    }
+  });
+
+  const points = Array.from(locationMap.values());
+
   return (
     <div className="mt-12 relative rounded-2xl border border-border bg-card overflow-hidden">
       <div className="absolute top-4 left-4 z-10 text-xs uppercase tracking-widest text-muted-foreground flex items-center gap-2 bg-background/80 backdrop-blur px-3 py-1.5 rounded-full border border-border">
         <Satellite className="w-3.5 h-3.5 text-accent" />
-        Project locations
+        Project & publication locations
       </div>
       <div className="relative aspect-[2/1] min-h-[420px]">
         <ProjectMap points={points} />
