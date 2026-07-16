@@ -1190,6 +1190,8 @@ function Publications() {
 
 function Projects() {
   const [filter, setFilter] = useState<(typeof PROJECT_FILTERS)[number]>("All");
+  const [showAll, setShowAll] = useState(false);
+
   const groupedProjects = PROJECT_CATEGORIES.map((category) => ({
     category,
     projects: PROJECTS.filter((project) => project.category === category),
@@ -1199,6 +1201,7 @@ function Projects() {
     filter === "All"
       ? groupedProjects
       : groupedProjects.filter(({ category }) => category === filter);
+
   const filterOptions = PROJECT_FILTERS.map((value) => ({
     value,
     count:
@@ -1206,6 +1209,11 @@ function Projects() {
         ? PROJECTS.length
         : groupedProjects.find(({ category }) => category === value)?.projects.length ?? 0,
   }));
+
+  const handleFilterChange = (newFilter: typeof filter) => {
+    setFilter(newFilter);
+    setShowAll(false);
+  };
 
   return (
     <section id="projects" className="py-28 bg-secondary/60">
@@ -1227,7 +1235,7 @@ function Projects() {
           {filterOptions.map(({ value, count }) => (
             <button
               key={value}
-              onClick={() => setFilter(value)}
+              onClick={() => handleFilterChange(value)}
               className={`text-xs uppercase tracking-widest px-4 py-2 rounded-full border transition-colors ${
                 filter === value
                   ? "bg-foreground text-background border-foreground"
@@ -1242,46 +1250,63 @@ function Projects() {
         <div className="mt-8">
           {filter === "All" ? (
             // Render all projects in a single grid without category headers
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-              {PROJECTS.map((p) => (
-                <Link
-                  key={p.title}
-                  to="/projects/$slug"
-                  params={{ slug: p.slug }}
-                  className="group relative rounded-2xl border border-border bg-card p-6 hover:border-accent/60 transition-all hover:-translate-y-1 duration-300 flex flex-col"
-                >
-                  <div className="flex items-start justify-between gap-3">
-                    <div className="flex flex-wrap gap-1.5">
-                      <span className="text-[10px] uppercase tracking-widest text-accent border border-accent/30 px-2 py-0.5 rounded-full">
-                        {p.category}
-                      </span>
+            <div className="space-y-8">
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
+                {PROJECTS.slice(0, showAll ? PROJECTS.length : 6).map((p) => (
+                  <Link
+                    key={p.title}
+                    to="/projects/$slug"
+                    params={{ slug: p.slug }}
+                    className="group relative rounded-2xl border border-border bg-card p-6 hover:border-accent/60 transition-all hover:-translate-y-1 duration-300 flex flex-col"
+                  >
+                    <div className="flex items-start justify-between gap-3">
+                      <div className="flex flex-wrap gap-1.5">
+                        <span className="text-[10px] uppercase tracking-widest text-accent border border-accent/30 px-2 py-0.5 rounded-full">
+                          {p.category}
+                        </span>
+                      </div>
+                      <div className="rounded-full p-1 text-muted-foreground hover:text-accent transition-colors">
+                        <ArrowUpRight className="w-5 h-5 group-hover:rotate-12 transition-all" />
+                      </div>
                     </div>
-                    <div className="rounded-full p-1 text-muted-foreground hover:text-accent transition-colors">
-                      <ArrowUpRight className="w-5 h-5 group-hover:rotate-12 transition-all" />
+                    <h3 className="font-display text-2xl leading-tight mt-5">
+                      {p.title}
+                    </h3>
+                    <p className="mt-3 text-sm text-muted-foreground flex-1">{p.desc}</p>
+                    <div className="mt-5 pt-4 border-t border-border flex flex-wrap gap-1.5">
+                      {p.tech.map((t) => (
+                        <span
+                          key={t}
+                          className="text-[11px] font-mono text-foreground/70 bg-secondary px-2 py-1 rounded"
+                        >
+                          {t}
+                        </span>
+                      ))}
                     </div>
-                  </div>
-                  <h3 className="font-display text-2xl leading-tight mt-5">
-                    {p.title}
-                  </h3>
-                  <p className="mt-3 text-sm text-muted-foreground flex-1">{p.desc}</p>
-                  <div className="mt-5 pt-4 border-t border-border flex flex-wrap gap-1.5">
-                    {p.tech.map((t) => (
-                      <span
-                        key={t}
-                        className="text-[11px] font-mono text-foreground/70 bg-secondary px-2 py-1 rounded"
-                      >
-                        {t}
-                      </span>
-                    ))}
-                  </div>
-                </Link>
-              ))}
+                  </Link>
+                ))}
+              </div>
+
+              {PROJECTS.length > 6 && (
+                <div className="flex justify-center mt-10">
+                  <button
+                    onClick={() => setShowAll(!showAll)}
+                    className="inline-flex items-center gap-2 rounded-full border border-foreground/35 px-6 py-3 text-sm font-semibold hover:bg-foreground hover:text-background transition-all duration-300 hover:scale-[1.02]"
+                  >
+                    {showAll ? (
+                      <>Show Less Projects</>
+                    ) : (
+                      <>View All {PROJECTS.length} Projects</>
+                    )}
+                  </button>
+                </div>
+              )}
             </div>
           ) : (
             // Render projects grouped by category with headers
             <div className="space-y-10">
               {sections.map(({ category, projects }) => (
-                <div key={category}>
+                <div key={category} className="space-y-8">
                   <div className="mb-5 flex items-end justify-between gap-4">
                     <div>
                       <h3 className="font-display text-3xl">{category}</h3>
@@ -1292,7 +1317,7 @@ function Projects() {
                   </div>
 
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
-                    {projects.map((p) => (
+                    {projects.slice(0, showAll ? projects.length : 6).map((p) => (
                       <Link
                         key={p.title}
                         to="/projects/$slug"
@@ -1326,6 +1351,21 @@ function Projects() {
                       </Link>
                     ))}
                   </div>
+
+                  {projects.length > 6 && (
+                    <div className="flex justify-center mt-10">
+                      <button
+                        onClick={() => setShowAll(!showAll)}
+                        className="inline-flex items-center gap-2 rounded-full border border-foreground/35 px-6 py-3 text-sm font-semibold hover:bg-foreground hover:text-background transition-all duration-300 hover:scale-[1.02]"
+                      >
+                        {showAll ? (
+                          <>Show Less Projects</>
+                        ) : (
+                          <>View All {projects.length} Projects</>
+                        )}
+                      </button>
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
