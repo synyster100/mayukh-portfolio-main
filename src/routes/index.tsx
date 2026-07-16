@@ -56,8 +56,9 @@ export const Route = createFileRoute("/")({
 
 const NAV = [
   { id: "about", label: "About" },
+  { id: "education", label: "Education" },
   { id: "research", label: "Research" },
-  { id: "publications", label: "Publications" },
+  { id: "sandbox", label: "Simulation" },
   { id: "projects", label: "Projects" },
   { id: "experience", label: "Experience" },
   { id: "skills", label: "Skills" },
@@ -465,12 +466,12 @@ function Portfolio() {
         <Nav />
         <Hero />
         <About />
+        <Education />
         <Interests />
         <Publications />
-        <Projects />
         <EnvironmentalModelSandbox />
+        <Projects />
         <Experience />
-        <Education />
         <Skills />
         <Leadership />
         <TestScores />
@@ -556,9 +557,9 @@ function Hero() {
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-10 items-end">
         <div className="lg:col-span-8 hero-stage order-2 lg:order-1">
-          <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-muted-foreground mb-6">
+          <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-accent font-bold mb-6">
             <Sparkles className="w-3.5 h-3.5 text-accent" />
-            Portfolio · 2025
+            Geo-Environmental &amp; Spatial Infrastructure
           </div>
           <h1 className="font-display text-[clamp(2.75rem,7vw,6.5rem)] leading-[0.95] tracking-tight text-balance">
             Md Ali Ahnaf
@@ -566,8 +567,8 @@ function Hero() {
             Abid <em className="text-accent not-italic">Mayukh</em>
             <span className="text-primary">.</span>
           </h1>
-          <p className="mt-8 text-base md:text-lg text-muted-foreground max-w-2xl text-pretty">
-            Graduate Civil &amp; Environmental Eng. from IUT | Geospatial Data Analyst | CAD Expert and Instructor | ISCEA Certified Supply Chain Analyst
+          <p className="mt-8 text-base md:text-lg text-muted-foreground max-w-2xl text-pretty leading-relaxed">
+            Civil &amp; Environmental Engineering graduate from IUT specializing in <strong className="text-foreground font-semibold">Water Resources, Geo-environmental modeling, and CAD/GIS systems</strong>. Bridging physical design and spatial data analytics.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <a
@@ -602,20 +603,40 @@ function Hero() {
         <div className="lg:col-span-4 lg:pl-6 order-1 lg:order-2 flex flex-col gap-6">
           <div className="relative">
           </div>
-          <div className="rounded-2xl border border-border bg-card/70 backdrop-blur-sm p-6 shadow-sm">
-            <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-muted-foreground">
+          <div className="rounded-2xl border border-border/80 bg-card/70 backdrop-blur-sm p-6 shadow-lg hover:border-accent/30 transition-colors duration-300">
+            <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-accent font-bold">
               <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
-              Currently
+              Status &amp; Footprint
             </div>
-            <p className="mt-3 font-display text-2xl leading-tight">
-              Outside Plant Engineer at SKARION Engineering & Former Research Assistant at North South University
-            </p>
-            <div className="mt-5 border-t border-border pt-4 text-sm text-muted-foreground space-y-2">
+            <div className="mt-4 space-y-4 text-sm">
+              <div className="flex items-start gap-3">
+                <span className="mt-1.5 w-2 h-2 rounded-full bg-accent shrink-0" />
+                <div>
+                  <div className="font-bold text-foreground">Outside Plant Engineer</div>
+                  <div className="text-muted-foreground text-xs">SKARION Engineering</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="mt-1.5 w-2 h-2 rounded-full bg-amber-500 shrink-0" />
+                <div>
+                  <div className="font-bold text-foreground">Former Research Assistant</div>
+                  <div className="text-muted-foreground text-xs">North South University (NSU)</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3">
+                <span className="mt-1.5 w-2 h-2 rounded-full bg-primary shrink-0" />
+                <div>
+                  <div className="font-bold text-foreground">Civil Engineering Alumnus</div>
+                  <div className="text-muted-foreground text-xs">Islamic University of Technology (IUT)</div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-6 border-t border-border pt-4 text-xs text-muted-foreground space-y-2">
               <div className="flex items-center gap-2">
-                <MapPin className="w-4 h-4" /> Dhaka, Bangladesh
+                <MapPin className="w-3.5 h-3.5 text-accent" /> Dhaka, Bangladesh
               </div>
               <div className="flex items-center gap-2">
-                <GraduationCap className="w-4 h-4" /> B.Sc. Civil Engineering, IUT
+                <GraduationCap className="w-3.5 h-3.5 text-accent" /> B.Sc. Civil Engineering (Oct 2025)
               </div>
             </div>
           </div>
@@ -767,7 +788,7 @@ function Interests() {
   return (
     <section id="research" className="py-28 bg-secondary/60">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <SectionHeader eyebrow="02 · Research" title="Research interests" />
+        <SectionHeader eyebrow="03a · Research interests" title="Research interests" />
         <div
           ref={ref}
           className="reveal mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3"
@@ -797,7 +818,7 @@ function Publications() {
   return (
     <section id="publications" className="py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <SectionHeader eyebrow="03 · Publications" title="Selected publications" />
+        <SectionHeader eyebrow="03b · Publications" title="Selected publications" />
         <div className="mt-10 flex items-center gap-2 border-b border-border">
           {(
             [
@@ -919,7 +940,7 @@ function Projects() {
     <section id="projects" className="py-28 bg-secondary/60">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="flex items-end justify-between gap-6 flex-wrap">
-          <SectionHeader eyebrow="04 · Projects" title="Featured projects" />
+          <SectionHeader eyebrow="05 · Projects" title="Featured projects" />
           <Link
             to="/projects"
             className="inline-flex items-center gap-2 rounded-full border border-foreground/30 px-4 py-2 text-sm text-muted-foreground hover:border-foreground hover:text-foreground transition-colors"
@@ -1132,7 +1153,7 @@ function Experience() {
     <section id="experience" className="py-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHeader
-          eyebrow="05 · Experience"
+          eyebrow="06 · Experience"
           title="Professional Experience"
         />
 
@@ -1213,38 +1234,41 @@ function Experience() {
 
 function Education() {
   return (
-    <section className="py-20 bg-primary text-primary-foreground">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 grid md:grid-cols-12 gap-10 items-start">
-        <div className="md:col-span-4">
-          <div className="text-xs uppercase tracking-widest text-primary-foreground/60">
-            06 · Education
-          </div>
-          <h2 className="font-display text-4xl md:text-5xl mt-3">Education.</h2>
+    <section id="education" className="py-28 relative overflow-hidden border-b border-border/50">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-12 items-start">
+        <div className="lg:col-span-4">
+          <SectionHeader eyebrow="02 · Education" title="Academic foundation" />
+          <p className="text-muted-foreground mt-6 text-base leading-relaxed">
+            Formative training at the intersection of civil engineering theory, environmental mechanics, and computational modeling.
+          </p>
         </div>
-        <div className="md:col-span-8 space-y-6">
-          <div className="border-t border-primary-foreground/20 pt-6">
-            <div className="flex items-baseline justify-between gap-4 flex-wrap">
-              <h3 className="font-display text-3xl">
-                Islamic University of Technology (IUT)
-              </h3>
-              <span className="font-mono text-sm text-primary-foreground/60">
+        <div className="lg:col-span-8 space-y-8">
+          <div className="p-8 rounded-2xl border border-border bg-card/45 backdrop-blur-sm shadow-lg relative group hover:border-accent/40 transition-all duration-300">
+            <div className="flex items-start justify-between gap-4 flex-wrap">
+              <div>
+                <h3 className="font-display text-2xl font-bold text-foreground">
+                  Islamic University of Technology (IUT)
+                </h3>
+                <p className="text-base text-accent font-semibold mt-1">
+                  B.Sc. in Civil Engineering
+                </p>
+              </div>
+              <span className="font-mono text-xs text-muted-foreground bg-secondary/40 px-3 py-1 rounded-full border border-border/60 font-bold">
                 Jun 2021 — Oct 2025
               </span>
             </div>
-            <div className="mt-2 text-primary-foreground/80">
-              B.Sc. in Civil Engineering · Concentration: Geoenvironmental
-              Engineering · CGPA 3.09 / 4.00
+            <div className="mt-4 text-base text-foreground/80 leading-relaxed">
+              Concentration: <strong className="text-foreground">Geoenvironmental Engineering</strong> · CGPA <strong className="text-foreground">3.09 / 4.00</strong>
             </div>
-            <div className="mt-6 rounded-xl border border-primary-foreground/15 p-5 bg-primary-foreground/5">
-              <div className="text-xs uppercase tracking-widest text-primary-foreground/60">
-                Thesis
+            <div className="mt-6 rounded-xl border border-border/40 p-6 bg-secondary/15 relative">
+              <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold mb-2">
+                Undergraduate Thesis
               </div>
-              <p className="mt-2 font-display text-xl leading-snug">
-                Experimental Study on Seepage Control in Sand Embankments Stabilized
-                with Sodium Lignosulfonate and Supplementary Polymers
+              <p className="font-display text-lg font-bold text-foreground leading-snug">
+                Experimental Study on Seepage Control in Sand Embankments Stabilized with Sodium Lignosulfonate and Supplementary Polymers
               </p>
-              <p className="mt-3 text-sm text-primary-foreground/70">
-                Supervisor: Prof. Dr. Hossain Md. Shahin
+              <p className="mt-3 text-sm text-muted-foreground">
+                Supervisor: <span className="text-foreground/80 font-medium">Prof. Dr. Hossain Md. Shahin</span>
               </p>
             </div>
           </div>

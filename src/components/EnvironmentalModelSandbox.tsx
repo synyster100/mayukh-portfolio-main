@@ -102,10 +102,10 @@ export function EnvironmentalModelSandbox() {
   }
 
   return (
-    <section className="py-28 bg-secondary/15 relative overflow-hidden border-y border-border/50">
+    <section id="sandbox" className="py-28 bg-secondary/15 relative overflow-hidden border-y border-border/50">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="text-xs uppercase tracking-widest text-accent font-mono font-semibold mb-3">
-          04b · Simulation Sandbox
+          04 · Interactive Simulation
         </div>
         <h2 className="font-display text-4xl md:text-5xl font-semibold mb-3">
           Watershed Modeling Sandbox
