@@ -336,13 +336,61 @@ const RIBBON_SKILLS = [
   { name: "JavaScript", color: "#F7DF1E", bg: "rgba(247, 223, 30, 0.15)", text: "#eab308", initials: "JS" },
 ];
 
-const LEADERSHIP = [
-  ["Expert Reviewer", "IPCC Special Report on Climate Change and Cities"],
-  ["Reviewer", "European Journal of Engineering Research and Reviews"],
-  ["Student Member", "IEEE"],
-  ["Head of Public Relations", "IUT Photographic Society"],
-  ["Program Executive", "Space and Environment Research Center (SERC)"],
-  ["Head of Creative Fields", "IUT Supply Chain Alliance"],
+const EXTRACURRICULARS = [
+  {
+    role: "Expert Reviewer",
+    org: "IPCC",
+    period: "May 2026 - Jul 2026",
+    category: "Environment",
+    description: "Selected as an expert reviewer for the Second Order Draft of the IPCC Special Report on Climate Change and Cities (SRCITIES). Reviewed scientific, technical, and socio-economic content and provided expert comments to support the development of a balanced and policy-relevant climate assessment.",
+  },
+  {
+    role: "Member of YLLC",
+    org: "British Council",
+    period: "Jan 2010 - Aug 2016",
+    category: "Education",
+    bullets: [
+      "Engaged in a diverse and vibrant global network.",
+      "Participated in cultural exchange activities.",
+      "Enhanced language skills through dedicated programs.",
+      "Accessed a wide range of educational resources.",
+      "Collaborated in workshops to gain new skills.",
+      "Attended events and discussions to broaden perspectives.",
+      "Contributed to fostering cross-cultural understanding.",
+      "Proudly part of a global community committed to development.",
+    ],
+  },
+  {
+    role: "Field Scout",
+    org: "Bangladesh Scouts",
+    period: "Jan 2017 - Jan 2018",
+    category: "Social Services",
+  },
+  {
+    role: "Organizer",
+    org: "Cennovation",
+    period: "Jul 2025",
+    category: "Event Planning",
+    description: "Successfully organized the National Drafting Competition that had 75 teams (104 people) from different universities.",
+  },
+  {
+    role: "Apprentice Artist",
+    org: "Bangladesh Academy of Fine Arts",
+    period: "2013 - 2017",
+    category: "Arts and Culture",
+  },
+  {
+    role: "Yellow Belt Holder",
+    org: "Bangladesh Shitoryu Karate-do Institute",
+    period: "2015 - 2016",
+    category: "Sports",
+  },
+  {
+    role: "Member",
+    org: "IUT ITE Student Chapter",
+    period: "2021 - Present",
+    category: "Education",
+  },
 ];
 
 /* ---------- Component ---------- */
@@ -1251,19 +1299,48 @@ function Skills() {
 
 function Leadership() {
   return (
-    <section className="py-24 bg-secondary/60">
+    <section className="py-24 bg-secondary/30">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <SectionHeader eyebrow="08 · Leadership" title="Extracurricular & service" />
-        <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {LEADERSHIP.map(([role, org]) => (
+        <SectionHeader eyebrow="08 · Extracurriculars" title="Extracurricular activities" />
+        <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {EXTRACURRICULARS.map((item, idx) => (
             <div
-              key={role + org}
-              className="rounded-xl border border-border bg-card p-5 hover:border-accent/50 transition-colors"
+              key={idx}
+              className="rounded-2xl border border-border bg-card/60 p-6 flex flex-col justify-between hover:border-accent/40 transition-all duration-300"
             >
-              <div className="text-xs uppercase tracking-widest text-accent">
-                {role}
+              <div>
+                <div className="flex items-center justify-between gap-2">
+                  <span className="text-[10px] uppercase font-mono tracking-widest text-accent font-semibold px-2 py-0.5 rounded bg-accent/10 border border-accent/10">
+                    {item.category || "Activity"}
+                  </span>
+                  <span className="font-mono text-xs text-muted-foreground">
+                    {item.period}
+                  </span>
+                </div>
+                <h3 className="mt-4 font-display text-2xl text-foreground font-semibold">
+                  {item.role}
+                </h3>
+                <div className="text-sm text-foreground/75 font-medium mt-1">
+                  {item.org}
+                </div>
+                
+                {item.description && (
+                  <p className="mt-4 text-sm text-foreground/85 leading-relaxed border-t border-border/20 pt-3">
+                    {item.description}
+                  </p>
+                )}
+                
+                {item.bullets && (
+                  <ul className="mt-4 text-xs text-foreground/75 space-y-1.5 border-t border-border/20 pt-3 leading-relaxed">
+                    {item.bullets.map((bullet, bIdx) => (
+                      <li key={bIdx} className="flex gap-2">
+                        <span className="text-accent shrink-0">▪</span>
+                        <span>{bullet}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
               </div>
-              <div className="mt-2 font-display text-xl leading-snug">{org}</div>
             </div>
           ))}
         </div>
