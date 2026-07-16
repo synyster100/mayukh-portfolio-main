@@ -961,8 +961,8 @@ function Hero() {
       </div>
 
       {/* Marquee */}
-      <div className="relative mt-20 border-y border-border bg-secondary/15 overflow-hidden py-3">
-        <div className="flex gap-6 py-1.5 animate-marquee whitespace-nowrap font-display text-lg select-none hover:[animation-play-state:paused] cursor-pointer">
+      <div className="relative mt-20 border-y border-border bg-secondary/15 overflow-hidden py-5">
+        <div className="flex gap-8 py-2 animate-marquee whitespace-nowrap font-display select-none hover:[animation-play-state:paused] cursor-pointer">
           {[...Array(3)].flatMap((_, i) =>
             [
               { label: "Geoenvironmental Engineering", icon: Mountain, color: "text-amber-600 bg-amber-500/10 border-amber-500/20" },
@@ -975,12 +975,12 @@ function Hero() {
             ].map(({ label, icon: Icon, color }, j) => (
               <span
                 key={`${i}-${j}`}
-                className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-border bg-card shadow-sm hover:border-accent/40 hover:scale-[1.03] transition-all duration-300"
+                className="inline-flex items-center gap-3.5 px-6 py-3.5 rounded-full border border-border bg-card shadow-md hover:border-accent/50 hover:scale-105 hover:shadow-lg transition-all duration-300"
               >
-                <span className={`p-1 rounded-lg ${color} flex items-center justify-center shrink-0`}>
-                  <Icon className="w-4 h-4" />
+                <span className={`p-1.5 rounded-xl ${color} flex items-center justify-center shrink-0`}>
+                  <Icon className="w-5 h-5" />
                 </span>
-                <span className="text-foreground font-semibold text-sm tracking-wide">{label}</span>
+                <span className="text-foreground font-extrabold text-base tracking-tight">{label}</span>
               </span>
             ))
           )}
