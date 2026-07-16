@@ -1327,7 +1327,7 @@ function Skills() {
         </div>
 
         {/* Auto-scrolling Skill Ribbon */}
-        <div className="relative mt-16 border-y border-border/60 bg-card/25 backdrop-blur-sm overflow-hidden py-6 -mx-6 lg:-mx-10">
+        <div className="relative mt-16 border-y border-border/60 bg-card/25 backdrop-blur-sm overflow-hidden pt-14 pb-8 -mx-6 lg:-mx-10">
           <div className="flex gap-4 animate-marquee whitespace-nowrap">
             {[...Array(2)].flatMap((_, i) =>
               RIBBON_SKILLS.map((s, j) => {
