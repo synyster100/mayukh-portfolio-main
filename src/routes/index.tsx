@@ -785,12 +785,9 @@ function InteractiveGISBackground() {
         <text x="300" y={300 - 200} className="text-[10px] fill-current font-mono font-bold">450m</text>
       </svg>
 
-      {/* Interactive GIS Coordinate Tracker overlay (Top Right) */}
-      <div className="absolute top-24 right-10 text-[9px] font-mono font-bold text-muted-foreground/60 select-none hidden lg:block uppercase tracking-wider space-y-1">
-        <div>SYS_COORD: [WGS 84 / UTM 46N]</div>
-        <div>LAT_DIFF: {(23.8103 + mousePos.y * 0.0001).toFixed(6)}° N</div>
-        <div>LON_DIFF: {(90.4125 + mousePos.x * 0.0001).toFixed(6)}° E</div>
-        <div>ELEVATION: {(15 + Math.abs(mousePos.x + mousePos.y) * 0.2).toFixed(1)} M</div>
+      {/* Interactive GIS Coordinate overlay (Bottom Left) */}
+      <div className="absolute bottom-6 left-6 text-[10px] font-mono font-medium text-muted-foreground/45 select-none hidden sm:block">
+        GIS: LAT {(23.8103 + mousePos.y * 0.00005).toFixed(4)}° / LON {(90.4125 + mousePos.x * 0.00005).toFixed(4)}°
       </div>
     </div>
   );
@@ -1055,7 +1052,7 @@ function Hero() {
                 <span className={`p-1.5 rounded-xl ${color} flex items-center justify-center shrink-0`}>
                   <Icon className="w-5 h-5" />
                 </span>
-                <span className="text-foreground font-extrabold text-base tracking-tight">{label}</span>
+                <span className="text-foreground font-medium text-base tracking-wide">{label}</span>
               </span>
             ))
           )}
