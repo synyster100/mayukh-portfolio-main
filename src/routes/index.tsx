@@ -27,6 +27,7 @@ import {
 } from "lucide-react";
 import { useReveal, useCountUp, useInView } from "@/hooks/use-reveal";
 import ProjectMap from "@/components/ProjectMap";
+import { EnvironmentalModelSandbox } from "@/components/EnvironmentalModelSandbox";
 import { PROJECT_CATEGORIES, PROJECTS } from "@/data/projects";
 import { PROJECT_IMAGE_URLS } from "@/assets/project-images";
 
@@ -461,6 +462,7 @@ function Portfolio() {
         <Interests />
         <Publications />
         <Projects />
+        <EnvironmentalModelSandbox />
         <Experience />
         <Education />
         <Skills />
