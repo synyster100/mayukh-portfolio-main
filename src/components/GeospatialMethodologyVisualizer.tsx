@@ -417,39 +417,54 @@ export function GeospatialMethodologyVisualizer() {
                 <div className="flex items-center justify-between mb-6">
                   <span className="text-xs uppercase font-mono tracking-wider text-muted-foreground flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
-                    3D spatial layer stack (Weighted overlay)
+                    Humphreys County, TN — GIS Weighted Overlay Stack
                   </span>
                   <div className="text-[10px] font-mono text-muted-foreground">
-                    Move cursor over grids to inspect overlay calculation
+                    Casts a vertical intersection ray through all maps
                   </div>
                 </div>
 
                 {/* Stacking layer canvas */}
-                <div className="relative h-[340px] w-full bg-[#060a12] border border-border/60 rounded-xl overflow-hidden flex items-center justify-center">
+                <div className="relative h-[460px] w-full bg-[#060a12] border border-border/60 rounded-xl overflow-hidden flex items-center justify-center">
                   
+                  {/* Geographic Reference: North Arrow and Scale bar */}
+                  <div className="absolute top-4 left-4 z-20 pointer-events-none font-mono text-[9px] text-white/40 space-y-1">
+                    <div className="flex items-center gap-1.5">
+                      <span className="text-xs font-bold text-white/50">↑</span> N
+                    </div>
+                    <div>Scale: 1:50,000</div>
+                  </div>
+
                   {/* Layer Stack Container using CSS 3D transforms */}
                   <div 
                     style={{
-                      transform: "perspective(800px) rotateX(55deg) rotateZ(-30deg) translateY(-40px)",
+                      transform: "perspective(1000px) rotateX(46deg) rotateZ(-26deg) translateY(-25px)",
                       transformStyle: "preserve-3d",
                     }}
-                    className="relative w-[180px] h-[180px] transition-transform duration-500"
+                    className="relative w-[230px] h-[230px] transition-transform duration-500"
                   >
                     
-                    {/* Layer 1: Rainfall (Top) */}
+                    {/* Layer 1: Rainfall (Top - Z: 180px) */}
                     <div 
-                      style={{ transform: "translateZ(135px)" }}
-                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1 transition-all duration-300 hover:border-accent/60"
+                      style={{ transform: "translateZ(180px)" }}
+                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
                     >
-                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/50 bg-slate-900 px-1 py-0.5 rounded border border-white/5 uppercase select-none">
-                        Rainfall ({normRain.toFixed(0)}%)
+                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/60 bg-slate-900 border border-white/5 px-1.5 py-0.5 rounded uppercase select-none">
+                        Rainfall Layer ({normRain.toFixed(0)}%)
                       </div>
+                      
+                      {/* Humphreys County River Alignment path on map layer */}
+                      <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
+                        <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
+                        <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
+                      </svg>
+
                       {cellValues.current.rain.map((row, r) => 
                         row.map((val, c) => (
                           <div
                             key={`rain-${r}-${c}`}
                             onMouseEnter={() => setHoveredCell({ r, c })}
-                            className={`m-[1px] rounded-[2px] transition-all duration-150 ${
+                            className={`m-[1.5px] rounded-[3px] transition-all duration-150 relative z-10 ${
                               hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
                             }`}
                             style={{ backgroundColor: `rgba(59, 130, 246, ${val / 150})` }}
@@ -458,20 +473,26 @@ export function GeospatialMethodologyVisualizer() {
                       )}
                     </div>
 
-                    {/* Layer 2: Slope */}
+                    {/* Layer 2: Slope (Z: 110px) */}
                     <div 
-                      style={{ transform: "translateZ(90px)" }}
-                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1 transition-all duration-300 hover:border-accent/60"
+                      style={{ transform: "translateZ(110px)" }}
+                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
                     >
-                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/50 bg-slate-900 px-1 py-0.5 rounded border border-white/5 uppercase select-none">
-                        Slope ({normSlope.toFixed(0)}%)
+                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/60 bg-slate-900 border border-white/5 px-1.5 py-0.5 rounded uppercase select-none">
+                        Slope Gradient ({normSlope.toFixed(0)}%)
                       </div>
+
+                      <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
+                        <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
+                        <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
+                      </svg>
+
                       {cellValues.current.slope.map((row, r) => 
                         row.map((val, c) => (
                           <div
                             key={`slope-${r}-${c}`}
                             onMouseEnter={() => setHoveredCell({ r, c })}
-                            className={`m-[1px] rounded-[2px] transition-all duration-150 ${
+                            className={`m-[1.5px] rounded-[3px] transition-all duration-150 relative z-10 ${
                               hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
                             }`}
                             style={{ backgroundColor: `rgba(249, 115, 22, ${val / 120})` }}
@@ -480,20 +501,26 @@ export function GeospatialMethodologyVisualizer() {
                       )}
                     </div>
 
-                    {/* Layer 3: NDVI */}
+                    {/* Layer 3: NDVI (Z: 40px) */}
                     <div 
-                      style={{ transform: "translateZ(45px)" }}
-                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1 transition-all duration-300 hover:border-accent/60"
+                      style={{ transform: "translateZ(40px)" }}
+                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
                     >
-                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/50 bg-slate-900 px-1 py-0.5 rounded border border-white/5 uppercase select-none">
-                        NDVI ({normNdvi.toFixed(0)}%)
+                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/60 bg-slate-900 border border-white/5 px-1.5 py-0.5 rounded uppercase select-none">
+                        NDVI Vegetation Cover ({normNdvi.toFixed(0)}%)
                       </div>
+
+                      <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
+                        <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
+                        <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
+                      </svg>
+
                       {cellValues.current.ndvi.map((row, r) => 
                         row.map((val, c) => (
                           <div
                             key={`ndvi-${r}-${c}`}
                             onMouseEnter={() => setHoveredCell({ r, c })}
-                            className={`m-[1px] rounded-[2px] transition-all duration-150 ${
+                            className={`m-[1.5px] rounded-[3px] transition-all duration-150 relative z-10 ${
                               hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
                             }`}
                             style={{ backgroundColor: `rgba(16, 185, 129, ${(100 - val) / 130})` }}
@@ -502,20 +529,26 @@ export function GeospatialMethodologyVisualizer() {
                       )}
                     </div>
 
-                    {/* Layer 4: Soil Infiltration */}
+                    {/* Layer 4: Soil Infiltration (Z: -30px) */}
                     <div 
-                      style={{ transform: "translateZ(0px)" }}
-                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1 transition-all duration-300 hover:border-accent/60"
+                      style={{ transform: "translateZ(-30px)" }}
+                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
                     >
-                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/50 bg-slate-900 px-1 py-0.5 rounded border border-white/5 uppercase select-none">
-                        Soil Infiltration ({normInf.toFixed(0)}%)
+                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/60 bg-slate-900 border border-white/5 px-1.5 py-0.5 rounded uppercase select-none">
+                        Soil Infiltration Rate ({normInf.toFixed(0)}%)
                       </div>
+
+                      <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
+                        <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
+                        <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
+                      </svg>
+
                       {cellValues.current.inf.map((row, r) => 
                         row.map((val, c) => (
                           <div
                             key={`inf-${r}-${c}`}
                             onMouseEnter={() => setHoveredCell({ r, c })}
-                            className={`m-[1px] rounded-[2px] transition-all duration-150 ${
+                            className={`m-[1.5px] rounded-[3px] transition-all duration-150 relative z-10 ${
                               hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
                             }`}
                             style={{ backgroundColor: `rgba(139, 92, 246, ${(100 - val) / 130})` }}
@@ -524,14 +557,21 @@ export function GeospatialMethodologyVisualizer() {
                       )}
                     </div>
 
-                    {/* Layer 5: Output Susceptibility Map (Bottom) */}
+                    {/* Layer 5: Output Susceptibility Map (Bottom - Z: -110px) */}
                     <div 
-                      style={{ transform: "translateZ(-55px)" }}
-                      className="absolute inset-0 bg-slate-950 border-2 border-accent/40 rounded shadow-[0_0_25px_rgba(34,197,94,0.15)] grid grid-cols-5 p-1 transition-all duration-300"
+                      style={{ transform: "translateZ(-110px)" }}
+                      className="absolute inset-0 bg-slate-950 border-2 border-accent/40 rounded shadow-[0_0_35px_rgba(59,130,246,0.25)] grid grid-cols-5 p-1.5 transition-all duration-300"
                     >
-                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-accent font-bold bg-accent/10 px-1.5 py-0.5 rounded border border-accent/20 uppercase select-none">
-                        SUSCEPTIBILITY OUTPUT
+                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-accent font-bold bg-accent/15 border border-accent/20 px-1.5 py-0.5 rounded uppercase select-none">
+                        SUSCEPTIBILITY OUTPUT MAP
                       </div>
+
+                      {/* Fully visible River delta vector on bottom map */}
+                      <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-85 z-20">
+                        <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#0ea5e9" strokeWidth="2.8" strokeLinecap="round" />
+                        <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#0ea5e9" strokeWidth="2.0" strokeLinecap="round" />
+                      </svg>
+
                       {Array.from({ length: 5 }).map((_, r) => 
                         Array.from({ length: 5 }).map((_, c) => {
                           const val = getCellSusceptibility(r, c);
@@ -539,7 +579,7 @@ export function GeospatialMethodologyVisualizer() {
                             <div
                               key={`out-${r}-${c}`}
                               onMouseEnter={() => setHoveredCell({ r, c })}
-                              className={`m-[1px] rounded-[2px] border transition-all duration-150 ${getSusceptibilityColor(val)} ${
+                              className={`m-[1.5px] rounded-[3px] border transition-all duration-150 relative z-10 ${getSusceptibilityColor(val)} ${
                                 hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-white scale-110 shadow-lg z-20" : "border-transparent"
                               }`}
                             />
@@ -550,7 +590,7 @@ export function GeospatialMethodologyVisualizer() {
 
                     {/* Animated vertical Ray tracing through active cell */}
                     {hoveredCell && (() => {
-                      const cellSize = 176 / 5;
+                      const cellSize = 226 / 5;
                       const rx = (hoveredCell.c * cellSize) + (cellSize / 2);
                       const ry = (hoveredCell.r * cellSize) + (cellSize / 2);
                       return (
@@ -559,15 +599,15 @@ export function GeospatialMethodologyVisualizer() {
                             position: "absolute",
                             left: `${rx}px`,
                             top: `${ry}px`,
-                            height: "220px", // spans top to bottom layer
+                            height: "305px", // spans top to bottom layer
                             width: "2px",
-                            background: "linear-gradient(to bottom, #60a5fa 0%, #a78bfa 50%, #f43f5e 100%)",
-                            transform: "translateZ(-60px)",
+                            background: "linear-gradient(to bottom, #3b82f6 0%, #8b5cf6 50%, #f43f5e 100%)",
+                            transform: "translateZ(-115px)",
                             transformStyle: "preserve-3d",
                             pointerEvents: "none",
-                            boxShadow: "0 0 10px rgba(96,165,251,0.8)",
+                            boxShadow: "0 0 10px rgba(59,130,246,0.8)",
                           }}
-                          className="opacity-70 animate-pulse"
+                          className="opacity-75 animate-pulse z-30"
                         />
                       );
                     })()}
