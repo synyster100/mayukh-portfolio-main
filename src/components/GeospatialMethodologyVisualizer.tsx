@@ -17,6 +17,7 @@ export function GeospatialMethodologyVisualizer() {
   const [weightNdvi, setWeightNdvi] = useState(15);
   const [weightInf, setWeightInf] = useState(20);
   const [hoveredCell, setHoveredCell] = useState<{ r: number; c: number } | null>({ r: 2, c: 2 });
+  const [ahpLayout, setAhpLayout] = useState<"stacked" | "grid">("stacked");
 
   // Auto-normalize AHP weights to sum to 100%
   const totalWeight = weightRain + weightSlope + weightNdvi + weightInf;
@@ -426,208 +427,379 @@ export function GeospatialMethodologyVisualizer() {
         {/* Tab 2: AHP Multi-Criteria Overlay */}
         {activeTab === "ahp" && (
           <div className="grid lg:grid-cols-12 gap-8 items-stretch font-sans">
-            {/* 3D Stack Visualization */}
+            {/* GIS Visualization Area */}
             <div className="lg:col-span-8 rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6 flex flex-col justify-between">
               <div>
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-6">
                   <span className="text-xs uppercase font-mono tracking-wider text-muted-foreground flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
-                    Humphreys County, TN — GIS Weighted Overlay Stack
+                    Humphreys County, TN — GIS Weighted Overlay
                   </span>
-                  <div className="text-[10px] font-mono text-muted-foreground">
-                    Casts a vertical intersection ray through all maps
+                  
+                  {/* Layout Toggle Selector */}
+                  <div className="flex bg-secondary/80 border border-border/80 p-0.5 rounded-full text-[10px] font-mono font-bold z-30">
+                    <button
+                      onClick={() => setAhpLayout("stacked")}
+                      className={`px-3 py-1 rounded-full transition-all ${
+                        ahpLayout === "stacked"
+                          ? "bg-foreground text-background shadow-md"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      3D Stack
+                    </button>
+                    <button
+                      onClick={() => setAhpLayout("grid")}
+                      className={`px-3 py-1 rounded-full transition-all ${
+                        ahpLayout === "grid"
+                          ? "bg-foreground text-background shadow-md"
+                          : "text-muted-foreground hover:text-foreground"
+                      }`}
+                    >
+                      2D Grid (Dashboard)
+                    </button>
                   </div>
                 </div>
 
-                {/* Stacking layer canvas */}
-                <div className="relative h-[460px] w-full bg-[#060a12] border border-border/60 rounded-xl overflow-hidden flex items-center justify-center">
-                  
-                  {/* Geographic Reference: North Arrow and Scale bar */}
-                  <div className="absolute top-4 left-4 z-20 pointer-events-none font-mono text-[9px] text-white/40 space-y-1">
-                    <div className="flex items-center gap-1.5">
-                      <span className="text-xs font-bold text-white/50">↑</span> N
+                {ahpLayout === "grid" ? (
+                  /* 2D Flat Maps Grid Dashboard */
+                  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 bg-[#060a12] border border-border/60 rounded-xl p-4 min-h-[460px] items-center">
+                    {/* Map 1: Rainfall */}
+                    <div className="bg-slate-950/95 border border-border/50 rounded-lg p-2.5 flex flex-col items-center relative hover:border-accent/40 transition-colors">
+                      <div className="text-[10px] font-mono font-bold text-blue-400 mb-2 text-center uppercase tracking-wider">
+                        Rainfall ({normRain.toFixed(0)}%)
+                      </div>
+                      <div className="relative w-[110px] h-[110px] grid grid-cols-5 p-0.5 border border-white/5 bg-slate-900 rounded">
+                        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
+                          <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
+                          <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
+                        </svg>
+                        {cellValues.current.rain.map((row, r) => 
+                          row.map((val, c) => (
+                            <div
+                              key={`rain-grid-${r}-${c}`}
+                              onMouseEnter={() => setHoveredCell({ r, c })}
+                              className={`m-[0.5px] rounded-[1.5px] transition-all duration-150 relative z-10 ${
+                                hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
+                              }`}
+                              style={{ backgroundColor: `rgba(59, 130, 246, ${val / 150})` }}
+                            />
+                          ))
+                        )}
+                      </div>
                     </div>
-                    <div>Scale: 1:50,000</div>
-                  </div>
 
-                  {/* Layer Stack Container using CSS 3D transforms */}
-                  <div 
-                    style={{
-                      transform: "perspective(1200px) rotateX(46deg) rotateZ(-26deg) translateY(-20px)",
-                      transformStyle: "preserve-3d",
-                    }}
-                    className="relative w-[230px] h-[230px] transition-transform duration-500"
-                  >
+                    {/* Map 2: Slope */}
+                    <div className="bg-slate-950/95 border border-border/50 rounded-lg p-2.5 flex flex-col items-center relative hover:border-accent/40 transition-colors">
+                      <div className="text-[10px] font-mono font-bold text-orange-400 mb-2 text-center uppercase tracking-wider">
+                        Slope ({normSlope.toFixed(0)}%)
+                      </div>
+                      <div className="relative w-[110px] h-[110px] grid grid-cols-5 p-0.5 border border-white/5 bg-slate-900 rounded">
+                        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
+                          <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
+                          <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
+                        </svg>
+                        {cellValues.current.slope.map((row, r) => 
+                          row.map((val, c) => (
+                            <div
+                              key={`slope-grid-${r}-${c}`}
+                              onMouseEnter={() => setHoveredCell({ r, c })}
+                              className={`m-[0.5px] rounded-[1.5px] transition-all duration-150 relative z-10 ${
+                                hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
+                              }`}
+                              style={{ backgroundColor: `rgba(249, 115, 22, ${val / 120})` }}
+                            />
+                          ))
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Map 3: NDVI */}
+                    <div className="bg-slate-950/95 border border-border/50 rounded-lg p-2.5 flex flex-col items-center relative hover:border-accent/40 transition-colors">
+                      <div className="text-[10px] font-mono font-bold text-emerald-400 mb-2 text-center uppercase tracking-wider">
+                        NDVI ({normNdvi.toFixed(0)}%)
+                      </div>
+                      <div className="relative w-[110px] h-[110px] grid grid-cols-5 p-0.5 border border-white/5 bg-slate-900 rounded">
+                        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
+                          <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
+                          <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
+                        </svg>
+                        {cellValues.current.ndvi.map((row, r) => 
+                          row.map((val, c) => (
+                            <div
+                              key={`ndvi-grid-${r}-${c}`}
+                              onMouseEnter={() => setHoveredCell({ r, c })}
+                              className={`m-[0.5px] rounded-[1.5px] transition-all duration-150 relative z-10 ${
+                                hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
+                              }`}
+                              style={{ backgroundColor: `rgba(16, 185, 129, ${(100 - val) / 130})` }}
+                            />
+                          ))
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Map 4: Soil Infiltration */}
+                    <div className="bg-slate-950/95 border border-border/50 rounded-lg p-2.5 flex flex-col items-center relative hover:border-accent/40 transition-colors">
+                      <div className="text-[10px] font-mono font-bold text-purple-400 mb-2 text-center uppercase tracking-wider">
+                        Soil Inf. ({normInf.toFixed(0)}%)
+                      </div>
+                      <div className="relative w-[110px] h-[110px] grid grid-cols-5 p-0.5 border border-white/5 bg-slate-900 rounded">
+                        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
+                          <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
+                          <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
+                        </svg>
+                        {cellValues.current.inf.map((row, r) => 
+                          row.map((val, c) => (
+                            <div
+                              key={`inf-grid-${r}-${c}`}
+                              onMouseEnter={() => setHoveredCell({ r, c })}
+                              className={`m-[0.5px] rounded-[1.5px] transition-all duration-150 relative z-10 ${
+                                hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
+                              }`}
+                              style={{ backgroundColor: `rgba(139, 92, 246, ${(100 - val) / 130})` }}
+                            />
+                          ))
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Map 5: Final Susceptibility Output Map */}
+                    <div className="bg-slate-950 border-2 border-accent/40 rounded-lg p-2.5 flex flex-col items-center relative hover:border-accent/65 transition-colors col-span-2 sm:col-span-1 shadow-[0_0_20px_rgba(59,130,246,0.15)]">
+                      <div className="text-[10px] font-mono font-bold text-accent mb-2 text-center uppercase tracking-wider">
+                        Susceptibility
+                      </div>
+                      <div className="relative w-[110px] h-[110px] grid grid-cols-5 p-0.5 border border-accent/20 bg-slate-900 rounded">
+                        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-85 z-20">
+                          <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#0ea5e9" strokeWidth="2.8" strokeLinecap="round" />
+                          <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#0ea5e9" strokeWidth="2.0" strokeLinecap="round" />
+                        </svg>
+                        {Array.from({ length: 5 }).map((_, r) => 
+                          Array.from({ length: 5 }).map((_, c) => {
+                            const val = getCellSusceptibility(r, c);
+                            return (
+                              <div
+                                key={`out-grid-${r}-${c}`}
+                                onMouseEnter={() => setHoveredCell({ r, c })}
+                                className={`m-[0.5px] rounded-[1.5px] border transition-all duration-150 relative z-10 ${getSusceptibilityColor(val)} ${
+                                  hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-white scale-110 shadow-lg z-20" : "border-transparent"
+                                }`}
+                              />
+                            );
+                          })
+                        )}
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  /* 3D Stacking layer canvas */
+                  <div className="relative h-[460px] w-full bg-[#060a12] border border-border/60 rounded-xl overflow-hidden flex items-center justify-center">
                     
-                    {/* Layer 1: Rainfall (Top - Z: 210px) */}
-                    <div 
-                      style={{ transform: "translateZ(210px)" }}
-                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
-                    >
-                      <div className="absolute -top-7 left-0 text-[9px] font-mono text-white/95 bg-slate-900 border border-slate-700/80 px-2 py-0.5 rounded uppercase select-none shadow-md">
-                        Rainfall Layer ({normRain.toFixed(0)}%)
+                    {/* Geographic Reference: North Arrow and Scale bar */}
+                    <div className="absolute top-4 left-4 z-20 pointer-events-none font-mono text-[9px] text-white/40 space-y-1">
+                      <div className="flex items-center gap-1.5">
+                        <span className="text-xs font-bold text-white/50">↑</span> N
+                      </div>
+                      <div>Scale: 1:50,000</div>
+                    </div>
+
+                    {/* FLAT 2D OVERLAY LABELS - Positioned on side edges of the canvas container to eliminate any 3D overlap */}
+                    {/* Left Edge: Rainfall, NDVI, Susceptibility Output */}
+                    <div className="absolute left-4 top-1/2 -translate-y-1/2 flex flex-col gap-[75px] z-30 pointer-events-none select-none">
+                      {/* Rainfall Label */}
+                      <div className="text-[10px] font-mono text-white bg-slate-900/95 border border-slate-700/80 px-2.5 py-1 rounded shadow-lg flex items-center gap-1.5 w-[145px]">
+                        <span className="w-2 h-2 rounded-full bg-blue-500 shrink-0" />
+                        <span>Rainfall: {normRain.toFixed(0)}%</span>
                       </div>
                       
-                      {/* Humphreys County River Alignment path on map layer */}
-                      <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
-                        <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
-                        <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
-                      </svg>
-
-                      {cellValues.current.rain.map((row, r) => 
-                        row.map((val, c) => (
-                          <div
-                            key={`rain-${r}-${c}`}
-                            onMouseEnter={() => setHoveredCell({ r, c })}
-                            className={`m-[1.5px] rounded-[3px] transition-all duration-150 relative z-10 ${
-                              hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
-                            }`}
-                            style={{ backgroundColor: `rgba(59, 130, 246, ${val / 150})` }}
-                          />
-                        ))
-                      )}
-                    </div>
-
-                    {/* Layer 2: Slope (Z: 120px) */}
-                    <div 
-                      style={{ transform: "translateZ(120px)" }}
-                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
-                    >
-                      <div className="absolute -top-7 right-0 text-[9px] font-mono text-white/95 bg-slate-900 border border-slate-700/80 px-2 py-0.5 rounded uppercase select-none shadow-md">
-                        Slope Gradient ({normSlope.toFixed(0)}%)
+                      {/* NDVI Label */}
+                      <div className="text-[10px] font-mono text-white bg-slate-900/95 border border-slate-700/80 px-2.5 py-1 rounded shadow-lg flex items-center gap-1.5 w-[145px]">
+                        <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0" />
+                        <span>NDVI Cover: {normNdvi.toFixed(0)}%</span>
                       </div>
 
-                      <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
-                        <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
-                        <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
-                      </svg>
-
-                      {cellValues.current.slope.map((row, r) => 
-                        row.map((val, c) => (
-                          <div
-                            key={`slope-${r}-${c}`}
-                            onMouseEnter={() => setHoveredCell({ r, c })}
-                            className={`m-[1.5px] rounded-[3px] transition-all duration-150 relative z-10 ${
-                              hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
-                            }`}
-                            style={{ backgroundColor: `rgba(249, 115, 22, ${val / 120})` }}
-                          />
-                        ))
-                      )}
+                      {/* Output Susceptibility Label */}
+                      <div className="text-[10px] font-mono text-accent font-bold bg-slate-900 border border-accent/40 px-2.5 py-1 rounded shadow-lg flex items-center gap-1.5 w-[145px]">
+                        <span className="w-2 h-2 rounded-full bg-accent shrink-0 animate-pulse" />
+                        <span>SUSCEPTIBILITY</span>
+                      </div>
                     </div>
 
-                    {/* Layer 3: NDVI (Z: 30px) */}
-                    <div 
-                      style={{ transform: "translateZ(30px)" }}
-                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
-                    >
-                      <div className="absolute -left-[110px] top-1/2 -translate-y-1/2 text-[9px] font-mono text-white/95 bg-slate-900 border border-slate-700/80 px-2 py-0.5 rounded uppercase select-none shadow-md">
-                        NDVI Vegetation ({normNdvi.toFixed(0)}%)
+                    {/* Right Edge: Slope, Soil Infiltration */}
+                    <div className="absolute right-4 top-1/2 -translate-y-1/2 flex flex-col gap-[105px] z-30 pointer-events-none select-none">
+                      {/* Slope Label */}
+                      <div className="text-[10px] font-mono text-white bg-slate-900/95 border border-slate-700/80 px-2.5 py-1 rounded shadow-lg flex items-center gap-1.5 w-[145px]">
+                        <span className="w-2 h-2 rounded-full bg-orange-500 shrink-0" />
+                        <span>Slope Map: {normSlope.toFixed(0)}%</span>
                       </div>
-
-                      <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
-                        <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
-                        <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
-                      </svg>
-
-                      {cellValues.current.ndvi.map((row, r) => 
-                        row.map((val, c) => (
-                          <div
-                            key={`ndvi-${r}-${c}`}
-                            onMouseEnter={() => setHoveredCell({ r, c })}
-                            className={`m-[1.5px] rounded-[3px] transition-all duration-150 relative z-10 ${
-                              hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
-                            }`}
-                            style={{ backgroundColor: `rgba(16, 185, 129, ${(100 - val) / 130})` }}
-                          />
-                        ))
-                      )}
+                      
+                      {/* Soil Infiltration Label */}
+                      <div className="text-[10px] font-mono text-white bg-slate-900/95 border border-slate-700/80 px-2.5 py-1 rounded shadow-lg flex items-center gap-1.5 w-[145px]">
+                        <span className="w-2 h-2 rounded-full bg-purple-500 shrink-0" />
+                        <span>Soil Infil.: {normInf.toFixed(0)}%</span>
+                      </div>
                     </div>
 
-                    {/* Layer 4: Soil Infiltration (Z: -60px) */}
+                    {/* Layer Stack Container using CSS 3D transforms (NO tilted text labels inside!) */}
                     <div 
-                      style={{ transform: "translateZ(-60px)" }}
-                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
+                      style={{
+                        transform: "perspective(1200px) rotateX(46deg) rotateZ(-26deg) translateY(-20px)",
+                        transformStyle: "preserve-3d",
+                      }}
+                      className="relative w-[230px] h-[230px] transition-transform duration-500"
                     >
-                      <div className="absolute -right-[110px] top-1/2 -translate-y-1/2 text-[9px] font-mono text-white/95 bg-slate-900 border border-slate-700/80 px-2 py-0.5 rounded uppercase select-none shadow-md">
-                        Soil Infiltration ({normInf.toFixed(0)}%)
-                      </div>
+                      
+                      {/* Layer 1: Rainfall (Top - Z: 210px) */}
+                      <div 
+                        style={{ transform: "translateZ(210px)" }}
+                        className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
+                      >
+                        {/* Humphreys County River Alignment path on map layer */}
+                        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
+                          <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
+                          <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
+                        </svg>
 
-                      <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
-                        <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
-                        <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
-                      </svg>
-
-                      {cellValues.current.inf.map((row, r) => 
-                        row.map((val, c) => (
-                          <div
-                            key={`inf-${r}-${c}`}
-                            onMouseEnter={() => setHoveredCell({ r, c })}
-                            className={`m-[1.5px] rounded-[3px] transition-all duration-150 relative z-10 ${
-                              hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
-                            }`}
-                            style={{ backgroundColor: `rgba(139, 92, 246, ${(100 - val) / 130})` }}
-                          />
-                        ))
-                      )}
-                    </div>
-
-                    {/* Layer 5: Output Susceptibility Map (Bottom - Z: -150px) */}
-                    <div 
-                      style={{ transform: "translateZ(-150px)" }}
-                      className="absolute inset-0 bg-slate-950 border-2 border-accent/40 rounded shadow-[0_0_35px_rgba(59,130,246,0.25)] grid grid-cols-5 p-1.5 transition-all duration-300"
-                    >
-                      <div className="absolute -bottom-7 left-0 text-[9px] font-mono text-accent font-bold bg-accent/20 border border-accent/40 px-2 py-0.5 rounded uppercase select-none shadow-md">
-                        SUSCEPTIBILITY OUTPUT MAP
-                      </div>
-
-                      {/* Fully visible River delta vector on bottom map */}
-                      <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-85 z-20">
-                        <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#0ea5e9" strokeWidth="2.8" strokeLinecap="round" />
-                        <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#0ea5e9" strokeWidth="2.0" strokeLinecap="round" />
-                      </svg>
-
-                      {Array.from({ length: 5 }).map((_, r) => 
-                        Array.from({ length: 5 }).map((_, c) => {
-                          const val = getCellSusceptibility(r, c);
-                          return (
+                        {cellValues.current.rain.map((row, r) => 
+                          row.map((val, c) => (
                             <div
-                              key={`out-${r}-${c}`}
+                              key={`rain-${r}-${c}`}
                               onMouseEnter={() => setHoveredCell({ r, c })}
-                              className={`m-[1.5px] rounded-[3px] border transition-all duration-150 relative z-10 ${getSusceptibilityColor(val)} ${
-                                hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-white scale-110 shadow-lg z-20" : "border-transparent"
+                              className={`m-[1.5px] rounded-[3px] transition-all duration-150 relative z-10 ${
+                                hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
                               }`}
+                              style={{ backgroundColor: `rgba(59, 130, 246, ${val / 150})` }}
                             />
-                          );
-                        })
-                      )}
-                    </div>
+                          ))
+                        )}
+                      </div>
 
-                    {/* Animated vertical Ray tracing through active cell */}
-                    {hoveredCell && (() => {
-                      const cellSize = 226 / 5;
-                      const rx = (hoveredCell.c * cellSize) + (cellSize / 2);
-                      const ry = (hoveredCell.r * cellSize) + (cellSize / 2);
-                      return (
-                        <div
-                          style={{
-                            position: "absolute",
-                            left: `${rx}px`,
-                            top: `${ry}px`,
-                            height: "365px", // spans top to bottom layer (Z span 210 to -150)
-                            width: "2px",
-                            background: "linear-gradient(to bottom, #3b82f6 0%, #8b5cf6 50%, #f43f5e 100%)",
-                            transform: "translateZ(-155px)",
-                            transformStyle: "preserve-3d",
-                            pointerEvents: "none",
-                            boxShadow: "0 0 10px rgba(59,130,246,0.8)",
-                          }}
-                          className="opacity-75 animate-pulse z-30"
-                        />
-                      );
-                    })()}
+                      {/* Layer 2: Slope (Z: 120px) */}
+                      <div 
+                        style={{ transform: "translateZ(120px)" }}
+                        className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
+                      >
+                        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
+                          <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
+                          <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
+                        </svg>
+
+                        {cellValues.current.slope.map((row, r) => 
+                          row.map((val, c) => (
+                            <div
+                              key={`slope-${r}-${c}`}
+                              onMouseEnter={() => setHoveredCell({ r, c })}
+                              className={`m-[1.5px] rounded-[3px] transition-all duration-150 relative z-10 ${
+                                hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
+                              }`}
+                              style={{ backgroundColor: `rgba(249, 115, 22, ${val / 120})` }}
+                            />
+                          ))
+                        )}
+                      </div>
+
+                      {/* Layer 3: NDVI (Z: 30px) */}
+                      <div 
+                        style={{ transform: "translateZ(30px)" }}
+                        className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
+                      >
+                        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
+                          <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
+                          <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
+                        </svg>
+
+                        {cellValues.current.ndvi.map((row, r) => 
+                          row.map((val, c) => (
+                            <div
+                              key={`ndvi-${r}-${c}`}
+                              onMouseEnter={() => setHoveredCell({ r, c })}
+                              className={`m-[1.5px] rounded-[3px] transition-all duration-150 relative z-10 ${
+                                hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
+                              }`}
+                              style={{ backgroundColor: `rgba(16, 185, 129, ${(100 - val) / 130})` }}
+                            />
+                          ))
+                        )}
+                      </div>
+
+                      {/* Layer 4: Soil Infiltration (Z: -60px) */}
+                      <div 
+                        style={{ transform: "translateZ(-60px)" }}
+                        className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
+                      >
+                        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
+                          <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#60a5fa" strokeWidth="2.5" strokeLinecap="round" />
+                          <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#60a5fa" strokeWidth="1.8" strokeLinecap="round" />
+                        </svg>
+
+                        {cellValues.current.inf.map((row, r) => 
+                          row.map((val, c) => (
+                            <div
+                              key={`inf-${r}-${c}`}
+                              onMouseEnter={() => setHoveredCell({ r, c })}
+                              className={`m-[1.5px] rounded-[3px] transition-all duration-150 relative z-10 ${
+                                hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
+                              }`}
+                              style={{ backgroundColor: `rgba(139, 92, 246, ${(100 - val) / 130})` }}
+                            />
+                          ))
+                        )}
+                      </div>
+
+                      {/* Layer 5: Output Susceptibility Map (Bottom - Z: -150px) */}
+                      <div 
+                        style={{ transform: "translateZ(-150px)" }}
+                        className="absolute inset-0 bg-slate-950 border-2 border-accent/40 rounded shadow-[0_0_35px_rgba(59,130,246,0.25)] grid grid-cols-5 p-1.5 transition-all duration-300"
+                      >
+                        {/* Fully visible River delta vector on bottom map */}
+                        <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-85 z-20">
+                          <path d="M 0 35 Q 25 35, 40 50 T 75 40 T 100 65" fill="none" stroke="#0ea5e9" strokeWidth="2.8" strokeLinecap="round" />
+                          <path d="M 40 50 Q 30 75, 45 100" fill="none" stroke="#0ea5e9" strokeWidth="2.0" strokeLinecap="round" />
+                        </svg>
+
+                        {Array.from({ length: 5 }).map((_, r) => 
+                          Array.from({ length: 5 }).map((_, c) => {
+                            const val = getCellSusceptibility(r, c);
+                            return (
+                              <div
+                                key={`out-${r}-${c}`}
+                                onMouseEnter={() => setHoveredCell({ r, c })}
+                                className={`m-[1.5px] rounded-[3px] border transition-all duration-150 relative z-10 ${getSusceptibilityColor(val)} ${
+                                  hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-white scale-110 shadow-lg z-20" : "border-transparent"
+                                }`}
+                              />
+                            );
+                          })
+                        )}
+                      </div>
+
+                      {/* Animated vertical Ray tracing through active cell */}
+                      {hoveredCell && (() => {
+                        const cellSize = 226 / 5;
+                        const rx = (hoveredCell.c * cellSize) + (cellSize / 2);
+                        const ry = (hoveredCell.r * cellSize) + (cellSize / 2);
+                        return (
+                          <div
+                            style={{
+                              position: "absolute",
+                              left: `${rx}px`,
+                              top: `${ry}px`,
+                              height: "365px", // spans top to bottom layer (Z span 210 to -150)
+                              width: "2px",
+                              background: "linear-gradient(to bottom, #3b82f6 0%, #8b5cf6 50%, #f43f5e 100%)",
+                              transform: "translateZ(-155px)",
+                              transformStyle: "preserve-3d",
+                              pointerEvents: "none",
+                              boxShadow: "0 0 10px rgba(59,130,246,0.8)",
+                            }}
+                            className="opacity-75 animate-pulse z-30"
+                          />
+                        );
+                      })()}
+
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
 
               {/* Sliders for AHP factors */}
