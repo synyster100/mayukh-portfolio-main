@@ -1005,7 +1005,7 @@ function About() {
           </div>
           <div className="lg:col-span-7 space-y-6 text-lg text-pretty text-foreground/85 leading-relaxed order-1 lg:order-2">
             <p>
-              I am a civil engineer and geospatial researcher dedicated to understanding and addressing environmental hazards. My research focus lies at the intersection of <strong className="text-foreground font-semibold">geospatial data science (GIS &amp; Remote Sensing), hydrodynamic modeling, and geoenvironmental engineering</strong>, with a focus on building resilient systems for disaster mitigation and sustainable infrastructure.
+              I am a civil engineer and researcher dedicated to understanding and addressing environmental hazards. My research focus lies at the intersection of <strong className="text-foreground font-semibold">geospatial data science (GIS &amp; Remote Sensing), hydrodynamic modeling, and geoenvironmental engineering</strong>, with a focus on building resilient systems for disaster mitigation and sustainable infrastructure.
             </p>
             <p>
               From analyzing long-term shoreline dynamics and urban stormwater grids to conducting soil-structure stabilization studies, I enjoy bridging the gap between theoretical research and practical infrastructure engineering. By integrating data-driven insights with physical modeling, my goal is to design solutions that adapt to changing climatic patterns and protect vulnerable communities.
