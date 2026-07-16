@@ -226,7 +226,7 @@ const TIMELINE = [
     category: "teaching-research",
     year: "Jan 2025 — Present",
     role: "Instructor",
-    org: "LEAD Academy, Dhaka, BD",
+    org: "LEAD Academy, Dhaka, Bangladesh",
     orgUrl: "https://lead.academy/",
     bullets: [
       "Developed an AutoCAD course with 13 learning modules with 87 video lectures (9+ hours) with 30 quizzes and 4 final projects. <a href='https://lead.academy/course/autocad-from-scratch-2d-3d' target='_blank' rel='noopener' class='text-accent hover:underline'>Course Link</a> (Published on November, 2025)."
