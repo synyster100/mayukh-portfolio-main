@@ -28,21 +28,7 @@ import {
 import { useReveal, useCountUp, useInView } from "@/hooks/use-reveal";
 import ProjectMap from "@/components/ProjectMap";
 import { EnvironmentalModelSandbox } from "@/components/EnvironmentalModelSandbox";
-import {
-  ArcGISIcon,
-  QGISIcon,
-  GEEIcon,
-  AutoCADIcon,
-  ETABSIcon,
-  PlaxisIcon,
-  HecRasIcon,
-  EpanetIcon,
-  ETankIcon,
-  SWMMIcon,
-  PythonIcon,
-  CPlusPlusIcon,
-  JavaScriptIcon,
-} from "@/components/SkillIcons";
+
 import { PROJECT_CATEGORIES, PROJECTS } from "@/data/projects";
 import { PROJECT_IMAGE_URLS } from "@/assets/project-images";
 
@@ -348,22 +334,6 @@ const SKILL_GROUPS = [
       { name: "JavaScript", level: "Basic" },
     ],
   },
-];
-
-const RIBBON_SKILLS = [
-  { Icon: ArcGISIcon, name: "ArcGIS Pro" },
-  { Icon: QGISIcon, name: "QGIS" },
-  { Icon: GEEIcon, name: "Google Earth Engine" },
-  { Icon: AutoCADIcon, name: "AutoCAD" },
-  { Icon: ETABSIcon, name: "ETABS" },
-  { Icon: PlaxisIcon, name: "PLAXIS" },
-  { Icon: HecRasIcon, name: "HEC-RAS" },
-  { Icon: EpanetIcon, name: "EPANET" },
-  { Icon: ETankIcon, name: "eTank" },
-  { Icon: SWMMIcon, name: "SWMM" },
-  { Icon: PythonIcon, name: "Python" },
-  { Icon: CPlusPlusIcon, name: "C++" },
-  { Icon: JavaScriptIcon, name: "JavaScript" },
 ];
 
 const EXTRACURRICULARS = [
@@ -1326,28 +1296,7 @@ function Skills() {
           ))}
         </div>
 
-        {/* Auto-scrolling Skill Ribbon */}
-        <div className="relative mt-16 border-y border-border/60 bg-card/25 backdrop-blur-sm overflow-hidden pt-14 pb-8 -mx-6 lg:-mx-10">
-          <div className="flex gap-4 animate-marquee whitespace-nowrap">
-            {[...Array(2)].flatMap((_, i) =>
-              RIBBON_SKILLS.map((s, j) => {
-                const IconComponent = s.Icon;
-                return (
-                  <div
-                    key={`${i}-${j}`}
-                    className="relative group inline-flex items-center justify-center bg-card border border-border/80 p-3 rounded-2xl shadow-sm mx-4 hover:border-accent/40 transition-colors cursor-help"
-                  >
-                    <IconComponent />
-                    {/* Custom Tooltip that works during translation */}
-                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-black/95 backdrop-blur border border-white/10 text-white text-[10px] font-mono font-bold px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50 shadow-lg">
-                      {s.name}
-                    </div>
-                  </div>
-                );
-              })
-            )}
-          </div>
-        </div>
+
       </div>
     </section>
   );
