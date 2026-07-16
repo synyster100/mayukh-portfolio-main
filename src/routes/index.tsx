@@ -822,15 +822,15 @@ function Nav() {
           {/* Theme Toggle Button */}
           <button
             onClick={toggleTheme}
-            className="flex items-center gap-1 p-1 rounded-full border border-border bg-secondary/80 hover:bg-secondary/95 transition-all duration-200 shadow-sm shrink-0"
+            className="flex items-center gap-1.5 p-1.5 rounded-full border-2 border-accent/30 bg-secondary/90 hover:bg-secondary hover:border-accent/60 transition-all duration-200 shadow-md shrink-0 scale-105"
             aria-label="Toggle visual theme"
             title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
           >
-            <div className={`p-1.5 rounded-full transition-all duration-300 ${theme === "light" ? "bg-background text-amber-500 shadow-sm scale-110" : "text-muted-foreground/60"}`}>
-              <Sun className="w-3.5 h-3.5" />
+            <div className={`p-1.5 rounded-full transition-all duration-300 ${theme === "light" ? "bg-background text-amber-500 shadow-sm scale-110" : "text-muted-foreground/50 hover:text-foreground/80"}`}>
+              <Sun className="w-4 h-4" />
             </div>
-            <div className={`p-1.5 rounded-full transition-all duration-300 ${theme === "dark" ? "bg-background text-indigo-400 shadow-sm scale-110" : "text-muted-foreground/60"}`}>
-              <Moon className="w-3.5 h-3.5" />
+            <div className={`p-1.5 rounded-full transition-all duration-300 ${theme === "dark" ? "bg-background text-indigo-400 shadow-sm scale-110" : "text-muted-foreground/50 hover:text-foreground/80"}`}>
+              <Moon className="w-4 h-4" />
             </div>
           </button>
 
