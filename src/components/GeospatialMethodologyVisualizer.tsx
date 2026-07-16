@@ -260,19 +260,18 @@ export function GeospatialMethodologyVisualizer() {
         {activeTab === "dsas" && (
           <div className="grid lg:grid-cols-12 gap-8 items-stretch font-sans">
             {/* Visualizer Frame */}
-            <div className="lg:col-span-8 rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6 flex flex-col justify-between">
-              <div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-xs uppercase font-mono tracking-wider text-muted-foreground flex items-center gap-2">
-                    <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
-                    DSAS Transect Generation Simulator
-                  </span>
-                  <div className="text-[10px] font-mono text-muted-foreground">
-                    Scale: 1px = 1m | Epochs: 2000 — 2024
-                  </div>
+            <div className="lg:col-span-8 rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6 flex flex-col justify-start gap-4">
+              <div className="flex items-center justify-between">
+                <span className="text-xs uppercase font-mono tracking-wider text-muted-foreground flex items-center gap-2">
+                  <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
+                  DSAS Transect Generation Simulator
+                </span>
+                <div className="text-[10px] font-mono text-muted-foreground">
+                  Scale: 1px = 1m | Epochs: 2000 — 2024
                 </div>
+              </div>
 
-                <div className="relative aspect-[16/9] w-full bg-[#060a12] border border-border/60 rounded-xl overflow-hidden flex items-center justify-center">
+              <div className="relative flex-1 min-h-[460px] w-full bg-[#060a12] border border-border/60 rounded-xl overflow-hidden flex items-center justify-center">
                   {/* Cartographic Title HUD overlay */}
                   <div className="absolute top-4 left-4 z-20 bg-slate-900/95 border border-slate-700/80 p-2.5 rounded-md backdrop-blur-md shadow-lg pointer-events-none text-white">
                     <div className="text-[10px] font-bold font-mono text-accent uppercase tracking-wider">
@@ -395,7 +394,6 @@ export function GeospatialMethodologyVisualizer() {
                     );
                   })()}
                 </div>
-              </div>
             </div>
 
             {/* Educational / Mathematical Sidebar */}
