@@ -397,60 +397,29 @@ export function GeospatialMethodologyVisualizer() {
                 </div>
               </div>
 
-              {/* Shifted text and sliders from How DSAS Works to utilize bottom space */}
-              <div className="mt-6 border-t border-border/40 pt-6 grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
-                <div className="space-y-4">
-                  <p className="text-xs text-muted-foreground leading-relaxed font-medium">
-                    The <strong className="font-semibold text-foreground">Digital Shoreline Analysis System (DSAS)</strong> computes rate-of-change statistics from multiple historical shoreline vectors. It casts measurement transects perpendicular to a reference baseline.
+              {/* Balanced bottom row under the animation window */}
+              <div className="mt-6 border-t border-border/40 pt-6 grid grid-cols-1 md:grid-cols-2 gap-6 text-left items-start">
+                <p className="text-xs text-muted-foreground leading-relaxed font-medium">
+                  The <strong className="font-semibold text-foreground">Digital Shoreline Analysis System (DSAS)</strong> computes rate-of-change statistics from multiple historical shoreline vectors. It casts measurement transects perpendicular to a reference baseline.
+                </p>
+
+                {/* Spacing Slider */}
+                <div className="border border-border/40 bg-secondary/15 rounded-xl p-4 space-y-3">
+                  <div className="flex justify-between items-center">
+                    <span className="text-[10px] font-bold font-mono text-accent uppercase tracking-widest">TRANSECT SAMPLING COUNT</span>
+                    <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-1.5 py-0.5 rounded">{transectCount} transects</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="5"
+                    max="30"
+                    value={transectCount}
+                    onChange={(e) => setTransectCount(Number(e.target.value))}
+                    className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
+                  />
+                  <p className="text-[10px] text-muted-foreground leading-relaxed font-sans font-medium">
+                    Adjust count to change baseline sampling density (simulating USGS DSAS spacing configurations).
                   </p>
-
-                  {/* Spacing Slider */}
-                  <div className="border border-border/40 bg-secondary/15 rounded-xl p-4 space-y-3">
-                    <div className="flex justify-between items-center">
-                      <span className="text-[10px] font-bold font-mono text-accent uppercase tracking-widest">TRANSECT SAMPLING COUNT</span>
-                      <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-1.5 py-0.5 rounded">{transectCount} transects</span>
-                    </div>
-                    <input
-                      type="range"
-                      min="5"
-                      max="30"
-                      value={transectCount}
-                      onChange={(e) => setTransectCount(Number(e.target.value))}
-                      className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
-                    />
-                    <p className="text-[10px] text-muted-foreground leading-relaxed font-sans font-medium">
-                      Adjust count to change baseline sampling density (simulating USGS DSAS spacing configurations).
-                    </p>
-                  </div>
-                </div>
-
-                {/* Formulas Grid */}
-                <div className="grid grid-cols-1 gap-4">
-                  {/* NSM */}
-                  <div className="border border-border/40 rounded-xl p-3 bg-secondary/10 space-y-1.5">
-                    <div className="text-[9px] uppercase font-mono tracking-widest text-accent font-bold">
-                      1. Net Shoreline Movement (NSM)
-                    </div>
-                    <p className="text-[10px] text-muted-foreground leading-relaxed font-medium">
-                      Measures the physical distance (meters) between the oldest (2000) and newest (2024) shorelines.
-                    </p>
-                    <div className="bg-secondary/40 border border-border/60 p-2 rounded text-[10px] font-mono text-foreground/90 text-center font-bold">
-                       NSM = Distance(2024) - Distance(2000)
-                    </div>
-                  </div>
-
-                  {/* EPR */}
-                  <div className="border border-border/40 rounded-xl p-3 bg-secondary/10 space-y-1.5">
-                    <div className="text-[9px] uppercase font-mono tracking-widest text-accent font-bold">
-                      2. End Point Rate (EPR)
-                    </div>
-                    <p className="text-[10px] text-muted-foreground leading-relaxed font-medium">
-                      Dividing the NSM by the elapsed time span between the shoreline epochs to get the annual rate.
-                    </p>
-                    <div className="bg-secondary/40 border border-border/60 p-2 rounded text-[10px] font-mono text-foreground/90 text-center font-bold">
-                      EPR = NSM / Time Span (24 Years)
-                    </div>
-                  </div>
                 </div>
               </div>
             </div>
@@ -461,10 +430,38 @@ export function GeospatialMethodologyVisualizer() {
                 <div className="flex items-center gap-2">
                   <BarChart2 className="w-4 h-4 text-accent" />
                   <span className="text-sm font-semibold uppercase tracking-wider font-mono text-foreground/90">
-                    DSAS Legend & Reference
+                    DSAS Dynamics & Math
                   </span>
                 </div>
-                
+
+                <div className="border border-border/50 rounded-xl p-4 bg-secondary/15 space-y-4">
+                  {/* NSM */}
+                  <div className="space-y-1.5">
+                    <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold">
+                      1. Net Shoreline Movement (NSM)
+                    </div>
+                    <p className="text-[11px] text-muted-foreground leading-relaxed font-medium">
+                      Measures the physical distance (meters) between the oldest (2000) and newest (2024) shorelines.
+                    </p>
+                    <div className="bg-secondary/40 border border-border/60 p-2 rounded text-[11px] font-mono text-foreground/90 text-center font-bold">
+                       NSM = Distance(2024) - Distance(2000)
+                    </div>
+                  </div>
+
+                  {/* EPR */}
+                  <div className="space-y-1.5">
+                    <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold">
+                      2. End Point Rate (EPR)
+                    </div>
+                    <p className="text-[11px] text-muted-foreground leading-relaxed font-medium">
+                      Dividing the NSM by the elapsed time span between the shoreline epochs to get the annual rate.
+                    </p>
+                    <div className="bg-secondary/40 border border-border/60 p-2 rounded text-[11px] font-mono text-foreground/90 text-center font-bold">
+                      EPR = NSM / Time Span (24 Years)
+                    </div>
+                  </div>
+                </div>
+
                 <div className="text-xs text-muted-foreground space-y-2 font-medium bg-secondary/10 p-3.5 rounded-xl border border-border/40">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
@@ -475,7 +472,9 @@ export function GeospatialMethodologyVisualizer() {
                     <span>Erosion rate: shoreline retreat</span>
                   </div>
                 </div>
+              </div>
 
+              <div className="space-y-4">
                 <div className="flex items-start gap-2.5 bg-accent/5 border border-accent/15 p-4 rounded-xl text-xs text-muted-foreground font-medium">
                   <Info className="w-4 h-4 text-accent shrink-0 mt-0.5" />
                   <p>
