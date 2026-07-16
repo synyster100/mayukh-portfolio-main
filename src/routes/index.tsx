@@ -33,6 +33,7 @@ import {
 import { useReveal, useCountUp, useInView } from "@/hooks/use-reveal";
 import ProjectMap from "@/components/ProjectMap";
 import { EnvironmentalModelSandbox } from "@/components/EnvironmentalModelSandbox";
+import { GeospatialMethodologyVisualizer } from "@/components/GeospatialMethodologyVisualizer";
 
 import { PROJECT_CATEGORIES, PROJECTS } from "@/data/projects";
 import { PROJECT_IMAGE_URLS } from "@/assets/project-images";
@@ -933,6 +934,7 @@ function Portfolio() {
         <Interests />
         <Publications />
         <EnvironmentalModelSandbox />
+        <GeospatialMethodologyVisualizer />
         <Projects />
         <Experience />
         <Skills />

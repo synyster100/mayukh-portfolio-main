@@ -1,0 +1,716 @@
+import React, { useState, useEffect, useRef } from "react";
+import { Sliders, Layers, Info, Waves, TrendingUp, Grid, RefreshCw, BarChart2 } from "lucide-react";
+
+type Tab = "dsas" | "ahp";
+
+export function GeospatialMethodologyVisualizer() {
+  const [activeTab, setActiveTab] = useState<Tab>("dsas");
+
+  // --- DSAS States ---
+  const [transectCount, setTransectCount] = useState(15);
+  const [shorelineShift, setShorelineShift] = useState(0); // anim cycle offset
+  const [hoveredTransect, setHoveredTransect] = useState<number | null>(null);
+  
+  // --- AHP States ---
+  const [weightRain, setWeightRain] = useState(35);
+  const [weightSlope, setWeightSlope] = useState(30);
+  const [weightNdvi, setWeightNdvi] = useState(15);
+  const [weightInf, setWeightInf] = useState(20);
+  const [hoveredCell, setHoveredCell] = useState<{ r: number; c: number } | null>({ r: 2, c: 2 });
+
+  // Auto-normalize AHP weights to sum to 100%
+  const totalWeight = weightRain + weightSlope + weightNdvi + weightInf;
+  const normRain = (weightRain / totalWeight) * 100;
+  const normSlope = (weightSlope / totalWeight) * 100;
+  const normNdvi = (weightNdvi / totalWeight) * 100;
+  const normInf = (weightInf / totalWeight) * 100;
+
+  // Generate static cell values for AHP layers (5x5 grid)
+  const cellValues = useRef({
+    rain: [
+      [90, 85, 80, 75, 70],
+      [85, 80, 75, 70, 65],
+      [80, 75, 70, 65, 60],
+      [75, 70, 65, 60, 55],
+      [70, 65, 60, 55, 50]
+    ],
+    slope: [
+      [15, 20, 45, 80, 95],
+      [12, 18, 40, 75, 90],
+      [10, 15, 30, 65, 85],
+      [5,  8, 12, 40, 60],
+      [2,  3,  5, 10, 20]
+    ],
+    ndvi: [
+      [20, 25, 30, 45, 60],
+      [25, 30, 35, 55, 70],
+      [30, 35, 45, 65, 75],
+      [40, 45, 55, 70, 80],
+      [50, 55, 65, 75, 85]
+    ],
+    inf: [
+      [80, 75, 70, 50, 30],
+      [75, 70, 65, 45, 25],
+      [70, 65, 60, 40, 20],
+      [65, 60, 50, 35, 15],
+      [60, 50, 40, 30, 10]
+    ]
+  });
+
+  // Shoreline coordinates generation (DSAS)
+  const generateShorelinePoints = (year: 2000 | 2024, shift: number) => {
+    const points: { x: number; y: number }[] = [];
+    const width = 500;
+    const segments = 100;
+    for (let i = 0; i <= segments; i++) {
+      const x = (i / segments) * width;
+      // Wavy shoreline baseline Y around 130
+      let y = 130 + Math.sin(x * 0.02) * 25 + Math.cos(x * 0.05) * 8;
+      
+      if (year === 2000) {
+        // historic shoreline
+        y += Math.sin(x * 0.01 + shift) * 10;
+      } else {
+        // current shoreline - show erosion in center, accretion on edges
+        const distanceToCenter = Math.abs(x - 250);
+        const erosion = 22 - (distanceToCenter / 250) * 35; // negative means accretion
+        y += erosion + Math.sin(x * 0.03 - shift) * 6;
+      }
+      points.push({ x, y });
+    }
+    return points;
+  };
+
+  const points2000 = generateShorelinePoints(2000, shorelineShift);
+  const points2024 = generateShorelinePoints(2024, shorelineShift);
+
+  // Shoreline auto-animation effect
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setShorelineShift((prev) => prev + 0.03);
+    }, 50);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Compute DSAS Transect intersects
+  const getTransectData = (index: number) => {
+    const width = 500;
+    const x = 30 + (index / (transectCount - 1)) * (width - 60);
+    
+    // Find closest points in shoreline arrays
+    const pt2000 = points2000.reduce((prev, curr) => 
+      Math.abs(curr.x - x) < Math.abs(prev.x - x) ? curr : prev
+    );
+    const pt2024 = points2024.reduce((prev, curr) => 
+      Math.abs(curr.x - x) < Math.abs(prev.x - x) ? curr : prev
+    );
+
+    // Baseline is at Y = 250
+    const baselineY = 240;
+    const dist2000 = baselineY - pt2000.y;
+    const dist2024 = baselineY - pt2024.y;
+    
+    // Shoreline change (Net Shoreline Movement - NSM)
+    // Positive means accretion (shoreline moved away from baseline / seaward)
+    // Negative means erosion (shoreline moved closer to baseline / landward)
+    const nsm = dist2024 - dist2000;
+    const epr = nsm / 24; // End Point Rate (meters/year)
+
+    return {
+      x,
+      baselineY,
+      y2000: pt2000.y,
+      y2024: pt2024.y,
+      nsm,
+      epr
+    };
+  };
+
+  // Cell suscetibility math (AHP)
+  const getCellSusceptibility = (r: number, c: number) => {
+    const rainVal = cellValues.current.rain[r][c]; // higher = worse
+    const slopeVal = cellValues.current.slope[r][c]; // higher = worse
+    const ndviVal = 100 - cellValues.current.ndvi[r][c]; // lower NDVI = worse
+    const infVal = 100 - cellValues.current.inf[r][c]; // lower infiltration = worse
+
+    const rawScore = 
+      (rainVal * (normRain / 100)) + 
+      (slopeVal * (normSlope / 100)) + 
+      (ndviVal * (normNdvi / 100)) + 
+      (infVal * (normInf / 100));
+
+    return Math.round(rawScore);
+  };
+
+  // Susceptibility color helper
+  const getSusceptibilityColor = (val: number) => {
+    if (val > 75) return "bg-rose-500/80 border-rose-400";
+    if (val > 55) return "bg-orange-500/80 border-orange-400";
+    if (val > 35) return "bg-amber-500/80 border-amber-400";
+    return "bg-emerald-500/80 border-emerald-400";
+  };
+
+  return (
+    <section id="gis-lab" className="py-24 bg-background relative overflow-hidden border-b border-border/50">
+      <div className="mx-auto max-w-7xl px-6 lg:px-10">
+        <div className="text-xs uppercase tracking-widest text-accent font-mono font-semibold mb-3">
+          04b · Geospatial Methodology Lab
+        </div>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+          <div>
+            <h2 className="font-display text-4xl md:text-5xl font-semibold mb-3">
+              Geospatial Modelling Lab
+            </h2>
+            <p className="text-muted-foreground max-w-3xl text-sm md:text-base leading-relaxed">
+              Explore interactive visualizations explaining the core GIS methodologies used in coastal and hazard research: Digital Shoreline Analysis System (DSAS) rate calculations and AHP weighted overlay grids.
+            </p>
+          </div>
+
+          {/* Tab Switcher */}
+          <div className="flex bg-secondary/60 border border-border p-1 rounded-full shrink-0">
+            <button
+              onClick={() => setActiveTab("dsas")}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono transition-all ${
+                activeTab === "dsas"
+                  ? "bg-foreground text-background shadow-md"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Waves className="w-3.5 h-3.5" />
+              DSAS Dynamics
+            </button>
+            <button
+              onClick={() => setActiveTab("ahp")}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono transition-all ${
+                activeTab === "ahp"
+                  ? "bg-foreground text-background shadow-md"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Layers className="w-3.5 h-3.5" />
+              AHP Overlay Matrix
+            </button>
+          </div>
+        </div>
+
+        {/* Tab 1: DSAS Shoreline Analysis */}
+        {activeTab === "dsas" && (
+          <div className="grid lg:grid-cols-12 gap-8 items-stretch font-sans">
+            {/* Visualizer Frame */}
+            <div className="lg:col-span-8 rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs uppercase font-mono tracking-wider text-muted-foreground flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
+                    DSAS Transect Generation Simulator
+                  </span>
+                  <div className="text-[10px] font-mono text-muted-foreground">
+                    Scale: 1px = 1m | Epochs: 2000 — 2024
+                  </div>
+                </div>
+
+                <div className="relative aspect-[16/9] w-full bg-[#060a12] border border-border/60 rounded-xl overflow-hidden flex items-center justify-center">
+                  {/* Custom SVG Drawing Shorelines and Transects */}
+                  <svg viewBox="0 0 500 280" className="w-full h-full">
+                    {/* Cartographic grid */}
+                    <defs>
+                      <pattern id="dsas-grid" width="25" height="25" patternUnits="userSpaceOnUse">
+                        <path d="M 25 0 L 0 0 0 25" fill="none" stroke="rgba(255,255,255,0.02)" strokeWidth="0.5" />
+                      </pattern>
+                    </defs>
+                    <rect width="100%" height="100%" fill="url(#dsas-grid)" />
+
+                    {/* Accretion / Erosion Zone Fills */}
+                    {Array.from({ length: 40 }).map((_, idx) => {
+                      const x = (idx / 39) * 500;
+                      const pt2000 = points2000.reduce((prev, curr) => Math.abs(curr.x - x) < Math.abs(prev.x - x) ? curr : prev);
+                      const pt2024 = points2024.reduce((prev, curr) => Math.abs(curr.x - x) < Math.abs(prev.x - x) ? curr : prev);
+                      const isErosion = pt2024.y > pt2000.y; // moved inland (towards baseline Y=240, so Y coordinate is larger)
+                      return (
+                        <line
+                          key={idx}
+                          x1={x}
+                          y1={pt2000.y}
+                          x2={x}
+                          y2={pt2024.y}
+                          stroke={isErosion ? "rgba(239, 68, 68, 0.15)" : "rgba(16, 185, 129, 0.15)"}
+                          strokeWidth="8"
+                        />
+                      );
+                    })}
+
+                    {/* Reference Baseline */}
+                    <line x1="20" y1="240" x2="480" y2="240" stroke="rgba(255, 255, 255, 0.4)" strokeWidth="2" strokeDasharray="5,4" />
+                    <text x="30" y="255" fill="rgba(255, 255, 255, 0.5)" className="font-mono text-[9px] font-bold">DSAS REFERENCE BASELINE</text>
+
+                    {/* Historical Shoreline 2000 */}
+                    <path
+                      d={`M ${points2000.map(p => `${p.x},${p.y}`).join(" L ")}`}
+                      fill="none"
+                      stroke="#38bdf8"
+                      strokeWidth="2"
+                    />
+                    <text x="330" y={points2000[95].y - 8} fill="#38bdf8" className="font-mono text-[8px] font-bold">Shoreline 2000 (Historic)</text>
+
+                    {/* Current Shoreline 2024 */}
+                    <path
+                      d={`M ${points2024.map(p => `${p.x},${p.y}`).join(" L ")}`}
+                      fill="none"
+                      stroke="#fb7185"
+                      strokeWidth="2.5"
+                    />
+                    <text x="330" y={points2024[95].y - 8} fill="#fb7185" className="font-mono text-[8px] font-bold">Shoreline 2024 (Current)</text>
+
+                    {/* Render DSAS Transects */}
+                    {Array.from({ length: transectCount }).map((_, i) => {
+                      const data = getTransectData(i);
+                      const isHovered = hoveredTransect === i;
+                      const isErosion = data.y2024 > data.y2000;
+                      return (
+                        <g key={i} className="cursor-pointer" onMouseEnter={() => setHoveredTransect(i)} onMouseLeave={() => setHoveredTransect(null)}>
+                          {/* Invisible hover helper for thicker interaction target */}
+                          <line
+                            x1={data.x}
+                            y1={data.baselineY}
+                            x2={data.x}
+                            y2={Math.min(data.y2000, data.y2024) - 10}
+                            stroke="transparent"
+                            strokeWidth="12"
+                          />
+                          {/* Actual Transect Ray */}
+                          <line
+                            x1={data.x}
+                            y1={data.baselineY}
+                            x2={data.x}
+                            y2={data.y2024}
+                            stroke={isHovered ? "#60a5fa" : "rgba(255, 255, 255, 0.15)"}
+                            strokeWidth={isHovered ? "2" : "1"}
+                            strokeDasharray={isHovered ? "" : "3,2"}
+                          />
+                          {/* Historical point intersection circle */}
+                          <circle cx={data.x} cy={data.y2000} r={isHovered ? 4 : 2} fill="#38bdf8" />
+                          {/* Current point intersection circle */}
+                          <circle cx={data.x} cy={data.y2024} r={isHovered ? 4 : 2.5} fill="#fb7185" />
+                          
+                          {/* NSM / EPR line segment highlighter */}
+                          <line
+                            x1={data.x}
+                            y1={data.y2000}
+                            x2={data.x}
+                            y2={data.y2024}
+                            stroke={isErosion ? "#ef4444" : "#10b981"}
+                            strokeWidth={isHovered ? "4" : "2"}
+                          />
+                        </g>
+                      );
+                    })}
+                  </svg>
+
+                  {/* On-Map HUD overlay */}
+                  {hoveredTransect !== null && (() => {
+                    const data = getTransectData(hoveredTransect);
+                    return (
+                      <div className="absolute top-4 left-4 bg-slate-900/90 border border-border/80 p-3 rounded-lg backdrop-blur-md text-[11px] font-mono space-y-1.5 shadow-xl text-white">
+                        <div className="text-accent font-bold">TRANSECT #{hoveredTransect + 1} STATS:</div>
+                        <div>Historic Dist: <span className="text-sky-300">{(data.baselineY - data.y2000).toFixed(1)}m</span></div>
+                        <div>Current Dist: <span className="text-rose-300">{(data.baselineY - data.y2024).toFixed(1)}m</span></div>
+                        <div>Net Shift (NSM): <span className={data.nsm < 0 ? "text-rose-400" : "text-emerald-400"}>{data.nsm.toFixed(1)}m ({data.nsm < 0 ? "Erosion" : "Accretion"})</span></div>
+                        <div className="border-t border-white/10 pt-1 font-semibold">
+                          EPR Rate: <span className={data.epr < 0 ? "text-rose-400 font-bold" : "text-emerald-400 font-bold"}>{data.epr.toFixed(2)} m/yr</span>
+                        </div>
+                      </div>
+                    );
+                  })()}
+                </div>
+              </div>
+
+              {/* Slider controls */}
+              <div className="mt-6 flex flex-col sm:flex-row gap-5 items-center border-t border-border/40 pt-4 bg-secondary/10 rounded-xl p-4">
+                <div className="flex-1 w-full">
+                  <div className="flex justify-between items-center mb-1.5">
+                    <span className="text-xs font-semibold text-foreground/80 font-mono">Transect Sampling Count</span>
+                    <span className="font-mono text-xs text-accent font-bold">{transectCount} transects</span>
+                  </div>
+                  <input
+                    type="range"
+                    min="5"
+                    max="30"
+                    value={transectCount}
+                    onChange={(e) => setTransectCount(Number(e.target.value))}
+                    className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
+                  />
+                </div>
+                <div className="text-xs text-muted-foreground max-w-xs text-left sm:border-l sm:border-border/45 sm:pl-5 leading-relaxed font-sans font-medium">
+                  Adjust transect spacing to change the spatial sampling density along the baseline, simulating USGS DSAS model configurations.
+                </div>
+              </div>
+            </div>
+
+            {/* Educational / Mathematical Sidebar */}
+            <div className="lg:col-span-4 rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <BarChart2 className="w-4 h-4 text-accent" />
+                  <span className="text-sm font-semibold uppercase tracking-wider font-mono text-foreground/90">
+                    How DSAS Works
+                  </span>
+                </div>
+                
+                <p className="text-xs text-muted-foreground leading-relaxed font-medium">
+                  The **Digital Shoreline Analysis System (DSAS)** computes rate-of-change statistics from multiple historical shoreline vectors. It casts measurement transects perpendicular to a reference baseline.
+                </p>
+
+                <div className="border border-border/50 rounded-xl p-4 bg-secondary/15 space-y-4">
+                  <div className="space-y-1.5">
+                    <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold">
+                      1. Net Shoreline Movement (NSM)
+                    </div>
+                    <p className="text-[11px] text-muted-foreground leading-relaxed font-medium">
+                      Measures the physical distance (meters) between the oldest (2000) and newest (2024) shorelines.
+                    </p>
+                    <div className="bg-background/80 p-2 rounded text-[11px] font-mono text-foreground text-center">
+                       {"\\(NSM = D_{2024} - D_{2000}\\)"}
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold">
+                      2. End Point Rate (EPR)
+                    </div>
+                    <p className="text-[11px] text-muted-foreground leading-relaxed font-medium">
+                      Dividing the NSM by the elapsed time span between the shoreline epochs to get the annual rate.
+                    </p>
+                    <div className="bg-background/80 p-2 rounded text-[11px] font-mono text-foreground text-center">
+                      {"\\(EPR = \\frac{NSM}{\\Delta T_{years}}\\)"}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="text-xs text-muted-foreground space-y-2 font-medium">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
+                    <span>Accretion rate: shoreline expansion</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-rose-500 shrink-0" />
+                    <span>Erosion rate: shoreline retreat</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="flex items-start gap-2.5 bg-accent/5 border border-accent/15 p-4 rounded-xl text-xs text-muted-foreground font-medium">
+                <Info className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                <p>
+                  In shoreline research, these rates identify vulnerable coastlines, buffer zones, and validate shoreline prediction models.
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Tab 2: AHP Multi-Criteria Overlay */}
+        {activeTab === "ahp" && (
+          <div className="grid lg:grid-cols-12 gap-8 items-stretch font-sans">
+            {/* 3D Stack Visualization */}
+            <div className="lg:col-span-8 rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-6">
+                  <span className="text-xs uppercase font-mono tracking-wider text-muted-foreground flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
+                    3D spatial layer stack (Weighted overlay)
+                  </span>
+                  <div className="text-[10px] font-mono text-muted-foreground">
+                    Move cursor over grids to inspect overlay calculation
+                  </div>
+                </div>
+
+                {/* Stacking layer canvas */}
+                <div className="relative h-[340px] w-full bg-[#060a12] border border-border/60 rounded-xl overflow-hidden flex items-center justify-center">
+                  
+                  {/* Layer Stack Container using CSS 3D transforms */}
+                  <div 
+                    style={{
+                      transform: "perspective(800px) rotateX(55deg) rotateZ(-30deg) translateY(-40px)",
+                      transformStyle: "preserve-3d",
+                    }}
+                    className="relative w-[180px] h-[180px] transition-transform duration-500"
+                  >
+                    
+                    {/* Layer 1: Rainfall (Top) */}
+                    <div 
+                      style={{ transform: "translateZ(135px)" }}
+                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1 transition-all duration-300 hover:border-accent/60"
+                    >
+                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/50 bg-slate-900 px-1 py-0.5 rounded border border-white/5 uppercase select-none">
+                        Rainfall ({normRain.toFixed(0)}%)
+                      </div>
+                      {cellValues.current.rain.map((row, r) => 
+                        row.map((val, c) => (
+                          <div
+                            key={`rain-${r}-${c}`}
+                            onMouseEnter={() => setHoveredCell({ r, c })}
+                            className={`m-[1px] rounded-[2px] transition-all duration-150 ${
+                              hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
+                            }`}
+                            style={{ backgroundColor: `rgba(59, 130, 246, ${val / 150})` }}
+                          />
+                        ))
+                      )}
+                    </div>
+
+                    {/* Layer 2: Slope */}
+                    <div 
+                      style={{ transform: "translateZ(90px)" }}
+                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1 transition-all duration-300 hover:border-accent/60"
+                    >
+                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/50 bg-slate-900 px-1 py-0.5 rounded border border-white/5 uppercase select-none">
+                        Slope ({normSlope.toFixed(0)}%)
+                      </div>
+                      {cellValues.current.slope.map((row, r) => 
+                        row.map((val, c) => (
+                          <div
+                            key={`slope-${r}-${c}`}
+                            onMouseEnter={() => setHoveredCell({ r, c })}
+                            className={`m-[1px] rounded-[2px] transition-all duration-150 ${
+                              hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
+                            }`}
+                            style={{ backgroundColor: `rgba(249, 115, 22, ${val / 120})` }}
+                          />
+                        ))
+                      )}
+                    </div>
+
+                    {/* Layer 3: NDVI */}
+                    <div 
+                      style={{ transform: "translateZ(45px)" }}
+                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1 transition-all duration-300 hover:border-accent/60"
+                    >
+                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/50 bg-slate-900 px-1 py-0.5 rounded border border-white/5 uppercase select-none">
+                        NDVI ({normNdvi.toFixed(0)}%)
+                      </div>
+                      {cellValues.current.ndvi.map((row, r) => 
+                        row.map((val, c) => (
+                          <div
+                            key={`ndvi-${r}-${c}`}
+                            onMouseEnter={() => setHoveredCell({ r, c })}
+                            className={`m-[1px] rounded-[2px] transition-all duration-150 ${
+                              hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
+                            }`}
+                            style={{ backgroundColor: `rgba(16, 185, 129, ${(100 - val) / 130})` }}
+                          />
+                        ))
+                      )}
+                    </div>
+
+                    {/* Layer 4: Soil Infiltration */}
+                    <div 
+                      style={{ transform: "translateZ(0px)" }}
+                      className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1 transition-all duration-300 hover:border-accent/60"
+                    >
+                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/50 bg-slate-900 px-1 py-0.5 rounded border border-white/5 uppercase select-none">
+                        Soil Infiltration ({normInf.toFixed(0)}%)
+                      </div>
+                      {cellValues.current.inf.map((row, r) => 
+                        row.map((val, c) => (
+                          <div
+                            key={`inf-${r}-${c}`}
+                            onMouseEnter={() => setHoveredCell({ r, c })}
+                            className={`m-[1px] rounded-[2px] transition-all duration-150 ${
+                              hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-accent scale-105" : ""
+                            }`}
+                            style={{ backgroundColor: `rgba(139, 92, 246, ${(100 - val) / 130})` }}
+                          />
+                        ))
+                      )}
+                    </div>
+
+                    {/* Layer 5: Output Susceptibility Map (Bottom) */}
+                    <div 
+                      style={{ transform: "translateZ(-55px)" }}
+                      className="absolute inset-0 bg-slate-950 border-2 border-accent/40 rounded shadow-[0_0_25px_rgba(34,197,94,0.15)] grid grid-cols-5 p-1 transition-all duration-300"
+                    >
+                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-accent font-bold bg-accent/10 px-1.5 py-0.5 rounded border border-accent/20 uppercase select-none">
+                        SUSCEPTIBILITY OUTPUT
+                      </div>
+                      {Array.from({ length: 5 }).map((_, r) => 
+                        Array.from({ length: 5 }).map((_, c) => {
+                          const val = getCellSusceptibility(r, c);
+                          return (
+                            <div
+                              key={`out-${r}-${c}`}
+                              onMouseEnter={() => setHoveredCell({ r, c })}
+                              className={`m-[1px] rounded-[2px] border transition-all duration-150 ${getSusceptibilityColor(val)} ${
+                                hoveredCell?.r === r && hoveredCell?.c === c ? "ring-2 ring-white scale-110 shadow-lg z-20" : "border-transparent"
+                              }`}
+                            />
+                          );
+                        })
+                      )}
+                    </div>
+
+                    {/* Animated vertical Ray tracing through active cell */}
+                    {hoveredCell && (() => {
+                      const cellSize = 176 / 5;
+                      const rx = (hoveredCell.c * cellSize) + (cellSize / 2);
+                      const ry = (hoveredCell.r * cellSize) + (cellSize / 2);
+                      return (
+                        <div
+                          style={{
+                            position: "absolute",
+                            left: `${rx}px`,
+                            top: `${ry}px`,
+                            height: "220px", // spans top to bottom layer
+                            width: "2px",
+                            background: "linear-gradient(to bottom, #60a5fa 0%, #a78bfa 50%, #f43f5e 100%)",
+                            transform: "translateZ(-60px)",
+                            transformStyle: "preserve-3d",
+                            pointerEvents: "none",
+                            boxShadow: "0 0 10px rgba(96,165,251,0.8)",
+                          }}
+                          className="opacity-70 animate-pulse"
+                        />
+                      );
+                    })()}
+
+                  </div>
+                </div>
+              </div>
+
+              {/* Sliders for AHP factors */}
+              <div className="mt-6 border-t border-border/40 pt-4 grid grid-cols-2 sm:grid-cols-4 gap-4 bg-secondary/10 rounded-xl p-4">
+                <div>
+                  <label className="block text-[10px] font-semibold text-muted-foreground uppercase font-mono mb-1">
+                    Rainfall Weight
+                  </label>
+                  <input
+                    type="range"
+                    min="5"
+                    max="60"
+                    value={weightRain}
+                    onChange={(e) => setWeightRain(Number(e.target.value))}
+                    className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
+                  />
+                  <div className="text-xs font-mono font-bold mt-1 text-accent">{normRain.toFixed(0)}%</div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-semibold text-muted-foreground uppercase font-mono mb-1">
+                    Slope Weight
+                  </label>
+                  <input
+                    type="range"
+                    min="5"
+                    max="60"
+                    value={weightSlope}
+                    onChange={(e) => setWeightSlope(Number(e.target.value))}
+                    className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
+                  />
+                  <div className="text-xs font-mono font-bold mt-1 text-accent">{normSlope.toFixed(0)}%</div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-semibold text-muted-foreground uppercase font-mono mb-1">
+                    NDVI Weight
+                  </label>
+                  <input
+                    type="range"
+                    min="5"
+                    max="60"
+                    value={weightNdvi}
+                    onChange={(e) => setWeightNdvi(Number(e.target.value))}
+                    className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
+                  />
+                  <div className="text-xs font-mono font-bold mt-1 text-accent">{normNdvi.toFixed(0)}%</div>
+                </div>
+
+                <div>
+                  <label className="block text-[10px] font-semibold text-muted-foreground uppercase font-mono mb-1">
+                    Infiltration Weight
+                  </label>
+                  <input
+                    type="range"
+                    min="5"
+                    max="60"
+                    value={weightInf}
+                    onChange={(e) => setWeightInf(Number(e.target.value))}
+                    className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
+                  />
+                  <div className="text-xs font-mono font-bold mt-1 text-accent">{normInf.toFixed(0)}%</div>
+                </div>
+              </div>
+            </div>
+
+            {/* Overlay calculation details sidebar */}
+            <div className="lg:col-span-4 rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Grid className="w-4 h-4 text-accent" />
+                  <span className="text-sm font-semibold uppercase tracking-wider font-mono text-foreground/90">
+                    AHP Overlay Matrix
+                  </span>
+                </div>
+                
+                <p className="text-xs text-muted-foreground leading-relaxed font-medium">
+                  Analytic Hierarchy Process (AHP) assigns mathematical weights to factors based on pairwise comparison matrices. In GIS, these raster factor layers are overlayed pixel-by-pixel.
+                </p>
+
+                {hoveredCell && (() => {
+                  const rainVal = cellValues.current.rain[hoveredCell.r][hoveredCell.c];
+                  const slopeVal = cellValues.current.slope[hoveredCell.r][hoveredCell.c];
+                  const ndviVal = 100 - cellValues.current.ndvi[hoveredCell.r][hoveredCell.c];
+                  const infVal = 100 - cellValues.current.inf[hoveredCell.r][hoveredCell.c];
+                  const finalVal = getCellSusceptibility(hoveredCell.r, hoveredCell.c);
+                  
+                  let riskTxt = "Low Susceptibility";
+                  let riskColor = "text-emerald-500";
+                  if (finalVal > 75) { riskTxt = "Extreme Susceptibility"; riskColor = "text-rose-500"; }
+                  else if (finalVal > 55) { riskTxt = "High Susceptibility"; riskColor = "text-orange-500"; }
+                  else if (finalVal > 35) { riskTxt = "Moderate Susceptibility"; riskColor = "text-amber-500"; }
+
+                  return (
+                    <div className="border border-border/50 rounded-xl p-4 bg-secondary/15 space-y-3 font-mono text-[11px] text-white">
+                      <div className="text-accent font-bold border-b border-white/5 pb-1">
+                        CELL ({hoveredCell.r}, {hoveredCell.c}) OVERLAY MATH:
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Rainfall:</span>
+                        <span>{rainVal} &times; {normRain.toFixed(0)}% = {((rainVal * normRain) / 100).toFixed(1)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Slope:</span>
+                        <span>{slopeVal} &times; {normSlope.toFixed(0)}% = {((slopeVal * normSlope) / 100).toFixed(1)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>NDVI (Loss):</span>
+                        <span>{ndviVal} &times; {normNdvi.toFixed(0)}% = {((ndviVal * normNdvi) / 100).toFixed(1)}</span>
+                      </div>
+                      <div className="flex justify-between">
+                        <span>Clay soil:</span>
+                        <span>{infVal} &times; {normInf.toFixed(0)}% = {((infVal * normInf) / 100).toFixed(1)}</span>
+                      </div>
+                      <div className="border-t border-white/10 pt-2 flex justify-between font-bold text-xs">
+                        <span>Overlay Sum:</span>
+                        <span className={riskColor}>{finalVal}%</span>
+                      </div>
+                      <div className={`text-[10px] text-center font-bold font-sans uppercase mt-1 ${riskColor}`}>
+                        {riskTxt}
+                      </div>
+                    </div>
+                  );
+                })()}
+              </div>
+
+              <div className="text-xs text-muted-foreground space-y-1 leading-relaxed bg-secondary/20 p-3 rounded-lg border border-border/40 font-medium">
+                <div className="font-semibold text-foreground mb-1">SUSCEPTIBILITY FORMULA:</div>
+                <div className="font-mono text-[10px]">
+                  {"\\(Score = \\sum (Factor_{i} \\times Weight_{i})\\)"}
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+      </div>
+    </section>
+  );
+}
