@@ -1335,7 +1335,8 @@ function Skills() {
                 return (
                   <div
                     key={`${i}-${j}`}
-                    className="inline-flex items-center justify-center bg-card border border-border/80 p-3 rounded-2xl shadow-sm mx-4 hover:border-accent/40 transition-colors"
+                    className="inline-flex items-center justify-center bg-card border border-border/80 p-3 rounded-2xl shadow-sm mx-4 hover:border-accent/40 transition-colors cursor-help"
+                    title={s.name}
                   >
                     <IconComponent />
                   </div>
