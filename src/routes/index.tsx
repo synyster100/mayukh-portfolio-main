@@ -850,7 +850,7 @@ function Nav() {
 
 function Hero() {
   return (
-    <section id="top" className="relative pt-32 pb-24 overflow-hidden bg-contours">
+    <section id="top" className="relative pt-32 pb-12 overflow-hidden bg-contours">
       <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
       {/* Decorative SVG topo */}
       <svg
@@ -992,7 +992,7 @@ function Hero() {
 function About() {
   const ref = useReveal<HTMLDivElement>();
   return (
-    <section id="about" className="py-28">
+    <section id="about" className="pt-12 pb-28">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHeader eyebrow="01 · About" title="About me" />
         <div ref={ref} className="reveal grid lg:grid-cols-12 gap-12 mt-12">
