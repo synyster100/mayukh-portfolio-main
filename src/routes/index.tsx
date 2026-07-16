@@ -724,117 +724,184 @@ function InteractiveGISBackground() {
     };
     window.addEventListener("mousemove", handleMouseMove);
 
-    // Static topographic contour peak coordinates & parameters
-    const peaks = [
-      { cx: width * 0.15, cy: height * 0.2, rings: 7, base: 45, step: 25, seed: 1 },
-      { cx: width * 0.85, cy: height * 0.35, rings: 8, base: 50, step: 28, seed: 2 },
-      { cx: width * 0.3, cy: height * 0.75, rings: 6, base: 40, step: 22, seed: 3 },
-      { cx: width * 0.75, cy: height * 0.8, rings: 7, base: 45, step: 24, seed: 4 },
+    // Static Cartographic Map Feature Coordinates (scaled dynamically)
+    const riverPoints = [
+      { x: 0, y: height * 0.25 },
+      { x: width * 0.3, y: height * 0.4 },
+      { x: width * 0.55, y: height * 0.3 },
+      { x: width * 0.78, y: height * 0.65 },
+      { x: width, y: height * 0.55 },
+    ];
+
+    // Landmass 1 (Left Coast)
+    const land1 = [
+      { x: 0, y: height * 0.05 },
+      { x: width * 0.2, y: height * 0.12 },
+      { x: width * 0.26, y: height * 0.28 },
+      { x: width * 0.18, y: height * 0.45 },
+      { x: width * 0.08, y: height * 0.65 },
+      { x: 0, y: height * 0.8 },
+    ];
+
+    // Landmass 2 (Right Island)
+    const land2 = [
+      { x: width * 0.72, y: height * 0.2 },
+      { x: width * 0.92, y: height * 0.15 },
+      { x: width, y: height * 0.35 },
+      { x: width * 0.88, y: height * 0.7 },
+      { x: width * 0.68, y: height * 0.85 },
+      { x: width * 0.62, y: height * 0.58 },
+      { x: width * 0.72, y: height * 0.4 },
+    ];
+
+    // Forests (tree coordinates inside landmasses)
+    const forestTrees = [
+      { x: width * 0.05, y: height * 0.15 },
+      { x: width * 0.08, y: height * 0.22 },
+      { x: width * 0.04, y: height * 0.32 },
+      { x: width * 0.12, y: height * 0.2 },
+      { x: width * 0.15, y: height * 0.3 },
+      { x: width * 0.06, y: height * 0.48 },
+      { x: width * 0.8, y: height * 0.35 },
+      { x: width * 0.84, y: height * 0.42 },
+      { x: width * 0.76, y: height * 0.52 },
+      { x: width * 0.88, y: height * 0.48 },
+      { x: width * 0.72, y: height * 0.6 },
+      { x: width * 0.82, y: height * 0.68 },
     ];
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
 
-      // Smooth mouse follow
       const mouse = mouseRef.current;
       mouse.x += (mouse.tx - mouse.x) * 0.1;
       mouse.y += (mouse.ty - mouse.y) * 0.1;
 
       const isDark = document.documentElement.classList.contains("dark");
-      
-      // Styling contour lines with radial cursor highlight
-      ctx.lineWidth = 0.8;
-      const grad = ctx.createRadialGradient(mouse.x, mouse.y, 20, mouse.x, mouse.y, 260);
-      if (isDark) {
-        grad.addColorStop(0, "rgba(56, 189, 248, 0.38)");  // Glowing Sky Blue near mouse
-        grad.addColorStop(0.45, "rgba(255, 255, 255, 0.14)"); // Clear white medium range
-        grad.addColorStop(1, "rgba(255, 255, 255, 0.06)");   // Subtle white background
-      } else {
-        grad.addColorStop(0, "rgba(29, 78, 216, 0.4)");     // Vibrant Royal Blue near mouse
-        grad.addColorStop(0.45, "rgba(0, 102, 204, 0.16)");   // Clear blue medium range
-        grad.addColorStop(1, "rgba(0, 102, 204, 0.07)");     // Subtle blue background
+
+      // Dynamic theme colors for cartography styling
+      const landColor = isDark ? "rgba(74, 117, 89, 0.06)" : "rgba(34, 197, 94, 0.04)";
+      const landBorder = isDark ? "rgba(255, 255, 255, 0.07)" : "rgba(0, 102, 204, 0.08)";
+      const riverColor = isDark ? "rgba(56, 189, 248, 0.07)" : "rgba(59, 130, 246, 0.07)";
+      const riverBorder = isDark ? "rgba(56, 189, 248, 0.15)" : "rgba(59, 130, 246, 0.18)";
+      const treeColor = isDark ? "rgba(52, 211, 153, 0.15)" : "rgba(16, 185, 129, 0.2)";
+
+      // --- Draw Landmass 1 ---
+      ctx.beginPath();
+      land1.forEach((p, idx) => {
+        if (idx === 0) ctx.moveTo(p.x, p.y);
+        else ctx.lineTo(p.x, p.y);
+      });
+      ctx.closePath();
+      ctx.fillStyle = landColor;
+      ctx.fill();
+      ctx.strokeStyle = landBorder;
+      ctx.stroke();
+
+      // Landmass 1 Contours (depth indicators)
+      for (let r = 1; r <= 3; r++) {
+        ctx.beginPath();
+        land1.forEach((p, idx) => {
+          const ox = p.x === 0 ? 0 : p.x + r * 15;
+          const oy = p.y + (idx % 2 === 0 ? r * 10 : -r * 10);
+          if (idx === 0) ctx.moveTo(ox, oy);
+          else ctx.lineTo(ox, oy);
+        });
+        ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.02)" : "rgba(0, 102, 204, 0.03)";
+        ctx.stroke();
       }
-      ctx.strokeStyle = grad;
 
-      // Draw Topographic Contour Hills
-      peaks.forEach((peak) => {
-        let cx = peak.cx;
-        let cy = peak.cy;
-        if (peak.seed === 1) { cx = width * 0.12; cy = height * 0.25; }
-        if (peak.seed === 2) { cx = width * 0.88; cy = height * 0.35; }
-        if (peak.seed === 3) { cx = width * 0.25; cy = height * 0.75; }
-        if (peak.seed === 4) { cx = width * 0.75; cy = height * 0.85; }
+      // --- Draw Landmass 2 ---
+      ctx.beginPath();
+      land2.forEach((p, idx) => {
+        if (idx === 0) ctx.moveTo(p.x, p.y);
+        else ctx.lineTo(p.x, p.y);
+      });
+      ctx.closePath();
+      ctx.fillStyle = landColor;
+      ctx.fill();
+      ctx.strokeStyle = landBorder;
+      ctx.stroke();
 
-        for (let r = 0; r < peak.rings; r++) {
-          ctx.beginPath();
-          const baseRadius = peak.base + r * peak.step;
-          
-          // Draw wavy loops instead of circles to look organic like actual land elevation
-          const steps = 64;
-          for (let s = 0; s <= steps; s++) {
-            const angle = (s / steps) * Math.PI * 2;
-            const waveOffset = Math.sin(angle * 5 + peak.seed) * 8 + Math.cos(angle * 3) * 4;
-            const currentRadius = baseRadius + waveOffset;
+      // Landmass 2 Contours
+      for (let r = 1; r <= 3; r++) {
+        ctx.beginPath();
+        land2.forEach((p, idx) => {
+          const angle = Math.atan2(p.y - (height * 0.5), p.x - (width * 0.8));
+          const ox = p.x + Math.cos(angle) * r * 15;
+          const oy = p.y + Math.sin(angle) * r * 15;
+          if (idx === 0) ctx.moveTo(ox, oy);
+          else ctx.lineTo(ox, oy);
+        });
+        ctx.closePath();
+        ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.02)" : "rgba(0, 102, 204, 0.03)";
+        ctx.stroke();
+      }
 
-            let px = cx + Math.cos(angle) * currentRadius;
-            let py = cy + Math.sin(angle) * currentRadius;
+      // --- Draw Winding River ---
+      ctx.beginPath();
+      ctx.moveTo(riverPoints[0].x, riverPoints[0].y);
+      for (let i = 1; i < riverPoints.length - 1; i++) {
+        const xc = (riverPoints[i].x + riverPoints[i + 1].x) / 2;
+        const yc = (riverPoints[i].y + riverPoints[i + 1].y) / 2;
+        ctx.quadraticCurveTo(riverPoints[i].x, riverPoints[i].y, xc, yc);
+      }
+      ctx.quadraticCurveTo(
+        riverPoints[riverPoints.length - 1].x,
+        riverPoints[riverPoints.length - 1].y,
+        riverPoints[riverPoints.length - 1].x,
+        riverPoints[riverPoints.length - 1].y
+      );
+      ctx.lineWidth = 14;
+      ctx.strokeStyle = riverColor;
+      ctx.stroke();
+      ctx.lineWidth = 1.5;
+      ctx.strokeStyle = riverBorder;
+      ctx.stroke();
 
-            // Cursor deflection
-            const dx = mouse.x - px;
-            const dy = mouse.y - py;
-            const dist = Math.sqrt(dx * dx + dy * dy);
-            const maxWarpDist = 180;
+      // Thin river center flowline
+      ctx.lineWidth = 0.5;
+      ctx.strokeStyle = isDark ? "rgba(56, 189, 248, 0.3)" : "rgba(59, 130, 246, 0.35)";
+      ctx.stroke();
 
-            if (dist < maxWarpDist) {
-              const force = (maxWarpDist - dist) / maxWarpDist;
-              const warpAngle = Math.atan2(dy, dx);
-              px -= Math.cos(warpAngle) * force * 16;
-              py -= Math.sin(warpAngle) * force * 16;
-            }
-
-            if (s === 0) {
-              ctx.moveTo(px, py);
-            } else {
-              ctx.lineTo(px, py);
-            }
-          }
-          ctx.stroke();
-
-          // Draw elevation meters watermark
-          if (r === peak.rings - 2) {
-            ctx.save();
-            ctx.fillStyle = isDark ? "rgba(255, 255, 255, 0.14)" : "rgba(0, 102, 204, 0.16)";
-            ctx.font = "8px monospace";
-            ctx.fillText(`${60 + r * 25}m`, cx + baseRadius, cy);
-            ctx.restore();
-          }
-        }
+      // --- Draw Forests (Pine Tree Symbols) ---
+      forestTrees.forEach((t) => {
+        ctx.beginPath();
+        ctx.moveTo(t.x, t.y - 6);
+        ctx.lineTo(t.x - 4, t.y + 2);
+        ctx.lineTo(t.x + 4, t.y + 2);
+        ctx.closePath();
+        ctx.fillStyle = treeColor;
+        ctx.fill();
+        ctx.beginPath();
+        ctx.moveTo(t.x, t.y + 2);
+        ctx.lineTo(t.x, t.y + 4);
+        ctx.strokeStyle = treeColor;
+        ctx.lineWidth = 1;
+        ctx.stroke();
       });
 
-      // Draw map tick coordinates grid '+'
+      // --- Draw Cartographic Map Grid Ticks ---
       const spacing = 130;
       const cols = Math.floor(width / spacing);
       const rows = Math.floor(height / spacing);
-      ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 102, 204, 0.06)";
+      ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.04)" : "rgba(0, 102, 204, 0.05)";
       ctx.lineWidth = 0.5;
-
       for (let c = 1; c < cols; c++) {
         for (let r = 1; r < rows; r++) {
           const tx = c * spacing;
           const ty = r * spacing;
-          
           ctx.beginPath();
-          ctx.moveTo(tx - 4, ty);
-          ctx.lineTo(tx + 4, ty);
-          ctx.moveTo(tx, ty - 4);
-          ctx.lineTo(tx, ty + 4);
+          ctx.moveTo(tx - 4, ty); ctx.lineTo(tx + 4, ty);
+          ctx.moveTo(tx, ty - 4); ctx.lineTo(tx, ty + 4);
           ctx.stroke();
         }
       }
 
-      // Draw target cursor crosshair & guidelines
+      // --- Draw Target Locator HUD around Cursor ---
       if (mouse.x > 0 && mouse.y > 0) {
-        ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.14)" : "rgba(0, 102, 204, 0.18)";
+        ctx.save();
+        ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.16)" : "rgba(0, 102, 204, 0.22)";
         ctx.beginPath();
         ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
         ctx.stroke();
@@ -846,19 +913,42 @@ function InteractiveGISBackground() {
 
         ctx.setLineDash([3, 6]);
         ctx.beginPath();
-        ctx.moveTo(mouse.x - 50, mouse.y);
-        ctx.lineTo(mouse.x + 50, mouse.y);
-        ctx.moveTo(mouse.x, mouse.y - 50);
-        ctx.lineTo(mouse.x, mouse.y + 50);
+        ctx.moveTo(mouse.x - 60, mouse.y);
+        ctx.lineTo(mouse.x + 60, mouse.y);
+        ctx.moveTo(mouse.x, mouse.y - 60);
+        ctx.lineTo(mouse.x, mouse.y + 60);
         ctx.stroke();
-        ctx.setLineDash([]);
+        ctx.restore();
 
-        // Elegant lat/lon display next to cursor
-        ctx.fillStyle = isDark ? "rgba(255, 255, 255, 0.35)" : "rgba(0, 102, 204, 0.4)";
+        // Dynamic coordinate tags
+        ctx.fillStyle = isDark ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 102, 204, 0.5)";
         ctx.font = "8px monospace";
         const lat = (23.8103 + (mouse.y - height / 2) * 0.0001).toFixed(4);
         const lon = (90.4125 + (mouse.x - width / 2) * 0.0001).toFixed(4);
-        ctx.fillText(`N ${lat}° E ${lon}°`, mouse.x + 12, mouse.y - 8);
+        ctx.fillText(`LAT: ${lat}°N / LON: ${lon}°E`, mouse.x + 12, mouse.y - 12);
+
+        // Zone detection
+        let nearRiver = false;
+        riverPoints.forEach((rp) => {
+          const dist = Math.sqrt((mouse.x - rp.x) ** 2 + (mouse.y - rp.y) ** 2);
+          if (dist < 100) nearRiver = true;
+        });
+
+        let nearForest = false;
+        forestTrees.forEach((ft) => {
+          const dist = Math.sqrt((mouse.x - ft.x) ** 2 + (mouse.y - ft.y) ** 2);
+          if (dist < 80) nearForest = true;
+        });
+
+        if (nearRiver) {
+          ctx.fillStyle = isDark ? "rgba(56, 189, 248, 0.5)" : "rgba(59, 130, 246, 0.6)";
+          ctx.fillText("FEATURE: MEANDER RIVER (FLOW)", mouse.x + 12, mouse.y);
+        } else if (nearForest) {
+          ctx.fillStyle = isDark ? "rgba(52, 211, 153, 0.5)" : "rgba(16, 185, 129, 0.6)";
+          ctx.fillText("ECOZONE: CANOPY FOREST (PINE)", mouse.x + 12, mouse.y);
+        } else {
+          ctx.fillText("SURFACE: LAND MASS (CLAY)", mouse.x + 12, mouse.y);
+        }
       }
 
       animFrame = requestAnimationFrame(draw);
