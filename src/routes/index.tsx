@@ -885,7 +885,7 @@ function Hero() {
             <span className="text-primary">.</span>
           </h1>
           <p className="mt-8 text-base md:text-lg text-muted-foreground max-w-2xl text-pretty leading-relaxed">
-            Civil &amp; Environmental Engineering graduate from IUT specializing in <strong className="text-foreground font-semibold">Water Resources, Geo-environmental modeling, and CAD/GIS systems</strong>. Bridging physical design and spatial data analytics.
+            Fresh graduate Civil &amp; Environmental Engineering specializing in <strong className="text-foreground font-semibold">Geospatial Data Analysis and CAD systems</strong>.
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <a
