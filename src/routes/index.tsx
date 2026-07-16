@@ -391,6 +391,24 @@ const EXTRACURRICULARS = [
     period: "2021 - Present",
     category: "Education",
   },
+  {
+    role: "Member",
+    org: "IUT Debating Society",
+    period: "2021 - Present",
+    category: "Debate",
+  },
+  {
+    role: "Campus Ambassador",
+    org: "East West University Telecommunications Club",
+    period: "Nov 2023 - Present",
+    category: "Leadership",
+  },
+  {
+    role: "Campus Ambassador",
+    org: "Interactive Cares",
+    period: "Apr 2023 - May 2023",
+    category: "Education",
+  },
 ];
 
 /* ---------- Component ---------- */
