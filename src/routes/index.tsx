@@ -426,6 +426,197 @@ const EXTRACURRICULARS = [
   },
 ];
 
+const CERTIFICATIONS = [
+  {
+    title: "GIS, Mapping, and Spatial Analysis Specialization",
+    issuer: "University of Toronto",
+    date: "Jan 2026",
+    id: "AZB0W1PX3UDQ",
+    category: "Geospatial & Remote Sensing"
+  },
+  {
+    title: "Geographic Information Systems (GIS) Specialization",
+    issuer: "University of California, Davis",
+    date: "Sep 2025",
+    id: "19I0B2ED0QNE",
+    category: "Geospatial & Remote Sensing"
+  },
+  {
+    title: "GIS: Geographic Information Systems for Sustainability",
+    issuer: "University of Michigan",
+    date: "Feb 2025",
+    id: "X7MRGBICR2Q3",
+    category: "Geospatial & Remote Sensing"
+  },
+  {
+    title: "Google Project Management: Specialization",
+    issuer: "Google",
+    date: "Jan 2025",
+    id: "USR15WDCD8IR",
+    category: "Project Management & Leadership"
+  },
+  {
+    title: "Geospatial Technology for Construction",
+    issuer: "L&T EduTech",
+    date: "Jan 2025",
+    id: "2M4ULNKOY8T3",
+    category: "Geospatial & Remote Sensing"
+  },
+  {
+    title: "Certified Supply Chain Analyst (CSCA)",
+    issuer: "ISCEA - International Supply Chain Education Alliance",
+    date: "Nov 2023",
+    id: "2311192065",
+    category: "Project Management & Leadership"
+  },
+  {
+    title: "Remote Sensing Image Acquisition, Analysis and Applications",
+    issuer: "UNSW",
+    date: "Nov 2024",
+    id: "F6MMXMEN6UF8",
+    category: "Geospatial & Remote Sensing"
+  },
+  {
+    title: "GIS Data Formats, Design and Quality",
+    issuer: "University of California, Davis",
+    date: "Nov 2024",
+    id: "5EGFMIOLMKGT",
+    category: "Geospatial & Remote Sensing"
+  },
+  {
+    title: "Geospatial Analysis with ArcGIS",
+    issuer: "University of California, Davis",
+    date: "Nov 2024",
+    id: "M1J5CX8KMOIX",
+    category: "Geospatial & Remote Sensing"
+  },
+  {
+    title: "GIS Applications Across Industries",
+    issuer: "University of California, Davis",
+    date: "Nov 2024",
+    id: "OGKEZ9V2LEJ0",
+    category: "Geospatial & Remote Sensing"
+  },
+  {
+    title: "Exploring ArcGIS Pro: GIS Tutorials",
+    issuer: "CADCIM Technologies",
+    date: "Nov 2024",
+    id: "UC-02a2721b-6015-4004-a80a-8b10c44fcc56",
+    category: "Geospatial & Remote Sensing"
+  },
+  {
+    title: "Fundamentals of GIS",
+    issuer: "University of California, Davis",
+    date: "Oct 2024",
+    id: "1EPMOYU3CQXK",
+    category: "Geospatial & Remote Sensing"
+  },
+  {
+    title: "Telling Stories with GIS Maps",
+    issuer: "Esri",
+    date: "Dec 2024",
+    id: "67550fee56773b14de50a7b4/-360",
+    category: "Geospatial & Remote Sensing"
+  },
+  {
+    title: "Data Analysis with Python Specialization",
+    issuer: "University of Colorado Boulder",
+    date: "Dec 2024",
+    id: "2P3CL1GRPGOI",
+    category: "Data Science, AI & Computing"
+  },
+  {
+    title: "Python for Data Science, AI & Development",
+    issuer: "IBM",
+    date: "Nov 2024",
+    id: "D7PYDD00PL09",
+    category: "Data Science, AI & Computing"
+  },
+  {
+    title: "Harnessing AI and Machine Learning for Geospatial Analysis",
+    issuer: "Udemy",
+    date: "Dec 2024",
+    id: "UC-4a0a846d-3657-4120-bb0b-8cbbe4c1b695",
+    category: "Data Science, AI & Computing"
+  },
+  {
+    title: "Sustainability for Design, Construction, and Manufacturing",
+    issuer: "Project Management Institute (PMI)",
+    date: "Oct 2024",
+    category: "Civil Engineering & Sustainability"
+  },
+  {
+    title: "Sustainable Construction Management",
+    issuer: "University of Maryland",
+    date: "Nov 2024",
+    id: "IV8TFNFYW4KZ",
+    category: "Civil Engineering & Sustainability"
+  },
+  {
+    title: "Sustainable Cities Specialization",
+    issuer: "The Johns Hopkins University",
+    date: "Nov 2024",
+    id: "2OX1TX5JJHFY",
+    category: "Civil Engineering & Sustainability"
+  },
+  {
+    title: "Life Cycle Assessment",
+    issuer: "University of Michigan",
+    date: "Oct 2024",
+    id: "O9CBB5NYYG8E",
+    category: "Civil Engineering & Sustainability"
+  },
+  {
+    title: "Slope Engineering",
+    issuer: "The Hong Kong University of Science and Technology",
+    date: "Oct 2024",
+    id: "L8YQ7R8GDVTD",
+    category: "Civil Engineering & Sustainability"
+  },
+  {
+    title: "Exploring AutoCAD Civil 3D (Basics to Advanced)",
+    issuer: "CADCIM Technologies",
+    date: "Dec 2024",
+    id: "UC-d29872aa-6408-4eb8-90f9-ab0bba359928",
+    category: "Civil Engineering & Sustainability"
+  },
+  {
+    title: "Exploring Autodesk Revit for Structure (BIM)",
+    issuer: "CADCIM Technologies",
+    date: "Dec 2024",
+    id: "UC-d29872aa-6408-4eb8-90f9-ab0bba359928",
+    category: "Civil Engineering & Sustainability"
+  },
+  {
+    title: "Water Resources Management and Policy",
+    issuer: "University of Geneva",
+    date: "Oct 2024",
+    id: "PLQAJJA7KDC4",
+    category: "Civil Engineering & Sustainability"
+  },
+  {
+    title: "ETABS Essentials 2022",
+    issuer: "ACI IUT Student Chapter",
+    date: "Sep 2022",
+    id: "ACIIUT.jpg",
+    category: "Civil Engineering & Sustainability"
+  },
+  {
+    title: "Project Management Specialization",
+    issuer: "Politecnico di Milano",
+    date: "Oct 2024",
+    id: "GS7C7LHWC32U",
+    category: "Project Management & Leadership"
+  },
+  {
+    title: "Leading Teams: Developing as a Leader",
+    issuer: "University of Illinois Urbana-Champaign",
+    date: "Oct 2024",
+    id: "PMUECLSVGEOF",
+    category: "Project Management & Leadership"
+  }
+];
+
 /* ---------- Component ---------- */
 
 function Portfolio() {
@@ -1227,13 +1418,25 @@ function Experience() {
 /* ---------- Education ---------- */
 
 function Education() {
+  const [activeCertTab, setActiveCertTab] = useState<
+    | "All"
+    | "Geospatial & Remote Sensing"
+    | "Data Science, AI & Computing"
+    | "Civil Engineering & Sustainability"
+    | "Project Management & Leadership"
+  >("All");
+
+  const filteredCerts = activeCertTab === "All"
+    ? CERTIFICATIONS
+    : CERTIFICATIONS.filter((c) => c.category === activeCertTab);
+
   return (
     <section id="education" className="py-28 relative overflow-hidden border-b border-border/50 bg-secondary/10">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-12 items-start">
         <div className="lg:col-span-4">
           <SectionHeader eyebrow="02 · Education" title="Academic foundation" />
           <p className="text-muted-foreground mt-6 text-base leading-relaxed">
-            Standardized test scores, academic credentials, and core theoretical training at the intersection of civil mechanics, geomorphology, and computational systems.
+            Standardized test scores, academic credentials, and professional certifications at the intersection of civil mechanics, geomorphology, and computational systems.
           </p>
           <div className="mt-8 border-l-2 border-accent pl-4 py-1 text-xs text-muted-foreground font-mono space-y-2 uppercase tracking-wider">
             <div>Degree Status: Conferred Oct 2025</div>
@@ -1273,10 +1476,10 @@ function Education() {
             </div>
           </div>
 
-          {/* Standardized Tests and Certifications Card */}
+          {/* Standardized Tests Card */}
           <div className="p-8 rounded-2xl border border-border bg-card/85 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300">
             <h3 className="font-display text-xl font-bold text-foreground mb-6 pb-3 border-b border-border/60">
-              Standardized Test Scores &amp; Certifications
+              Standardized Test Scores
             </h3>
             
             <div className="grid md:grid-cols-2 gap-6">
@@ -1322,17 +1525,68 @@ function Education() {
                 </div>
               </div>
             </div>
+          </div>
 
-            {/* Professional Certifications Row */}
-            <div className="mt-6 border-t border-border/60 pt-6">
-              <div className="flex items-center gap-3 bg-accent/5 border border-accent/15 rounded-xl p-4">
-                <GraduationCap className="w-5 h-5 text-accent shrink-0" />
-                <div className="text-xs leading-relaxed">
-                  <span className="font-bold text-foreground">Certified Supply Chain Analyst (CSCA)</span> · 
-                  <span className="text-muted-foreground"> International Supply Chain Education Alliance (ISCEA)</span> · 
-                  <span className="font-mono text-accent font-bold"> Score: 88.0%</span>
+          {/* Certifications Portfolio Card */}
+          <div className="p-8 rounded-2xl border border-border bg-card/85 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300">
+            <div className="flex items-center justify-between gap-4 flex-wrap mb-6 pb-3 border-b border-border/60">
+              <h3 className="font-display text-xl font-bold text-foreground">
+                Professional Credentials &amp; Certifications
+              </h3>
+              <span className="text-xs font-mono font-bold bg-accent/10 text-accent border border-accent/25 px-2.5 py-1 rounded-full">
+                {CERTIFICATIONS.length} Verified Credentials
+              </span>
+            </div>
+            
+            {/* Category Tabs */}
+            <div className="flex flex-wrap gap-1.5 mb-6">
+              {["All", "Geospatial & Remote Sensing", "Data Science, AI & Computing", "Civil Engineering & Sustainability", "Project Management & Leadership"].map((cat) => {
+                const count = cat === "All" ? CERTIFICATIONS.length : CERTIFICATIONS.filter(c => c.category === cat).length;
+                const label = cat === "All" ? "All" : cat.split(" & ")[0];
+                return (
+                  <button
+                    key={cat}
+                    onClick={() => setActiveCertTab(cat as any)}
+                    className={`text-xs px-3 py-1.5 rounded-lg border transition-all duration-200 font-semibold ${
+                      activeCertTab === cat
+                        ? "bg-accent text-accent-foreground border-accent"
+                        : "bg-secondary/40 text-muted-foreground border-border hover:bg-secondary/70 hover:text-foreground"
+                    }`}
+                  >
+                    {label} ({count})
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Certifications List */}
+            <div className="grid sm:grid-cols-2 gap-4 max-h-[380px] overflow-y-auto pr-2 custom-scrollbar">
+              {filteredCerts.map((cert, index) => (
+                <div key={index} className="border border-border/40 p-4 rounded-xl bg-secondary/15 space-y-2 hover:border-accent/30 transition-colors">
+                  <div className="flex justify-between items-start gap-2">
+                    <h4 className="font-display text-sm font-bold text-foreground leading-snug line-clamp-2">
+                      {cert.title}
+                    </h4>
+                    <span className="font-mono text-[9px] font-bold text-accent bg-accent/10 px-2 py-0.5 rounded shrink-0">
+                      {cert.date}
+                    </span>
+                  </div>
+                  <div className="text-[11px] text-muted-foreground leading-relaxed flex items-center justify-between">
+                    <span>Issued by: <strong className="text-foreground/80 font-semibold">{cert.issuer}</strong></span>
+                  </div>
+                  {cert.id && (
+                    <div className="font-mono text-[9px] text-muted-foreground border-t border-border/40 pt-2 flex justify-between items-center">
+                      <span>ID: {cert.id}</span>
+                      <span className="text-[8px] uppercase tracking-wider text-accent font-extrabold">Verified</span>
+                    </div>
+                  )}
                 </div>
-              </div>
+              ))}
+            </div>
+            
+            {/* Footnote */}
+            <div className="mt-5 text-[10px] text-muted-foreground text-center font-sans">
+              * Showing featured credentials. 30+ additional micro-certifications in AI, AutoCAD Civil 3D, water resource planning, and ESG strategies are fully documented on my LinkedIn profile.
             </div>
           </div>
         </div>
