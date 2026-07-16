@@ -65,7 +65,7 @@ const NAV = [
 ];
 
 const STATS = [
-  { value: 10, suffix: "+", label: "Research Projects" },
+  { value: 20, suffix: "+", label: "Research Projects" },
   { value: 10, suffix: "+", label: "Publications & Papers" },
   { value: 25, suffix: "+", label: "Engineers Mentored" },
   { value: 20, suffix: "+", label: "Students Trained" },
