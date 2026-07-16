@@ -24,6 +24,8 @@ import {
   Leaf,
   BrainCircuit,
   Map as MapIcon,
+  Waves,
+  ShieldAlert,
 } from "lucide-react";
 import { useReveal, useCountUp, useInView } from "@/hooks/use-reveal";
 import ProjectMap from "@/components/ProjectMap";
@@ -74,22 +76,22 @@ const STATS = [
 
 const INTERESTS = [
   { 
-    icon: Leaf, 
+    icon: Mountain, 
     label: "Geoenvironmental Engineering", 
     description: "Focusing on soil stabilization, polymer treatments, and eco-friendly geotechnical infrastructure systems." 
   },
   { 
-    icon: MapIcon, 
+    icon: Satellite, 
     label: "GIS & Remote Sensing", 
     description: "Leveraging multispectral satellite analytics, spatiotemporal mapping, and spatial data science." 
   },
   { 
-    icon: Droplets, 
+    icon: CloudRain, 
     label: "Flood Risk Management", 
     description: "Developing hydrodynamic hazard modeling, AHP-GIS flood index mapping, and runoff forecasting systems." 
   },
   { 
-    icon: Compass, 
+    icon: Waves, 
     label: "Shoreline Dynamics", 
     description: "Tracking coastal erosion, beach forecasting, and satellite-based shoreline tracking dynamics." 
   },
@@ -99,7 +101,7 @@ const INTERESTS = [
     description: "Applying spatiotemporal machine learning models and explainable AI insights to earth science." 
   },
   { 
-    icon: Satellite, 
+    icon: ShieldAlert, 
     label: "Disaster Management", 
     description: "Formulating multi-hazard risk assessments, vulnerability mapping, and mitigation strategies." 
   },
