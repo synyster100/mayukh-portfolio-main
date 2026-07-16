@@ -28,6 +28,21 @@ import {
 import { useReveal, useCountUp, useInView } from "@/hooks/use-reveal";
 import ProjectMap from "@/components/ProjectMap";
 import { EnvironmentalModelSandbox } from "@/components/EnvironmentalModelSandbox";
+import {
+  ArcGISIcon,
+  QGISIcon,
+  GEEIcon,
+  AutoCADIcon,
+  ETABSIcon,
+  PlaxisIcon,
+  HecRasIcon,
+  EpanetIcon,
+  ETankIcon,
+  SWMMIcon,
+  PythonIcon,
+  CPlusPlusIcon,
+  JavaScriptIcon,
+} from "@/components/SkillIcons";
 import { PROJECT_CATEGORIES, PROJECTS } from "@/data/projects";
 import { PROJECT_IMAGE_URLS } from "@/assets/project-images";
 
@@ -336,19 +351,19 @@ const SKILL_GROUPS = [
 ];
 
 const RIBBON_SKILLS = [
-  { name: "ArcGIS Pro", color: "#005b96", bg: "rgba(0, 91, 150, 0.15)", text: "#60a5fa", initials: "AP" },
-  { name: "QGIS", color: "#589632", bg: "rgba(88, 150, 50, 0.15)", text: "#4ade80", initials: "QG" },
-  { name: "Google Earth Engine", color: "#4285F4", bg: "rgba(66, 133, 244, 0.15)", text: "#60a5fa", initials: "GE" },
-  { name: "AutoCAD", color: "#E11D48", bg: "rgba(225, 29, 72, 0.15)", text: "#f43f5e", initials: "AC" },
-  { name: "ETABS", color: "#7C3AED", bg: "rgba(124, 58, 237, 0.15)", text: "#a78bfa", initials: "ET" },
-  { name: "PLAXIS", color: "#0EA5E9", bg: "rgba(14, 165, 233, 0.15)", text: "#38bdf8", initials: "PX" },
-  { name: "HEC-RAS", color: "#1E3A8A", bg: "rgba(30, 58, 138, 0.15)", text: "#60a5fa", initials: "HR" },
-  { name: "EPANET", color: "#0D9488", bg: "rgba(13, 148, 136, 0.15)", text: "#2dd4bf", initials: "EP" },
-  { name: "eTank", color: "#F97316", bg: "rgba(249, 115, 22, 0.15)", text: "#fb923c", initials: "ET" },
-  { name: "SWMM", color: "#3B82F6", bg: "rgba(59, 130, 246, 0.15)", text: "#60a5fa", initials: "SW" },
-  { name: "Python", color: "#3776AB", bg: "rgba(55, 118, 171, 0.15)", text: "#60a5fa", initials: "Py" },
-  { name: "C++", color: "#00599C", bg: "rgba(0, 89, 156, 0.15)", text: "#60a5fa", initials: "C+" },
-  { name: "JavaScript", color: "#F7DF1E", bg: "rgba(247, 223, 30, 0.15)", text: "#eab308", initials: "JS" },
+  { Icon: ArcGISIcon, name: "ArcGIS Pro" },
+  { Icon: QGISIcon, name: "QGIS" },
+  { Icon: GEEIcon, name: "Google Earth Engine" },
+  { Icon: AutoCADIcon, name: "AutoCAD" },
+  { Icon: ETABSIcon, name: "ETABS" },
+  { Icon: PlaxisIcon, name: "PLAXIS" },
+  { Icon: HecRasIcon, name: "HEC-RAS" },
+  { Icon: EpanetIcon, name: "EPANET" },
+  { Icon: ETankIcon, name: "eTank" },
+  { Icon: SWMMIcon, name: "SWMM" },
+  { Icon: PythonIcon, name: "Python" },
+  { Icon: CPlusPlusIcon, name: "C++" },
+  { Icon: JavaScriptIcon, name: "JavaScript" },
 ];
 
 const EXTRACURRICULARS = [
@@ -1312,25 +1327,20 @@ function Skills() {
         </div>
 
         {/* Auto-scrolling Skill Ribbon */}
-        <div className="relative mt-16 border-y border-border/60 bg-card/25 backdrop-blur-sm overflow-hidden py-5 -mx-6 lg:-mx-10">
+        <div className="relative mt-16 border-y border-border/60 bg-card/25 backdrop-blur-sm overflow-hidden py-6 -mx-6 lg:-mx-10">
           <div className="flex gap-4 animate-marquee whitespace-nowrap">
             {[...Array(2)].flatMap((_, i) =>
-              RIBBON_SKILLS.map((s, j) => (
-                <div
-                  key={`${i}-${j}`}
-                  className="inline-flex items-center bg-card border border-border/80 px-4 py-2.5 rounded-xl shadow-sm mx-2"
-                >
+              RIBBON_SKILLS.map((s, j) => {
+                const IconComponent = s.Icon;
+                return (
                   <div
-                    className="w-8 h-8 rounded-lg flex items-center justify-center font-mono font-bold text-xs"
-                    style={{ backgroundColor: s.bg, color: s.text, border: `1px solid ${s.color}30` }}
+                    key={`${i}-${j}`}
+                    className="inline-flex items-center justify-center bg-card border border-border/80 p-3 rounded-2xl shadow-sm mx-4 hover:border-accent/40 transition-colors"
                   >
-                    {s.initials}
+                    <IconComponent />
                   </div>
-                  <span className="text-sm font-semibold tracking-wide ml-3 text-foreground/85">
-                    {s.name}
-                  </span>
-                </div>
-              ))
+                );
+              })
             )}
           </div>
         </div>
