@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Sliders, Activity, Info, ShieldAlert, Layers, Cpu } from "lucide-react";
+import { Sliders, Activity, Info, ShieldAlert, Layers, Cpu, FileText } from "lucide-react";
 
 export function EnvironmentalModelSandbox() {
   // Simulator inputs
@@ -657,6 +657,20 @@ export function EnvironmentalModelSandbox() {
                 <p className="text-xs text-foreground/85 leading-relaxed font-sans">
                   {advice}
                 </p>
+              </div>
+
+              {/* Methodology Reference Box */}
+              <div className="border border-border/50 rounded-xl p-4 bg-secondary/15 space-y-2 text-left">
+                <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold flex items-center gap-1.5">
+                  <FileText className="w-3.5 h-3.5" />
+                  Methodology Reference
+                </div>
+                <p className="text-[11px] text-foreground/90 leading-relaxed font-semibold">
+                  "Comparative Machine Learning and Explainable Flood Susceptibility Mapping in Humphreys County, Tennessee Using AHP and SHAP"
+                </p>
+                <div className="text-[10px] text-muted-foreground font-mono leading-relaxed">
+                  <span className="text-accent font-bold">Mayukh, A. A.</span>, Chowdhury, M. S., & Kim, Y. J. (2026). <span className="text-foreground/80 font-medium">ACEM26 Conference paper.</span>
+                </div>
               </div>
             </div>
           </div>
