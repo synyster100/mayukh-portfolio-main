@@ -1566,13 +1566,12 @@ function Education() {
           </p>
           <div className="mt-8 border-l-2 border-accent pl-4 py-1 text-xs text-muted-foreground font-mono space-y-2 uppercase tracking-wider">
             <div>Degree Status: Conferred Oct 2025</div>
-            <div>Institutional Rank: Top Tier (IUT)</div>
             <div>Research Track: Geoenvironmental</div>
           </div>
         </div>
-        <div className="lg:col-span-8 space-y-8">
+        <div className="lg:col-span-8 space-y-5">
           {/* Degree and Thesis Card */}
-          <div className="p-8 rounded-2xl border border-border bg-card/85 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300">
+          <div className="p-6 rounded-2xl border border-border bg-card/85 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300">
             <div className="flex items-start justify-between gap-4 flex-wrap">
               <div>
                 <h3 className="font-display text-2xl font-bold text-foreground">
@@ -1603,7 +1602,7 @@ function Education() {
           </div>
 
           {/* Standardized Tests Card */}
-          <div className="p-8 rounded-2xl border border-border bg-card/85 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300">
+          <div className="p-6 rounded-2xl border border-border bg-card/85 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300">
             <h3 className="font-display text-xl font-bold text-foreground mb-6 pb-3 border-b border-border/60">
               Standardized Test Scores
             </h3>
@@ -1654,7 +1653,7 @@ function Education() {
           </div>
 
           {/* Certifications Portfolio Card */}
-          <div className="p-8 rounded-2xl border border-border bg-card/85 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300">
+          <div className="p-6 rounded-2xl border border-border bg-card/85 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300">
             <div className="flex items-center justify-between gap-4 flex-wrap mb-6 pb-3 border-b border-border/60">
               <h3 className="font-display text-xl font-bold text-foreground">
                 Professional Credentials &amp; Certifications
