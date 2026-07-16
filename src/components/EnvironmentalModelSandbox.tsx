@@ -108,10 +108,10 @@ export function EnvironmentalModelSandbox() {
           04 · Interactive Simulation
         </div>
         <h2 className="font-display text-4xl md:text-5xl font-semibold mb-3">
-          Watershed Modeling Sandbox
+          Explainable Flood Susceptibility Sandbox
         </h2>
-        <p className="text-muted-foreground max-w-2xl text-base mb-12">
-          An interactive GIS-AHP simulator. Adjust spatial and hydrological inputs on the left to watch the simulated watershed hazard heatmap adapt dynamically in real-time.
+        <p className="text-muted-foreground max-w-3xl text-base mb-12 leading-relaxed">
+          An interactive GIS-AHP simulator built on the methodology of my research paper: <strong className="text-foreground">"Comparative Machine Learning and Explainable Flood Susceptibility Mapping in Humphreys County, Tennessee Using AHP and SHAP"</strong>. Adjust spatial factors on the left to see the simulated susceptibility index and engineering risk profile adapt in real-time.
         </p>
 
         <div className="grid lg:grid-cols-12 gap-10 items-stretch">
@@ -121,7 +121,7 @@ export function EnvironmentalModelSandbox() {
               <div className="flex items-center gap-2 mb-2">
                 <Sliders className="w-4 h-4 text-accent" />
                 <span className="text-sm font-semibold tracking-wider uppercase font-mono text-foreground/80">
-                  Simulation Parameters
+                  AHP Susceptibility Factors
                 </span>
               </div>
 
