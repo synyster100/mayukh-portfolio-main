@@ -798,7 +798,7 @@ function Publications() {
             <button
               key={key}
               onClick={() => setTab(key)}
-              className={`px-5 py-3 text-sm transition-colors border-b-2 -mb-px ${
+              className={`px-5 py-3 text-sm font-semibold transition-colors border-b-2 -mb-px ${
                 tab === key
                   ? "border-accent text-foreground"
                   : "border-transparent text-muted-foreground hover:text-foreground"
@@ -814,25 +814,25 @@ function Publications() {
             ? JOURNAL.map((p, i) => (
                 <article
                   key={i}
-                  className="group grid md:grid-cols-12 gap-4 py-7 hover:bg-secondary/35 transition-all duration-300 px-4 -mx-4 rounded-xl"
+                  className="group grid md:grid-cols-12 gap-4 py-8 hover:bg-secondary/30 transition-all duration-300 px-6 -mx-6 rounded-xl"
                 >
-                  <div className="md:col-span-1 font-mono text-sm text-accent font-bold">
+                  <div className="md:col-span-1 font-mono text-base text-accent font-bold">
                     {p.year}
                   </div>
-                  <div className="md:col-span-8 space-y-2">
+                  <div className="md:col-span-8 space-y-2.5">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="inline-flex items-center text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/25 shrink-0">
+                      <span className="inline-flex items-center text-[10px] font-mono font-extrabold uppercase tracking-widest px-3 py-1 rounded-full bg-emerald-500/10 text-emerald-700 border border-emerald-500/20 shrink-0">
                         Peer-Reviewed Journal
                       </span>
                     </div>
-                    <h3 className="font-display text-xl font-bold leading-snug text-foreground group-hover:text-accent transition-colors">
+                    <h3 className="font-display text-2xl font-bold leading-snug text-foreground group-hover:text-accent transition-colors tracking-tight">
                       {p.title}
                     </h3>
                     <p
-                      className="text-sm text-foreground/80 font-medium font-sans"
+                      className="text-base text-foreground/90 font-medium font-sans leading-relaxed"
                       dangerouslySetInnerHTML={{ __html: p.authors }}
                     />
-                    <p className="text-xs text-muted-foreground font-mono">
+                    <p className="text-sm text-muted-foreground italic font-sans leading-relaxed">
                       {p.venue}
                     </p>
                   </div>
@@ -854,30 +854,30 @@ function Publications() {
             : CONFERENCE.map((p, i) => (
                 <article
                   key={i}
-                  className="group grid md:grid-cols-12 gap-4 py-7 hover:bg-secondary/35 transition-all duration-300 px-4 -mx-4 rounded-xl"
+                  className="group grid md:grid-cols-12 gap-4 py-8 hover:bg-secondary/30 transition-all duration-300 px-6 -mx-6 rounded-xl"
                 >
-                  <div className="md:col-span-1 font-mono text-sm text-accent font-bold">
+                  <div className="md:col-span-1 font-mono text-base text-accent font-bold">
                     {p.year}
                   </div>
-                  <div className="md:col-span-8 space-y-2">
+                  <div className="md:col-span-8 space-y-2.5">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <span className="inline-flex items-center text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/25 shrink-0">
+                      <span className="inline-flex items-center text-[10px] font-mono font-extrabold uppercase tracking-widest px-3 py-1 rounded-full bg-accent/10 text-accent border border-accent/20 shrink-0">
                         {p.venue}
                       </span>
                       {p.status && (
-                        <span className="inline-flex items-center text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-600 border border-amber-500/25 shrink-0">
+                        <span className="inline-flex items-center text-[10px] font-mono font-extrabold uppercase tracking-widest px-3 py-1 rounded-full bg-amber-500/10 text-amber-700 border border-amber-500/20 shrink-0">
                           {p.status.replace("[", "").replace("]", "")}
                         </span>
                       )}
                     </div>
-                    <h3 className="font-display text-lg font-bold leading-snug text-foreground group-hover:text-accent transition-colors">
+                    <h3 className="font-display text-xl font-bold leading-snug text-foreground group-hover:text-accent transition-colors tracking-tight">
                       {p.title}
                     </h3>
                     <p
-                      className="text-sm text-foreground/80 font-medium font-sans"
+                      className="text-base text-foreground/90 font-medium font-sans leading-relaxed"
                       dangerouslySetInnerHTML={{ __html: p.authors }}
                     />
-                    <p className="text-xs text-muted-foreground font-mono">
+                    <p className="text-sm text-muted-foreground italic font-sans leading-relaxed">
                       Presented at: {p.venue} ({p.year})
                     </p>
                   </div>
