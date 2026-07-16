@@ -424,12 +424,6 @@ const EXTRACURRICULARS = [
     period: "Apr 2021 - Oct 2025",
     category: "Education",
   },
-  {
-    role: "Member",
-    org: "IUT Esports Community",
-    period: "2021 - Oct 2025",
-    category: "Sports & Gaming",
-  },
 ];
 
 /* ---------- Component ---------- */
