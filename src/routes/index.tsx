@@ -387,12 +387,7 @@ const EXTRACURRICULARS = [
     period: "2013 - 2017",
     category: "Arts and Culture",
   },
-  {
-    role: "Yellow Belt Holder",
-    org: "Bangladesh Shitoryu Karate-do Institute",
-    period: "2015 - 2016",
-    category: "Sports",
-  },
+
   {
     role: "Member",
     org: "IUT ITE Student Chapter",
