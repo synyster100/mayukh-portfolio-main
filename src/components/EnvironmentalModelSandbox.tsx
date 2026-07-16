@@ -355,8 +355,25 @@ export function EnvironmentalModelSandbox() {
                     Lowland Plain
                   </text>
 
+                  {/* Riverbed / Channel boundaries (visual banks of the river) */}
+                  <path
+                    d="M 10 90 Q 150 110 200 170 T 390 220"
+                    fill="none"
+                    stroke="#141a26"
+                    strokeWidth={riverWidth + 3.5}
+                    strokeLinecap="round"
+                  />
+                  <path
+                    d="M 10 90 Q 150 110 200 170 T 390 220"
+                    fill="none"
+                    stroke="rgba(255,255,255,0.08)"
+                    strokeWidth={riverWidth + 1.5}
+                    strokeLinecap="round"
+                  />
+
                   {/* Flow Accumulation Channel (The River) winding through */}
                   <path
+                    id="river-flow-path"
                     d="M 10 90 Q 150 110 200 170 T 390 220"
                     fill="none"
                     stroke={riverColor}
@@ -366,6 +383,17 @@ export function EnvironmentalModelSandbox() {
                       parseFloat(runoffCoeff) > 0.75 ? "river-flow-fast" : "river-flow-normal"
                     }`}
                   />
+
+                  {/* Curved Text Label along the River flow path */}
+                  <text dy="-4.5" className="font-mono text-[7px] font-bold tracking-[0.25em] fill-white/80 pointer-events-none select-none">
+                    <textPath href="#river-flow-path" startOffset="12%">
+                      RIVER CHANNEL • FLOW ACCUMULATION →
+                    </textPath>
+                  </text>
+
+                  {/* Source and Outlet labels */}
+                  <text x="14" y="80" fill="rgba(255,255,255,0.4)" fontSize="6" fontFamily="monospace" letterSpacing="0.1em" className="pointer-events-none">SOURCE</text>
+                  <text x="355" y="240" fill="rgba(255,255,255,0.4)" fontSize="6" fontFamily="monospace" letterSpacing="0.1em" className="pointer-events-none">OUTLET</text>
 
                   {/* Contour line representations (Subtle topographical overlay) */}
                   <path d="M 30 30 Q 100 40 120 90" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3,3" />
