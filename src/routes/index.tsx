@@ -878,7 +878,7 @@ function Publications() {
                       dangerouslySetInnerHTML={{ __html: p.authors }}
                     />
                     <p className="text-sm text-muted-foreground italic font-sans leading-relaxed">
-                      Presented at: {p.venue} ({p.year})
+                      {p.venue} ({p.year})
                     </p>
                   </div>
                   <div className="md:col-span-3 md:text-right flex items-start md:justify-end">
