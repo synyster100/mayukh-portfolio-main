@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Sliders, Activity, Info, ShieldAlert } from "lucide-react";
+import { Sliders, Activity, Info, ShieldAlert, Layers } from "lucide-react";
 
 export function EnvironmentalModelSandbox() {
   // Simulator inputs
@@ -8,53 +8,74 @@ export function EnvironmentalModelSandbox() {
   const [ndvi, setNdvi] = useState(0.4); // 0.1 to 0.8
   const [moisture, setMoisture] = useState(50); // %
 
-  // Calculate Flood Susceptibility Index (FSI)
-  // Normalized components (0 to 1)
+  // Calculate global Flood Susceptibility Index (FSI)
   const normRain = Math.min(rainfall / 300, 1);
   const normSlope = Math.min(slope / 25, 1);
   const normNdvi = 1 - (ndvi - 0.1) / 0.7; // higher NDVI reduces risk
   const normMoisture = moisture / 100;
 
-  // Weights based on standard AHP model for flood mapping
   const fsiScoreRaw = (0.4 * normRain + 0.3 * normSlope + 0.15 * normNdvi + 0.15 * normMoisture) * 100;
   const fsiScore = Math.round(Math.min(Math.max(fsiScoreRaw, 5), 98));
 
-  // Runoff coefficient (simplified Rational Method C parameter)
-  // Lower NDVI & higher moisture = higher runoff
-  const baseC = 0.9 - (ndvi * 0.6); // bare soil has high runoff
+  const baseC = 0.9 - ndvi * 0.6;
   const saturatedC = baseC + (moisture / 100) * 0.1;
   const runoffCoeff = Math.min(Math.max(saturatedC, 0.15), 0.95).toFixed(2);
 
-  // Peak discharge index (proxy for hydrologic load)
   const peakLoad = Math.round(rainfall * parseFloat(runoffCoeff) * (1 + slope / 100));
 
-  // Risk details
+  // Sector-specific risk calculations for map rendering
+  // 1. Steep Highlands (Zone 1) - mainly vulnerable to Slope + Rain
+  const highlandRisk = Math.round((0.5 * normSlope + 0.5 * normRain) * 100);
+  // 2. Urban Center (Zone 2) - vulnerable to Low NDVI (impervious) + Rain
+  const urbanRisk = Math.round((0.6 * normNdvi + 0.4 * normRain) * 100);
+  // 3. Lowland Plain (Zone 3) - vulnerable to Moisture + Slope runoff accumulation + Rain
+  const plainRisk = Math.round((0.4 * normMoisture + 0.3 * normRain + 0.3 * normSlope) * 100);
+  // 4. Forest Zone (Zone 4) - naturally protected by high NDVI
+  const forestRisk = Math.round((0.2 * normNdvi + 0.8 * normRain) * 45); // generally much lower risk
+
+  // Color helper based on risk score
+  const getRiskColor = (score: number) => {
+    if (score >= 75) return "#ef4444"; // Rose/Red
+    if (score >= 50) return "#f97316"; // Orange
+    if (score >= 30) return "#eab308"; // Amber
+    return "#10b981"; // Emerald
+  };
+
+  const getRiskOpacity = (score: number) => {
+    return Math.min(Math.max(0.15 + (score / 100) * 0.7, 0.2), 0.85);
+  };
+
+  // Global Risk details
   let riskLevel = "Low Risk";
-  let riskColor = "text-emerald-500 bg-emerald-500/10 border-emerald-500/20";
-  let ringColor = "stroke-emerald-500";
+  let riskBgColor = "text-emerald-500 bg-emerald-500/10 border-emerald-500/20";
   let advice = "The local terrain and dense vegetation cover provide adequate absorption and natural drainage under this hydrological load.";
 
   if (fsiScore >= 80) {
     riskLevel = "Extreme Risk";
-    riskColor = "text-rose-500 bg-rose-500/10 border-rose-500/20";
-    ringColor = "stroke-rose-500";
-    advice = "CRITICAL HAZARD: Immediate structural and nature-based bioretention basins needed. High urban runoff and slope gradients require channel capacity expansion and mandatory green infrastructure implementation.";
+    riskBgColor = "text-rose-500 bg-rose-500/10 border-rose-500/20";
+    advice = "CRITICAL HAZARD: Immediate structural and nature-based bioretention basins needed. High urban runoff and slope gradients require channel capacity expansion and mandatory green infrastructure.";
   } else if (fsiScore >= 60) {
     riskLevel = "High Risk";
-    riskColor = "text-orange-500 bg-orange-500/10 border-orange-500/20";
-    ringColor = "stroke-orange-500";
+    riskBgColor = "text-orange-500 bg-orange-500/10 border-orange-500/20";
     advice = "WARNING: Elevate buffer zones near drainage channels. Target NDVI canopy enhancement (aim for > 0.65) and implement soft-engineering solutions like rain gardens to control peak runoff velocities.";
   } else if (fsiScore >= 35) {
     riskLevel = "Moderate Risk";
-    riskColor = "text-amber-500 bg-amber-500/10 border-amber-500/20";
-    ringColor = "stroke-amber-500";
+    riskBgColor = "text-amber-500 bg-amber-500/10 border-amber-500/20";
     advice = "MODERATE: Runoff is manageable. Keep drainage networks clean and monitor soil moisture trends during consecutive storm cycles. Maintain existing vegetation buffers.";
   }
 
-  // Circular gauge setup
-  const radius = 60;
-  const circumference = 2 * Math.PI * radius;
-  const strokeDashoffset = circumference - (fsiScore / 100) * circumference;
+  // River styling based on runoff coefficient
+  let riverWidth = 3 + parseFloat(runoffCoeff) * 5;
+  let riverColor = "#3b82f6"; // standard blue
+  let riverPulse = "";
+
+  if (parseFloat(runoffCoeff) > 0.75) {
+    riverColor = "#ef4444"; // flooded rose
+    riverWidth += 2;
+    riverPulse = "animate-pulse";
+  } else if (parseFloat(runoffCoeff) > 0.5) {
+    riverColor = "#f97316"; // high flow orange
+  }
 
   return (
     <section className="py-28 bg-secondary/15 relative overflow-hidden border-y border-border/50">
@@ -63,15 +84,15 @@ export function EnvironmentalModelSandbox() {
           04b · Simulation Sandbox
         </div>
         <h2 className="font-display text-4xl md:text-5xl font-semibold mb-3">
-          Ecohydrological Modeling Sandbox
+          Watershed Modeling Sandbox
         </h2>
         <p className="text-muted-foreground max-w-2xl text-base mb-12">
-          An interactive GIS-AHP simulator demonstrating how spatial and hydrological parameters determine flood susceptibility indices, peak discharge, and runoff dynamics.
+          An interactive GIS-AHP simulator. Adjust spatial and hydrological inputs on the left to watch the simulated watershed hazard heatmap adapt dynamically in real-time.
         </p>
 
         <div className="grid lg:grid-cols-12 gap-10 items-stretch">
           {/* Controls Column */}
-          <div className="lg:col-span-7 rounded-2xl border border-border/80 bg-card/60 backdrop-blur-sm p-8 flex flex-col justify-between space-y-8">
+          <div className="lg:col-span-6 rounded-2xl border border-border/80 bg-card/60 backdrop-blur-sm p-8 flex flex-col justify-between space-y-8">
             <div>
               <div className="flex items-center gap-2 mb-6">
                 <Sliders className="w-4 h-4 text-accent" />
@@ -175,63 +196,145 @@ export function EnvironmentalModelSandbox() {
             <div className="flex items-start gap-2.5 bg-secondary/35 border border-border/40 p-4 rounded-xl text-xs text-muted-foreground">
               <Info className="w-4 h-4 text-accent shrink-0 mt-0.5" />
               <p>
-                This simulator approximates hydrologic responses by combining the Rational Method for surface runoff generation with an Analytical Hierarchy Process (AHP) weighted vulnerability framework, illustrating GIS-based disaster management calculations.
+                This simulation maps spatial AHP factors to distinct sub-catchment zones: Steep Highlands (Slope-sensitive), Urban Core (NDVI/impervious-sensitive), Forest Buffers, and Lowland Plains (Saturation-sensitive).
               </p>
             </div>
           </div>
 
-          {/* Results Column */}
-          <div className="lg:col-span-5 rounded-2xl border border-border/80 bg-card/65 backdrop-blur-sm p-8 flex flex-col justify-between">
-            <div className="text-center flex flex-col items-center">
-              <div className="flex items-center gap-2 mb-6 self-start">
-                <Activity className="w-4 h-4 text-accent" />
-                <span className="text-sm font-semibold tracking-wider uppercase font-mono text-foreground/80">
-                  Model Outputs
-                </span>
-              </div>
-
-              {/* Circular Gauge */}
-              <div className="relative w-40 h-40 flex items-center justify-center mb-4">
-                <svg className="w-full h-full transform -rotate-90">
-                  <circle
-                    cx="80"
-                    cy="80"
-                    r={radius}
-                    className="stroke-secondary fill-none"
-                    strokeWidth="10"
-                  />
-                  <circle
-                    cx="80"
-                    cy="80"
-                    r={radius}
-                    className={`fill-none transition-all duration-300 ${ringColor}`}
-                    strokeWidth="10"
-                    strokeDasharray={circumference}
-                    strokeDashoffset={strokeDashoffset}
-                    strokeLinecap="round"
-                  />
-                </svg>
-                <div className="absolute flex flex-col items-center justify-center">
-                  <span className="text-4xl font-extrabold font-mono tracking-tighter text-foreground">{fsiScore}%</span>
-                  <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-mono">FSI Index</span>
+          {/* Map and Visual Output Column */}
+          <div className="lg:col-span-6 rounded-2xl border border-border/80 bg-card/65 backdrop-blur-sm p-8 flex flex-col justify-between">
+            <div>
+              <div className="flex items-center justify-between gap-4 mb-4">
+                <div className="flex items-center gap-2">
+                  <Layers className="w-4 h-4 text-accent" />
+                  <span className="text-sm font-semibold tracking-wider uppercase font-mono text-foreground/80">
+                    Live Watershed Heatmap
+                  </span>
+                </div>
+                <div className={`px-3 py-1 rounded-full border text-[10px] font-bold font-mono tracking-wide ${riskBgColor}`}>
+                  {riskLevel} (FSI: {fsiScore}%)
                 </div>
               </div>
 
-              <div className={`px-4 py-1.5 rounded-full border text-xs font-bold font-mono tracking-wide ${riskColor}`}>
-                {riskLevel}
+              {/* Dynamic SVG Map */}
+              <div className="relative aspect-[4/3] w-full rounded-xl border border-border/60 bg-[#0d0f14] overflow-hidden flex items-center justify-center">
+                <svg viewBox="0 0 400 300" className="w-full h-full">
+                  {/* Grid Lines (Subtle GIS grid) */}
+                  <defs>
+                    <pattern id="map-grid" width="20" height="20" patternUnits="userSpaceOnUse">
+                      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
+                    </pattern>
+                  </defs>
+                  <rect width="400" height="300" fill="url(#map-grid)" />
+
+                  {/* Zone 1: Steep Highlands (Top Left) */}
+                  <path
+                    d="M 10 10 L 220 10 L 160 120 L 10 160 Z"
+                    fill={getRiskColor(highlandRisk)}
+                    fillOpacity={getRiskOpacity(highlandRisk)}
+                    stroke="rgba(255,255,255,0.15)"
+                    strokeWidth="1.5"
+                    className="transition-all duration-300"
+                  />
+                  <text x="50" y="55" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-85">
+                    ZONE 1: STEEP HIGHLANDS
+                  </text>
+                  <text x="50" y="70" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
+                    Risk: {highlandRisk}%
+                  </text>
+
+                  {/* Zone 2: Urban Core (Top Right/Center) */}
+                  <path
+                    d="M 220 10 L 390 10 L 390 130 L 260 180 L 160 120 Z"
+                    fill={getRiskColor(urbanRisk)}
+                    fillOpacity={getRiskOpacity(urbanRisk)}
+                    stroke="rgba(255,255,255,0.15)"
+                    strokeWidth="1.5"
+                    className="transition-all duration-300"
+                  />
+                  <text x="240" y="65" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-85">
+                    ZONE 2: URBAN CORE
+                  </text>
+                  <text x="240" y="80" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
+                    Risk: {urbanRisk}%
+                  </text>
+
+                  {/* Zone 4: Forest Conservation Zone (Bottom Left) */}
+                  <path
+                    d="M 10 160 L 160 120 L 220 200 L 120 290 L 10 290 Z"
+                    fill={getRiskColor(forestRisk)}
+                    fillOpacity={getRiskOpacity(forestRisk)}
+                    stroke="rgba(255,255,255,0.15)"
+                    strokeWidth="1.5"
+                    className="transition-all duration-300"
+                  />
+                  <text x="40" y="210" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-85">
+                    ZONE 4: FOREST PRESERVE
+                  </text>
+                  <text x="40" y="225" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
+                    Risk: {forestRisk}%
+                  </text>
+
+                  {/* Zone 3: Lowland Floodplain (Bottom Right) */}
+                  <path
+                    d="M 260 180 L 390 130 L 390 290 L 120 290 L 220 200 Z"
+                    fill={getRiskColor(plainRisk)}
+                    fillOpacity={getRiskOpacity(plainRisk)}
+                    stroke="rgba(255,255,255,0.15)"
+                    strokeWidth="1.5"
+                    className="transition-all duration-300"
+                  />
+                  <text x="230" y="235" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-85">
+                    ZONE 3: LOWLAND PLAIN
+                  </text>
+                  <text x="230" y="250" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
+                    Risk: {plainRisk}%
+                  </text>
+
+                  {/* Flow Accumulation Channel (The River) winding through */}
+                  <path
+                    d="M 10 90 Q 150 110 200 170 T 390 220"
+                    fill="none"
+                    stroke={riverColor}
+                    strokeWidth={riverWidth}
+                    strokeLinecap="round"
+                    className={`transition-all duration-300 ${riverPulse}`}
+                  />
+
+                  {/* Contour line representations (Subtle topographical overlay) */}
+                  <path d="M 30 30 Q 100 40 120 90" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" strokeDasharray="3,3" />
+                  <path d="M 50 10 Q 130 20 150 70" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" strokeDasharray="3,3" />
+                  <path d="M 320 250 Q 250 260 210 200" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" strokeDasharray="3,3" />
+                </svg>
+
+                {/* Map Color Legend overlay */}
+                <div className="absolute bottom-3 right-3 bg-black/80 backdrop-blur border border-white/10 px-2.5 py-1.5 rounded-lg text-[9px] font-mono space-y-1 z-10">
+                  <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#ef4444] rounded"></div><span>Extreme Risk (&ge;75%)</span></div>
+                  <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#f97316] rounded"></div><span>High Risk (50-74%)</span></div>
+                  <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#eab308] rounded"></div><span>Moderate Risk (30-49%)</span></div>
+                  <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#10b981] rounded"></div><span>Low Risk (&lt;30%)</span></div>
+                </div>
               </div>
             </div>
 
             {/* Calculations and Recommendations */}
-            <div className="mt-8 space-y-4">
-              <div className="grid grid-cols-2 gap-4">
-                <div className="border border-border/50 bg-secondary/20 p-3 rounded-xl">
-                  <span className="text-[10px] uppercase font-mono text-muted-foreground block">Runoff Coeff. (C)</span>
-                  <span className="text-lg font-bold font-mono text-foreground">{runoffCoeff}</span>
+            <div className="mt-6 space-y-4">
+              <div className="grid grid-cols-3 gap-3">
+                <div className="border border-border/50 bg-secondary/20 p-2.5 rounded-xl text-center">
+                  <span className="text-[9px] uppercase font-mono text-muted-foreground block">Runoff Coeff (C)</span>
+                  <span className="text-base font-bold font-mono text-foreground">{runoffCoeff}</span>
                 </div>
-                <div className="border border-border/50 bg-secondary/20 p-3 rounded-xl">
-                  <span className="text-[10px] uppercase font-mono text-muted-foreground block">Peak Discharge Index</span>
-                  <span className="text-lg font-bold font-mono text-foreground">{peakLoad}</span>
+                <div className="border border-border/50 bg-secondary/20 p-2.5 rounded-xl text-center">
+                  <span className="text-[9px] uppercase font-mono text-muted-foreground block">Peak Discharge</span>
+                  <span className="text-base font-bold font-mono text-foreground">{peakLoad}</span>
+                </div>
+                <div className="border border-border/50 bg-secondary/20 p-2.5 rounded-xl text-center">
+                  <span className="text-[9px] uppercase font-mono text-muted-foreground block">River Flow Status</span>
+                  <span className={`text-[11px] font-extrabold uppercase font-mono block mt-1 ${
+                    parseFloat(runoffCoeff) > 0.75 ? "text-rose-500" : parseFloat(runoffCoeff) > 0.5 ? "text-orange-500" : "text-emerald-500"
+                  }`}>
+                    {parseFloat(runoffCoeff) > 0.75 ? "Flooded" : parseFloat(runoffCoeff) > 0.5 ? "High Flow" : "Stable"}
+                  </span>
                 </div>
               </div>
 
@@ -240,7 +343,7 @@ export function EnvironmentalModelSandbox() {
                   <ShieldAlert className="w-3.5 h-3.5 text-accent" />
                   Engineering Mitigation Advice
                 </div>
-                <p className="text-xs text-foreground/80 leading-relaxed font-sans">
+                <p className="text-xs text-foreground/85 leading-relaxed font-sans">
                   {advice}
                 </p>
               </div>
