@@ -874,10 +874,7 @@ function Hero() {
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-10 items-end">
         <div className="lg:col-span-8 hero-stage order-2 lg:order-1">
-          <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-accent font-bold mb-6">
-            <Sparkles className="w-3.5 h-3.5 text-accent" />
-            Geo-Environmental &amp; Spatial Infrastructure
-          </div>
+
           <h1 className="font-display text-[clamp(2.75rem,7vw,6.5rem)] leading-[0.95] tracking-tight text-balance">
             Md Ali Ahnaf
             <br />
