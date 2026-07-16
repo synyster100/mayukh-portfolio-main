@@ -698,6 +698,104 @@ const CERTIFICATIONS = [
   }
 ];
 
+function InteractiveGISBackground() {
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    let frame: number;
+    const onMouseMove = (e: MouseEvent) => {
+      frame = requestAnimationFrame(() => {
+        const x = (e.clientX / window.innerWidth - 0.5) * 18;
+        const y = (e.clientY / window.innerHeight - 0.5) * 18;
+        setMousePos({ x, y });
+      });
+    };
+    const onScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("scroll", onScroll);
+    };
+  }, []);
+
+  // Compute translations
+  const gridTransform = `translate3d(${mousePos.x * 0.25}px, ${mousePos.y * 0.25}px, 0)`;
+  const topo1Transform = `translate3d(${mousePos.x * -0.6}px, ${mousePos.y * -0.6 - scrollY * 0.1}px, 0)`;
+  const topo2Transform = `translate3d(${mousePos.x * 0.8}px, ${mousePos.y * 0.8 - scrollY * 0.18}px, 0)`;
+
+  return (
+    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-background transition-colors duration-300">
+      {/* Dynamic GIS Grid Lines */}
+      <div
+        style={{ transform: gridTransform }}
+        className="absolute inset-0 bg-grid opacity-[0.14] dark:opacity-[0.06] transition-transform duration-300 ease-out"
+      />
+
+      {/* Topographic Contour Layer 1 (Lower Left) */}
+      <svg
+        style={{ transform: topo1Transform }}
+        className="absolute -left-48 -bottom-48 w-[800px] h-[800px] opacity-[0.22] dark:opacity-[0.12] text-accent/40 transition-transform duration-300 ease-out"
+        viewBox="0 0 600 600"
+        fill="none"
+      >
+        {Array.from({ length: 12 }).map((_, i) => (
+          <circle
+            key={i}
+            cx="300"
+            cy="300"
+            r={50 + i * 35}
+            stroke="currentColor"
+            strokeWidth="0.8"
+            strokeDasharray={i % 2 === 0 ? "3 9" : "none"}
+          />
+        ))}
+        {/* Elevation Markers */}
+        <text x="300" y={300 - 50} className="text-[10px] fill-current font-mono font-bold">100m</text>
+        <text x="300" y={300 - 120} className="text-[10px] fill-current font-mono font-bold">240m</text>
+        <text x="300" y={300 - 190} className="text-[10px] fill-current font-mono font-bold">380m</text>
+      </svg>
+
+      {/* Topographic Contour Layer 2 (Upper Right) */}
+      <svg
+        style={{ transform: topo2Transform }}
+        className="absolute -right-48 -top-48 w-[900px] h-[900px] opacity-[0.25] dark:opacity-[0.12] text-primary/45 transition-transform duration-300 ease-out"
+        viewBox="0 0 600 600"
+        fill="none"
+      >
+        {Array.from({ length: 14 }).map((_, i) => (
+          <circle
+            key={i}
+            cx="300"
+            cy="300"
+            r={40 + i * 40}
+            stroke="currentColor"
+            strokeWidth="0.8"
+            strokeDasharray={i % 3 === 0 ? "4 12" : "none"}
+          />
+        ))}
+        {/* Elevation Markers */}
+        <text x="300" y={300 - 40} className="text-[10px] fill-current font-mono font-bold">150m</text>
+        <text x="300" y={300 - 120} className="text-[10px] fill-current font-mono font-bold">300m</text>
+        <text x="300" y={300 - 200} className="text-[10px] fill-current font-mono font-bold">450m</text>
+      </svg>
+
+      {/* Interactive GIS Coordinate Tracker overlay (Top Right) */}
+      <div className="absolute top-24 right-10 text-[9px] font-mono font-bold text-muted-foreground/60 select-none hidden lg:block uppercase tracking-wider space-y-1">
+        <div>SYS_COORD: [WGS 84 / UTM 46N]</div>
+        <div>LAT_DIFF: {(23.8103 + mousePos.y * 0.0001).toFixed(6)}° N</div>
+        <div>LON_DIFF: {(90.4125 + mousePos.x * 0.0001).toFixed(6)}° E</div>
+        <div>ELEVATION: {(15 + Math.abs(mousePos.x + mousePos.y) * 0.2).toFixed(1)} M</div>
+      </div>
+    </div>
+  );
+}
+
 /* ---------- Component ---------- */
 
 function Portfolio() {
@@ -739,8 +837,8 @@ function Portfolio() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground bg-contours relative">
-      <div className="absolute inset-0 bg-grid opacity-[0.18] pointer-events-none z-0" />
+    <div className="min-h-screen bg-background text-foreground relative">
+      <InteractiveGISBackground />
       <div className="relative z-10">
         <Nav />
         <Hero />
@@ -850,27 +948,7 @@ function Nav() {
 
 function Hero() {
   return (
-    <section id="top" className="relative pt-32 pb-12 overflow-hidden bg-contours">
-      <div className="absolute inset-0 bg-grid opacity-50 pointer-events-none" />
-      {/* Decorative SVG topo */}
-      <svg
-        className="absolute -right-24 -top-10 w-[640px] h-[640px] opacity-30 pointer-events-none animate-contour"
-        viewBox="0 0 600 600"
-        fill="none"
-      >
-        {Array.from({ length: 14 }).map((_, i) => (
-          <circle
-            key={i}
-            cx="300"
-            cy="300"
-            r={40 + i * 22}
-            stroke="currentColor"
-            strokeWidth="0.7"
-            className="text-primary"
-            strokeDasharray="2 6"
-          />
-        ))}
-      </svg>
+    <section id="top" className="relative pt-32 pb-12 overflow-hidden">
 
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-10 items-end">
         <div className="lg:col-span-8 hero-stage order-2 lg:order-1">
