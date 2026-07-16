@@ -297,6 +297,9 @@ export function EnvironmentalModelSandbox() {
                     fill="url(#pat-highlands)"
                     pointerEvents="none"
                   />
+                  <text x="30" y="45" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider uppercase opacity-85 pointer-events-none">
+                    Highlands
+                  </text>
 
                   {/* Zone 2: Urban Core (Top Right/Center) */}
                   <path
@@ -312,6 +315,9 @@ export function EnvironmentalModelSandbox() {
                     fill="url(#pat-urban)"
                     pointerEvents="none"
                   />
+                  <text x="240" y="45" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider uppercase opacity-85 pointer-events-none">
+                    Urban Core
+                  </text>
 
                   {/* Zone 4: Forest Conservation Zone (Bottom Left) */}
                   <path
@@ -327,6 +333,9 @@ export function EnvironmentalModelSandbox() {
                     fill="url(#pat-forest)"
                     pointerEvents="none"
                   />
+                  <text x="30" y="205" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider uppercase opacity-85 pointer-events-none">
+                    Forest Buffer
+                  </text>
 
                   {/* Zone 3: Lowland Floodplain (Bottom Right) */}
                   <path
@@ -342,6 +351,9 @@ export function EnvironmentalModelSandbox() {
                     fill="url(#pat-plain)"
                     pointerEvents="none"
                   />
+                  <text x="230" y="215" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider uppercase opacity-85 pointer-events-none">
+                    Lowland Plain
+                  </text>
 
                   {/* Flow Accumulation Channel (The River) winding through */}
                   <path
