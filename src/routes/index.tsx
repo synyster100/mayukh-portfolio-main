@@ -992,7 +992,7 @@ function Interests() {
             <div
               key={label}
               style={{ transitionDelay: `${i * 45}ms` }}
-              className="group relative rounded-2xl border border-border bg-card p-6 shadow-sm hover:border-accent/40 hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+              className="group relative rounded-2xl border border-border bg-card p-6 shadow-sm hover:border-accent/40 hover:-translate-y-1 hover:shadow-md transition-all duration-300"
             >
               <div>
                 <div className="w-10 h-10 rounded-xl bg-accent/5 text-accent flex items-center justify-center mb-5 group-hover:bg-accent group-hover:text-accent-foreground transition-all duration-300">
@@ -1004,10 +1004,6 @@ function Interests() {
                 <p className="text-xs text-muted-foreground mt-3 leading-relaxed font-sans font-medium">
                   {description}
                 </p>
-              </div>
-              <div className="mt-4 pt-3 border-t border-border/40 flex justify-between items-center text-[10px] font-mono text-muted-foreground uppercase font-bold">
-                <span>Domain Focus</span>
-                <span className="opacity-0 group-hover:opacity-100 group-hover:text-accent transition-opacity duration-300">Active</span>
               </div>
             </div>
           ))}
