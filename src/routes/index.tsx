@@ -961,22 +961,28 @@ function Hero() {
       </div>
 
       {/* Marquee */}
-      <div className="relative mt-20 border-y border-border bg-card/40 overflow-hidden">
-        <div className="flex gap-12 py-4 animate-marquee whitespace-nowrap font-display text-2xl text-muted-foreground">
-          {[...Array(2)].flatMap((_, i) =>
+      <div className="relative mt-20 border-y border-border bg-secondary/15 overflow-hidden py-3">
+        <div className="flex gap-6 py-1.5 animate-marquee whitespace-nowrap font-display text-lg select-none hover:[animation-play-state:paused] cursor-pointer">
+          {[...Array(3)].flatMap((_, i) =>
             [
-              "Geoenvironmental Engineering",
-              "GIS & Remote Sensing",
-              "Flood Risk Management",
-              "Shoreline Dynamics",
-              "GeoAI",
-              "Disaster Management",
-              "Environmental Modelling",
-            ].map((t, j) => (
-              <span key={`${i}-${j}`} className="flex items-center gap-12">
-                {t} <span className="text-accent">◆</span>
+              { label: "Geoenvironmental Engineering", icon: Mountain, color: "text-amber-600 bg-amber-500/10 border-amber-500/20" },
+              { label: "GIS & Remote Sensing", icon: Satellite, color: "text-indigo-600 bg-indigo-500/10 border-indigo-500/20" },
+              { label: "Flood Risk Management", icon: CloudRain, color: "text-sky-600 bg-sky-500/10 border-sky-500/20" },
+              { label: "Shoreline Dynamics", icon: Waves, color: "text-teal-600 bg-teal-500/10 border-teal-500/20" },
+              { label: "GeoAI", icon: BrainCircuit, color: "text-rose-600 bg-rose-500/10 border-rose-500/20" },
+              { label: "Disaster Management", icon: ShieldAlert, color: "text-red-600 bg-red-500/10 border-red-500/20" },
+              { label: "Environmental Modelling", icon: Layers, color: "text-emerald-600 bg-emerald-500/10 border-emerald-500/20" },
+            ].map(({ label, icon: Icon, color }, j) => (
+              <span
+                key={`${i}-${j}`}
+                className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full border border-border bg-card shadow-sm hover:border-accent/40 hover:scale-[1.03] transition-all duration-300"
+              >
+                <span className={`p-1 rounded-lg ${color} flex items-center justify-center shrink-0`}>
+                  <Icon className="w-4 h-4" />
+                </span>
+                <span className="text-foreground font-semibold text-sm tracking-wide">{label}</span>
               </span>
-            )),
+            ))
           )}
         </div>
       </div>
