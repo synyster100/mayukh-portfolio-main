@@ -217,77 +217,115 @@ export function EnvironmentalModelSandbox() {
               </div>
 
               {/* Dynamic SVG Map */}
-              <div className="relative aspect-[4/3] w-full rounded-xl border border-border/60 bg-[#0d0f14] overflow-hidden flex items-center justify-center">
+              <div className="relative aspect-[4/3] w-full rounded-xl border border-border/60 bg-[#07090e] overflow-hidden flex items-center justify-center">
                 <svg viewBox="0 0 400 300" className="w-full h-full">
+                  <style>{`
+                    @keyframes flow-map {
+                      from { stroke-dashoffset: 40; }
+                      to { stroke-dashoffset: 0; }
+                    }
+                    .river-flow-normal {
+                      stroke-dasharray: 10, 8;
+                      animation: flow-map 1.6s linear infinite;
+                    }
+                    .river-flow-fast {
+                      stroke-dasharray: 6, 4;
+                      animation: flow-map 0.6s linear infinite;
+                    }
+                  `}</style>
+                  
                   {/* Grid Lines (Subtle GIS grid) */}
                   <defs>
                     <pattern id="map-grid" width="20" height="20" patternUnits="userSpaceOnUse">
-                      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.04)" strokeWidth="1" />
+                      <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
                     </pattern>
+                    
+                    {/* 3D Gradients for Zones */}
+                    <linearGradient id="grad-highlands" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor={getRiskColor(highlandRisk)} stopOpacity={getRiskOpacity(highlandRisk)} />
+                      <stop offset="100%" stopColor={getRiskColor(highlandRisk)} stopOpacity={getRiskOpacity(highlandRisk) * 0.3} />
+                    </linearGradient>
+                    <linearGradient id="grad-urban" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor={getRiskColor(urbanRisk)} stopOpacity={getRiskOpacity(urbanRisk)} />
+                      <stop offset="100%" stopColor={getRiskColor(urbanRisk)} stopOpacity={getRiskOpacity(urbanRisk) * 0.3} />
+                    </linearGradient>
+                    <linearGradient id="grad-forest" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor={getRiskColor(forestRisk)} stopOpacity={getRiskOpacity(forestRisk)} />
+                      <stop offset="100%" stopColor={getRiskColor(forestRisk)} stopOpacity={getRiskOpacity(forestRisk) * 0.3} />
+                    </linearGradient>
+                    <linearGradient id="grad-plain" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor={getRiskColor(plainRisk)} stopOpacity={getRiskOpacity(plainRisk)} />
+                      <stop offset="100%" stopColor={getRiskColor(plainRisk)} stopOpacity={getRiskOpacity(plainRisk) * 0.3} />
+                    </linearGradient>
                   </defs>
+                  
                   <rect width="400" height="300" fill="url(#map-grid)" />
 
                   {/* Zone 1: Steep Highlands (Top Left) */}
                   <path
                     d="M 10 10 L 220 10 L 160 120 L 10 160 Z"
-                    fill={getRiskColor(highlandRisk)}
-                    fillOpacity={getRiskOpacity(highlandRisk)}
-                    stroke="rgba(255,255,255,0.15)"
+                    fill="url(#grad-highlands)"
+                    stroke={getRiskColor(highlandRisk)}
                     strokeWidth="1.5"
+                    strokeOpacity="0.4"
                     className="transition-all duration-300"
                   />
-                  <text x="50" y="55" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-85">
-                    ZONE 1: STEEP HIGHLANDS
+                  <text x="150" y="65" fontSize="24" className="select-none opacity-60">⛰️</text>
+                  <text x="35" y="45" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-80">
+                    ZONE 1: HIGHLANDS
                   </text>
-                  <text x="50" y="70" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
+                  <text x="35" y="58" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
                     Risk: {highlandRisk}%
                   </text>
 
                   {/* Zone 2: Urban Core (Top Right/Center) */}
                   <path
                     d="M 220 10 L 390 10 L 390 130 L 260 180 L 160 120 Z"
-                    fill={getRiskColor(urbanRisk)}
-                    fillOpacity={getRiskOpacity(urbanRisk)}
-                    stroke="rgba(255,255,255,0.15)"
+                    fill="url(#grad-urban)"
+                    stroke={getRiskColor(urbanRisk)}
                     strokeWidth="1.5"
+                    strokeOpacity="0.4"
                     className="transition-all duration-300"
                   />
-                  <text x="240" y="65" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-85">
+                  <text x="315" y="85" fontSize="26" className="select-none opacity-60">🏙️</text>
+                  <text x="240" y="45" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-80">
                     ZONE 2: URBAN CORE
                   </text>
-                  <text x="240" y="80" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
+                  <text x="240" y="58" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
                     Risk: {urbanRisk}%
                   </text>
 
                   {/* Zone 4: Forest Conservation Zone (Bottom Left) */}
                   <path
                     d="M 10 160 L 160 120 L 220 200 L 120 290 L 10 290 Z"
-                    fill={getRiskColor(forestRisk)}
-                    fillOpacity={getRiskOpacity(forestRisk)}
-                    stroke="rgba(255,255,255,0.15)"
+                    fill="url(#grad-forest)"
+                    stroke={getRiskColor(forestRisk)}
                     strokeWidth="1.5"
+                    strokeOpacity="0.4"
                     className="transition-all duration-300"
                   />
-                  <text x="40" y="210" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-85">
-                    ZONE 4: FOREST PRESERVE
+                  <text x="65" y="245" fontSize="26" className="select-none opacity-60">🌳</text>
+                  <text x="35" y="195" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-80">
+                    ZONE 4: FOREST BUFFER
                   </text>
-                  <text x="40" y="225" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
+                  <text x="35" y="208" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
                     Risk: {forestRisk}%
                   </text>
 
                   {/* Zone 3: Lowland Floodplain (Bottom Right) */}
                   <path
                     d="M 260 180 L 390 130 L 390 290 L 120 290 L 220 200 Z"
-                    fill={getRiskColor(plainRisk)}
-                    fillOpacity={getRiskOpacity(plainRisk)}
-                    stroke="rgba(255,255,255,0.15)"
+                    fill="url(#grad-plain)"
+                    stroke={getRiskColor(plainRisk)}
                     strokeWidth="1.5"
+                    strokeOpacity="0.4"
                     className="transition-all duration-300"
                   />
-                  <text x="230" y="235" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-85">
+                  <text x="315" y="245" fontSize="26" className="select-none opacity-60">🌊</text>
+                  <text x="230" y="205" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-80">
                     ZONE 3: LOWLAND PLAIN
                   </text>
-                  <text x="230" y="250" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
+                  <text x="230" y="218" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
                     Risk: {plainRisk}%
                   </text>
 
@@ -298,13 +336,15 @@ export function EnvironmentalModelSandbox() {
                     stroke={riverColor}
                     strokeWidth={riverWidth}
                     strokeLinecap="round"
-                    className={`transition-all duration-300 ${riverPulse}`}
+                    className={`transition-all duration-300 ${
+                      parseFloat(runoffCoeff) > 0.75 ? "river-flow-fast" : "river-flow-normal"
+                    }`}
                   />
 
                   {/* Contour line representations (Subtle topographical overlay) */}
-                  <path d="M 30 30 Q 100 40 120 90" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" strokeDasharray="3,3" />
-                  <path d="M 50 10 Q 130 20 150 70" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" strokeDasharray="3,3" />
-                  <path d="M 320 250 Q 250 260 210 200" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="1" strokeDasharray="3,3" />
+                  <path d="M 30 30 Q 100 40 120 90" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3,3" />
+                  <path d="M 50 10 Q 130 20 150 70" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3,3" />
+                  <path d="M 320 250 Q 250 260 210 200" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3,3" />
                 </svg>
 
                 {/* Map Color Legend overlay */}
