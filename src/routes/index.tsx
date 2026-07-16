@@ -699,96 +699,157 @@ const CERTIFICATIONS = [
 ];
 
 function InteractiveGISBackground() {
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [scrollY, setScrollY] = useState(0);
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+  const mouseRef = useRef({ x: 0, y: 0, tx: 0, ty: 0 });
 
   useEffect(() => {
-    let frame: number;
-    const onMouseMove = (e: MouseEvent) => {
-      frame = requestAnimationFrame(() => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 18;
-        const y = (e.clientY / window.innerHeight - 0.5) * 18;
-        setMousePos({ x, y });
-      });
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    let animFrame: number;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const handleResize = () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     };
-    const onScroll = () => {
-      setScrollY(window.scrollY);
+    window.addEventListener("resize", handleResize);
+
+    const handleMouseMove = (e: MouseEvent) => {
+      mouseRef.current.tx = e.clientX;
+      mouseRef.current.ty = e.clientY;
+    };
+    window.addEventListener("mousemove", handleMouseMove);
+
+    // Grid spacing details
+    const spacing = 65;
+    const cols = Math.ceil(width / spacing) + 1;
+    const rows = Math.ceil(height / spacing) + 1;
+    const points: { x: number; y: number; ox: number; oy: number }[] = [];
+
+    // Initialize points
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        points.push({
+          x: c * spacing,
+          y: r * spacing,
+          ox: c * spacing,
+          oy: r * spacing,
+        });
+      }
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Smooth mouse follow
+      const mouse = mouseRef.current;
+      mouse.x += (mouse.tx - mouse.x) * 0.12;
+      mouse.y += (mouse.ty - mouse.y) * 0.12;
+
+      // Warp points based on mouse proximity
+      const maxDist = 220;
+      points.forEach((p) => {
+        const dx = mouse.x - p.ox;
+        const dy = mouse.y - p.oy;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < maxDist) {
+          const force = (maxDist - dist) / maxDist; // 0 to 1
+          const angle = Math.atan2(dy, dx);
+          // Magnetic deflection effect representing a topographic elevation deflection
+          p.x = p.ox - Math.cos(angle) * force * 30;
+          p.y = p.oy - Math.sin(angle) * force * 30;
+        } else {
+          p.x += (p.ox - p.x) * 0.1;
+          p.y += (p.oy - p.y) * 0.1;
+        }
+      });
+
+      const isDark = document.documentElement.classList.contains("dark");
+      ctx.lineWidth = 0.6;
+      ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 102, 204, 0.07)";
+      ctx.fillStyle = isDark ? "rgba(255, 255, 255, 0.22)" : "rgba(0, 102, 204, 0.28)";
+
+      // Draw horizontal lines
+      for (let r = 0; r < rows; r++) {
+        ctx.beginPath();
+        for (let c = 0; c < cols; c++) {
+          const idx = r * cols + c;
+          const p = points[idx];
+          if (c === 0) {
+            ctx.moveTo(p.x, p.y);
+          } else {
+            ctx.lineTo(p.x, p.y);
+          }
+        }
+        ctx.stroke();
+      }
+
+      // Draw vertical lines
+      for (let c = 0; c < cols; c++) {
+        ctx.beginPath();
+        for (let r = 0; r < rows; r++) {
+          const idx = r * cols + c;
+          const p = points[idx];
+          if (r === 0) {
+            ctx.moveTo(p.x, p.y);
+          } else {
+            ctx.lineTo(p.x, p.y);
+          }
+        }
+        ctx.stroke();
+      }
+
+      // Draw coordinate intersection dots
+      points.forEach((p, idx) => {
+        if (idx % 2 === 0) {
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
+          ctx.fill();
+        }
+      });
+
+      // Draw interactive elevation wave circles around cursor
+      ctx.beginPath();
+      ctx.arc(mouse.x, mouse.y, 75, 0, Math.PI * 2);
+      ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 102, 204, 0.16)";
+      ctx.stroke();
+
+      ctx.beginPath();
+      ctx.arc(mouse.x, mouse.y, 150, 0, Math.PI * 2);
+      ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.06)" : "rgba(0, 102, 204, 0.08)";
+      ctx.stroke();
+
+      // Small helper coordinate tracker label next to cursor
+      if (mouse.x > 0 && mouse.y > 0) {
+        ctx.fillStyle = isDark ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.4)";
+        ctx.font = "9px monospace";
+        ctx.fillText(
+          `ELEV: ${(20 + Math.sin(mouse.x * 0.005) * 10).toFixed(1)}m`,
+          mouse.x + 12,
+          mouse.y - 12
+        );
+      }
+
+      animFrame = requestAnimationFrame(draw);
     };
 
-    window.addEventListener("mousemove", onMouseMove);
-    window.addEventListener("scroll", onScroll, { passive: true });
+    draw();
+
     return () => {
-      cancelAnimationFrame(frame);
-      window.removeEventListener("mousemove", onMouseMove);
-      window.removeEventListener("scroll", onScroll);
+      window.removeEventListener("resize", handleResize);
+      window.removeEventListener("mousemove", handleMouseMove);
+      cancelAnimationFrame(animFrame);
     };
   }, []);
 
-  // Compute translations
-  const gridTransform = `translate3d(${mousePos.x * 0.25}px, ${mousePos.y * 0.25}px, 0)`;
-  const topo1Transform = `translate3d(${mousePos.x * -0.6}px, ${mousePos.y * -0.6 - scrollY * 0.1}px, 0)`;
-  const topo2Transform = `translate3d(${mousePos.x * 0.8}px, ${mousePos.y * 0.8 - scrollY * 0.18}px, 0)`;
-
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0 bg-background transition-colors duration-300">
-      {/* Dynamic GIS Grid Lines */}
-      <div
-        style={{ transform: gridTransform }}
-        className="absolute inset-0 bg-grid opacity-[0.14] dark:opacity-[0.06] transition-transform duration-300 ease-out"
-      />
-
-      {/* Topographic Contour Layer 1 (Lower Left) */}
-      <svg
-        style={{ transform: topo1Transform }}
-        className="absolute -left-48 -bottom-48 w-[800px] h-[800px] opacity-[0.22] dark:opacity-[0.12] text-accent/40 transition-transform duration-300 ease-out"
-        viewBox="0 0 600 600"
-        fill="none"
-      >
-        {Array.from({ length: 12 }).map((_, i) => (
-          <circle
-            key={i}
-            cx="300"
-            cy="300"
-            r={50 + i * 35}
-            stroke="currentColor"
-            strokeWidth="0.8"
-            strokeDasharray={i % 2 === 0 ? "3 9" : "none"}
-          />
-        ))}
-        {/* Elevation Markers */}
-        <text x="300" y={300 - 50} className="text-[10px] fill-current font-mono font-bold">100m</text>
-        <text x="300" y={300 - 120} className="text-[10px] fill-current font-mono font-bold">240m</text>
-        <text x="300" y={300 - 190} className="text-[10px] fill-current font-mono font-bold">380m</text>
-      </svg>
-
-      {/* Topographic Contour Layer 2 (Upper Right) */}
-      <svg
-        style={{ transform: topo2Transform }}
-        className="absolute -right-48 -top-48 w-[900px] h-[900px] opacity-[0.25] dark:opacity-[0.12] text-primary/45 transition-transform duration-300 ease-out"
-        viewBox="0 0 600 600"
-        fill="none"
-      >
-        {Array.from({ length: 14 }).map((_, i) => (
-          <circle
-            key={i}
-            cx="300"
-            cy="300"
-            r={40 + i * 40}
-            stroke="currentColor"
-            strokeWidth="0.8"
-            strokeDasharray={i % 3 === 0 ? "4 12" : "none"}
-          />
-        ))}
-        {/* Elevation Markers */}
-        <text x="300" y={300 - 40} className="text-[10px] fill-current font-mono font-bold">150m</text>
-        <text x="300" y={300 - 120} className="text-[10px] fill-current font-mono font-bold">300m</text>
-        <text x="300" y={300 - 200} className="text-[10px] fill-current font-mono font-bold">450m</text>
-      </svg>
-
-      {/* Interactive GIS Coordinate overlay (Bottom Left) */}
-      <div className="absolute bottom-6 left-6 text-[10px] font-mono font-medium text-muted-foreground/45 select-none hidden sm:block">
-        GIS: LAT {(23.8103 + mousePos.y * 0.00005).toFixed(4)}° / LON {(90.4125 + mousePos.x * 0.00005).toFixed(4)}°
-      </div>
+      <canvas ref={canvasRef} className="absolute inset-0 block" />
     </div>
   );
 }
