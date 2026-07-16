@@ -297,7 +297,7 @@ export function EnvironmentalModelSandbox() {
                     fill="url(#pat-highlands)"
                     pointerEvents="none"
                   />
-                  <text x="30" y="45" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider uppercase opacity-85 pointer-events-none">
+                  <text x="100" y="65" fill="#ffffff" textAnchor="middle" dominantBaseline="central" className="font-mono text-[9px] font-bold tracking-wider uppercase opacity-90 pointer-events-none">
                     Highlands
                   </text>
 
@@ -315,7 +315,7 @@ export function EnvironmentalModelSandbox() {
                     fill="url(#pat-urban)"
                     pointerEvents="none"
                   />
-                  <text x="240" y="45" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider uppercase opacity-85 pointer-events-none">
+                  <text x="280" y="70" fill="#ffffff" textAnchor="middle" dominantBaseline="central" className="font-mono text-[9px] font-bold tracking-wider uppercase opacity-90 pointer-events-none">
                     Urban Core
                   </text>
 
@@ -333,7 +333,7 @@ export function EnvironmentalModelSandbox() {
                     fill="url(#pat-forest)"
                     pointerEvents="none"
                   />
-                  <text x="30" y="205" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider uppercase opacity-85 pointer-events-none">
+                  <text x="90" y="215" fill="#ffffff" textAnchor="middle" dominantBaseline="central" className="font-mono text-[9px] font-bold tracking-wider uppercase opacity-90 pointer-events-none">
                     Forest Buffer
                   </text>
 
@@ -351,7 +351,7 @@ export function EnvironmentalModelSandbox() {
                     fill="url(#pat-plain)"
                     pointerEvents="none"
                   />
-                  <text x="230" y="215" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider uppercase opacity-85 pointer-events-none">
+                  <text x="280" y="235" fill="#ffffff" textAnchor="middle" dominantBaseline="central" className="font-mono text-[9px] font-bold tracking-wider uppercase opacity-90 pointer-events-none">
                     Lowland Plain
                   </text>
 
