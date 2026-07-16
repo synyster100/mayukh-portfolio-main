@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Sliders, Layers, Info, Waves, TrendingUp, Grid, RefreshCw, BarChart2 } from "lucide-react";
+import { Sliders, Layers, Info, Waves, TrendingUp, Grid, RefreshCw, BarChart2, FileText } from "lucide-react";
 
 type Tab = "dsas" | "ahp";
 
@@ -414,11 +414,26 @@ export function GeospatialMethodologyVisualizer() {
                 </div>
               </div>
 
-              <div className="flex items-start gap-2.5 bg-accent/5 border border-accent/15 p-4 rounded-xl text-xs text-muted-foreground font-medium">
-                <Info className="w-4 h-4 text-accent shrink-0 mt-0.5" />
-                <p>
-                  In shoreline research, these rates identify vulnerable coastlines, buffer zones, and validate shoreline prediction models.
-                </p>
+              <div className="space-y-4">
+                <div className="flex items-start gap-2.5 bg-accent/5 border border-accent/15 p-4 rounded-xl text-xs text-muted-foreground font-medium">
+                  <Info className="w-4 h-4 text-accent shrink-0 mt-0.5" />
+                  <p>
+                    In shoreline research, these rates identify vulnerable coastlines, buffer zones, and validate shoreline prediction models.
+                  </p>
+                </div>
+
+                <div className="border border-border/50 rounded-xl p-4 bg-secondary/15 space-y-2">
+                  <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold flex items-center gap-1.5">
+                    <FileText className="w-3.5 h-3.5" />
+                    Methodology Reference
+                  </div>
+                  <p className="text-[11px] text-foreground/90 leading-relaxed font-semibold">
+                    "GeoAI-Enabled Remote Sensing Framework for Shoreline Change Forecasting at Pensacola Beach, Florida"
+                  </p>
+                  <div className="text-[10px] text-muted-foreground font-mono leading-relaxed">
+                    Chowdhury, M. S., <span className="text-accent font-bold">Mayukh, A. A.</span>, Kim, Y. J., An, J., & Nam, B. H. (2026). <span className="text-foreground/80 font-medium">ACEM26 Conference paper.</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -926,10 +941,25 @@ export function GeospatialMethodologyVisualizer() {
                 })()}
               </div>
 
-              <div className="text-xs text-muted-foreground space-y-1.5 leading-relaxed bg-secondary/20 p-3 rounded-lg border border-border/40 font-medium">
-                <div className="font-semibold text-foreground mb-1">SUSCEPTIBILITY FORMULA:</div>
-                <div className="bg-secondary/40 border border-border/60 p-2 rounded text-[11px] font-mono text-foreground/90 text-center font-bold">
-                  Score = Σ (Factor_i × Weight_i)
+              <div className="space-y-4">
+                <div className="text-xs text-muted-foreground space-y-1.5 leading-relaxed bg-secondary/20 p-3 rounded-lg border border-border/40 font-medium">
+                  <div className="font-semibold text-foreground mb-1">SUSCEPTIBILITY FORMULA:</div>
+                  <div className="bg-secondary/40 border border-border/60 p-2 rounded text-[11px] font-mono text-foreground/90 text-center font-bold">
+                    Score = Σ (Factor_i × Weight_i)
+                  </div>
+                </div>
+
+                <div className="border border-border/50 rounded-xl p-4 bg-secondary/15 space-y-2">
+                  <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold flex items-center gap-1.5">
+                    <FileText className="w-3.5 h-3.5" />
+                    Methodology Reference
+                  </div>
+                  <p className="text-[11px] text-foreground/90 leading-relaxed font-semibold">
+                    "Comparative Machine Learning and Explainable Flood Susceptibility Mapping in Humphreys County, Tennessee Using AHP and SHAP"
+                  </p>
+                  <div className="text-[10px] text-muted-foreground font-mono leading-relaxed">
+                    <span className="text-accent font-bold">Mayukh, A. A.</span>, Chowdhury, M. S., & Kim, Y. J. (2026). <span className="text-foreground/80 font-medium">ACEM26 Conference paper.</span>
+                  </div>
                 </div>
               </div>
             </div>
