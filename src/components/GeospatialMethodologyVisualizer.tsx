@@ -65,16 +65,21 @@ export function GeospatialMethodologyVisualizer() {
     for (let i = 0; i <= segments; i++) {
       const x = (i / segments) * width;
       // Wavy shoreline baseline Y around 130
-      let y = 130 + Math.sin(x * 0.02) * 25 + Math.cos(x * 0.05) * 8;
+      let y = 130 + Math.sin(x * 0.02) * 22 + Math.cos(x * 0.05) * 8;
       
       if (year === 2000) {
         // historic shoreline
-        y += Math.sin(x * 0.01 + shift) * 10;
+        y += Math.sin(x * 0.015 + shift) * 8;
       } else {
-        // current shoreline - show erosion in center, accretion on edges
-        const distanceToCenter = Math.abs(x - 250);
-        const erosion = 22 - (distanceToCenter / 250) * 35; // negative means accretion
-        y += erosion + Math.sin(x * 0.03 - shift) * 6;
+        // current shoreline - show severe local erosion coves and accretion spits
+        // 1. Accretion spit on the left (x < 150)
+        const accretion = x < 150 ? Math.sin((x / 150) * Math.PI) * -38 : 0;
+        // 2. Severe erosion cove in the center (x between 150 and 400)
+        const erosion = (x >= 150 && x < 400) ? Math.sin(((x - 150) / 250) * Math.PI) * 48 : 0;
+        // 3. Minor delta accretion on the right (x > 400)
+        const delta = x >= 400 ? Math.sin(((x - 400) / 100) * Math.PI) * -22 : 0;
+        
+        y += accretion + erosion + delta + Math.sin(x * 0.035 - shift * 1.5) * 8;
       }
       points.push({ x, y });
     }
@@ -210,6 +215,16 @@ export function GeospatialMethodologyVisualizer() {
                 </div>
 
                 <div className="relative aspect-[16/9] w-full bg-[#060a12] border border-border/60 rounded-xl overflow-hidden flex items-center justify-center">
+                  {/* Cartographic Title HUD overlay */}
+                  <div className="absolute top-4 left-4 z-20 bg-slate-900/95 border border-slate-700/80 p-2.5 rounded-md backdrop-blur-md shadow-lg pointer-events-none text-white">
+                    <div className="text-[10px] font-bold font-mono text-accent uppercase tracking-wider">
+                      Pensacola Beach Shoreline Dynamics
+                    </div>
+                    <div className="text-[8px] font-mono text-white/50 mt-0.5">
+                      Model: USGS DSAS Shoreline Forecasting (2000 - 2024)
+                    </div>
+                  </div>
+
                   {/* Custom SVG Drawing Shorelines and Transects */}
                   <svg viewBox="0 0 500 280" className="w-full h-full">
                     {/* Cartographic grid */}
@@ -306,11 +321,11 @@ export function GeospatialMethodologyVisualizer() {
                     })}
                   </svg>
 
-                  {/* On-Map HUD overlay */}
+                  {/* On-Map HUD overlay (Top Right to prevent overlap with Title) */}
                   {hoveredTransect !== null && (() => {
                     const data = getTransectData(hoveredTransect);
                     return (
-                      <div className="absolute top-4 left-4 bg-slate-900/90 border border-border/80 p-3 rounded-lg backdrop-blur-md text-[11px] font-mono space-y-1.5 shadow-xl text-white">
+                      <div className="absolute top-4 right-4 bg-slate-900/90 border border-slate-700/80 p-3 rounded-lg backdrop-blur-md text-[11px] font-mono space-y-1.5 shadow-xl text-white z-25">
                         <div className="text-accent font-bold">TRANSECT #{hoveredTransect + 1} STATS:</div>
                         <div>Historic Dist: <span className="text-sky-300">{(data.baselineY - data.y2000).toFixed(1)}m</span></div>
                         <div>Current Dist: <span className="text-rose-300">{(data.baselineY - data.y2024).toFixed(1)}m</span></div>
@@ -368,8 +383,8 @@ export function GeospatialMethodologyVisualizer() {
                     <p className="text-[11px] text-muted-foreground leading-relaxed font-medium">
                       Measures the physical distance (meters) between the oldest (2000) and newest (2024) shorelines.
                     </p>
-                    <div className="bg-background/80 p-2 rounded text-[11px] font-mono text-foreground text-center">
-                       {"\\(NSM = D_{2024} - D_{2000}\\)"}
+                    <div className="bg-secondary/40 border border-border/60 p-2 rounded text-[11px] font-mono text-foreground/90 text-center font-bold">
+                       NSM = Distance(2024) - Distance(2000)
                     </div>
                   </div>
 
@@ -380,8 +395,8 @@ export function GeospatialMethodologyVisualizer() {
                     <p className="text-[11px] text-muted-foreground leading-relaxed font-medium">
                       Dividing the NSM by the elapsed time span between the shoreline epochs to get the annual rate.
                     </p>
-                    <div className="bg-background/80 p-2 rounded text-[11px] font-mono text-foreground text-center">
-                      {"\\(EPR = \\frac{NSM}{\\Delta T_{years}}\\)"}
+                    <div className="bg-secondary/40 border border-border/60 p-2 rounded text-[11px] font-mono text-foreground/90 text-center font-bold">
+                      EPR = NSM / Time Span (24 Years)
                     </div>
                   </div>
                 </div>
@@ -438,18 +453,18 @@ export function GeospatialMethodologyVisualizer() {
                   {/* Layer Stack Container using CSS 3D transforms */}
                   <div 
                     style={{
-                      transform: "perspective(1000px) rotateX(46deg) rotateZ(-26deg) translateY(-25px)",
+                      transform: "perspective(1200px) rotateX(46deg) rotateZ(-26deg) translateY(-20px)",
                       transformStyle: "preserve-3d",
                     }}
                     className="relative w-[230px] h-[230px] transition-transform duration-500"
                   >
                     
-                    {/* Layer 1: Rainfall (Top - Z: 180px) */}
+                    {/* Layer 1: Rainfall (Top - Z: 210px) */}
                     <div 
-                      style={{ transform: "translateZ(180px)" }}
+                      style={{ transform: "translateZ(210px)" }}
                       className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
                     >
-                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/60 bg-slate-900 border border-white/5 px-1.5 py-0.5 rounded uppercase select-none">
+                      <div className="absolute -top-7 left-0 text-[9px] font-mono text-white/95 bg-slate-900 border border-slate-700/80 px-2 py-0.5 rounded uppercase select-none shadow-md">
                         Rainfall Layer ({normRain.toFixed(0)}%)
                       </div>
                       
@@ -473,12 +488,12 @@ export function GeospatialMethodologyVisualizer() {
                       )}
                     </div>
 
-                    {/* Layer 2: Slope (Z: 110px) */}
+                    {/* Layer 2: Slope (Z: 120px) */}
                     <div 
-                      style={{ transform: "translateZ(110px)" }}
+                      style={{ transform: "translateZ(120px)" }}
                       className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
                     >
-                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/60 bg-slate-900 border border-white/5 px-1.5 py-0.5 rounded uppercase select-none">
+                      <div className="absolute -top-7 right-0 text-[9px] font-mono text-white/95 bg-slate-900 border border-slate-700/80 px-2 py-0.5 rounded uppercase select-none shadow-md">
                         Slope Gradient ({normSlope.toFixed(0)}%)
                       </div>
 
@@ -501,13 +516,13 @@ export function GeospatialMethodologyVisualizer() {
                       )}
                     </div>
 
-                    {/* Layer 3: NDVI (Z: 40px) */}
+                    {/* Layer 3: NDVI (Z: 30px) */}
                     <div 
-                      style={{ transform: "translateZ(40px)" }}
+                      style={{ transform: "translateZ(30px)" }}
                       className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
                     >
-                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/60 bg-slate-900 border border-white/5 px-1.5 py-0.5 rounded uppercase select-none">
-                        NDVI Vegetation Cover ({normNdvi.toFixed(0)}%)
+                      <div className="absolute -left-[110px] top-1/2 -translate-y-1/2 text-[9px] font-mono text-white/95 bg-slate-900 border border-slate-700/80 px-2 py-0.5 rounded uppercase select-none shadow-md">
+                        NDVI Vegetation ({normNdvi.toFixed(0)}%)
                       </div>
 
                       <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
@@ -529,13 +544,13 @@ export function GeospatialMethodologyVisualizer() {
                       )}
                     </div>
 
-                    {/* Layer 4: Soil Infiltration (Z: -30px) */}
+                    {/* Layer 4: Soil Infiltration (Z: -60px) */}
                     <div 
-                      style={{ transform: "translateZ(-30px)" }}
+                      style={{ transform: "translateZ(-60px)" }}
                       className="absolute inset-0 bg-slate-950/95 border border-white/10 rounded shadow-md grid grid-cols-5 p-1.5 transition-all duration-300 hover:border-accent/60"
                     >
-                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-white/60 bg-slate-900 border border-white/5 px-1.5 py-0.5 rounded uppercase select-none">
-                        Soil Infiltration Rate ({normInf.toFixed(0)}%)
+                      <div className="absolute -right-[110px] top-1/2 -translate-y-1/2 text-[9px] font-mono text-white/95 bg-slate-900 border border-slate-700/80 px-2 py-0.5 rounded uppercase select-none shadow-md">
+                        Soil Infiltration ({normInf.toFixed(0)}%)
                       </div>
 
                       <svg viewBox="0 0 100 100" className="absolute inset-0 w-full h-full pointer-events-none opacity-[0.25] z-20">
@@ -557,12 +572,12 @@ export function GeospatialMethodologyVisualizer() {
                       )}
                     </div>
 
-                    {/* Layer 5: Output Susceptibility Map (Bottom - Z: -110px) */}
+                    {/* Layer 5: Output Susceptibility Map (Bottom - Z: -150px) */}
                     <div 
-                      style={{ transform: "translateZ(-110px)" }}
+                      style={{ transform: "translateZ(-150px)" }}
                       className="absolute inset-0 bg-slate-950 border-2 border-accent/40 rounded shadow-[0_0_35px_rgba(59,130,246,0.25)] grid grid-cols-5 p-1.5 transition-all duration-300"
                     >
-                      <div className="absolute -top-6 -left-2 text-[9px] font-mono text-accent font-bold bg-accent/15 border border-accent/20 px-1.5 py-0.5 rounded uppercase select-none">
+                      <div className="absolute -bottom-7 left-0 text-[9px] font-mono text-accent font-bold bg-accent/20 border border-accent/40 px-2 py-0.5 rounded uppercase select-none shadow-md">
                         SUSCEPTIBILITY OUTPUT MAP
                       </div>
 
@@ -599,10 +614,10 @@ export function GeospatialMethodologyVisualizer() {
                             position: "absolute",
                             left: `${rx}px`,
                             top: `${ry}px`,
-                            height: "305px", // spans top to bottom layer
+                            height: "365px", // spans top to bottom layer (Z span 210 to -150)
                             width: "2px",
                             background: "linear-gradient(to bottom, #3b82f6 0%, #8b5cf6 50%, #f43f5e 100%)",
-                            transform: "translateZ(-115px)",
+                            transform: "translateZ(-155px)",
                             transformStyle: "preserve-3d",
                             pointerEvents: "none",
                             boxShadow: "0 0 10px rgba(59,130,246,0.8)",
@@ -611,7 +626,6 @@ export function GeospatialMethodologyVisualizer() {
                         />
                       );
                     })()}
-
                   </div>
                 </div>
               </div>
@@ -708,8 +722,8 @@ export function GeospatialMethodologyVisualizer() {
                   else if (finalVal > 35) { riskTxt = "Moderate Susceptibility"; riskColor = "text-amber-500"; }
 
                   return (
-                    <div className="border border-border/50 rounded-xl p-4 bg-secondary/15 space-y-3 font-mono text-[11px] text-white">
-                      <div className="text-accent font-bold border-b border-white/5 pb-1">
+                    <div className="border border-border/50 rounded-xl p-4 bg-secondary/15 space-y-3 font-mono text-[11px] text-foreground/90">
+                      <div className="text-accent font-bold border-b border-border/60 pb-1">
                         CELL ({hoveredCell.r}, {hoveredCell.c}) OVERLAY MATH:
                       </div>
                       <div className="flex justify-between">
@@ -728,7 +742,7 @@ export function GeospatialMethodologyVisualizer() {
                         <span>Clay soil:</span>
                         <span>{infVal} &times; {normInf.toFixed(0)}% = {((infVal * normInf) / 100).toFixed(1)}</span>
                       </div>
-                      <div className="border-t border-white/10 pt-2 flex justify-between font-bold text-xs">
+                      <div className="border-t border-border/60 pt-2 flex justify-between font-bold text-xs">
                         <span>Overlay Sum:</span>
                         <span className={riskColor}>{finalVal}%</span>
                       </div>
@@ -740,10 +754,10 @@ export function GeospatialMethodologyVisualizer() {
                 })()}
               </div>
 
-              <div className="text-xs text-muted-foreground space-y-1 leading-relaxed bg-secondary/20 p-3 rounded-lg border border-border/40 font-medium">
+              <div className="text-xs text-muted-foreground space-y-1.5 leading-relaxed bg-secondary/20 p-3 rounded-lg border border-border/40 font-medium">
                 <div className="font-semibold text-foreground mb-1">SUSCEPTIBILITY FORMULA:</div>
-                <div className="font-mono text-[10px]">
-                  {"\\(Score = \\sum (Factor_{i} \\times Weight_{i})\\)"}
+                <div className="bg-secondary/40 border border-border/60 p-2 rounded text-[11px] font-mono text-foreground/90 text-center font-bold">
+                  Score = Σ (Factor_i × Weight_i)
                 </div>
               </div>
             </div>
