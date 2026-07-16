@@ -1685,8 +1685,7 @@ function Education() {
               })}
             </div>
 
-            {/* Certifications List */}
-            <div className="grid sm:grid-cols-2 gap-4 max-h-[380px] overflow-y-auto pr-2 custom-scrollbar">
+            <div className="grid sm:grid-cols-2 gap-4 max-h-[260px] overflow-y-auto pr-2 custom-scrollbar">
               {filteredCerts.map((cert, index) => (
                 <div key={index} className="border border-border/40 p-4 rounded-xl bg-secondary/15 space-y-2 hover:border-accent/30 transition-colors">
                   <div className="flex justify-between items-start gap-2">
