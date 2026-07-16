@@ -724,115 +724,131 @@ function InteractiveGISBackground() {
     };
     window.addEventListener("mousemove", handleMouseMove);
 
-    // Grid spacing details
-    const spacing = 65;
-    const cols = Math.ceil(width / spacing) + 1;
-    const rows = Math.ceil(height / spacing) + 1;
-    const points: { x: number; y: number; ox: number; oy: number }[] = [];
-
-    // Initialize points
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < cols; c++) {
-        points.push({
-          x: c * spacing,
-          y: r * spacing,
-          ox: c * spacing,
-          oy: r * spacing,
-        });
-      }
-    }
+    // Static topographic contour peak coordinates & parameters
+    const peaks = [
+      { cx: width * 0.15, cy: height * 0.2, rings: 7, base: 45, step: 25, seed: 1 },
+      { cx: width * 0.85, cy: height * 0.35, rings: 8, base: 50, step: 28, seed: 2 },
+      { cx: width * 0.3, cy: height * 0.75, rings: 6, base: 40, step: 22, seed: 3 },
+      { cx: width * 0.75, cy: height * 0.8, rings: 7, base: 45, step: 24, seed: 4 },
+    ];
 
     const draw = () => {
       ctx.clearRect(0, 0, width, height);
 
       // Smooth mouse follow
       const mouse = mouseRef.current;
-      mouse.x += (mouse.tx - mouse.x) * 0.12;
-      mouse.y += (mouse.ty - mouse.y) * 0.12;
-
-      // Warp points based on mouse proximity
-      const maxDist = 220;
-      points.forEach((p) => {
-        const dx = mouse.x - p.ox;
-        const dy = mouse.y - p.oy;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < maxDist) {
-          const force = (maxDist - dist) / maxDist; // 0 to 1
-          const angle = Math.atan2(dy, dx);
-          // Magnetic deflection effect representing a topographic elevation deflection
-          p.x = p.ox - Math.cos(angle) * force * 30;
-          p.y = p.oy - Math.sin(angle) * force * 30;
-        } else {
-          p.x += (p.ox - p.x) * 0.1;
-          p.y += (p.oy - p.y) * 0.1;
-        }
-      });
+      mouse.x += (mouse.tx - mouse.x) * 0.1;
+      mouse.y += (mouse.ty - mouse.y) * 0.1;
 
       const isDark = document.documentElement.classList.contains("dark");
-      ctx.lineWidth = 0.6;
-      ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 102, 204, 0.07)";
-      ctx.fillStyle = isDark ? "rgba(255, 255, 255, 0.22)" : "rgba(0, 102, 204, 0.28)";
+      
+      // Styling contour lines
+      ctx.lineWidth = 0.75;
+      ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.04)" : "rgba(0, 102, 204, 0.05)";
 
-      // Draw horizontal lines
-      for (let r = 0; r < rows; r++) {
-        ctx.beginPath();
-        for (let c = 0; c < cols; c++) {
-          const idx = r * cols + c;
-          const p = points[idx];
-          if (c === 0) {
-            ctx.moveTo(p.x, p.y);
-          } else {
-            ctx.lineTo(p.x, p.y);
-          }
-        }
-        ctx.stroke();
-      }
+      // Draw Topographic Contour Hills
+      peaks.forEach((peak) => {
+        let cx = peak.cx;
+        let cy = peak.cy;
+        if (peak.seed === 1) { cx = width * 0.12; cy = height * 0.25; }
+        if (peak.seed === 2) { cx = width * 0.88; cy = height * 0.35; }
+        if (peak.seed === 3) { cx = width * 0.25; cy = height * 0.75; }
+        if (peak.seed === 4) { cx = width * 0.75; cy = height * 0.85; }
 
-      // Draw vertical lines
-      for (let c = 0; c < cols; c++) {
-        ctx.beginPath();
-        for (let r = 0; r < rows; r++) {
-          const idx = r * cols + c;
-          const p = points[idx];
-          if (r === 0) {
-            ctx.moveTo(p.x, p.y);
-          } else {
-            ctx.lineTo(p.x, p.y);
-          }
-        }
-        ctx.stroke();
-      }
-
-      // Draw coordinate intersection dots
-      points.forEach((p, idx) => {
-        if (idx % 2 === 0) {
+        for (let r = 0; r < peak.rings; r++) {
           ctx.beginPath();
-          ctx.arc(p.x, p.y, 1.5, 0, Math.PI * 2);
-          ctx.fill();
+          const baseRadius = peak.base + r * peak.step;
+          
+          // Draw wavy loops instead of circles to look organic like actual land elevation
+          const steps = 64;
+          for (let s = 0; s <= steps; s++) {
+            const angle = (s / steps) * Math.PI * 2;
+            const waveOffset = Math.sin(angle * 5 + peak.seed) * 8 + Math.cos(angle * 3) * 4;
+            const currentRadius = baseRadius + waveOffset;
+
+            let px = cx + Math.cos(angle) * currentRadius;
+            let py = cy + Math.sin(angle) * currentRadius;
+
+            // Cursor deflection
+            const dx = mouse.x - px;
+            const dy = mouse.y - py;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            const maxWarpDist = 180;
+
+            if (dist < maxWarpDist) {
+              const force = (maxWarpDist - dist) / maxWarpDist;
+              const warpAngle = Math.atan2(dy, dx);
+              px -= Math.cos(warpAngle) * force * 16;
+              py -= Math.sin(warpAngle) * force * 16;
+            }
+
+            if (s === 0) {
+              ctx.moveTo(px, py);
+            } else {
+              ctx.lineTo(px, py);
+            }
+          }
+          ctx.stroke();
+
+          // Draw elevation meters watermark
+          if (r === peak.rings - 2) {
+            ctx.save();
+            ctx.fillStyle = isDark ? "rgba(255, 255, 255, 0.14)" : "rgba(0, 102, 204, 0.16)";
+            ctx.font = "8px monospace";
+            ctx.fillText(`${60 + r * 25}m`, cx + baseRadius, cy);
+            ctx.restore();
+          }
         }
       });
 
-      // Draw interactive elevation wave circles around cursor
-      ctx.beginPath();
-      ctx.arc(mouse.x, mouse.y, 75, 0, Math.PI * 2);
-      ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.12)" : "rgba(0, 102, 204, 0.16)";
-      ctx.stroke();
+      // Draw map tick coordinates grid '+'
+      const spacing = 130;
+      const cols = Math.floor(width / spacing);
+      const rows = Math.floor(height / spacing);
+      ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.05)" : "rgba(0, 102, 204, 0.06)";
+      ctx.lineWidth = 0.5;
 
-      ctx.beginPath();
-      ctx.arc(mouse.x, mouse.y, 150, 0, Math.PI * 2);
-      ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.06)" : "rgba(0, 102, 204, 0.08)";
-      ctx.stroke();
+      for (let c = 1; c < cols; c++) {
+        for (let r = 1; r < rows; r++) {
+          const tx = c * spacing;
+          const ty = r * spacing;
+          
+          ctx.beginPath();
+          ctx.moveTo(tx - 4, ty);
+          ctx.lineTo(tx + 4, ty);
+          ctx.moveTo(tx, ty - 4);
+          ctx.lineTo(tx, ty + 4);
+          ctx.stroke();
+        }
+      }
 
-      // Small helper coordinate tracker label next to cursor
+      // Draw target cursor crosshair & guidelines
       if (mouse.x > 0 && mouse.y > 0) {
-        ctx.fillStyle = isDark ? "rgba(255, 255, 255, 0.4)" : "rgba(0, 0, 0, 0.4)";
-        ctx.font = "9px monospace";
-        ctx.fillText(
-          `ELEV: ${(20 + Math.sin(mouse.x * 0.005) * 10).toFixed(1)}m`,
-          mouse.x + 12,
-          mouse.y - 12
-        );
+        ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.14)" : "rgba(0, 102, 204, 0.18)";
+        ctx.beginPath();
+        ctx.arc(mouse.x, mouse.y, 4, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.06)" : "rgba(0, 102, 204, 0.08)";
+        ctx.beginPath();
+        ctx.arc(mouse.x, mouse.y, 32, 0, Math.PI * 2);
+        ctx.stroke();
+
+        ctx.setLineDash([3, 6]);
+        ctx.beginPath();
+        ctx.moveTo(mouse.x - 50, mouse.y);
+        ctx.lineTo(mouse.x + 50, mouse.y);
+        ctx.moveTo(mouse.x, mouse.y - 50);
+        ctx.lineTo(mouse.x, mouse.y + 50);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Elegant lat/lon display next to cursor
+        ctx.fillStyle = isDark ? "rgba(255, 255, 255, 0.35)" : "rgba(0, 102, 204, 0.4)";
+        ctx.font = "8px monospace";
+        const lat = (23.8103 + (mouse.y - height / 2) * 0.0001).toFixed(4);
+        const lon = (90.4125 + (mouse.x - width / 2) * 0.0001).toFixed(4);
+        ctx.fillText(`N ${lat}° E ${lon}°`, mouse.x + 12, mouse.y - 8);
       }
 
       animFrame = requestAnimationFrame(draw);
@@ -1128,7 +1144,7 @@ function Hero() {
 function About() {
   const ref = useReveal<HTMLDivElement>();
   return (
-    <section id="about" className="pt-12 pb-28">
+    <section id="about" className="pt-12 pb-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHeader eyebrow="01 · About" title="About me" />
         <div ref={ref} className="reveal grid lg:grid-cols-12 gap-12 mt-12">
@@ -1212,7 +1228,7 @@ function Stat({
 function Interests() {
   const ref = useReveal<HTMLDivElement>();
   return (
-    <section id="research" className="py-28 bg-secondary/30 relative overflow-hidden border-y border-border/50">
+    <section id="research" className="py-16 bg-secondary/30 relative overflow-hidden border-y border-border/50">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHeader eyebrow="03a · Research interests" title="Research interests" />
         <div
@@ -1249,7 +1265,7 @@ function Interests() {
 function Publications() {
   const [tab, setTab] = useState<"journal" | "conference">("journal");
   return (
-    <section id="publications" className="py-28">
+    <section id="publications" className="py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHeader eyebrow="03b · Publications" title="Selected publications" />
         <div className="mt-10 flex items-center gap-2 border-b border-border">
@@ -1396,7 +1412,7 @@ function Projects() {
   };
 
   return (
-    <section id="projects" className="py-28 bg-secondary/60">
+    <section id="projects" className="py-16 bg-secondary/60">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="flex items-end justify-between gap-6 flex-wrap">
           <SectionHeader eyebrow="05 · Projects" title="Featured projects" />
@@ -1641,7 +1657,7 @@ function Experience() {
   );
 
   return (
-    <section id="experience" className="py-28">
+    <section id="experience" className="py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHeader
           eyebrow="06 · Experience"
@@ -1737,7 +1753,7 @@ function Education() {
     : CERTIFICATIONS.filter((c) => c.category === activeCertTab);
 
   return (
-    <section id="education" className="py-28 relative overflow-hidden border-b border-border/50 bg-secondary/10">
+    <section id="education" className="py-16 relative overflow-hidden border-b border-border/50 bg-secondary/10">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-12 items-start">
         <div className="lg:col-span-4">
           <SectionHeader eyebrow="02 · Education" title="Academic foundation" />
@@ -1904,7 +1920,7 @@ function Education() {
 function Skills() {
   const ref = useReveal<HTMLDivElement>();
   return (
-    <section id="skills" className="py-28 relative overflow-hidden">
+    <section id="skills" className="py-16 relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHeader eyebrow="07 · Skills" title="Technical toolkit" />
         <div ref={ref} className="reveal mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -2012,8 +2028,7 @@ function Contact() {
   const [sent, setSent] = useState(false);
   const formRef = useRef<HTMLFormElement>(null);
   return (
-    <section id="contact" className="py-28 bg-secondary/60 relative overflow-hidden">
-      <div className="absolute inset-0 bg-contours opacity-60 pointer-events-none" />
+    <section id="contact" className="py-16 bg-secondary/60 relative overflow-hidden">
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-12">
         <div className="lg:col-span-5">
           <SectionHeader eyebrow="10 · Contact" title="Let's build something resilient." />
