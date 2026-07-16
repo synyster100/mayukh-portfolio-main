@@ -203,7 +203,7 @@ const CONFERENCE = [
     venue: "ACEM26",
     year: 2026,
     status: "[Accepted for presentation]",
-    location: { lng: -87.8803, lat: 35.8703, label: "Humphreys County, Tennessee, USA" },
+    location: { lng: -87.8803, lat: 35.8703, label: "ACEM26 — Humphreys County, Tennessee, USA" },
     link: null,
   },
   {
@@ -212,7 +212,7 @@ const CONFERENCE = [
     venue: "ACEM26",
     year: 2026,
     status: "[Accepted for presentation]",
-    location: { lng: -87.1370, lat: 30.3349, label: "Pensacola Beach, Florida, USA" },
+    location: { lng: -87.1370, lat: 30.3349, label: "ACEM26 — Pensacola Beach, Florida, USA" },
     link: null,
   },
   {
@@ -221,7 +221,7 @@ const CONFERENCE = [
     venue: "ASCE 2027",
     year: 2025,
     status: "[Accepted for presentation]",
-    location: { lng: -101.9500, lat: 30.2200, label: "Terrell County, Texas, USA" },
+    location: { lng: -101.9500, lat: 30.2200, label: "ASCE 2027 — Terrell County, Texas, USA" },
     link: null,
   },
   {
@@ -230,7 +230,7 @@ const CONFERENCE = [
     venue: "ASCE 2027",
     year: 2025,
     status: "[Accepted for presentation]",
-    location: { lng: -99.3500, lat: 30.0500, label: "Kerr County, Texas, USA" },
+    location: { lng: -99.3500, lat: 30.0500, label: "ASCE 2027 — Kerr County, Texas, USA" },
     link: null,
   },
   {
@@ -239,7 +239,7 @@ const CONFERENCE = [
     venue: "ASCE 2027",
     year: 2025,
     status: "[Accepted for presentation]",
-    location: { lng: -104.8214, lat: 31.7619, label: "El Paso County, Texas, USA" },
+    location: { lng: -104.8214, lat: 31.7619, label: "ASCE 2027 — El Paso County, Texas, USA" },
     link: null,
   },
   {
@@ -248,7 +248,7 @@ const CONFERENCE = [
     venue: "International Geoscience and Remote Sensing Symposium (IGARSS 2026)",
     year: 2025,
     status: "[Accepted for presentation]",
-    location: { lng: -98.4936, lat: 29.4241, label: "San Antonio, Texas, USA" },
+    location: { lng: -98.4936, lat: 29.4241, label: "IGARSS 2026 — San Antonio, Texas, USA" },
     link: null,
   },
   {
@@ -257,7 +257,7 @@ const CONFERENCE = [
     venue: "International Conference on Civil Engineering Research & Innovations 2025 (ICCEI 2025) (pp. 1370-1375)",
     year: 2025,
     status: "",
-    location: { lng: 90.3563, lat: 23.6850, label: "Bangladesh" },
+    location: { lng: 90.2000, lat: 23.6850, label: "ICCEI 2025 — Bangladesh" },
     link: "https://icceiruet.org/wp-content/uploads/2025/12/98_Camera-Ready-Final-Paper_ICCEI-2025.pdf",
   },
   {
@@ -266,7 +266,7 @@ const CONFERENCE = [
     venue: "International Conference on Engineering Research, Innovation, and Education 2025 (ICERIE 2025) (pp. 239-245). Atlantis Press",
     year: 2025,
     status: "",
-    location: { lng: 90.3800, lat: 23.7100, label: "Dhaka, Bangladesh" },
+    location: { lng: 90.4125, lat: 23.8103, label: "ICERIE 2025 — Dhaka, Bangladesh" },
     link: "https://doi.org/10.2991/978-94-6463-884-4_29",
   },
   {
@@ -275,7 +275,7 @@ const CONFERENCE = [
     venue: "Poster Presentation Segment, Cennovation 2025, Dhaka, Bangladesh",
     year: 2025,
     status: "",
-    location: { lng: 90.3800, lat: 23.7000, label: "Buriganga River, Dhaka, Bangladesh" },
+    location: { lng: 90.3800, lat: 23.6200, label: "Cennovation 2025 — Buriganga River, Dhaka, Bangladesh" },
     link: "https://www.researchgate.net/publication/398942866_A_Decadal_GIS-Based_Analysis_of_Turbidity_Dynamics_and_Urban_Expansion_in_the_Buriganga_River_2013-2023",
   },
 ];
