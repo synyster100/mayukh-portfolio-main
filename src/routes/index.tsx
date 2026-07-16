@@ -26,6 +26,8 @@ import {
   Map as MapIcon,
   Waves,
   ShieldAlert,
+  Sun,
+  Moon,
 } from "lucide-react";
 import { useReveal, useCountUp, useInView } from "@/hooks/use-reveal";
 import ProjectMap from "@/components/ProjectMap";
@@ -699,19 +701,6 @@ const CERTIFICATIONS = [
 /* ---------- Component ---------- */
 
 function Portfolio() {
-  const [scrollProgress, setScrollProgress] = useState(0);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progressRatio = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
-      setScrollProgress(progressRatio);
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   useEffect(() => {
     const SELECTOR = [
       "section:not(#top) h2",
@@ -751,13 +740,6 @@ function Portfolio() {
 
   return (
     <div className="min-h-screen bg-background text-foreground bg-contours relative">
-      {/* Dynamic Scroll Progress Bar */}
-      <div className="fixed top-0 left-0 w-full h-[3px] bg-secondary/35 z-[999] pointer-events-none">
-        <div
-          className="h-full bg-gradient-to-r from-primary via-accent to-accent/90 transition-all duration-75 ease-out"
-          style={{ width: `${scrollProgress}%` }}
-        />
-      </div>
       <div className="absolute inset-0 bg-grid opacity-[0.18] pointer-events-none z-0" />
       <div className="relative z-10">
         <Nav />
@@ -782,17 +764,38 @@ function Portfolio() {
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
+  const [theme, setTheme] = useState<"light" | "dark">("light");
+
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 12);
     on();
     window.addEventListener("scroll", on, { passive: true });
     return () => window.removeEventListener("scroll", on);
   }, []);
+
+  useEffect(() => {
+    // Sync initial state with document class list
+    const isDark = document.documentElement.classList.contains("dark");
+    setTheme(isDark ? "dark" : "light");
+  }, []);
+
+  const toggleTheme = () => {
+    const nextTheme = theme === "light" ? "dark" : "light";
+    setTheme(nextTheme);
+    if (nextTheme === "dark") {
+      document.documentElement.classList.add("dark");
+      localStorage.theme = "dark";
+    } else {
+      document.documentElement.classList.remove("dark");
+      localStorage.theme = "light";
+    }
+  };
+
   return (
     <header
       className={`fixed top-0 inset-x-0 z-50 transition-all duration-300 ${
         scrolled
-          ? "bg-background/80 backdrop-blur-md border-b border-border"
+          ? "bg-background/80 backdrop-blur-md border-b border-border shadow-sm"
           : "bg-transparent"
       }`}
     >
@@ -808,18 +811,35 @@ function Nav() {
             <a
               key={n.id}
               href={`#${n.id}`}
-              className="text-muted-foreground hover:text-foreground transition-colors"
+              className="text-muted-foreground hover:text-foreground transition-colors font-semibold"
             >
               {n.label}
             </a>
           ))}
         </nav>
-        <a
-          href="#contact"
-          className="hidden md:inline-flex items-center gap-1.5 text-sm border border-foreground/80 rounded-full px-4 py-1.5 hover:bg-foreground hover:text-background transition-colors"
-        >
-          Let's collaborate <ArrowUpRight className="w-3.5 h-3.5" />
-        </a>
+        
+        <div className="flex items-center gap-3">
+          {/* Theme Toggle Button */}
+          <button
+            onClick={toggleTheme}
+            className="p-2 rounded-full border border-border bg-background/50 hover:bg-secondary/60 text-muted-foreground hover:text-foreground transition-all duration-200"
+            aria-label="Toggle visual theme"
+            title={theme === "dark" ? "Switch to Light Mode" : "Switch to Dark Mode"}
+          >
+            {theme === "dark" ? (
+              <Sun className="w-4 h-4 text-amber-500" />
+            ) : (
+              <Moon className="w-4 h-4 text-indigo-600" />
+            )}
+          </button>
+
+          <a
+            href="#contact"
+            className="hidden md:inline-flex items-center gap-1.5 text-sm border border-foreground/80 rounded-full px-4 py-1.5 hover:bg-foreground hover:text-background transition-colors font-semibold"
+          >
+            Let's collaborate <ArrowUpRight className="w-3.5 h-3.5" />
+          </a>
+        </div>
       </div>
     </header>
   );
@@ -1118,7 +1138,7 @@ function Publications() {
             ? JOURNAL.map((p, i) => (
                 <article
                   key={i}
-                  className="group grid md:grid-cols-12 gap-4 py-8 hover:bg-secondary/30 transition-all duration-300 px-6 -mx-6 rounded-xl border-l-4 border-transparent hover:border-accent/70"
+                  className="group grid md:grid-cols-12 gap-4 py-8 hover:bg-secondary/30 transition-all duration-300 px-6 -mx-6 rounded-xl"
                 >
                   <div className="md:col-span-1 font-mono text-base text-accent font-bold">
                     {p.year}
@@ -1158,7 +1178,7 @@ function Publications() {
             : CONFERENCE.map((p, i) => (
                 <article
                   key={i}
-                  className="group grid md:grid-cols-12 gap-4 py-8 hover:bg-secondary/30 transition-all duration-300 px-6 -mx-6 rounded-xl border-l-4 border-transparent hover:border-accent/70"
+                  className="group grid md:grid-cols-12 gap-4 py-8 hover:bg-secondary/30 transition-all duration-300 px-6 -mx-6 rounded-xl"
                 >
                   <div className="md:col-span-1 font-mono text-base text-accent font-bold">
                     {p.year}
