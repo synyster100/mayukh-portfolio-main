@@ -687,56 +687,14 @@ function About() {
           </div>
           <div className="lg:col-span-7 space-y-6 text-lg text-pretty text-foreground/85 leading-relaxed order-1 lg:order-2">
             <p>
-              I am an environmental engineer and geospatial researcher dedicated to building computational solutions for climate resilience. My core research interest lies at the intersection of <strong className="text-foreground font-semibold">Geospatial Artificial Intelligence (GeoAI), hydrodynamic hazard modeling, and remote sensing</strong>.
+              I am a civil engineer and geospatial researcher dedicated to understanding and addressing environmental hazards. My work lies at the intersection of <strong className="text-foreground font-semibold">computational hydraulics, remote sensing, and environmental mechanics</strong>, with a focus on building resilient systems for flood risk management and coastal protection.
             </p>
             <p>
-              By combining machine learning algorithms (like Random Forest, XGBoost) with traditional physical modeling frameworks (like HEC-RAS, EPA SWMM) and explainable AI insights (SHAP), I aim to develop transparent, high-resolution susceptibility mapping frameworks for complex geo-environmental systems.
+              From analyzing long-term shoreline dynamics and urban stormwater grids to conducting soil-structure stabilization studies, I enjoy bridging the gap between theoretical research and practical infrastructure engineering. By integrating data-driven insights with physical modeling, my goal is to design solutions that adapt to changing climatic patterns and protect vulnerable communities.
             </p>
             <p>
-              My academic journey includes publishing peer-reviewed journal papers and presenting at international venues such as ASCE and IGARSS, alongside industry experience engineering civil utility infrastructures. I am actively seeking a PhD position where I can contribute to next-generation climate resilience and geo-hazard analytics.
+              Beyond research, I have experience designing telecommunication networks and instructing hundreds of professionals and students in structural CAD modeling. I am motivated by a commitment to lifelong learning, collaborative science, and translating complex environmental data into policy-actionable solutions.
             </p>
-            
-            <div className="grid md:grid-cols-2 gap-6 mt-8">
-              <div className="rounded-2xl border border-border bg-card p-6">
-                <div className="text-xs uppercase tracking-widest text-accent font-bold font-mono">
-                  Core Research Objectives
-                </div>
-                <ul className="mt-4 space-y-2 text-sm text-foreground/85 font-sans leading-relaxed">
-                  <li className="flex items-start gap-2">
-                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                    Scale-invariant flash flood susceptibility modeling using GIS-AHP.
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                    Explainable AI (XAI) for geo-hazards to make models policy-actionable.
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                    Long-term shoreline geomorphology forecasting using remote sensing.
-                  </li>
-                </ul>
-              </div>
-
-              <div className="rounded-2xl border border-border bg-card p-6">
-                <div className="text-xs uppercase tracking-widest text-accent font-bold font-mono">
-                  Ph.D. Interest Areas
-                </div>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {[
-                    "Hydroinformatics",
-                    "Geospatial Deep Learning",
-                    "Climate Hazard Mitigation",
-                    "Remote Sensing Dynamics",
-                    "Coastal Engineering",
-                    "GeoAI & Spatial Statistics"
-                  ].map((area) => (
-                    <span key={area} className="text-xs px-2.5 py-1 bg-secondary/60 text-foreground border border-border/80 rounded-md font-medium">
-                      {area}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </div>
           </div>
         </div>
 
