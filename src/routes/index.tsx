@@ -1064,9 +1064,18 @@ function Nav() {
 
 function Hero() {
   return (
-    <section id="top" className="relative pt-32 pb-12 overflow-hidden">
+    <section id="top" className="relative pt-32 pb-12 overflow-hidden border-b border-border/20 bg-background/5">
+      {/* Background Satellite Image Container with Slow Zoom */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-gradient-to-b from-background/15 via-background/65 to-background z-10" />
+        <img
+          src="/satellite_hero.jpg"
+          alt="Satellite coastal city view background"
+          className="w-full h-full object-cover opacity-[0.25] dark:opacity-[0.16] scale-100 animate-footer-zoom"
+        />
+      </div>
 
-      <div className="relative mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-10 items-end">
+      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-10 items-end">
         <div className="lg:col-span-8 hero-stage order-2 lg:order-1">
 
           <h1 className="font-display text-[clamp(2.75rem,7vw,6.5rem)] leading-[0.95] tracking-tight text-balance">
