@@ -391,7 +391,7 @@ const EXTRACURRICULARS = [
   {
     role: "Member",
     org: "IUT ITE Student Chapter",
-    period: "2021 - Present",
+    period: "2021 - 2025",
     category: "Education",
   },
   {
@@ -403,7 +403,7 @@ const EXTRACURRICULARS = [
   {
     role: "Campus Ambassador",
     org: "East West University Telecommunications Club",
-    period: "Nov 2023 - Present",
+    period: "Nov 2023 - Dec 2023",
     category: "Leadership",
   },
   {
@@ -415,7 +415,7 @@ const EXTRACURRICULARS = [
   {
     role: "Member",
     org: "IUT Career & Business Society",
-    period: "2021 - Present (5 yrs 7 mos)",
+    period: "2021 - Oct 2025",
     category: "Professional Development",
   },
   {
