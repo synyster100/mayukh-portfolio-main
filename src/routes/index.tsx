@@ -1027,7 +1027,7 @@ function Nav() {
             <a
               key={n.id}
               href={`#${n.id}`}
-              className="group flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-foreground/85 hover:text-foreground hover:bg-secondary/80 border border-transparent hover:border-border/40 transition-all duration-200 font-bold text-xs tracking-wide font-sans relative"
+              className="group flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-foreground/85 hover:text-foreground hover:bg-secondary/80 border border-transparent hover:border-border/40 transition-all duration-200 font-bold text-sm tracking-wide font-sans relative"
             >
               <n.icon className={`w-3.5 h-3.5 ${n.color} transition-transform group-hover:scale-110 group-hover:rotate-12 duration-300`} />
               <span>{n.label}</span>
