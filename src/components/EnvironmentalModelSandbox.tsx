@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Sliders, Activity, Info, ShieldAlert, Layers } from "lucide-react";
+import { Sliders, Activity, Info, ShieldAlert, Layers, Cpu } from "lucide-react";
 
 export function EnvironmentalModelSandbox() {
   // Simulator inputs
@@ -56,6 +56,56 @@ export function EnvironmentalModelSandbox() {
   const plainRisk = Math.round((0.3 * combinedMoisture + 0.3 * normRain + 0.2 * normSlope + 0.2 * normInf) * 100);
   // 4. Forest Zone (Zone 4) - protected by NDVI, but affected by heavy rain & antecedent load
   const forestRisk = Math.round((0.1 * normNdvi + 0.6 * normRain + 0.3 * normAnt) * 55);
+
+  const [selectedZone, setSelectedZone] = useState<"Highlands" | "Urban Core" | "Forest Buffer" | "Lowland Plain">("Highlands");
+
+  const getShapValues = () => {
+    const baseValue = 35;
+    let actualScore = 0;
+    let factors: { name: string; weight: number; norm: number }[] = [];
+
+    if (selectedZone === "Highlands") {
+      actualScore = highlandRisk;
+      factors = [
+        { name: "Terrain Slope", weight: 0.4, norm: normSlope },
+        { name: "Rainfall Intensity", weight: 0.4, norm: normRain },
+        { name: "Soil Infiltration (Ksat)", weight: 0.2, norm: normInf },
+      ];
+    } else if (selectedZone === "Urban Core") {
+      actualScore = urbanRisk;
+      factors = [
+        { name: "Vegetation Index (NDVI)", weight: 0.4, norm: normNdvi },
+        { name: "Rainfall Intensity", weight: 0.3, norm: normRain },
+        { name: "Drainage Grid Density", weight: 0.3, norm: normDrain },
+      ];
+    } else if (selectedZone === "Forest Buffer") {
+      actualScore = forestRisk;
+      factors = [
+        { name: "Vegetation Index (NDVI)", weight: 0.1, norm: normNdvi },
+        { name: "Rainfall Intensity", weight: 0.6, norm: normRain },
+        { name: "Antecedent wetness", weight: 0.3, norm: normAnt },
+      ];
+    } else {
+      actualScore = plainRisk;
+      factors = [
+        { name: "Combined Moisture", weight: 0.3, norm: combinedMoisture },
+        { name: "Rainfall Intensity", weight: 0.3, norm: normRain },
+        { name: "Terrain Slope", weight: 0.2, norm: normSlope },
+        { name: "Soil Infiltration (Ksat)", weight: 0.2, norm: normInf },
+      ];
+    }
+
+    const diff = actualScore - baseValue;
+    const totalWeightedVal = factors.reduce((sum, f) => sum + f.weight * f.norm, 0) || 0.001;
+    
+    return factors.map(f => {
+      const contrib = ((f.weight * f.norm) / totalWeightedVal) * diff;
+      return {
+        name: f.name,
+        val: contrib,
+      };
+    });
+  };
 
   // Color helper based on risk score
   const getRiskColor = (score: number) => {
@@ -364,10 +414,11 @@ export function EnvironmentalModelSandbox() {
                   <path
                     d="M 10 10 L 220 10 L 160 120 L 10 160 Z"
                     fill="url(#grad-highlands)"
-                    stroke={getRiskColor(highlandRisk)}
-                    strokeWidth="1.5"
-                    strokeOpacity="0.4"
-                    className="transition-all duration-300"
+                    stroke={selectedZone === "Highlands" ? "#3b82f6" : getRiskColor(highlandRisk)}
+                    strokeWidth={selectedZone === "Highlands" ? "2.5" : "1.5"}
+                    strokeOpacity={selectedZone === "Highlands" ? "1" : "0.4"}
+                    className="transition-all duration-300 cursor-pointer hover:stroke-accent"
+                    onClick={() => setSelectedZone("Highlands")}
                   />
                   <path
                     d="M 10 10 L 220 10 L 160 120 L 10 160 Z"
@@ -382,10 +433,11 @@ export function EnvironmentalModelSandbox() {
                   <path
                     d="M 220 10 L 390 10 L 390 130 L 260 180 L 160 120 Z"
                     fill="url(#grad-urban)"
-                    stroke={getRiskColor(urbanRisk)}
-                    strokeWidth="1.5"
-                    strokeOpacity="0.4"
-                    className="transition-all duration-300"
+                    stroke={selectedZone === "Urban Core" ? "#3b82f6" : getRiskColor(urbanRisk)}
+                    strokeWidth={selectedZone === "Urban Core" ? "2.5" : "1.5"}
+                    strokeOpacity={selectedZone === "Urban Core" ? "1" : "0.4"}
+                    className="transition-all duration-300 cursor-pointer hover:stroke-accent"
+                    onClick={() => setSelectedZone("Urban Core")}
                   />
                   <path
                     d="M 220 10 L 390 10 L 390 130 L 260 180 L 160 120 Z"
@@ -400,10 +452,11 @@ export function EnvironmentalModelSandbox() {
                   <path
                     d="M 10 160 L 160 120 L 220 200 L 120 290 L 10 290 Z"
                     fill="url(#grad-forest)"
-                    stroke={getRiskColor(forestRisk)}
-                    strokeWidth="1.5"
-                    strokeOpacity="0.4"
-                    className="transition-all duration-300"
+                    stroke={selectedZone === "Forest Buffer" ? "#3b82f6" : getRiskColor(forestRisk)}
+                    strokeWidth={selectedZone === "Forest Buffer" ? "2.5" : "1.5"}
+                    strokeOpacity={selectedZone === "Forest Buffer" ? "1" : "0.4"}
+                    className="transition-all duration-300 cursor-pointer hover:stroke-accent"
+                    onClick={() => setSelectedZone("Forest Buffer")}
                   />
                   <path
                     d="M 10 160 L 160 120 L 220 200 L 120 290 L 10 290 Z"
@@ -418,10 +471,11 @@ export function EnvironmentalModelSandbox() {
                   <path
                     d="M 260 180 L 390 130 L 390 290 L 120 290 L 220 200 Z"
                     fill="url(#grad-plain)"
-                    stroke={getRiskColor(plainRisk)}
-                    strokeWidth="1.5"
-                    strokeOpacity="0.4"
-                    className="transition-all duration-300"
+                    stroke={selectedZone === "Lowland Plain" ? "#3b82f6" : getRiskColor(plainRisk)}
+                    strokeWidth={selectedZone === "Lowland Plain" ? "2.5" : "1.5"}
+                    strokeOpacity={selectedZone === "Lowland Plain" ? "1" : "0.4"}
+                    className="transition-all duration-300 cursor-pointer hover:stroke-accent"
+                    onClick={() => setSelectedZone("Lowland Plain")}
                   />
                   <path
                     d="M 260 180 L 390 130 L 390 290 L 120 290 L 220 200 Z"
@@ -489,21 +543,99 @@ export function EnvironmentalModelSandbox() {
 
               {/* Sub-catchment Risk Scores */}
               <div className="mt-3 grid grid-cols-4 gap-2 text-center">
-                <div className="border border-border/40 bg-secondary/15 p-2 rounded-xl">
+                <button
+                  onClick={() => setSelectedZone("Highlands")}
+                  className={`border p-2 rounded-xl transition-all duration-300 ${
+                    selectedZone === "Highlands"
+                      ? "border-accent bg-accent/5 font-semibold text-accent shadow-sm"
+                      : "border-border/40 bg-secondary/15 text-foreground/80 hover:bg-secondary/30"
+                  }`}
+                >
                   <span className="text-[9px] uppercase font-mono text-muted-foreground block">Highlands</span>
-                  <span className="text-xs font-bold font-mono text-foreground" style={{ color: getRiskColor(highlandRisk) }}>{highlandRisk}%</span>
-                </div>
-                <div className="border border-border/40 bg-secondary/15 p-2 rounded-xl">
+                  <span className="text-xs font-bold font-mono" style={{ color: getRiskColor(highlandRisk) }}>{highlandRisk}%</span>
+                </button>
+                <button
+                  onClick={() => setSelectedZone("Urban Core")}
+                  className={`border p-2 rounded-xl transition-all duration-300 ${
+                    selectedZone === "Urban Core"
+                      ? "border-accent bg-accent/5 font-semibold text-accent shadow-sm"
+                      : "border-border/40 bg-secondary/15 text-foreground/80 hover:bg-secondary/30"
+                  }`}
+                >
                   <span className="text-[9px] uppercase font-mono text-muted-foreground block">Urban Core</span>
-                  <span className="text-xs font-bold font-mono text-foreground" style={{ color: getRiskColor(urbanRisk) }}>{urbanRisk}%</span>
-                </div>
-                <div className="border border-border/40 bg-secondary/15 p-2 rounded-xl">
+                  <span className="text-xs font-bold font-mono" style={{ color: getRiskColor(urbanRisk) }}>{urbanRisk}%</span>
+                </button>
+                <button
+                  onClick={() => setSelectedZone("Forest Buffer")}
+                  className={`border p-2 rounded-xl transition-all duration-300 ${
+                    selectedZone === "Forest Buffer"
+                      ? "border-accent bg-accent/5 font-semibold text-accent shadow-sm"
+                      : "border-border/40 bg-secondary/15 text-foreground/80 hover:bg-secondary/30"
+                  }`}
+                >
                   <span className="text-[9px] uppercase font-mono text-muted-foreground block">Forest Buffer</span>
-                  <span className="text-xs font-bold font-mono text-foreground" style={{ color: getRiskColor(forestRisk) }}>{forestRisk}%</span>
-                </div>
-                <div className="border border-border/40 bg-secondary/15 p-2 rounded-xl">
+                  <span className="text-xs font-bold font-mono" style={{ color: getRiskColor(forestRisk) }}>{forestRisk}%</span>
+                </button>
+                <button
+                  onClick={() => setSelectedZone("Lowland Plain")}
+                  className={`border p-2 rounded-xl transition-all duration-300 ${
+                    selectedZone === "Lowland Plain"
+                      ? "border-accent bg-accent/5 font-semibold text-accent shadow-sm"
+                      : "border-border/40 bg-secondary/15 text-foreground/80 hover:bg-secondary/30"
+                  }`}
+                >
                   <span className="text-[9px] uppercase font-mono text-muted-foreground block">Lowland Plain</span>
-                  <span className="text-xs font-bold font-mono text-foreground" style={{ color: getRiskColor(plainRisk) }}>{plainRisk}%</span>
+                  <span className="text-xs font-bold font-mono" style={{ color: getRiskColor(plainRisk) }}>{plainRisk}%</span>
+                </button>
+              </div>
+ 
+              {/* SHAP Feature Attribution Panel */}
+              <div className="mt-5 border border-border/50 bg-secondary/10 p-5 rounded-xl space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-2">
+                    <Cpu className="w-3.5 h-3.5 text-accent" />
+                    <span className="text-xs font-bold uppercase tracking-wider text-foreground">
+                      SHAP Feature Attribution (Explainable AI)
+                    </span>
+                  </div>
+                  <div className="text-[9px] font-mono text-muted-foreground uppercase bg-secondary/80 border border-border/60 px-2 py-0.5 rounded-full font-bold">
+                    Zone: <span className="text-accent">{selectedZone}</span>
+                  </div>
+                </div>
+                <p className="text-[11px] text-muted-foreground leading-relaxed">
+                  SHAP values explain the model contribution of each geological or hydrologic factor relative to a baseline susceptibility expectation of 35.0%. Click on any zone on the map above or select the buttons to inspect its local feature attribution.
+                </p>
+                
+                <div className="space-y-3 pt-1">
+                  {getShapValues().map((shap) => {
+                    const val = shap.val;
+                    const isPositive = val >= 0;
+                    return (
+                      <div key={shap.name} className="flex items-center gap-3">
+                        <div className="w-[140px] text-xs font-semibold text-foreground/85 shrink-0 truncate">{shap.name}</div>
+                        <div className="w-[45px] text-[10px] font-mono font-bold shrink-0 text-right pr-2" style={{ color: isPositive ? "#ef4444" : "#10b981" }}>
+                          {isPositive ? "+" : ""}{val.toFixed(1)}%
+                        </div>
+                        <div className="relative flex-1 h-3 bg-secondary/30 border border-border/20 rounded overflow-hidden">
+                          {/* 50% Center Line */}
+                          <div className="absolute left-1/2 top-0 bottom-0 w-[1px] bg-border z-10" />
+                          
+                          {/* Bar */}
+                          {isPositive ? (
+                            <div
+                              className="absolute h-full bg-rose-500/20 border-l border-rose-500 transition-all duration-500"
+                              style={{ left: "50%", width: `${Math.min(val * 1.5, 50)}%` }}
+                            />
+                          ) : (
+                            <div
+                              className="absolute h-full bg-emerald-500/20 border-r border-emerald-500 transition-all duration-500"
+                              style={{ right: "50%", width: `${Math.min(Math.abs(val) * 1.5, 50)}%` }}
+                            />
+                          )}
+                        </div>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>

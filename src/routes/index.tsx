@@ -474,7 +474,6 @@ function Portfolio() {
         <Experience />
         <Skills />
         <Leadership />
-        <TestScores />
         <Contact />
         <Footer />
       </div>
@@ -688,43 +687,55 @@ function About() {
           </div>
           <div className="lg:col-span-7 space-y-6 text-lg text-pretty text-foreground/85 leading-relaxed order-1 lg:order-2">
             <p>
-              I am a researcher and engineer passionate about leveraging geospatial
-              technologies to understand environmental systems and support
-              evidence-based decision making.
+              I am an environmental engineer and geospatial researcher dedicated to building computational solutions for climate resilience. My core research interest lies at the intersection of <strong className="text-foreground font-semibold">Geospatial Artificial Intelligence (GeoAI), hydrodynamic hazard modeling, and remote sensing</strong>.
             </p>
             <p>
-              My work combines GIS, remote sensing, ecohydrological modeling, and
-              machine learning to address flood risk, climate change, and
-              sustainable infrastructure across academia and industry.
+              By combining machine learning algorithms (like Random Forest, XGBoost) with traditional physical modeling frameworks (like HEC-RAS, EPA SWMM) and explainable AI insights (SHAP), I aim to develop transparent, high-resolution susceptibility mapping frameworks for complex geo-environmental systems.
             </p>
             <p>
-              I have contributed to peer-reviewed publications, international
-              conferences, large-scale infrastructure projects, and climate-related
-              initiatives.
+              My academic journey includes publishing peer-reviewed journal papers and presenting at international venues such as ASCE and IGARSS, alongside industry experience engineering civil utility infrastructures. I am actively seeking a PhD position where I can contribute to next-generation climate resilience and geo-hazard analytics.
             </p>
-            <div className="rounded-2xl border border-border bg-card p-6 mt-8">
-              <div className="text-xs uppercase tracking-widest text-muted-foreground">
-                Focus areas
-              </div>
-              <ul className="mt-4 grid grid-cols-2 gap-3 text-sm">
-                {[
-                  "Geoenvironmental Engineering",
-                  "GIS & Remote Sensing",
-                  "Flood Risk Management",
-                  "Shoreline Dynamics",
-                  "GeoAI",
-                  "Disaster Management",
-                  "Environmental Modelling"
-                ].map((f) => (
-                  <li
-                    key={f}
-                    className="flex items-start gap-2 text-foreground/80"
-                  >
+            
+            <div className="grid md:grid-cols-2 gap-6 mt-8">
+              <div className="rounded-2xl border border-border bg-card p-6">
+                <div className="text-xs uppercase tracking-widest text-accent font-bold font-mono">
+                  Core Research Objectives
+                </div>
+                <ul className="mt-4 space-y-2 text-sm text-foreground/85 font-sans leading-relaxed">
+                  <li className="flex items-start gap-2">
                     <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
-                    {f}
+                    Scale-invariant flash flood susceptibility modeling using GIS-AHP.
                   </li>
-                ))}
-              </ul>
+                  <li className="flex items-start gap-2">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                    Explainable AI (XAI) for geo-hazards to make models policy-actionable.
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-accent shrink-0" />
+                    Long-term shoreline geomorphology forecasting using remote sensing.
+                  </li>
+                </ul>
+              </div>
+
+              <div className="rounded-2xl border border-border bg-card p-6">
+                <div className="text-xs uppercase tracking-widest text-accent font-bold font-mono">
+                  Ph.D. Interest Areas
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {[
+                    "Hydroinformatics",
+                    "Geospatial Deep Learning",
+                    "Climate Hazard Mitigation",
+                    "Remote Sensing Dynamics",
+                    "Coastal Engineering",
+                    "GeoAI & Spatial Statistics"
+                  ].map((area) => (
+                    <span key={area} className="text-xs px-2.5 py-1 bg-secondary/60 text-foreground border border-border/80 rounded-md font-medium">
+                      {area}
+                    </span>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -845,30 +856,37 @@ function Publications() {
             ? JOURNAL.map((p, i) => (
                 <article
                   key={i}
-                  className="group grid md:grid-cols-12 gap-4 py-7 hover:bg-secondary/50 transition-colors px-2 -mx-2 rounded-md"
+                  className="group grid md:grid-cols-12 gap-4 py-7 hover:bg-secondary/35 transition-all duration-300 px-4 -mx-4 rounded-xl"
                 >
-                  <div className="md:col-span-1 font-mono text-sm text-muted-foreground">
+                  <div className="md:col-span-1 font-mono text-sm text-accent font-bold">
                     {p.year}
                   </div>
-                  <div className="md:col-span-8">
+                  <div className="md:col-span-8 space-y-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="inline-flex items-center text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/25 shrink-0">
+                        Peer-Reviewed Journal
+                      </span>
+                    </div>
+                    <h3 className="font-display text-xl font-bold leading-snug text-foreground group-hover:text-accent transition-colors">
+                      {p.title}
+                    </h3>
                     <p
-                      className="text-sm text-muted-foreground mb-2"
+                      className="text-sm text-foreground/80 font-medium font-sans"
                       dangerouslySetInnerHTML={{ __html: p.authors }}
                     />
-                    <h3 className="font-display text-2xl leading-snug">{p.title}</h3>
-                    <p className="mt-2 text-sm text-muted-foreground italic">
+                    <p className="text-xs text-muted-foreground font-mono">
                       {p.venue}
                     </p>
                   </div>
-                  <div className="md:col-span-3 md:text-right">
+                  <div className="md:col-span-3 md:text-right flex items-start md:justify-end">
                     {p.link && (
                       <a
                         href={p.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-sm text-foreground/80 hover:text-accent transition-colors"
+                        className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground hover:text-accent border border-border bg-card hover:bg-accent/5 px-3 py-1.5 rounded-lg transition-all duration-200"
                       >
-                        {p.link.includes("doi.org") ? "DOI" : "LINK"}{" "}
+                        {p.link.includes("doi.org") ? "DOI Link" : "View Paper"}{" "}
                         <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                     )}
@@ -878,31 +896,42 @@ function Publications() {
             : CONFERENCE.map((p, i) => (
                 <article
                   key={i}
-                  className="group grid md:grid-cols-12 gap-4 py-6 hover:bg-secondary/50 transition-colors px-2 -mx-2 rounded-md"
+                  className="group grid md:grid-cols-12 gap-4 py-7 hover:bg-secondary/35 transition-all duration-300 px-4 -mx-4 rounded-xl"
                 >
-                  <div className="md:col-span-1 font-mono text-sm text-muted-foreground">
+                  <div className="md:col-span-1 font-mono text-sm text-accent font-bold">
                     {p.year}
                   </div>
-                  <div className="md:col-span-8">
+                  <div className="md:col-span-8 space-y-2">
+                    <div className="flex items-center gap-2 flex-wrap">
+                      <span className="inline-flex items-center text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/25 shrink-0">
+                        {p.venue}
+                      </span>
+                      {p.status && (
+                        <span className="inline-flex items-center text-[9px] font-mono font-bold uppercase tracking-widest px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-600 border border-amber-500/25 shrink-0">
+                          {p.status.replace("[", "").replace("]", "")}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="font-display text-lg font-bold leading-snug text-foreground group-hover:text-accent transition-colors">
+                      {p.title}
+                    </h3>
                     <p
-                      className="text-sm text-muted-foreground mb-2"
+                      className="text-sm text-foreground/80 font-medium font-sans"
                       dangerouslySetInnerHTML={{ __html: p.authors }}
                     />
-                    <h3 className="font-display text-xl leading-snug">{p.title}</h3>
-                    <p className="mt-2 text-sm text-muted-foreground italic">
-                      {p.venue}
-                      {p.status && <span className="ml-2">{p.status}</span>}
+                    <p className="text-xs text-muted-foreground font-mono">
+                      Presented at: {p.venue} ({p.year})
                     </p>
                   </div>
-                  <div className="md:col-span-3 md:text-right">
+                  <div className="md:col-span-3 md:text-right flex items-start md:justify-end">
                     {p.link && (
                       <a
                         href={p.link}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-accent transition-colors"
+                        className="inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider text-muted-foreground hover:text-accent border border-border bg-card hover:bg-accent/5 px-3 py-1.5 rounded-lg transition-all duration-200"
                       >
-                        {p.link.includes("doi.org") ? "DOI" : "LINK"}{" "}
+                        {p.link.includes("doi.org") ? "DOI Link" : "View Paper"}{" "}
                         <ExternalLink className="w-3.5 h-3.5" />
                       </a>
                     )}
@@ -1234,16 +1263,22 @@ function Experience() {
 
 function Education() {
   return (
-    <section id="education" className="py-28 relative overflow-hidden border-b border-border/50">
+    <section id="education" className="py-28 relative overflow-hidden border-b border-border/50 bg-secondary/10">
       <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-12 items-start">
         <div className="lg:col-span-4">
           <SectionHeader eyebrow="02 · Education" title="Academic foundation" />
           <p className="text-muted-foreground mt-6 text-base leading-relaxed">
-            Formative training at the intersection of civil engineering theory, environmental mechanics, and computational modeling.
+            Standardized test scores, academic credentials, and core theoretical training at the intersection of civil mechanics, geomorphology, and computational systems.
           </p>
+          <div className="mt-8 border-l-2 border-accent pl-4 py-1 text-xs text-muted-foreground font-mono space-y-2 uppercase tracking-wider">
+            <div>Degree Status: Conferred Oct 2025</div>
+            <div>Institutional Rank: Top Tier (IUT)</div>
+            <div>Research Track: Geoenvironmental</div>
+          </div>
         </div>
         <div className="lg:col-span-8 space-y-8">
-          <div className="p-8 rounded-2xl border border-border bg-card/45 backdrop-blur-sm shadow-lg relative group hover:border-accent/40 transition-all duration-300">
+          {/* Degree and Thesis Card */}
+          <div className="p-8 rounded-2xl border border-border bg-card/85 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300">
             <div className="flex items-start justify-between gap-4 flex-wrap">
               <div>
                 <h3 className="font-display text-2xl font-bold text-foreground">
@@ -1270,6 +1305,69 @@ function Education() {
               <p className="mt-3 text-sm text-muted-foreground">
                 Supervisor: <span className="text-foreground/80 font-medium">Prof. Dr. Hossain Md. Shahin</span>
               </p>
+            </div>
+          </div>
+
+          {/* Standardized Tests and Certifications Card */}
+          <div className="p-8 rounded-2xl border border-border bg-card/85 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300">
+            <h3 className="font-display text-xl font-bold text-foreground mb-6 pb-3 border-b border-border/60">
+              Standardized Test Scores &amp; Certifications
+            </h3>
+            
+            <div className="grid md:grid-cols-2 gap-6">
+              {/* GRE Card */}
+              <div className="border border-border/60 rounded-xl p-5 bg-secondary/10 relative">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-sm font-bold font-display text-foreground">GRE General Test</span>
+                  <span className="text-xl font-bold font-mono text-accent bg-accent/10 px-2.5 py-0.5 rounded-full border border-accent/20">312</span>
+                </div>
+                <div className="grid grid-cols-3 gap-2 text-center text-xs">
+                  {[
+                    ["Quant", "161", "71%"],
+                    ["Verbal", "151", "49%"],
+                    ["AWA", "3.5", "37%"],
+                  ].map(([k, v, pct]) => (
+                    <div key={k} className="border border-border/40 bg-card rounded-lg p-2.5">
+                      <div className="font-mono font-bold text-sm text-foreground">{v}</div>
+                      <div className="text-[9px] uppercase tracking-wider text-muted-foreground font-semibold mt-1">{k}</div>
+                      <div className="text-[8px] font-mono text-accent/80 font-medium">{pct}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* IELTS Card */}
+              <div className="border border-border/60 rounded-xl p-5 bg-secondary/10 relative">
+                <div className="flex justify-between items-center mb-4">
+                  <span className="text-sm font-bold font-display text-foreground">IELTS Academic</span>
+                  <span className="text-xl font-bold font-mono text-accent bg-accent/10 px-2.5 py-0.5 rounded-full border border-accent/20">7.5</span>
+                </div>
+                <div className="grid grid-cols-4 gap-1.5 text-center text-[10px]">
+                  {[
+                    ["L", "7.0"],
+                    ["R", "7.0"],
+                    ["W", "7.5"],
+                    ["S", "8.0"],
+                  ].map(([k, v]) => (
+                    <div key={k} className="border border-border/40 bg-card rounded-lg p-2">
+                      <div className="font-mono font-bold text-sm text-foreground">{v}</div>
+                      <div className="text-[9px] uppercase tracking-wider text-muted-foreground font-semibold mt-1">{k}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Professional Certifications Row */}
+            <div className="mt-6 border-t border-border/60 pt-6">
+              <div className="flex items-center gap-3 bg-accent/5 border border-accent/15 rounded-xl p-4">
+                <GraduationCap className="w-5 h-5 text-accent shrink-0" />
+                <div className="text-xs leading-relaxed">
+                  <span className="font-bold text-foreground">Certified Supply Chain Analyst (CSCA)</span> · 
+                  <span className="text-muted-foreground"> International Supply Chain Education Alliance (ISCEA)</span> · 
+                  <span className="font-mono text-accent font-bold"> Score: 88.0%</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -1383,58 +1481,7 @@ function Leadership() {
 
 /* ---------- Test scores ---------- */
 
-function TestScores() {
-  return (
-    <section className="py-24">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <SectionHeader eyebrow="09 · Test scores" title="Standardized tests" />
-        <div className="mt-10 grid md:grid-cols-2 gap-6">
-          <div className="rounded-2xl border border-border bg-card p-8">
-            <div className="flex items-baseline justify-between">
-              <h3 className="font-display text-3xl">GRE</h3>
-              <span className="font-display text-5xl text-accent">312</span>
-            </div>
-            <div className="mt-6 grid grid-cols-3 gap-4 text-center">
-              {[
-                ["Quant", "161"],
-                ["Verbal", "151"],
-                ["AWA", "3.5"],
-              ].map(([k, v]) => (
-                <div key={k} className="border border-border rounded-lg p-3">
-                  <div className="font-mono text-xl">{v}</div>
-                  <div className="text-xs uppercase tracking-widest text-muted-foreground mt-1">
-                    {k}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="rounded-2xl border border-border bg-card p-8">
-            <div className="flex items-baseline justify-between">
-              <h3 className="font-display text-3xl">IELTS</h3>
-              <span className="font-display text-5xl text-accent">7.5</span>
-            </div>
-            <div className="mt-6 grid grid-cols-4 gap-3 text-center">
-              {[
-                ["Listening", "7.0"],
-                ["Reading", "7.0"],
-                ["Writing", "7.5"],
-                ["Speaking", "8.0"],
-              ].map(([k, v]) => (
-                <div key={k} className="border border-border rounded-lg p-3">
-                  <div className="font-mono text-xl">{v}</div>
-                  <div className="text-xs uppercase tracking-widest text-muted-foreground mt-1">
-                    {k}
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
+
 
 /* ---------- Contact ---------- */
 
