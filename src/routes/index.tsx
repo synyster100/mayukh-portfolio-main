@@ -61,14 +61,14 @@ export const Route = createFileRoute("/")({
 /* ---------- Data ---------- */
 
 const NAV = [
-  { id: "about", label: "About" },
-  { id: "education", label: "Education" },
-  { id: "research", label: "Research" },
-  { id: "sandbox", label: "Simulation" },
-  { id: "projects", label: "Projects" },
-  { id: "experience", label: "Experience" },
-  { id: "skills", label: "Skills" },
-  { id: "contact", label: "Contact" },
+  { id: "about", label: "About", icon: Compass, color: "text-sky-500" },
+  { id: "education", label: "Education", icon: GraduationCap, color: "text-indigo-500" },
+  { id: "research", label: "Research", icon: FileText, color: "text-amber-500" },
+  { id: "sandbox", label: "Simulation", icon: Cpu, color: "text-rose-500" },
+  { id: "projects", label: "Projects", icon: Globe2, color: "text-emerald-500" },
+  { id: "experience", label: "Experience", icon: Building2, color: "text-purple-500" },
+  { id: "skills", label: "Skills", icon: BrainCircuit, color: "text-teal-500" },
+  { id: "contact", label: "Contact", icon: Mail, color: "text-pink-500" },
 ];
 
 const STATS = [
@@ -1022,14 +1022,18 @@ function Nav() {
             Mayukh
           </span>
         </a>
-        <nav className="hidden md:flex items-center gap-7 text-sm">
+        <nav className="hidden lg:flex items-center bg-secondary/35 border border-border/40 backdrop-blur-md rounded-full p-1 shadow-sm gap-0.5">
           {NAV.map((n) => (
             <a
               key={n.id}
               href={`#${n.id}`}
-              className="text-muted-foreground hover:text-foreground transition-colors font-semibold"
+              className="group flex items-center gap-1.5 px-3 py-1.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary/70 border border-transparent hover:border-border/30 transition-all duration-200 font-medium text-[11px] uppercase tracking-wider font-mono relative"
             >
-              {n.label}
+              <n.icon className={`w-3.5 h-3.5 ${n.color} transition-transform group-hover:scale-110 group-hover:rotate-12 duration-300`} />
+              <span>{n.label}</span>
+              
+              {/* Sliding accent line */}
+              <span className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-accent group-hover:w-[60%] transition-all duration-300 rounded-full" />
             </a>
           ))}
         </nav>
