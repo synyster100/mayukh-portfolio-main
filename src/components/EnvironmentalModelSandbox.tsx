@@ -7,31 +7,55 @@ export function EnvironmentalModelSandbox() {
   const [slope, setSlope] = useState(8); // %
   const [ndvi, setNdvi] = useState(0.4); // 0.1 to 0.8
   const [moisture, setMoisture] = useState(50); // %
+  
+  // 3 New Parameters
+  const [infiltration, setInfiltration] = useState(25); // mm/hr (Ksat)
+  const [drainage, setDrainage] = useState(45); // % (drainage network density)
+  const [antecedent, setAntecedent] = useState(30); // mm (24h antecedent precipitation)
 
-  // Calculate global Flood Susceptibility Index (FSI)
+  // Normalize parameters (0 to 1 scale)
   const normRain = Math.min(rainfall / 300, 1);
   const normSlope = Math.min(slope / 25, 1);
   const normNdvi = 1 - (ndvi - 0.1) / 0.7; // higher NDVI reduces risk
   const normMoisture = moisture / 100;
+  
+  const normInf = 1 - (infiltration - 5) / 75; // higher infiltration = lower risk
+  const normDrain = 1 - (drainage - 10) / 85; // higher drainage = lower local risk
+  const normAnt = antecedent / 150; // higher antecedent rain = higher saturation risk
 
-  const fsiScoreRaw = (0.4 * normRain + 0.3 * normSlope + 0.15 * normNdvi + 0.15 * normMoisture) * 100;
+  // Combine moisture with antecedent rain
+  const combinedMoisture = Math.min((normMoisture + normAnt) / 2, 1);
+
+  // Updated FSI weighted AHP score
+  // Rainfall: 25%, Slope: 20%, NDVI: 15%, Combined Moisture: 15%, Infiltration: 15%, Drainage: 10%
+  const fsiScoreRaw = (
+    0.25 * normRain +
+    0.20 * normSlope +
+    0.15 * normNdvi +
+    0.15 * combinedMoisture +
+    0.15 * normInf +
+    0.10 * normDrain
+  ) * 100;
   const fsiScore = Math.round(Math.min(Math.max(fsiScoreRaw, 5), 98));
 
-  const baseC = 0.9 - ndvi * 0.6;
-  const saturatedC = baseC + (moisture / 100) * 0.1;
-  const runoffCoeff = Math.min(Math.max(saturatedC, 0.15), 0.95).toFixed(2);
+  // Runoff coefficient (C) calculations
+  // Lower NDVI, higher moisture/antecedent, and lower infiltration = higher runoff
+  const baseC = 0.85 - ndvi * 0.45 - (infiltration / 80) * 0.25;
+  const saturationFactor = Math.min((moisture + (antecedent / 150) * 100) / 100, 1);
+  const runoffCoeff = Math.min(Math.max(baseC + saturationFactor * 0.15, 0.12), 0.95).toFixed(2);
 
-  const peakLoad = Math.round(rainfall * parseFloat(runoffCoeff) * (1 + slope / 100));
+  // Peak discharge index (Higher drainage density accelerates time-of-concentration)
+  const peakLoad = Math.round(rainfall * parseFloat(runoffCoeff) * (1 + slope / 100) * (1 + drainage / 180));
 
   // Sector-specific risk calculations for map rendering
-  // 1. Steep Highlands (Zone 1) - mainly vulnerable to Slope + Rain
-  const highlandRisk = Math.round((0.5 * normSlope + 0.5 * normRain) * 100);
-  // 2. Urban Center (Zone 2) - vulnerable to Low NDVI (impervious) + Rain
-  const urbanRisk = Math.round((0.6 * normNdvi + 0.4 * normRain) * 100);
-  // 3. Lowland Plain (Zone 3) - vulnerable to Moisture + Slope runoff accumulation + Rain
-  const plainRisk = Math.round((0.4 * normMoisture + 0.3 * normRain + 0.3 * normSlope) * 100);
-  // 4. Forest Zone (Zone 4) - naturally protected by high NDVI
-  const forestRisk = Math.round((0.2 * normNdvi + 0.8 * normRain) * 45); // generally much lower risk
+  // 1. Steep Highlands (Zone 1) - vulnerable to Slope, Rain, and low Infiltration (sandy soil mitigates)
+  const highlandRisk = Math.round((0.4 * normSlope + 0.4 * normRain + 0.2 * normInf) * 100);
+  // 2. Urban Center (Zone 2) - vulnerable to Low NDVI, Rain, and low Drainage Grid Density
+  const urbanRisk = Math.round((0.4 * normNdvi + 0.3 * normRain + 0.3 * normDrain) * 100);
+  // 3. Lowland Plain (Zone 3) - vulnerable to Moisture, Antecedent Rain, Slope runoff, and Rain
+  const plainRisk = Math.round((0.3 * combinedMoisture + 0.3 * normRain + 0.2 * normSlope + 0.2 * normInf) * 100);
+  // 4. Forest Zone (Zone 4) - protected by NDVI, but affected by heavy rain & antecedent load
+  const forestRisk = Math.round((0.1 * normNdvi + 0.6 * normRain + 0.3 * normAnt) * 55);
 
   // Color helper based on risk score
   const getRiskColor = (score: number) => {
@@ -65,13 +89,13 @@ export function EnvironmentalModelSandbox() {
   }
 
   // River styling based on runoff coefficient
-  let riverWidth = 3 + parseFloat(runoffCoeff) * 5;
+  let riverWidth = 3 + parseFloat(runoffCoeff) * 6;
   let riverColor = "#3b82f6"; // standard blue
   let riverPulse = "";
 
   if (parseFloat(runoffCoeff) > 0.75) {
     riverColor = "#ef4444"; // flooded rose
-    riverWidth += 2;
+    riverWidth += 2.5;
     riverPulse = "animate-pulse";
   } else if (parseFloat(runoffCoeff) > 0.5) {
     riverColor = "#f97316"; // high flow orange
@@ -93,20 +117,25 @@ export function EnvironmentalModelSandbox() {
         <div className="grid lg:grid-cols-12 gap-10 items-stretch">
           {/* Controls Column */}
           <div className="lg:col-span-6 rounded-2xl border border-border/80 bg-card/60 backdrop-blur-sm p-8 flex flex-col justify-between space-y-8">
-            <div>
-              <div className="flex items-center gap-2 mb-6">
+            <div className="space-y-6">
+              <div className="flex items-center gap-2 mb-2">
                 <Sliders className="w-4 h-4 text-accent" />
                 <span className="text-sm font-semibold tracking-wider uppercase font-mono text-foreground/80">
                   Simulation Parameters
                 </span>
               </div>
 
-              <div className="space-y-6">
+              {/* Group 1: Hydrometeorological Load */}
+              <div className="border border-border/40 rounded-xl p-4 bg-secondary/10 space-y-5">
+                <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold">
+                  1. Hydrometeorological Load
+                </div>
+                
                 {/* Parameter 1: Rainfall */}
                 <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-semibold text-foreground/80">Rainfall Intensity</span>
-                    <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-2 py-0.5 rounded">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-xs font-semibold text-foreground/80">Rainfall Intensity</span>
+                    <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-1.5 py-0.5 rounded">
                       {rainfall} mm/hr
                     </span>
                   </div>
@@ -118,17 +147,38 @@ export function EnvironmentalModelSandbox() {
                     onChange={(e) => setRainfall(Number(e.target.value))}
                     className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
                   />
-                  <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
-                    <span>Moderate Rain (50 mm/hr)</span>
-                    <span>Extreme Cloudburst (300 mm/hr)</span>
-                  </div>
                 </div>
 
-                {/* Parameter 2: Slope */}
+                {/* Parameter 2: Antecedent Rainfall */}
                 <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-semibold text-foreground/80">Terrain Slope</span>
-                    <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-2 py-0.5 rounded">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-xs font-semibold text-foreground/80">Antecedent Rain (24h)</span>
+                    <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-1.5 py-0.5 rounded">
+                      {antecedent} mm
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="0"
+                    max="150"
+                    value={antecedent}
+                    onChange={(e) => setAntecedent(Number(e.target.value))}
+                    className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
+                  />
+                </div>
+              </div>
+
+              {/* Group 2: Basin Topography & Land Cover */}
+              <div className="border border-border/40 rounded-xl p-4 bg-secondary/10 space-y-5">
+                <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold">
+                  2. Basin Characteristics
+                </div>
+
+                {/* Parameter 3: Slope */}
+                <div>
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-xs font-semibold text-foreground/80">Terrain Slope</span>
+                    <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-1.5 py-0.5 rounded">
                       {slope}%
                     </span>
                   </div>
@@ -140,17 +190,13 @@ export function EnvironmentalModelSandbox() {
                     onChange={(e) => setSlope(Number(e.target.value))}
                     className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
                   />
-                  <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
-                    <span>Flat Plain (1%)</span>
-                    <span>Steep Basin (25%)</span>
-                  </div>
                 </div>
 
-                {/* Parameter 3: NDVI */}
+                {/* Parameter 4: NDVI */}
                 <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-semibold text-foreground/80">Vegetation Index (NDVI)</span>
-                    <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-2 py-0.5 rounded">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-xs font-semibold text-foreground/80">Vegetation Index (NDVI)</span>
+                    <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-1.5 py-0.5 rounded">
                       {ndvi.toFixed(2)}
                     </span>
                   </div>
@@ -163,17 +209,20 @@ export function EnvironmentalModelSandbox() {
                     onChange={(e) => setNdvi(Number(e.target.value))}
                     className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
                   />
-                  <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
-                    <span>Urban / Bare Soil (0.1)</span>
-                    <span>Dense Canopy (0.8)</span>
-                  </div>
+                </div>
+              </div>
+
+              {/* Group 3: Hydrology & Drainage Infrastructure */}
+              <div className="border border-border/40 rounded-xl p-4 bg-secondary/10 space-y-5">
+                <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold">
+                  3. Hydrology & Infrastructure
                 </div>
 
-                {/* Parameter 4: Moisture */}
+                {/* Parameter 5: Soil Saturation */}
                 <div>
-                  <div className="flex justify-between items-center mb-2">
-                    <span className="text-sm font-semibold text-foreground/80">Soil Saturation</span>
-                    <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-2 py-0.5 rounded">
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-xs font-semibold text-foreground/80">Initial Soil Saturation</span>
+                    <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-1.5 py-0.5 rounded">
                       {moisture}%
                     </span>
                   </div>
@@ -185,10 +234,42 @@ export function EnvironmentalModelSandbox() {
                     onChange={(e) => setMoisture(Number(e.target.value))}
                     className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
                   />
-                  <div className="flex justify-between text-[10px] text-muted-foreground mt-1">
-                    <span>Dry Arid Soil (10%)</span>
-                    <span>Fully Saturated (100%)</span>
+                </div>
+
+                {/* Parameter 6: Infiltration Rate (Ksat) */}
+                <div>
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-xs font-semibold text-foreground/80">Soil Infiltration (Ksat)</span>
+                    <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-1.5 py-0.5 rounded">
+                      {infiltration} mm/hr
+                    </span>
                   </div>
+                  <input
+                    type="range"
+                    min="5"
+                    max="80"
+                    value={infiltration}
+                    onChange={(e) => setInfiltration(Number(e.target.value))}
+                    className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
+                  />
+                </div>
+
+                {/* Parameter 7: Drainage Density */}
+                <div>
+                  <div className="flex justify-between items-center mb-1">
+                    <span className="text-xs font-semibold text-foreground/80">Drainage Grid Density</span>
+                    <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-1.5 py-0.5 rounded">
+                      {drainage}%
+                    </span>
+                  </div>
+                  <input
+                    type="range"
+                    min="10"
+                    max="95"
+                    value={drainage}
+                    onChange={(e) => setDrainage(Number(e.target.value))}
+                    className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
+                  />
                 </div>
               </div>
             </div>
@@ -196,7 +277,7 @@ export function EnvironmentalModelSandbox() {
             <div className="flex items-start gap-2.5 bg-secondary/35 border border-border/40 p-4 rounded-xl text-xs text-muted-foreground">
               <Info className="w-4 h-4 text-accent shrink-0 mt-0.5" />
               <p>
-                This simulation maps spatial AHP factors to distinct sub-catchment zones: Steep Highlands (Slope-sensitive), Urban Core (NDVI/impervious-sensitive), Forest Buffers, and Lowland Plains (Saturation-sensitive).
+                This simulator approximates hydrologic responses by combining the Rational Method with AHP spatial weighting parameters, demonstrating GIS-based disaster management planning.
               </p>
             </div>
           </div>
@@ -241,23 +322,19 @@ export function EnvironmentalModelSandbox() {
                     </pattern>
                     
                     {/* Cartographic Patterns for Zones */}
-                    {/* Zone 1: Highlands (Topographical contours / diagonal lines) */}
                     <pattern id="pat-highlands" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
                       <line x1="0" y1="0" x2="0" y2="10" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
                     </pattern>
                     
-                    {/* Zone 2: Urban Core (Grid blocks) */}
                     <pattern id="pat-urban" width="12" height="12" patternUnits="userSpaceOnUse">
                       <rect width="8" height="8" x="2" y="2" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
                     </pattern>
                     
-                    {/* Zone 4: Forest Buffer (Subtle pine tree structures) */}
                     <pattern id="pat-forest" width="18" height="18" patternUnits="userSpaceOnUse">
                       <path d="M 9 3 L 13 9 L 10 9 L 14 14 L 4 14 L 8 9 L 5 9 Z" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="0.8" />
                       <line x1="9" y1="14" x2="9" y2="16" stroke="rgba(255,255,255,0.06)" strokeWidth="0.8" />
                     </pattern>
                     
-                    {/* Zone 3: Lowland Plain (Hydrological waves) */}
                     <pattern id="pat-plain" width="16" height="10" patternUnits="userSpaceOnUse">
                       <path d="M 0 5 Q 4 2, 8 5 T 16 5" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
                     </pattern>
@@ -355,7 +432,7 @@ export function EnvironmentalModelSandbox() {
                     Lowland Plain
                   </text>
 
-                  {/* Riverbed / Channel boundaries (visual banks of the river) */}
+                  {/* Riverbed / Channel boundaries */}
                   <path
                     d="M 10 90 Q 150 110 200 170 T 390 220"
                     fill="none"
@@ -395,14 +472,14 @@ export function EnvironmentalModelSandbox() {
                   <text x="14" y="80" fill="rgba(255,255,255,0.4)" fontSize="6" fontFamily="monospace" letterSpacing="0.1em" className="pointer-events-none">SOURCE</text>
                   <text x="355" y="240" fill="rgba(255,255,255,0.4)" fontSize="6" fontFamily="monospace" letterSpacing="0.1em" className="pointer-events-none">OUTLET</text>
 
-                  {/* Contour line representations (Subtle topographical overlay) */}
+                  {/* Contour line representations */}
                   <path d="M 30 30 Q 100 40 120 90" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3,3" />
                   <path d="M 50 10 Q 130 20 150 70" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3,3" />
                   <path d="M 320 250 Q 250 260 210 200" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3,3" />
                 </svg>
               </div>
 
-              {/* Map Legend (placed outside the map) */}
+              {/* Map Legend */}
               <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 justify-center bg-secondary/20 border border-border/40 p-3 rounded-xl text-[10px] font-mono font-medium text-foreground/80">
                 <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#ef4444] rounded"></div><span>Extreme Risk (&ge;75%)</span></div>
                 <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#f97316] rounded"></div><span>High Risk (50-74%)</span></div>
