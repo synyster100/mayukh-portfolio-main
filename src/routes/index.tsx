@@ -742,9 +742,19 @@ function InteractiveGISBackground() {
 
       const isDark = document.documentElement.classList.contains("dark");
       
-      // Styling contour lines
-      ctx.lineWidth = 0.75;
-      ctx.strokeStyle = isDark ? "rgba(255, 255, 255, 0.04)" : "rgba(0, 102, 204, 0.05)";
+      // Styling contour lines with radial cursor highlight
+      ctx.lineWidth = 0.8;
+      const grad = ctx.createRadialGradient(mouse.x, mouse.y, 20, mouse.x, mouse.y, 260);
+      if (isDark) {
+        grad.addColorStop(0, "rgba(56, 189, 248, 0.38)");  // Glowing Sky Blue near mouse
+        grad.addColorStop(0.45, "rgba(255, 255, 255, 0.14)"); // Clear white medium range
+        grad.addColorStop(1, "rgba(255, 255, 255, 0.06)");   // Subtle white background
+      } else {
+        grad.addColorStop(0, "rgba(29, 78, 216, 0.4)");     // Vibrant Royal Blue near mouse
+        grad.addColorStop(0.45, "rgba(0, 102, 204, 0.16)");   // Clear blue medium range
+        grad.addColorStop(1, "rgba(0, 102, 204, 0.07)");     // Subtle blue background
+      }
+      ctx.strokeStyle = grad;
 
       // Draw Topographic Contour Hills
       peaks.forEach((peak) => {
