@@ -412,6 +412,24 @@ const EXTRACURRICULARS = [
     period: "Apr 2023 - May 2023",
     category: "Education",
   },
+  {
+    role: "Member",
+    org: "IUT Career & Business Society",
+    period: "2021 - Present (5 yrs 7 mos)",
+    category: "Professional Development",
+  },
+  {
+    role: "Member",
+    org: "ACI IUT Student Chapter",
+    period: "Apr 2021 - Oct 2025",
+    category: "Education",
+  },
+  {
+    role: "Member",
+    org: "IUT Esports Community",
+    period: "2021 - Present",
+    category: "Sports & Gaming",
+  },
 ];
 
 /* ---------- Component ---------- */
