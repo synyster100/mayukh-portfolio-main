@@ -398,8 +398,8 @@ export function GeospatialMethodologyVisualizer() {
               </div>
 
               {/* Balanced bottom row under the animation window */}
-              <div className="mt-6 border-t border-border/40 pt-6 grid grid-cols-1 md:grid-cols-2 gap-6 text-left items-start">
-                <p className="text-xs text-muted-foreground leading-relaxed font-medium">
+              <div className="mt-6 border-t border-border/40 pt-6 grid grid-cols-1 md:grid-cols-2 gap-6 text-left items-center">
+                <p className="text-sm text-muted-foreground/95 leading-relaxed font-medium md:pr-4">
                   The <strong className="font-semibold text-foreground">Digital Shoreline Analysis System (DSAS)</strong> computes rate-of-change statistics from multiple historical shoreline vectors. It casts measurement transects perpendicular to a reference baseline.
                 </p>
 
