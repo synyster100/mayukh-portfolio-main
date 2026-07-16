@@ -1259,44 +1259,45 @@ function Education() {
 function Skills() {
   const ref = useReveal<HTMLDivElement>();
   return (
-    <section id="skills" className="py-28">
+    <section id="skills" className="py-28 relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHeader eyebrow="07 · Skills" title="Technical toolkit" />
-        <div ref={ref} className="reveal mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div ref={ref} className="reveal mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {SKILL_GROUPS.map((g) => (
             <div
               key={g.group}
-              className="p-6 rounded-2xl border border-border bg-card/40 backdrop-blur-sm"
+              className="p-8 rounded-2xl border border-border/80 bg-card/45 backdrop-blur-md shadow-lg flex flex-col justify-between hover:border-accent/30 transition-all duration-300 group"
             >
-              <h3 className="text-xs uppercase tracking-widest text-accent font-semibold mb-5 border-b border-border pb-3">
-                {g.group}
-              </h3>
-              <div className="flex flex-col gap-3">
-                {g.items.map((item) => (
-                  <div
-                    key={item.name}
-                    className="flex items-center justify-between py-1 border-b border-border/20 last:border-0"
-                  >
-                    <span className="text-sm text-foreground/85 font-medium">{item.name}</span>
-                    {"level" in item && item.level && (
-                      <span className={`text-[9px] uppercase font-mono tracking-wider px-2 py-0.5 rounded-md font-semibold ${
-                        item.level === "Advanced"
-                          ? "bg-accent/10 text-accent border border-accent/20"
-                          : item.level === "Intermediate"
-                          ? "bg-amber-500/10 text-amber-500 border border-amber-500/20"
-                          : "bg-muted text-muted-foreground border border-border"
-                      }`}>
-                        {item.level}
-                      </span>
-                    )}
-                  </div>
-                ))}
+              <div>
+                <h3 className="text-base font-bold text-foreground tracking-wider mb-6 pb-4 border-b border-border/70 flex items-center gap-2 group-hover:text-accent transition-colors">
+                  <div className="w-1.5 h-5 bg-accent rounded-full transition-transform group-hover:scale-y-125"></div>
+                  {g.group}
+                </h3>
+                <div className="flex flex-col gap-3">
+                  {g.items.map((item) => (
+                    <div
+                      key={item.name}
+                      className="flex items-center justify-between p-3.5 rounded-xl border border-border/40 bg-secondary/15 hover:bg-secondary/35 hover:border-accent/20 hover:translate-x-1.5 transition-all duration-300"
+                    >
+                      <span className="text-base text-foreground font-bold tracking-wide">{item.name}</span>
+                      {"level" in item && item.level && (
+                        <span className={`text-[9px] uppercase font-mono tracking-widest px-2.5 py-0.5 rounded-full font-bold shadow-sm ${
+                          item.level === "Advanced"
+                            ? "bg-accent/10 text-accent border border-accent/30"
+                            : item.level === "Intermediate"
+                            ? "bg-amber-500/10 text-amber-500 border border-amber-500/30"
+                            : "bg-muted text-muted-foreground border border-border"
+                        }`}>
+                          {item.level}
+                        </span>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           ))}
         </div>
-
-
       </div>
     </section>
   );
