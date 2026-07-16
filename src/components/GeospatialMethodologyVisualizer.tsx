@@ -5,7 +5,7 @@ import { EnvironmentalModelSandbox } from "./EnvironmentalModelSandbox";
 type Tab = "sandbox" | "ahp" | "dsas";
 
 export function GeospatialMethodologyVisualizer() {
-  const [activeTab, setActiveTab] = useState<Tab>("sandbox");
+  const [activeTab, setActiveTab] = useState<Tab>("dsas");
 
   // --- DSAS States ---
   const [transectCount, setTransectCount] = useState(15);
@@ -216,6 +216,17 @@ export function GeospatialMethodologyVisualizer() {
           {/* Tab Switcher */}
           <div className="flex bg-secondary/60 border border-border p-1 rounded-full shrink-0 z-30">
             <button
+              onClick={() => setActiveTab("dsas")}
+              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono transition-all ${
+                activeTab === "dsas"
+                  ? "bg-foreground text-background shadow-md"
+                  : "text-muted-foreground hover:text-foreground"
+              }`}
+            >
+              <Waves className="w-3.5 h-3.5" />
+              DSAS Shoreline
+            </button>
+            <button
               onClick={() => setActiveTab("sandbox")}
               className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono transition-all ${
                 activeTab === "sandbox"
@@ -237,17 +248,6 @@ export function GeospatialMethodologyVisualizer() {
               <Layers className="w-3.5 h-3.5" />
               AHP Overlay
             </button>
-            <button
-              onClick={() => setActiveTab("dsas")}
-              className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-xs font-semibold tracking-wider uppercase font-mono transition-all ${
-                activeTab === "dsas"
-                  ? "bg-foreground text-background shadow-md"
-                  : "text-muted-foreground hover:text-foreground"
-              }`}
-            >
-              <Waves className="w-3.5 h-3.5" />
-              DSAS Shoreline
-            </button>
           </div>
         </div>
 
@@ -260,18 +260,19 @@ export function GeospatialMethodologyVisualizer() {
         {activeTab === "dsas" && (
           <div className="grid lg:grid-cols-12 gap-8 items-stretch font-sans">
             {/* Visualizer Frame */}
-            <div className="lg:col-span-8 rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6 flex flex-col justify-start gap-4">
-              <div className="flex items-center justify-between">
-                <span className="text-xs uppercase font-mono tracking-wider text-muted-foreground flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
-                  DSAS Transect Generation Simulator
-                </span>
-                <div className="text-[10px] font-mono text-muted-foreground">
-                  Scale: 1px = 1m | Epochs: 2000 — 2024
+            <div className="lg:col-span-8 rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6 flex flex-col justify-between">
+              <div>
+                <div className="flex items-center justify-between mb-4">
+                  <span className="text-xs uppercase font-mono tracking-wider text-muted-foreground flex items-center gap-2">
+                    <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
+                    DSAS Transect Generation Simulator
+                  </span>
+                  <div className="text-[10px] font-mono text-muted-foreground">
+                    Scale: 1px = 1m | Epochs: 2000 — 2024
+                  </div>
                 </div>
-              </div>
 
-              <div className="relative flex-1 min-h-[460px] w-full bg-[#060a12] border border-border/60 rounded-xl overflow-hidden flex items-center justify-center">
+                <div className="relative aspect-[16/9] w-full bg-[#060a12] border border-border/60 rounded-xl overflow-hidden flex items-center justify-center">
                   {/* Cartographic Title HUD overlay */}
                   <div className="absolute top-4 left-4 z-20 bg-slate-900/95 border border-slate-700/80 p-2.5 rounded-md backdrop-blur-md shadow-lg pointer-events-none text-white">
                     <div className="text-[10px] font-bold font-mono text-accent uppercase tracking-wider">
@@ -378,7 +379,7 @@ export function GeospatialMethodologyVisualizer() {
                     })}
                   </svg>
 
-                  {/* On-Map HUD overlay (Top Right to prevent overlap with Title) */}
+                  {/* On-Map HUD overlay */}
                   {hoveredTransect !== null && (() => {
                     const data = getTransectData(hoveredTransect);
                     return (
@@ -394,68 +395,77 @@ export function GeospatialMethodologyVisualizer() {
                     );
                   })()}
                 </div>
+              </div>
+
+              {/* Shifted text and sliders from How DSAS Works to utilize bottom space */}
+              <div className="mt-6 border-t border-border/40 pt-6 grid grid-cols-1 md:grid-cols-2 gap-6 text-left">
+                <div className="space-y-4">
+                  <p className="text-xs text-muted-foreground leading-relaxed font-medium">
+                    The <strong className="font-semibold text-foreground">Digital Shoreline Analysis System (DSAS)</strong> computes rate-of-change statistics from multiple historical shoreline vectors. It casts measurement transects perpendicular to a reference baseline.
+                  </p>
+
+                  {/* Spacing Slider */}
+                  <div className="border border-border/40 bg-secondary/15 rounded-xl p-4 space-y-3">
+                    <div className="flex justify-between items-center">
+                      <span className="text-[10px] font-bold font-mono text-accent uppercase tracking-widest">TRANSECT SAMPLING COUNT</span>
+                      <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-1.5 py-0.5 rounded">{transectCount} transects</span>
+                    </div>
+                    <input
+                      type="range"
+                      min="5"
+                      max="30"
+                      value={transectCount}
+                      onChange={(e) => setTransectCount(Number(e.target.value))}
+                      className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
+                    />
+                    <p className="text-[10px] text-muted-foreground leading-relaxed font-sans font-medium">
+                      Adjust count to change baseline sampling density (simulating USGS DSAS spacing configurations).
+                    </p>
+                  </div>
+                </div>
+
+                {/* Formulas Grid */}
+                <div className="grid grid-cols-1 gap-4">
+                  {/* NSM */}
+                  <div className="border border-border/40 rounded-xl p-3 bg-secondary/10 space-y-1.5">
+                    <div className="text-[9px] uppercase font-mono tracking-widest text-accent font-bold">
+                      1. Net Shoreline Movement (NSM)
+                    </div>
+                    <p className="text-[10px] text-muted-foreground leading-relaxed font-medium">
+                      Measures the physical distance (meters) between the oldest (2000) and newest (2024) shorelines.
+                    </p>
+                    <div className="bg-secondary/40 border border-border/60 p-2 rounded text-[10px] font-mono text-foreground/90 text-center font-bold">
+                       NSM = Distance(2024) - Distance(2000)
+                    </div>
+                  </div>
+
+                  {/* EPR */}
+                  <div className="border border-border/40 rounded-xl p-3 bg-secondary/10 space-y-1.5">
+                    <div className="text-[9px] uppercase font-mono tracking-widest text-accent font-bold">
+                      2. End Point Rate (EPR)
+                    </div>
+                    <p className="text-[10px] text-muted-foreground leading-relaxed font-medium">
+                      Dividing the NSM by the elapsed time span between the shoreline epochs to get the annual rate.
+                    </p>
+                    <div className="bg-secondary/40 border border-border/60 p-2 rounded text-[10px] font-mono text-foreground/90 text-center font-bold">
+                      EPR = NSM / Time Span (24 Years)
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
-            {/* Educational / Mathematical Sidebar */}
+            {/* Sidebar */}
             <div className="lg:col-span-4 rounded-2xl border border-border bg-card/60 backdrop-blur-sm p-6 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
                 <div className="flex items-center gap-2">
                   <BarChart2 className="w-4 h-4 text-accent" />
                   <span className="text-sm font-semibold uppercase tracking-wider font-mono text-foreground/90">
-                    How DSAS Works
+                    DSAS Legend & Reference
                   </span>
                 </div>
                 
-                <p className="text-xs text-muted-foreground leading-relaxed font-medium">
-                  The <strong className="font-semibold text-foreground">Digital Shoreline Analysis System (DSAS)</strong> computes rate-of-change statistics from multiple historical shoreline vectors. It casts measurement transects perpendicular to a reference baseline.
-                </p>
-
-                {/* Interactive Spacing Slider in Sidebar */}
-                <div className="border border-border/40 bg-secondary/15 rounded-xl p-4 space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="text-[10px] font-bold font-mono text-accent uppercase tracking-widest">TRANSECT SAMPLING COUNT</span>
-                    <span className="font-mono text-xs text-accent font-bold bg-accent/10 px-1.5 py-0.5 rounded">{transectCount} transects</span>
-                  </div>
-                  <input
-                    type="range"
-                    min="5"
-                    max="30"
-                    value={transectCount}
-                    onChange={(e) => setTransectCount(Number(e.target.value))}
-                    className="w-full h-1 bg-secondary rounded-lg appearance-none cursor-pointer accent-accent"
-                  />
-                  <p className="text-[10px] text-muted-foreground leading-relaxed font-sans font-medium">
-                    Adjust count to change baseline sampling density (simulating USGS DSAS spacing configurations).
-                  </p>
-                </div>
-
-                <div className="border border-border/50 rounded-xl p-4 bg-secondary/15 space-y-4">
-                  <div className="space-y-1.5">
-                    <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold">
-                      1. Net Shoreline Movement (NSM)
-                    </div>
-                    <p className="text-[11px] text-muted-foreground leading-relaxed font-medium">
-                      Measures the physical distance (meters) between the oldest (2000) and newest (2024) shorelines.
-                    </p>
-                    <div className="bg-secondary/40 border border-border/60 p-2 rounded text-[11px] font-mono text-foreground/90 text-center font-bold">
-                       NSM = Distance(2024) - Distance(2000)
-                    </div>
-                  </div>
-
-                  <div className="space-y-1.5">
-                    <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold">
-                      2. End Point Rate (EPR)
-                    </div>
-                    <p className="text-[11px] text-muted-foreground leading-relaxed font-medium">
-                      Dividing the NSM by the elapsed time span between the shoreline epochs to get the annual rate.
-                    </p>
-                    <div className="bg-secondary/40 border border-border/60 p-2 rounded text-[11px] font-mono text-foreground/90 text-center font-bold">
-                      EPR = NSM / Time Span (24 Years)
-                    </div>
-                  </div>
-                </div>
-
-                <div className="text-xs text-muted-foreground space-y-2 font-medium">
+                <div className="text-xs text-muted-foreground space-y-2 font-medium bg-secondary/10 p-3.5 rounded-xl border border-border/40">
                   <div className="flex items-center gap-2">
                     <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 shrink-0" />
                     <span>Accretion rate: shoreline expansion</span>
@@ -465,9 +475,7 @@ export function GeospatialMethodologyVisualizer() {
                     <span>Erosion rate: shoreline retreat</span>
                   </div>
                 </div>
-              </div>
 
-              <div className="space-y-4">
                 <div className="flex items-start gap-2.5 bg-accent/5 border border-accent/15 p-4 rounded-xl text-xs text-muted-foreground font-medium">
                   <Info className="w-4 h-4 text-accent shrink-0 mt-0.5" />
                   <p>
@@ -475,7 +483,7 @@ export function GeospatialMethodologyVisualizer() {
                   </p>
                 </div>
 
-                <div className="border border-border/50 rounded-xl p-4 bg-secondary/15 space-y-2">
+                <div className="border border-border/50 rounded-xl p-4 bg-secondary/15 space-y-2 text-left">
                   <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold flex items-center gap-1.5">
                     <FileText className="w-3.5 h-3.5" />
                     Methodology Reference
