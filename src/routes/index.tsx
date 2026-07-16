@@ -2182,23 +2182,47 @@ function Field({
 
 function Footer() {
   return (
-    <footer className="bg-primary text-primary-foreground">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 py-20">
+    <footer className="relative bg-[#070e20] text-white overflow-hidden border-t border-border/20">
+      {/* Background Satellite Image Container with Slow Zoom */}
+      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 bg-[#070e20]/80 z-10 backdrop-blur-[2px]" />
+        <img
+          src="/satellite_footer.jpg"
+          alt="Satellite earth observation background"
+          className="w-full h-full object-cover opacity-45 scale-100 animate-footer-zoom"
+        />
+      </div>
+
+      <div className="relative z-10 mx-auto max-w-7xl px-6 lg:px-10 py-20">
         <p className="font-display text-3xl md:text-5xl leading-tight max-w-3xl text-balance">
           Using geospatial intelligence and environmental data to build resilient
           and sustainable futures.
         </p>
-        <div className="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-primary-foreground/15 pt-6 text-sm">
-          <div className="text-primary-foreground/70">
+        <div className="mt-12 flex flex-wrap items-center justify-between gap-6 border-t border-white/10 pt-6 text-sm">
+          <div className="text-white/60">
             © {new Date().getFullYear()} Md Ali Ahnaf Abid Mayukh. All rights reserved.
           </div>
           <div className="flex items-center gap-4">
-            <a href="https://www.linkedin.com/in/ali-ahnaf-abid-mayukh-csca%E2%84%A2-40aab5257/" className="hover:text-accent transition-colors">LinkedIn</a>
-            <a href="https://scholar.google.com/citations?user=xtAN2JUAAAAJ&hl=en" className="hover:text-accent transition-colors">Scholar</a>
+            <a
+              href="https://www.linkedin.com/in/ali-ahnaf-abid-mayukh-csca%E2%84%A2-40aab5257/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/80 hover:text-accent transition-colors"
+            >
+              LinkedIn
+            </a>
+            <a
+              href="https://scholar.google.com/citations?user=xtAN2JUAAAAJ&hl=en"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white/80 hover:text-accent transition-colors"
+            >
+              Scholar
+            </a>
             <a
               href="/Md-Ali-Ahnaf-Abid-Mayukh-CV.pdf"
               download
-              className="inline-flex items-center gap-2 border border-primary-foreground/30 rounded-full px-4 py-2 hover:bg-primary-foreground hover:text-primary transition-colors"
+              className="inline-flex items-center gap-2 border border-white/20 rounded-full px-4 py-2 hover:bg-white hover:text-black transition-colors"
             >
               <Download className="w-4 h-4" /> Download CV
             </a>

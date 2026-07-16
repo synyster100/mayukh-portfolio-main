@@ -267,3 +267,11 @@
   position: relative;
   z-index: 10;
 }
+
+@keyframes footer-zoom {
+  0%, 100% { transform: scale(1.02); }
+  50% { transform: scale(1.12); }
+}
+.animate-footer-zoom {
+  animation: footer-zoom 24s ease-in-out infinite;
+}
