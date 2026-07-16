@@ -152,19 +152,7 @@ export function EnvironmentalModelSandbox() {
   }
 
   return (
-    <section id="sandbox" className="py-28 bg-secondary/15 relative overflow-hidden border-y border-border/50">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <div className="text-xs uppercase tracking-widest text-accent font-mono font-semibold mb-3">
-          04 · Interactive Simulation
-        </div>
-        <h2 className="font-display text-4xl md:text-5xl font-semibold mb-3">
-          Explainable Flood Susceptibility Sandbox
-        </h2>
-        <p className="text-muted-foreground max-w-3xl text-base mb-12 leading-relaxed">
-          An interactive GIS-AHP simulator built on the methodology of my research paper: <strong className="text-foreground">"Comparative Machine Learning and Explainable Flood Susceptibility Mapping in Humphreys County, Tennessee Using AHP and SHAP"</strong>. Adjust spatial factors on the left to see the simulated susceptibility index and engineering risk profile adapt in real-time.
-        </p>
-
-        <div className="grid lg:grid-cols-12 gap-10 items-stretch">
+    <div className="grid lg:grid-cols-12 gap-10 items-stretch font-sans">
           {/* Controls Column */}
           <div className="lg:col-span-6 rounded-2xl border border-border/80 bg-card/60 backdrop-blur-sm p-8 flex flex-col justify-between space-y-8">
             <div className="space-y-6">
@@ -673,7 +661,5 @@ export function EnvironmentalModelSandbox() {
             </div>
           </div>
         </div>
-      </div>
-    </section>
   );
 }
