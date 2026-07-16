@@ -699,6 +699,19 @@ const CERTIFICATIONS = [
 /* ---------- Component ---------- */
 
 function Portfolio() {
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progressRatio = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+      setScrollProgress(progressRatio);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   useEffect(() => {
     const SELECTOR = [
       "section:not(#top) h2",
@@ -738,6 +751,13 @@ function Portfolio() {
 
   return (
     <div className="min-h-screen bg-background text-foreground bg-contours relative">
+      {/* Dynamic Scroll Progress Bar */}
+      <div className="fixed top-0 left-0 w-full h-[3px] bg-secondary/35 z-[999] pointer-events-none">
+        <div
+          className="h-full bg-gradient-to-r from-primary via-accent to-accent/90 transition-all duration-75 ease-out"
+          style={{ width: `${scrollProgress}%` }}
+        />
+      </div>
       <div className="absolute inset-0 bg-grid opacity-[0.18] pointer-events-none z-0" />
       <div className="relative z-10">
         <Nav />
@@ -1098,7 +1118,7 @@ function Publications() {
             ? JOURNAL.map((p, i) => (
                 <article
                   key={i}
-                  className="group grid md:grid-cols-12 gap-4 py-8 hover:bg-secondary/30 transition-all duration-300 px-6 -mx-6 rounded-xl"
+                  className="group grid md:grid-cols-12 gap-4 py-8 hover:bg-secondary/30 transition-all duration-300 px-6 -mx-6 rounded-xl border-l-4 border-transparent hover:border-accent/70"
                 >
                   <div className="md:col-span-1 font-mono text-base text-accent font-bold">
                     {p.year}
@@ -1138,7 +1158,7 @@ function Publications() {
             : CONFERENCE.map((p, i) => (
                 <article
                   key={i}
-                  className="group grid md:grid-cols-12 gap-4 py-8 hover:bg-secondary/30 transition-all duration-300 px-6 -mx-6 rounded-xl"
+                  className="group grid md:grid-cols-12 gap-4 py-8 hover:bg-secondary/30 transition-all duration-300 px-6 -mx-6 rounded-xl border-l-4 border-transparent hover:border-accent/70"
                 >
                   <div className="md:col-span-1 font-mono text-base text-accent font-bold">
                     {p.year}
