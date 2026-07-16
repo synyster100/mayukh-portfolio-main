@@ -391,13 +391,13 @@ const EXTRACURRICULARS = [
   {
     role: "Member",
     org: "IUT ITE Student Chapter",
-    period: "2021 - 2025",
+    period: "2021 - Oct 2025",
     category: "Education",
   },
   {
     role: "Member",
     org: "IUT Debating Society",
-    period: "2021 - Present",
+    period: "2021 - Oct 2025",
     category: "Debate",
   },
   {
@@ -427,7 +427,7 @@ const EXTRACURRICULARS = [
   {
     role: "Member",
     org: "IUT Esports Community",
-    period: "2021 - Present",
+    period: "2021 - Oct 2025",
     category: "Sports & Gaming",
   },
 ];
