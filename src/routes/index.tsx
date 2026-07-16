@@ -78,37 +78,86 @@ const INTERESTS = [
   { 
     icon: Mountain, 
     label: "Geoenvironmental Engineering", 
-    description: "Focusing on soil stabilization, polymer treatments, and eco-friendly geotechnical infrastructure systems." 
+    description: "Focusing on soil stabilization, polymer treatments, and eco-friendly geotechnical infrastructure systems.",
+    theme: {
+      text: "group-hover:text-amber-700",
+      bg: "group-hover:bg-amber-500/[0.03]",
+      border: "group-hover:border-amber-300/60",
+      iconBg: "bg-amber-500/10 text-amber-600 group-hover:bg-amber-500 group-hover:text-white",
+      shadow: "group-hover:shadow-amber-500/5",
+    }
   },
   { 
     icon: Satellite, 
     label: "GIS & Remote Sensing", 
-    description: "Leveraging multispectral satellite analytics, spatiotemporal mapping, and spatial data science." 
+    description: "Leveraging multispectral satellite analytics, spatiotemporal mapping, and spatial data science.",
+    theme: {
+      text: "group-hover:text-indigo-700",
+      bg: "group-hover:bg-indigo-500/[0.03]",
+      border: "group-hover:border-indigo-300/60",
+      iconBg: "bg-indigo-500/10 text-indigo-600 group-hover:bg-indigo-500 group-hover:text-white",
+      shadow: "group-hover:shadow-indigo-500/5",
+    }
   },
   { 
     icon: CloudRain, 
     label: "Flood Risk Management", 
-    description: "Developing hydrodynamic hazard modeling, AHP-GIS flood index mapping, and runoff forecasting systems." 
+    description: "Developing hydrodynamic hazard modeling, AHP-GIS flood index mapping, and runoff forecasting systems.",
+    theme: {
+      text: "group-hover:text-sky-700",
+      bg: "group-hover:bg-sky-500/[0.03]",
+      border: "group-hover:border-sky-300/60",
+      iconBg: "bg-sky-500/10 text-sky-600 group-hover:bg-sky-500 group-hover:text-white",
+      shadow: "group-hover:shadow-sky-500/5",
+    }
   },
   { 
     icon: Waves, 
     label: "Shoreline Dynamics", 
-    description: "Tracking coastal erosion, beach forecasting, and satellite-based shoreline tracking dynamics." 
+    description: "Tracking coastal erosion, beach forecasting, and satellite-based shoreline tracking dynamics.",
+    theme: {
+      text: "group-hover:text-teal-700",
+      bg: "group-hover:bg-teal-500/[0.03]",
+      border: "group-hover:border-teal-300/60",
+      iconBg: "bg-teal-500/10 text-teal-600 group-hover:bg-teal-500 group-hover:text-white",
+      shadow: "group-hover:shadow-teal-500/5",
+    }
   },
   { 
     icon: BrainCircuit, 
     label: "GeoAI", 
-    description: "Applying spatiotemporal machine learning models and explainable AI insights to earth science." 
+    description: "Applying spatiotemporal machine learning models and explainable AI insights to earth science.",
+    theme: {
+      text: "group-hover:text-rose-700",
+      bg: "group-hover:bg-rose-500/[0.03]",
+      border: "group-hover:border-rose-300/60",
+      iconBg: "bg-rose-500/10 text-rose-600 group-hover:bg-rose-500 group-hover:text-white",
+      shadow: "group-hover:shadow-rose-500/5",
+    }
   },
   { 
     icon: ShieldAlert, 
     label: "Disaster Management", 
-    description: "Formulating multi-hazard risk assessments, vulnerability mapping, and mitigation strategies." 
+    description: "Formulating multi-hazard risk assessments, vulnerability mapping, and mitigation strategies.",
+    theme: {
+      text: "group-hover:text-red-700",
+      bg: "group-hover:bg-red-500/[0.03]",
+      border: "group-hover:border-red-300/60",
+      iconBg: "bg-red-500/10 text-red-600 group-hover:bg-red-500 group-hover:text-white",
+      shadow: "group-hover:shadow-red-500/5",
+    }
   },
   { 
     icon: Layers, 
     label: "Environmental Modelling", 
-    description: "Simulating hydrological processes, urban stormwater networks, and aquifer management." 
+    description: "Simulating hydrological processes, urban stormwater networks, and aquifer management.",
+    theme: {
+      text: "group-hover:text-emerald-700",
+      bg: "group-hover:bg-emerald-500/[0.03]",
+      border: "group-hover:border-emerald-300/60",
+      iconBg: "bg-emerald-500/10 text-emerald-600 group-hover:bg-emerald-500 group-hover:text-white",
+      shadow: "group-hover:shadow-emerald-500/5",
+    }
   },
 ];
 
@@ -990,17 +1039,17 @@ function Interests() {
           ref={ref}
           className="reveal mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
         >
-          {INTERESTS.map(({ icon: Icon, label, description }, i) => (
+          {INTERESTS.map(({ icon: Icon, label, description, theme }, i) => (
             <div
               key={label}
               style={{ transitionDelay: `${i * 45}ms` }}
-              className="group relative rounded-2xl border border-border bg-card p-6 shadow-sm hover:border-accent/40 hover:-translate-y-1 hover:shadow-md transition-all duration-300"
+              className={`group relative rounded-2xl border border-border bg-card p-6 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 ${theme.bg} ${theme.border} ${theme.shadow}`}
             >
               <div>
-                <div className="w-10 h-10 rounded-xl bg-accent/5 text-accent flex items-center justify-center mb-5 group-hover:bg-accent group-hover:text-accent-foreground transition-all duration-300">
+                <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 ${theme.iconBg}`}>
                   <Icon className="w-5 h-5" strokeWidth={1.75} />
                 </div>
-                <h3 className="font-display text-lg font-bold text-foreground leading-snug group-hover:text-accent transition-colors">
+                <h3 className={`font-display text-lg font-bold text-foreground leading-snug transition-colors ${theme.text}`}>
                   {label}
                 </h3>
                 <p className="text-xs text-muted-foreground mt-3 leading-relaxed font-sans font-medium">
