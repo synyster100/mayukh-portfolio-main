@@ -240,6 +240,28 @@ export function EnvironmentalModelSandbox() {
                       <path d="M 20 0 L 0 0 0 20" fill="none" stroke="rgba(255,255,255,0.03)" strokeWidth="1" />
                     </pattern>
                     
+                    {/* Cartographic Patterns for Zones */}
+                    {/* Zone 1: Highlands (Topographical contours / diagonal lines) */}
+                    <pattern id="pat-highlands" width="10" height="10" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+                      <line x1="0" y1="0" x2="0" y2="10" stroke="rgba(255,255,255,0.08)" strokeWidth="1" />
+                    </pattern>
+                    
+                    {/* Zone 2: Urban Core (Grid blocks) */}
+                    <pattern id="pat-urban" width="12" height="12" patternUnits="userSpaceOnUse">
+                      <rect width="8" height="8" x="2" y="2" fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="1" />
+                    </pattern>
+                    
+                    {/* Zone 4: Forest Buffer (Subtle pine tree structures) */}
+                    <pattern id="pat-forest" width="18" height="18" patternUnits="userSpaceOnUse">
+                      <path d="M 9 3 L 13 9 L 10 9 L 14 14 L 4 14 L 8 9 L 5 9 Z" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="0.8" />
+                      <line x1="9" y1="14" x2="9" y2="16" stroke="rgba(255,255,255,0.06)" strokeWidth="0.8" />
+                    </pattern>
+                    
+                    {/* Zone 3: Lowland Plain (Hydrological waves) */}
+                    <pattern id="pat-plain" width="16" height="10" patternUnits="userSpaceOnUse">
+                      <path d="M 0 5 Q 4 2, 8 5 T 16 5" fill="none" stroke="rgba(255,255,255,0.08)" strokeWidth="0.8" />
+                    </pattern>
+                    
                     {/* 3D Gradients for Zones */}
                     <linearGradient id="grad-highlands" x1="0%" y1="0%" x2="100%" y2="100%">
                       <stop offset="0%" stopColor={getRiskColor(highlandRisk)} stopOpacity={getRiskOpacity(highlandRisk)} />
@@ -270,12 +292,15 @@ export function EnvironmentalModelSandbox() {
                     strokeOpacity="0.4"
                     className="transition-all duration-300"
                   />
-                  <text x="150" y="65" fontSize="24" className="select-none opacity-60">⛰️</text>
-                  <text x="35" y="45" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-80">
-                    ZONE 1: HIGHLANDS
-                  </text>
-                  <text x="35" y="58" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
-                    Risk: {highlandRisk}%
+                  <path
+                    d="M 10 10 L 220 10 L 160 120 L 10 160 Z"
+                    fill="url(#pat-highlands)"
+                    pointerEvents="none"
+                  />
+                  <circle cx="65" cy="50" r="8" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+                  <text x="65" y="50" fill="#ffffff" fontSize="8" fontFamily="monospace" textAnchor="middle" dominantBaseline="central" className="font-bold">1</text>
+                  <text x="50" y="75" fill="#ffffff" className="font-mono text-[9px] font-bold opacity-80">
+                    Highlands: {highlandRisk}%
                   </text>
 
                   {/* Zone 2: Urban Core (Top Right/Center) */}
@@ -287,12 +312,15 @@ export function EnvironmentalModelSandbox() {
                     strokeOpacity="0.4"
                     className="transition-all duration-300"
                   />
-                  <text x="315" y="85" fontSize="26" className="select-none opacity-60">🏙️</text>
-                  <text x="240" y="45" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-80">
-                    ZONE 2: URBAN CORE
-                  </text>
-                  <text x="240" y="58" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
-                    Risk: {urbanRisk}%
+                  <path
+                    d="M 220 10 L 390 10 L 390 130 L 260 180 L 160 120 Z"
+                    fill="url(#pat-urban)"
+                    pointerEvents="none"
+                  />
+                  <circle cx="270" cy="50" r="8" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+                  <text x="270" y="50" fill="#ffffff" fontSize="8" fontFamily="monospace" textAnchor="middle" dominantBaseline="central" className="font-bold">2</text>
+                  <text x="250" y="75" fill="#ffffff" className="font-mono text-[9px] font-bold opacity-80">
+                    Urban: {urbanRisk}%
                   </text>
 
                   {/* Zone 4: Forest Conservation Zone (Bottom Left) */}
@@ -304,12 +332,15 @@ export function EnvironmentalModelSandbox() {
                     strokeOpacity="0.4"
                     className="transition-all duration-300"
                   />
-                  <text x="65" y="245" fontSize="26" className="select-none opacity-60">🌳</text>
-                  <text x="35" y="195" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-80">
-                    ZONE 4: FOREST BUFFER
-                  </text>
-                  <text x="35" y="208" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
-                    Risk: {forestRisk}%
+                  <path
+                    d="M 10 160 L 160 120 L 220 200 L 120 290 L 10 290 Z"
+                    fill="url(#pat-forest)"
+                    pointerEvents="none"
+                  />
+                  <circle cx="65" cy="220" r="8" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+                  <text x="65" y="220" fill="#ffffff" fontSize="8" fontFamily="monospace" textAnchor="middle" dominantBaseline="central" className="font-bold">4</text>
+                  <text x="50" y="245" fill="#ffffff" className="font-mono text-[9px] font-bold opacity-80">
+                    Forest: {forestRisk}%
                   </text>
 
                   {/* Zone 3: Lowland Floodplain (Bottom Right) */}
@@ -321,12 +352,15 @@ export function EnvironmentalModelSandbox() {
                     strokeOpacity="0.4"
                     className="transition-all duration-300"
                   />
-                  <text x="315" y="245" fontSize="26" className="select-none opacity-60">🌊</text>
-                  <text x="230" y="205" fill="#ffffff" className="font-mono text-[9px] font-bold tracking-wider opacity-80">
-                    ZONE 3: LOWLAND PLAIN
-                  </text>
-                  <text x="230" y="218" fill="#ffffff" className="font-mono text-[10px] font-extrabold opacity-95">
-                    Risk: {plainRisk}%
+                  <path
+                    d="M 260 180 L 390 130 L 390 290 L 120 290 L 220 200 Z"
+                    fill="url(#pat-plain)"
+                    pointerEvents="none"
+                  />
+                  <circle cx="270" cy="220" r="8" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
+                  <text x="270" y="220" fill="#ffffff" fontSize="8" fontFamily="monospace" textAnchor="middle" dominantBaseline="central" className="font-bold">3</text>
+                  <text x="250" y="245" fill="#ffffff" className="font-mono text-[9px] font-bold opacity-80">
+                    Plain: {plainRisk}%
                   </text>
 
                   {/* Flow Accumulation Channel (The River) winding through */}
@@ -346,6 +380,14 @@ export function EnvironmentalModelSandbox() {
                   <path d="M 50 10 Q 130 20 150 70" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3,3" />
                   <path d="M 320 250 Q 250 260 210 200" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3,3" />
                 </svg>
+
+                {/* Left Legend Overlay */}
+                <div className="absolute top-3 left-3 bg-black/80 backdrop-blur border border-white/10 px-2.5 py-1.5 rounded-lg text-[9px] font-mono text-white space-y-0.5 z-10 pointer-events-none">
+                  <div>1: Highlands</div>
+                  <div>2: Urban Core</div>
+                  <div>3: Lowland Plain</div>
+                  <div>4: Forest Buffer</div>
+                </div>
 
                 {/* Map Color Legend overlay */}
                 <div className="absolute bottom-3 right-3 bg-black/80 backdrop-blur border border-white/10 px-2.5 py-1.5 rounded-lg text-[9px] font-mono text-white space-y-1 z-10">
