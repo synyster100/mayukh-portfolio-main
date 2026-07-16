@@ -73,13 +73,41 @@ const STATS = [
 ];
 
 const INTERESTS = [
-  { icon: Leaf, label: "Geoenvironmental Engineering" },
-  { icon: MapIcon, label: "GIS & Remote Sensing" },
-  { icon: Droplets, label: "Flood Risk Management" },
-  { icon: Compass, label: "Shoreline Dynamics" },
-  { icon: BrainCircuit, label: "GeoAI" },
-  { icon: Satellite, label: "Disaster Management" },
-  { icon: Layers, label: "Environmental Modelling" },
+  { 
+    icon: Leaf, 
+    label: "Geoenvironmental Engineering", 
+    description: "Focusing on soil stabilization, polymer treatments, and eco-friendly geotechnical infrastructure systems." 
+  },
+  { 
+    icon: MapIcon, 
+    label: "GIS & Remote Sensing", 
+    description: "Leveraging multispectral satellite analytics, spatiotemporal mapping, and spatial data science." 
+  },
+  { 
+    icon: Droplets, 
+    label: "Flood Risk Management", 
+    description: "Developing hydrodynamic hazard modeling, AHP-GIS flood index mapping, and runoff forecasting systems." 
+  },
+  { 
+    icon: Compass, 
+    label: "Shoreline Dynamics", 
+    description: "Tracking coastal erosion, beach forecasting, and satellite-based shoreline tracking dynamics." 
+  },
+  { 
+    icon: BrainCircuit, 
+    label: "GeoAI", 
+    description: "Applying spatiotemporal machine learning models and explainable AI insights to earth science." 
+  },
+  { 
+    icon: Satellite, 
+    label: "Disaster Management", 
+    description: "Formulating multi-hazard risk assessments, vulnerability mapping, and mitigation strategies." 
+  },
+  { 
+    icon: Layers, 
+    label: "Environmental Modelling", 
+    description: "Simulating hydrological processes, urban stormwater networks, and aquifer management." 
+  },
 ];
 
 const JOURNAL = [
@@ -953,23 +981,34 @@ function Stat({
 function Interests() {
   const ref = useReveal<HTMLDivElement>();
   return (
-    <section id="research" className="py-28 bg-secondary/60">
+    <section id="research" className="py-28 bg-secondary/30 relative overflow-hidden border-y border-border/50">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHeader eyebrow="03a · Research interests" title="Research interests" />
         <div
           ref={ref}
-          className="reveal mt-12 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3"
+          className="reveal mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
         >
-          {INTERESTS.map(({ icon: Icon, label }, i) => (
+          {INTERESTS.map(({ icon: Icon, label, description }, i) => (
             <div
               key={label}
-              style={{ transitionDelay: `${i * 40}ms` }}
-              className="group relative rounded-xl border border-border bg-card p-5 hover:border-accent/60 hover:-translate-y-1 transition-all duration-300"
+              style={{ transitionDelay: `${i * 45}ms` }}
+              className="group relative rounded-2xl border border-border bg-card p-6 shadow-sm hover:border-accent/40 hover:-translate-y-1 hover:shadow-md transition-all duration-300 flex flex-col justify-between"
             >
-              <div className="w-9 h-9 rounded-lg bg-primary/10 text-primary flex items-center justify-center mb-4 group-hover:bg-accent group-hover:text-accent-foreground transition-colors">
-                <Icon className="w-4.5 h-4.5" strokeWidth={1.5} />
+              <div>
+                <div className="w-10 h-10 rounded-xl bg-accent/5 text-accent flex items-center justify-center mb-5 group-hover:bg-accent group-hover:text-accent-foreground transition-all duration-300">
+                  <Icon className="w-5 h-5" strokeWidth={1.75} />
+                </div>
+                <h3 className="font-display text-lg font-bold text-foreground leading-snug group-hover:text-accent transition-colors">
+                  {label}
+                </h3>
+                <p className="text-xs text-muted-foreground mt-3 leading-relaxed font-sans font-medium">
+                  {description}
+                </p>
               </div>
-              <div className="text-sm font-medium leading-snug">{label}</div>
+              <div className="mt-4 pt-3 border-t border-border/40 flex justify-between items-center text-[10px] font-mono text-muted-foreground uppercase font-bold">
+                <span>Domain Focus</span>
+                <span className="opacity-0 group-hover:opacity-100 group-hover:text-accent transition-opacity duration-300">Active</span>
+              </div>
             </div>
           ))}
         </div>
