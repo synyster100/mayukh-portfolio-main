@@ -308,7 +308,7 @@ export function EnvironmentalModelSandbox() {
                 </svg>
 
                 {/* Map Color Legend overlay */}
-                <div className="absolute bottom-3 right-3 bg-black/80 backdrop-blur border border-white/10 px-2.5 py-1.5 rounded-lg text-[9px] font-mono space-y-1 z-10">
+                <div className="absolute bottom-3 right-3 bg-black/80 backdrop-blur border border-white/10 px-2.5 py-1.5 rounded-lg text-[9px] font-mono text-white space-y-1 z-10">
                   <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#ef4444] rounded"></div><span>Extreme Risk (&ge;75%)</span></div>
                   <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#f97316] rounded"></div><span>High Risk (50-74%)</span></div>
                   <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#eab308] rounded"></div><span>Moderate Risk (30-49%)</span></div>
