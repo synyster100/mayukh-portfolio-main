@@ -28,6 +28,7 @@ import {
   ShieldAlert,
   Sun,
   Moon,
+  ArrowUp,
 } from "lucide-react";
 import { useReveal, useCountUp, useInView } from "@/hooks/use-reveal";
 import ProjectMap from "@/components/ProjectMap";
@@ -848,6 +849,38 @@ function InteractiveGISBackground() {
 /* ---------- Component ---------- */
 
 function Portfolio() {
+  const [showScrollTop, setShowScrollTop] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const totalScroll = document.documentElement.scrollHeight - window.innerHeight;
+      if (totalScroll > 0) {
+        setScrollProgress(Math.min((window.scrollY / totalScroll) * 100, 100));
+      }
+      setShowScrollTop(window.scrollY > 400);
+    };
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  useEffect(() => {
+    // Highly-optimized delegated mousemove handler for the hover-glow border cards
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const card = target.closest(".glow-card") as HTMLElement;
+      if (card) {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty("--mouse-x", `${x}px`);
+        card.style.setProperty("--mouse-y", `${y}px`);
+      }
+    };
+    window.addEventListener("mousemove", handleGlobalMouseMove);
+    return () => window.removeEventListener("mousemove", handleGlobalMouseMove);
+  }, []);
+
   useEffect(() => {
     const SELECTOR = [
       "section:not(#top) h2",
@@ -885,6 +918,10 @@ function Portfolio() {
     return () => io.disconnect();
   }, []);
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <div className="min-h-screen bg-background text-foreground relative">
       <InteractiveGISBackground />
@@ -903,6 +940,36 @@ function Portfolio() {
         <Contact />
         <Footer />
       </div>
+
+      {/* Floating Circular Scroll to Top Indicator */}
+      <button
+        onClick={scrollToTop}
+        className={`fixed bottom-6 right-6 z-50 p-2.5 rounded-full border border-border bg-card/90 backdrop-blur-md shadow-lg transition-all duration-300 hover:scale-105 active:scale-95 flex items-center justify-center group ${
+          showScrollTop ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none"
+        }`}
+        aria-label="Scroll to top"
+      >
+        <svg className="w-9 h-9 transform -rotate-90">
+          <circle
+            cx="18"
+            cy="18"
+            r="15"
+            className="stroke-muted/20 fill-none"
+            strokeWidth="2.5"
+          />
+          <circle
+            cx="18"
+            cy="18"
+            r="15"
+            className="stroke-accent fill-none transition-all duration-300"
+            strokeWidth="2.5"
+            strokeDasharray="94.2"
+            strokeDashoffset={94.2 - (94.2 * scrollProgress) / 100}
+            strokeLinecap="round"
+          />
+        </svg>
+        <ArrowUp className="w-4 h-4 text-accent absolute transition-transform group-hover:-translate-y-0.5" />
+      </button>
     </div>
   );
 }
@@ -1214,7 +1281,7 @@ function Interests() {
             <div
               key={label}
               style={{ transitionDelay: `${i * 45}ms` }}
-              className={`group relative rounded-2xl border border-border bg-card p-6 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 ${theme.bg} ${theme.border} ${theme.shadow}`}
+              className={`group glow-card relative rounded-2xl border border-border bg-card p-6 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 ${theme.bg} ${theme.border} ${theme.shadow}`}
             >
               <div>
                 <div className={`w-10 h-10 rounded-xl flex items-center justify-center mb-5 transition-all duration-300 group-hover:scale-110 group-hover:rotate-6 ${theme.iconBg}`}>
@@ -1428,7 +1495,7 @@ function Projects() {
                     key={p.title}
                     to="/projects/$slug"
                     params={{ slug: p.slug }}
-                    className="group relative rounded-2xl border border-border bg-card p-6 hover:border-accent/60 transition-all hover:-translate-y-1 duration-300 flex flex-col"
+                    className="group glow-card relative rounded-2xl border border-border bg-card p-6 hover:border-accent/60 transition-all hover:-translate-y-1 duration-300 flex flex-col"
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex flex-wrap gap-1.5">
@@ -1493,7 +1560,7 @@ function Projects() {
                         key={p.title}
                         to="/projects/$slug"
                         params={{ slug: p.slug }}
-                        className="group relative rounded-2xl border border-border bg-card p-6 hover:border-accent/60 transition-all hover:-translate-y-1 duration-300 flex flex-col"
+                        className="group glow-card relative rounded-2xl border border-border bg-card p-6 hover:border-accent/60 transition-all hover:-translate-y-1 duration-300 flex flex-col"
                       >
                         <div className="flex items-start justify-between gap-3">
                           <div className="flex flex-wrap gap-1.5">

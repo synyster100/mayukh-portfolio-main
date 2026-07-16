@@ -1,4 +1,5 @@
 import { Link, Outlet, createFileRoute, useRouterState } from "@tanstack/react-router";
+import { useEffect } from "react";
 import { ArrowLeft, ArrowUpRight, Layers3, MapPin } from "lucide-react";
 
 import { PROJECT_CATEGORIES, PROJECTS } from "@/data/projects";
@@ -27,6 +28,22 @@ function ProjectsShowcasePage() {
   const hasChildRoute = routerState.matches.some((match) => 
     match.routeId.includes("$slug")
   );
+
+  useEffect(() => {
+    const handleGlobalMouseMove = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      const card = target.closest(".glow-card") as HTMLElement;
+      if (card) {
+        const rect = card.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        card.style.setProperty("--mouse-x", `${x}px`);
+        card.style.setProperty("--mouse-y", `${y}px`);
+      }
+    };
+    window.addEventListener("mousemove", handleGlobalMouseMove);
+    return () => window.removeEventListener("mousemove", handleGlobalMouseMove);
+  }, []);
 
   // If we have a child route (i.e., we're viewing a project detail), only render the Outlet
   if (hasChildRoute) {
@@ -132,7 +149,7 @@ function ProjectsShowcasePage() {
                     key={project.title}
                     to="/projects/$slug"
                     params={{ slug: project.slug }}
-                    className="group rounded-3xl border border-border bg-card p-7 md:p-8 shadow-sm hover:border-accent/60 transition-all overflow-hidden block"
+                    className="group glow-card rounded-3xl border border-border bg-card p-7 md:p-8 shadow-sm hover:border-accent/60 transition-all overflow-hidden block"
                   >
                     <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr]">
                       {PROJECT_IMAGE_URLS[project.slug] && (
