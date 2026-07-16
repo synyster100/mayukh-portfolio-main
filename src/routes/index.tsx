@@ -452,20 +452,23 @@ function Portfolio() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-background text-foreground">
-      <Nav />
-      <Hero />
-      <About />
-      <Interests />
-      <Publications />
-      <Projects />
-      <Experience />
-      <Education />
-      <Skills />
-      <Leadership />
-      <TestScores />
-      <Contact />
-      <Footer />
+    <div className="min-h-screen bg-background text-foreground bg-contours relative">
+      <div className="absolute inset-0 bg-grid opacity-[0.18] pointer-events-none z-0" />
+      <div className="relative z-10">
+        <Nav />
+        <Hero />
+        <About />
+        <Interests />
+        <Publications />
+        <Projects />
+        <Experience />
+        <Education />
+        <Skills />
+        <Leadership />
+        <TestScores />
+        <Contact />
+        <Footer />
+      </div>
     </div>
   );
 }

@@ -142,6 +142,8 @@
     radial-gradient(ellipse 600px 500px at 85% 70%, color-mix(in oklab, var(--terra) 10%, transparent), transparent 60%),
     repeating-radial-gradient(circle at 30% 40%, transparent 0, transparent 38px, color-mix(in oklab, var(--moss) 6%, transparent) 38px, color-mix(in oklab, var(--moss) 6%, transparent) 39px),
     repeating-radial-gradient(circle at 75% 65%, transparent 0, transparent 44px, color-mix(in oklab, var(--terra) 5%, transparent) 44px, color-mix(in oklab, var(--terra) 5%, transparent) 45px);
+  background-attachment: fixed;
+  background-size: cover;
 }
 
 .bg-grid {
