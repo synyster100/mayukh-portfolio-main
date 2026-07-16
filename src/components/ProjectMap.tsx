@@ -161,10 +161,12 @@ declare global {
 }
 
 const SCRIPT_ID = "google-maps-js";
+let globalMapType: "google" | "leaflet" = "google";
 
 if (typeof window !== "undefined") {
   window.gm_authFailure = () => {
     console.warn("Google Maps authorization failed. Triggering fallback to Leaflet.");
+    globalMapType = "leaflet";
     window.dispatchEvent(new CustomEvent("google-maps-auth-failure"));
   };
 }
@@ -174,19 +176,38 @@ function loadGoogleMaps(): Promise<void> {
   if (window.google?.maps) return Promise.resolve();
 
   return new Promise((resolve, reject) => {
+    const timeout = setTimeout(() => {
+      reject(new Error("Google Maps load timeout"));
+    }, 3500);
+
     const existing = document.getElementById(SCRIPT_ID) as HTMLScriptElement | null;
     if (existing) {
-      existing.addEventListener("load", () => resolve());
-      existing.addEventListener("error", reject);
+      existing.addEventListener("load", () => {
+        clearTimeout(timeout);
+        resolve();
+      });
+      existing.addEventListener("error", () => {
+        clearTimeout(timeout);
+        reject(new Error("Script error"));
+      });
+      // If it already loaded or failed, clear timeout and resolve/reject accordingly
+      if (window.google?.maps) {
+        clearTimeout(timeout);
+        resolve();
+      }
       return;
     }
     const key = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_BROWSER_KEY;
     const channel = import.meta.env.VITE_LOVABLE_CONNECTOR_GOOGLE_MAPS_TRACKING_ID;
     if (!key) {
+      clearTimeout(timeout);
       reject(new Error("Missing Google Maps browser key"));
       return;
     }
-    window.__initProjectMap = () => resolve();
+    window.__initProjectMap = () => {
+      clearTimeout(timeout);
+      resolve();
+    };
     const s = document.createElement("script");
     s.id = SCRIPT_ID;
     s.async = true;
@@ -194,7 +215,10 @@ function loadGoogleMaps(): Promise<void> {
     s.src = `https://maps.googleapis.com/maps/api/js?key=${key}&loading=async&callback=__initProjectMap${
       channel ? `&channel=${channel}` : ""
     }`;
-    s.onerror = reject;
+    s.onerror = () => {
+      clearTimeout(timeout);
+      reject(new Error("Script error"));
+    };
     document.head.appendChild(s);
   });
 }
@@ -307,10 +331,11 @@ export default function ProjectMap({ points }: { points: Point[] }) {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const googleMapRef = useRef<any>(null);
   const leafletMapRef = useRef<any>(null);
-  const [mapType, setMapType] = useState<"google" | "leaflet">("google");
+  const [mapType, setMapType] = useState<"google" | "leaflet">(globalMapType);
 
   useEffect(() => {
     const handleAuthFailure = () => {
+      globalMapType = "leaflet";
       setMapType("leaflet");
     };
 
@@ -409,6 +434,7 @@ export default function ProjectMap({ points }: { points: Point[] }) {
         })
         .catch((err) => {
           console.warn("Google Maps failed to load, switching to Leaflet fallback:", err);
+          globalMapType = "leaflet";
           if (!cancelled) setMapType("leaflet");
         });
     } else {
