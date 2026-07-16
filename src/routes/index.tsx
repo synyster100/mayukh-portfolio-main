@@ -213,6 +213,20 @@ const TIMELINE = [
     ],
   },
   {
+    category: "professional",
+    year: "Jan 2025 — Jun 2025",
+    role: "CAD Specialist & Technology Research Coordinator (Contract)",
+    org: "Micromaster Corporation",
+    bullets: [
+      "Developed 2D & 3D CAD models for aquaculture, water treatment, and ETP systems.",
+      "Designed and studied fiberglass tanks, RAS, and IPRS technologies with precision.",
+      "Optimized manufacturing drawings & BOM for cost-efficient production.",
+      "Collaborated with engineers & technicians to refine system layouts.",
+      "Ensured compliance with industry standards in water treatment design.",
+      "Managed technical documentation & CAD data for streamlined workflows."
+    ],
+  },
+  {
     category: "teaching-research",
     year: "Jan 2026 — Jun 2026",
     role: "Research Assistant (RA)",
@@ -360,6 +374,13 @@ const EXTRACURRICULARS = [
       "Contributed to fostering cross-cultural understanding.",
       "Proudly part of a global community committed to development.",
     ],
+  },
+  {
+    role: "Program Executive",
+    org: "Space and Environment Research Center (SERC)",
+    period: "Apr 2025 - Oct 2025",
+    category: "Disaster Management",
+    description: "SERC Disaster Management Program under the project No. SP-9/24 - 'Developing Space-Based Integrated Disaster Management System in Asia and the Pacific'. Used GIS and remote sensing based solutions to address climate change and disaster management.",
   },
   {
     role: "Field Scout",
