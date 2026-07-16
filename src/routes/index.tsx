@@ -1335,10 +1335,13 @@ function Skills() {
                 return (
                   <div
                     key={`${i}-${j}`}
-                    className="inline-flex items-center justify-center bg-card border border-border/80 p-3 rounded-2xl shadow-sm mx-4 hover:border-accent/40 transition-colors cursor-help"
-                    title={s.name}
+                    className="relative group inline-flex items-center justify-center bg-card border border-border/80 p-3 rounded-2xl shadow-sm mx-4 hover:border-accent/40 transition-colors cursor-help"
                   >
                     <IconComponent />
+                    {/* Custom Tooltip that works during translation */}
+                    <div className="absolute -top-10 left-1/2 -translate-x-1/2 bg-black/95 backdrop-blur border border-white/10 text-white text-[10px] font-mono font-bold px-2.5 py-1.5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50 shadow-lg">
+                      {s.name}
+                    </div>
                   </div>
                 );
               })
