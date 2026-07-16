@@ -373,7 +373,7 @@ export function GeospatialMethodologyVisualizer() {
                 </div>
                 
                 <p className="text-xs text-muted-foreground leading-relaxed font-medium">
-                  The **Digital Shoreline Analysis System (DSAS)** computes rate-of-change statistics from multiple historical shoreline vectors. It casts measurement transects perpendicular to a reference baseline.
+                  The <strong className="font-semibold text-foreground">Digital Shoreline Analysis System (DSAS)</strong> computes rate-of-change statistics from multiple historical shoreline vectors. It casts measurement transects perpendicular to a reference baseline.
                 </p>
 
                 <div className="border border-border/50 rounded-xl p-4 bg-secondary/15 space-y-4">
