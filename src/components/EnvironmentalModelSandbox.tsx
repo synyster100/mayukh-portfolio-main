@@ -297,11 +297,6 @@ export function EnvironmentalModelSandbox() {
                     fill="url(#pat-highlands)"
                     pointerEvents="none"
                   />
-                  <circle cx="65" cy="50" r="8" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-                  <text x="65" y="50" fill="#ffffff" fontSize="8" fontFamily="monospace" textAnchor="middle" dominantBaseline="central" className="font-bold">1</text>
-                  <text x="50" y="75" fill="#ffffff" className="font-mono text-[9px] font-bold opacity-80">
-                    Highlands: {highlandRisk}%
-                  </text>
 
                   {/* Zone 2: Urban Core (Top Right/Center) */}
                   <path
@@ -317,11 +312,6 @@ export function EnvironmentalModelSandbox() {
                     fill="url(#pat-urban)"
                     pointerEvents="none"
                   />
-                  <circle cx="270" cy="50" r="8" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-                  <text x="270" y="50" fill="#ffffff" fontSize="8" fontFamily="monospace" textAnchor="middle" dominantBaseline="central" className="font-bold">2</text>
-                  <text x="250" y="75" fill="#ffffff" className="font-mono text-[9px] font-bold opacity-80">
-                    Urban: {urbanRisk}%
-                  </text>
 
                   {/* Zone 4: Forest Conservation Zone (Bottom Left) */}
                   <path
@@ -337,11 +327,6 @@ export function EnvironmentalModelSandbox() {
                     fill="url(#pat-forest)"
                     pointerEvents="none"
                   />
-                  <circle cx="65" cy="220" r="8" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-                  <text x="65" y="220" fill="#ffffff" fontSize="8" fontFamily="monospace" textAnchor="middle" dominantBaseline="central" className="font-bold">4</text>
-                  <text x="50" y="245" fill="#ffffff" className="font-mono text-[9px] font-bold opacity-80">
-                    Forest: {forestRisk}%
-                  </text>
 
                   {/* Zone 3: Lowland Floodplain (Bottom Right) */}
                   <path
@@ -357,11 +342,6 @@ export function EnvironmentalModelSandbox() {
                     fill="url(#pat-plain)"
                     pointerEvents="none"
                   />
-                  <circle cx="270" cy="220" r="8" fill="rgba(0,0,0,0.6)" stroke="rgba(255,255,255,0.2)" strokeWidth="1" />
-                  <text x="270" y="220" fill="#ffffff" fontSize="8" fontFamily="monospace" textAnchor="middle" dominantBaseline="central" className="font-bold">3</text>
-                  <text x="250" y="245" fill="#ffffff" className="font-mono text-[9px] font-bold opacity-80">
-                    Plain: {plainRisk}%
-                  </text>
 
                   {/* Flow Accumulation Channel (The River) winding through */}
                   <path
@@ -380,21 +360,33 @@ export function EnvironmentalModelSandbox() {
                   <path d="M 50 10 Q 130 20 150 70" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3,3" />
                   <path d="M 320 250 Q 250 260 210 200" fill="none" stroke="rgba(255,255,255,0.06)" strokeWidth="1" strokeDasharray="3,3" />
                 </svg>
+              </div>
 
-                {/* Left Legend Overlay */}
-                <div className="absolute top-3 left-3 bg-black/80 backdrop-blur border border-white/10 px-2.5 py-1.5 rounded-lg text-[9px] font-mono text-white space-y-0.5 z-10 pointer-events-none">
-                  <div>1: Highlands</div>
-                  <div>2: Urban Core</div>
-                  <div>3: Lowland Plain</div>
-                  <div>4: Forest Buffer</div>
+              {/* Map Legend (placed outside the map) */}
+              <div className="mt-4 flex flex-wrap gap-x-4 gap-y-2 justify-center bg-secondary/20 border border-border/40 p-3 rounded-xl text-[10px] font-mono font-medium text-foreground/80">
+                <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#ef4444] rounded"></div><span>Extreme Risk (&ge;75%)</span></div>
+                <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#f97316] rounded"></div><span>High Risk (50-74%)</span></div>
+                <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#eab308] rounded"></div><span>Moderate Risk (30-49%)</span></div>
+                <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#10b981] rounded"></div><span>Low Risk (&lt;30%)</span></div>
+              </div>
+
+              {/* Sub-catchment Risk Scores */}
+              <div className="mt-3 grid grid-cols-4 gap-2 text-center">
+                <div className="border border-border/40 bg-secondary/15 p-2 rounded-xl">
+                  <span className="text-[9px] uppercase font-mono text-muted-foreground block">Highlands</span>
+                  <span className="text-xs font-bold font-mono text-foreground" style={{ color: getRiskColor(highlandRisk) }}>{highlandRisk}%</span>
                 </div>
-
-                {/* Map Color Legend overlay */}
-                <div className="absolute bottom-3 right-3 bg-black/80 backdrop-blur border border-white/10 px-2.5 py-1.5 rounded-lg text-[9px] font-mono text-white space-y-1 z-10">
-                  <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#ef4444] rounded"></div><span>Extreme Risk (&ge;75%)</span></div>
-                  <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#f97316] rounded"></div><span>High Risk (50-74%)</span></div>
-                  <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#eab308] rounded"></div><span>Moderate Risk (30-49%)</span></div>
-                  <div className="flex items-center gap-1.5"><div className="w-2.5 h-2.5 bg-[#10b981] rounded"></div><span>Low Risk (&lt;30%)</span></div>
+                <div className="border border-border/40 bg-secondary/15 p-2 rounded-xl">
+                  <span className="text-[9px] uppercase font-mono text-muted-foreground block">Urban Core</span>
+                  <span className="text-xs font-bold font-mono text-foreground" style={{ color: getRiskColor(urbanRisk) }}>{urbanRisk}%</span>
+                </div>
+                <div className="border border-border/40 bg-secondary/15 p-2 rounded-xl">
+                  <span className="text-[9px] uppercase font-mono text-muted-foreground block">Forest Buffer</span>
+                  <span className="text-xs font-bold font-mono text-foreground" style={{ color: getRiskColor(forestRisk) }}>{forestRisk}%</span>
+                </div>
+                <div className="border border-border/40 bg-secondary/15 p-2 rounded-xl">
+                  <span className="text-[9px] uppercase font-mono text-muted-foreground block">Lowland Plain</span>
+                  <span className="text-xs font-bold font-mono text-foreground" style={{ color: getRiskColor(plainRisk) }}>{plainRisk}%</span>
                 </div>
               </div>
             </div>
