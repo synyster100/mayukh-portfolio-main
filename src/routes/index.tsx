@@ -2081,7 +2081,6 @@ function WorldMap() {
 function Experience() {
   const ref = useReveal<HTMLDivElement>();
   const [activeTab, setActiveTab] = useState<"all" | "professional" | "teaching-research" | "internship">("all");
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const filteredTimeline = TIMELINE.filter(
     (t) => activeTab === "all" || t.category === activeTab
@@ -2122,31 +2121,24 @@ function Experience() {
           <div className="absolute left-3 md:left-1/2 top-0 bottom-0 w-px bg-border" />
           <div className="space-y-6">
             {filteredTimeline.map((t, i) => {
-              const isHovered = hoveredIndex === i;
               return (
                 <div
                   key={i}
-                  onMouseEnter={() => setHoveredIndex(i)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                  onClick={() => setHoveredIndex(hoveredIndex === i ? null : i)}
-                  className={`relative md:grid md:grid-cols-2 md:gap-12 p-6 rounded-2xl border transition-all duration-300 cursor-pointer ${
-                    isHovered
-                      ? "bg-card/75 border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.06)] backdrop-blur-sm"
-                      : "bg-transparent border-transparent hover:bg-secondary/5"
-                  } ${i % 2 === 0 ? "" : "md:[&>*:first-child]:order-2"}`}
+                  className={`group relative md:grid md:grid-cols-2 md:gap-12 p-6 rounded-2xl border border-transparent hover:bg-card/75 hover:border-border/80 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:backdrop-blur-sm transition-all duration-300 ${
+                    i % 2 === 0 ? "" : "md:[&>*:first-child]:order-2"
+                  }`}
                 >
                   {/* Timeline Node Icon */}
-                  <div className={`absolute left-3 md:left-1/2 top-8 -translate-x-1/2 w-4 h-4 rounded-full border-2 transition-all duration-300 z-10 ${
-                    isHovered
-                      ? "bg-accent border-accent scale-125 shadow-[0_0_12px_rgba(251,113,133,0.7)]"
-                      : "bg-background border-border"
-                  }`} />
+                  <div className="absolute left-3 md:left-1/2 top-8 -translate-x-1/2 w-4 h-4 rounded-full border border-border bg-background transition-all duration-300 z-10 group-hover:bg-accent group-hover:border-accent group-hover:scale-125 group-hover:shadow-[0_0_12px_rgba(251,113,133,0.7)]" />
                   
-                  <div className="pl-10 md:pl-0 md:pr-10 md:text-right flex flex-col justify-center">
+                  {/* Left Column */}
+                  <div className="pl-10 md:pl-0 md:pr-10 md:text-right flex flex-col justify-start pt-1">
                     <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
                       {t.year}
                     </div>
-                    <h3 className="font-display text-2xl mt-2 transition-colors duration-300 group-hover:text-accent">{t.role}</h3>
+                    <h3 className="font-display text-2xl mt-2 font-bold text-foreground transition-colors duration-300 group-hover:text-accent">
+                      {t.role}
+                    </h3>
                     <div className="text-sm text-foreground/75 font-medium mt-1">
                       {t.orgUrl ? (
                         <a
@@ -2154,7 +2146,6 @@ function Experience() {
                           target="_blank"
                           rel="noopener"
                           className="hover:text-accent transition-colors underline decoration-border hover:decoration-accent"
-                          onClick={(e) => e.stopPropagation()}
                         >
                           {t.org}
                         </a>
@@ -2162,40 +2153,18 @@ function Experience() {
                         t.org
                       )}
                     </div>
-
                   </div>
 
-                  <div className="pl-10 md:pl-10 flex flex-col justify-center min-h-[100px]">
-                    {/* Collapsed Preview Callout */}
-                    <div className={`transition-all duration-300 ${
-                      isHovered ? "opacity-0 max-h-0 overflow-hidden pointer-events-none" : "opacity-100 max-h-[150px]"
-                    }`}>
-                      <div className="border border-dashed border-border/80 rounded-xl p-4 bg-secondary/15 flex items-center justify-between group-hover:bg-secondary/25 transition-colors">
-                        <div className="space-y-1">
-                          <div className="text-xs font-bold text-foreground">Responsibilities &amp; Achievements</div>
-                          <div className="text-[10px] text-muted-foreground">Click or hover to reveal duties, projects, and outcomes</div>
-                        </div>
-                        <div className="w-7 h-7 rounded-full bg-accent/10 border border-accent/25 flex items-center justify-center text-accent shrink-0 animate-pulse">
-                          <span className="text-xs font-bold leading-none">+</span>
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Expanded Content */}
-                    <div className={`transition-all duration-500 ease-in-out overflow-hidden ${
-                      isHovered
-                        ? "max-h-[600px] opacity-100"
-                        : "max-h-0 opacity-0 pointer-events-none"
-                    }`}>
-                      <ul className="space-y-2 text-sm text-foreground/80 leading-relaxed">
-                        {t.bullets.map((b, idx) => (
-                          <li key={idx} className="flex gap-2">
-                            <span className="text-accent shrink-0">→</span>
-                            <span dangerouslySetInnerHTML={{ __html: b }} />
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
+                  {/* Right Column (Duties / Achievements) */}
+                  <div className="pl-10 md:pl-0 flex flex-col justify-start">
+                    <ul className="space-y-3 text-sm text-foreground/80 leading-relaxed font-sans font-medium">
+                      {t.bullets.map((b, idx) => (
+                        <li key={idx} className="flex gap-2">
+                          <span className="text-accent shrink-0 font-extrabold">•</span>
+                          <span dangerouslySetInnerHTML={{ __html: b }} />
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               );
