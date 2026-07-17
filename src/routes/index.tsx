@@ -1437,10 +1437,19 @@ function Interests() {
         return (
           <div style={{ position: "absolute", zIndex: 1, inset: 0, pointerEvents: "none" }} className="hover-anim overflow-hidden opacity-0 transition-opacity duration-500">
             <svg viewBox="0 0 100 100" className="absolute right-4 bottom-4 w-24 h-24 text-emerald-500">
-              <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="0.8" className="animate-node-pulse" />
-              <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" strokeWidth="0.8" className="animate-node-pulse" style={{ animationDelay: "0.6s" }} />
-              <circle cx="50" cy="50" r="25" fill="none" stroke="currentColor" strokeWidth="1.2" className="animate-node-pulse" style={{ animationDelay: "1.2s" }} />
-              <circle cx="50" cy="50" r="15" fill="none" stroke="currentColor" strokeWidth="1.6" className="animate-node-pulse" style={{ animationDelay: "1.8s" }} />
+              {/* Drainage Network Pipes/Channels */}
+              <line x1="15" y1="20" x2="50" y2="40" stroke="currentColor" strokeWidth="1" opacity="0.25" />
+              <line x1="85" y1="20" x2="50" y2="40" stroke="currentColor" strokeWidth="1" opacity="0.25" />
+              <line x1="50" y1="40" x2="50" y2="80" stroke="currentColor" strokeWidth="1.5" opacity="0.3" />
+              {/* Flowing Water Pulses */}
+              <line x1="15" y1="20" x2="50" y2="40" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4,4" className="animate-drainage-flow" />
+              <line x1="85" y1="20" x2="50" y2="40" stroke="currentColor" strokeWidth="1.5" strokeDasharray="4,4" className="animate-drainage-flow" style={{ animationDelay: "0.5s" }} />
+              <line x1="50" y1="40" x2="50" y2="80" stroke="currentColor" strokeWidth="2.5" strokeDasharray="6,6" className="animate-drainage-flow" />
+              {/* Junction Nodes */}
+              <circle cx="15" cy="20" r="3" fill="currentColor" className="animate-node-pulse" />
+              <circle cx="85" cy="20" r="3" fill="currentColor" className="animate-node-pulse" style={{ animationDelay: "0.5s" }} />
+              <circle cx="50" cy="40" r="4.5" fill="currentColor" className="animate-node-pulse" style={{ animationDelay: "0.2s" }} />
+              <circle cx="50" cy="80" r="4" fill="currentColor" className="animate-node-pulse" style={{ animationDelay: "0.8s" }} />
             </svg>
           </div>
         );
@@ -1515,6 +1524,13 @@ function Interests() {
         }
         .animate-shoreline-sweep {
           animation: shoreline-sweep 4s ease-in-out infinite;
+        }
+        @keyframes drainage-flow {
+          0% { stroke-dashoffset: 16; }
+          100% { stroke-dashoffset: 0; }
+        }
+        .animate-drainage-flow {
+          animation: drainage-flow 1.5s linear infinite;
         }
       `}} />
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
