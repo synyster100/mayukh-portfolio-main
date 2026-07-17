@@ -2905,6 +2905,7 @@ function Recommendations() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
 
   useEffect(() => {
     if (isHovered || isModalOpen) return;
@@ -2933,7 +2934,7 @@ function Recommendations() {
 
     const subject = encodeURIComponent(`[Portfolio Recommendation] Endorsement from ${name}`);
     const body = encodeURIComponent(
-      `Hi Ali,\n\n` +
+      `Hi Mayukh,\n\n` +
       `Here is my recommendation for your portfolio:\n\n` +
       `--------------------------------------------------\n` +
       `Name: ${name}\n` +
@@ -2948,7 +2949,7 @@ function Recommendations() {
     );
 
     window.open(`mailto:ahnafabid2@iut-dhaka.edu?subject=${subject}&body=${body}`, "_blank");
-    setIsModalOpen(false);
+    setSubmitted(true);
   };
 
   return (
@@ -3067,10 +3068,10 @@ function Recommendations() {
             </svg>
           </button>
 
-          {/* Navigation Dots & Recommend Button Container */}
-          <div className="flex flex-col items-center gap-4 mt-8">
+          {/* Navigation Dots & Invite Action Container */}
+          <div className="flex flex-col items-center gap-3 mt-10 pt-6 border-t border-border/20 text-center">
             {/* Dots */}
-            <div className="flex justify-center gap-2">
+            <div className="flex justify-center gap-2 mb-2">
               {RECOMMENDATIONS.map((_, idx) => (
                 <button
                   key={idx}
@@ -3083,15 +3084,22 @@ function Recommendations() {
               ))}
             </div>
             
+            <p className="text-[10px] sm:text-xs font-mono tracking-widest text-muted-foreground/80 uppercase font-bold">
+              Worked with Mayukh?
+            </p>
+            <h4 className="font-display text-sm md:text-base font-extrabold text-foreground max-w-sm">
+              Your endorsement and feedback are highly valued!
+            </h4>
+            
             {/* Recommend Me Button */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-accent/25 bg-accent/5 hover:bg-accent/15 text-accent hover:text-accent-foreground font-bold text-[11px] tracking-wider uppercase transition-all duration-300 shadow-sm hover:scale-[1.02] active:scale-95 mt-1"
+              className="relative inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl border border-accent/40 bg-accent/10 hover:bg-accent/20 text-accent font-extrabold text-[11px] tracking-wider uppercase transition-all duration-300 shadow-[0_0_15px_rgba(251,113,133,0.08)] hover:shadow-[0_0_25px_rgba(251,113,133,0.18)] hover:scale-[1.03] active:scale-95 mt-1 cursor-pointer"
             >
               <svg className="w-3.5 h-3.5 stroke-current fill-none stroke-[2.5]" viewBox="0 0 24 24">
                 <path d="M12 5v14M5 12h14" />
               </svg>
-              Recommend Me
+              Leave a Recommendation
             </button>
           </div>
         </div>
@@ -3108,10 +3116,13 @@ function Recommendations() {
               <div className="flex items-center justify-between border-b border-border/40 pb-4 mb-4">
                 <div>
                   <h3 className="font-display text-lg font-bold tracking-tight text-foreground">Write a Recommendation</h3>
-                  <p className="text-[11px] text-muted-foreground mt-0.5">Submit endorsement text directly to Ali's mail.</p>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">Leave an endorsement of Mayukh's professional work.</p>
                 </div>
                 <button 
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => {
+                    setIsModalOpen(false);
+                    setSubmitted(false);
+                  }}
                   className="p-1 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
                 >
                   <svg className="w-5 h-5 stroke-current fill-none stroke-2" viewBox="0 0 24 24">
@@ -3120,79 +3131,107 @@ function Recommendations() {
                 </button>
               </div>
 
-              <form onSubmit={handleFormSubmit} className="space-y-4 text-left">
-                <div>
-                  <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Full Name</label>
-                  <input 
-                    type="text" 
-                    name="name" 
-                    required 
-                    placeholder="e.g. Rozina Khanam"
-                    className="w-full rounded-xl border border-border bg-background/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
+              {submitted ? (
+                <div className="flex flex-col items-center justify-center py-10 text-center space-y-4 animate-in fade-in zoom-in-95 duration-200">
+                  <div className="w-14 h-14 rounded-full bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 flex items-center justify-center">
+                    <svg className="w-6 h-6 stroke-current fill-none stroke-[2.5]" viewBox="0 0 24 24">
+                      <path d="M20 6L9 17l-5-5" />
+                    </svg>
+                  </div>
                   <div>
-                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Designation / Role</label>
+                    <h3 className="font-display text-lg font-black text-foreground">Thanks for your recommendation!</h3>
+                    <p className="text-xs text-muted-foreground mt-1 max-w-[260px] leading-relaxed">
+                      Your endorsement draft has been created. Mayukh will review and showcase it on this board shortly!
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => {
+                      setIsModalOpen(false);
+                      setSubmitted(false);
+                    }}
+                    className="mt-2 px-5 py-2.5 rounded-xl bg-accent text-accent-foreground font-bold text-xs uppercase tracking-widest transition-all hover:opacity-90 shadow-sm active:scale-95"
+                  >
+                    Close Window
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={handleFormSubmit} className="space-y-4 text-left">
+                  <div>
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Full Name</label>
                     <input 
                       type="text" 
-                      name="title" 
+                      name="name" 
                       required 
-                      placeholder="e.g. Project Manager"
+                      placeholder="e.g. Rozina Khanam"
                       className="w-full rounded-xl border border-border bg-background/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
                     />
                   </div>
+
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Designation / Role</label>
+                      <input 
+                        type="text" 
+                        name="title" 
+                        required 
+                        placeholder="e.g. Project Manager"
+                        className="w-full rounded-xl border border-border bg-background/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
+                      />
+                    </div>
+                    <div>
+                      <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Company / Org</label>
+                      <input 
+                        type="text" 
+                        name="company" 
+                        required 
+                        placeholder="e.g. DOHWA Engineering"
+                        className="w-full rounded-xl border border-border bg-background/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
+                      />
+                    </div>
+                  </div>
+
                   <div>
-                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Company / Org</label>
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Relationship / Context</label>
                     <input 
                       type="text" 
-                      name="company" 
+                      name="context" 
                       required 
-                      placeholder="e.g. DOHWA Engineering"
+                      placeholder="e.g. Mentor & Supervisor during Internship"
                       className="w-full rounded-xl border border-border bg-background/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
                     />
                   </div>
-                </div>
 
-                <div>
-                  <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Relationship / Context</label>
-                  <input 
-                    type="text" 
-                    name="context" 
-                    required 
-                    placeholder="e.g. Mentor & Supervisor during Internship"
-                    className="w-full rounded-xl border border-border bg-background/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
-                  />
-                </div>
+                  <div>
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Recommendation Text</label>
+                    <textarea 
+                      name="text" 
+                      required 
+                      rows={4}
+                      placeholder="Write your recommendation here..."
+                      className="w-full rounded-xl border border-border bg-background/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent min-h-[100px] resize-none"
+                    />
+                  </div>
 
-                <div>
-                  <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Recommendation Text</label>
-                  <textarea 
-                    name="text" 
-                    required 
-                    rows={4}
-                    placeholder="Write your recommendation here..."
-                    className="w-full rounded-xl border border-border bg-background/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent min-h-[100px] resize-none"
-                  />
-                </div>
-
-                <div className="flex items-center justify-end gap-3 pt-2 border-t border-border/40 mt-4">
-                  <button 
-                    type="button"
-                    onClick={() => setIsModalOpen(false)}
-                    className="px-4 py-2 rounded-xl border border-border bg-background hover:bg-muted text-xs font-bold transition-all"
-                  >
-                    Cancel
-                  </button>
-                  <button 
-                    type="submit"
-                    className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-xs font-bold transition-all shadow-sm"
-                  >
-                    Send Recommendation
-                  </button>
-                </div>
-              </form>
+                  <div className="flex items-center justify-end gap-3 pt-2 border-t border-border/40 mt-4">
+                    <button 
+                      type="button"
+                      onClick={() => {
+                        setIsModalOpen(false);
+                        setSubmitted(false);
+                      }}
+                      className="px-4 py-2 rounded-xl border border-border bg-background hover:bg-muted text-xs font-bold transition-all"
+                    >
+                      Cancel
+                    </button>
+                    <button 
+                      type="submit"
+                      className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-xs font-bold transition-all shadow-sm"
+                    >
+                      Submit Recommendation
+                    </button>
+                  </div>
+                </form>
+              )}
             </div>
           </div>
         </div>
