@@ -1835,49 +1835,79 @@ function Experience() {
               Professional Collaboration &amp; Fieldwork
             </h3>
           </div>
-          <div className="grid md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* SKARION Card */}
-            <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
+            <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/skarion_team.jpeg"
-                  alt="SKARION Engineering Team Collaboration"
+                  alt="SKARION Engineering Design Team"
                   className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent opacity-65 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
               </div>
-              <div className="p-4 border-t border-border/40 text-left">
-                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">
-                  SKARION Engineering, Virginia, USA
-                </div>
-                <h4 className="font-display text-base font-bold text-foreground">
-                  Civil Infrastructure &amp; Fiber Design Team
-                </h4>
-                <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
-                  Collaborative workshop with engineering peers focusing on XGS-PON OSP deployments, Civil drafts, and GIS-based infrastructure route optimization.
+              <div className="p-3 border-t border-border/40 text-left">
+                <div className="text-[9px] font-mono font-bold tracking-widest text-accent uppercase mb-0.5">SKARION Engineering</div>
+                <h4 className="font-display text-xs font-bold text-foreground line-clamp-1">Design Team</h4>
+                <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed line-clamp-3">
+                  Collaborative workshop with engineering peers and Director of Engineering, Al Saki focusing on infrastructure route optimization.
                 </p>
               </div>
             </div>
 
-            {/* DOHWA Card */}
-            <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
+            {/* DOHWA Card 1 */}
+            <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/dohwa_internship.jpeg"
-                  alt="DOHWA Engineering Site Inspection"
+                  alt="DOHWA Engineering Internship Cohort"
                   className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/85 via-transparent to-transparent opacity-65 pointer-events-none" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
               </div>
-              <div className="p-4 border-t border-border/40 text-left">
-                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">
-                  DOHWA Engineering Co. Ltd.
-                </div>
-                <h4 className="font-display text-base font-bold text-foreground">
-                  Field Inspections &amp; Heritage Site Restoration
-                </h4>
-                <p className="text-xs text-muted-foreground mt-1.5 leading-relaxed">
-                  Industrial trainees and site supervisors inspecting concrete structures, heritage restorations, and regional connectivity works inside Dhaka.
+              <div className="p-3 border-t border-border/40 text-left">
+                <div className="text-[9px] font-mono font-bold tracking-widest text-accent uppercase mb-0.5">DOHWA Engineering Co. Ltd.</div>
+                <h4 className="font-display text-xs font-bold text-foreground line-clamp-1">Internship Cohort</h4>
+                <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed line-clamp-3">
+                  Inside DOHWA's Dhaka office with Jinha Bok, Deputy General Manager / Global Marketing.
+                </p>
+              </div>
+            </div>
+
+            {/* DOHWA Card 2 */}
+            <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900/50">
+                <img
+                  src="/dohwa_certificate.jpg"
+                  alt="DOHWA Engineering Certificate Presentation"
+                  className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
+              </div>
+              <div className="p-3 border-t border-border/40 text-left">
+                <div className="text-[9px] font-mono font-bold tracking-widest text-accent uppercase mb-0.5">DOHWA Engineering Co. Ltd.</div>
+                <h4 className="font-display text-xs font-bold text-foreground line-clamp-1">Certificate Presentation</h4>
+                <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed line-clamp-3">
+                  Receiving the industrial training certification from Hong, Jong Wook, Bangladesh Country Director.
+                </p>
+              </div>
+            </div>
+
+            {/* DOHWA Card 3 */}
+            <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900/50">
+                <img
+                  src="/dohwa_farewell.jpg"
+                  alt="DOHWA Engineering Farewell Group Picture"
+                  className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
+              </div>
+              <div className="p-3 border-t border-border/40 text-left">
+                <div className="text-[9px] font-mono font-bold tracking-widest text-accent uppercase mb-0.5">DOHWA Engineering Co. Ltd.</div>
+                <h4 className="font-display text-xs font-bold text-foreground line-clamp-1">Farewell Group Photo</h4>
+                <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed line-clamp-3">
+                  Farewell day group picture with Rozina Khanam, General Manager.
                 </p>
               </div>
             </div>
