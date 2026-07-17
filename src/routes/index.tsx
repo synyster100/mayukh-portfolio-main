@@ -1875,7 +1875,7 @@ function Education() {
           <div className="relative rounded-2xl overflow-hidden border border-border bg-card/45 backdrop-blur-sm p-2 shadow-md group">
             <div className="relative aspect-[3/4] w-full rounded-xl overflow-hidden bg-slate-900/50">
               <img
-                src="/images/graduation.jpeg"
+                src="/graduation.jpeg"
                 alt="Md Ali Ahnaf Abid Mayukh Graduation"
                 className="object-cover w-full h-full grayscale-[15%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
               />
