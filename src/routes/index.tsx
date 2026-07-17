@@ -1342,23 +1342,23 @@ function Interests() {
       case "Geoenvironmental Engineering":
         return (
           <div style={{ position: "absolute", zIndex: 1, inset: 0, pointerEvents: "none" }} className="hover-anim overflow-hidden opacity-0 transition-opacity duration-500">
-            <svg viewBox="0 0 200 100" className="absolute bottom-0 inset-x-0 w-full h-16 text-amber-500 animate-strata-slide">
-              <path d="M 0 40 Q 50 30 100 50 T 200 40 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.1" />
-              <path d="M 0 60 Q 60 70 120 50 T 200 65 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.15" />
-              <path d="M 0 80 Q 40 75 100 85 T 200 80 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.2" />
+            <svg viewBox="0 0 200 100" className="absolute bottom-0 inset-x-0 w-full h-20 text-amber-500 animate-strata-slide">
+              <path d="M 0 50 Q 50 40 100 60 T 200 50 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.1" />
+              <path d="M 0 68 Q 60 78 120 58 T 200 73 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.15" />
+              <path d="M 0 84 Q 40 79 100 89 T 200 84 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.2" />
             </svg>
           </div>
         );
       case "GIS & Remote Sensing":
         return (
           <div style={{ position: "absolute", zIndex: 1, inset: 0, pointerEvents: "none" }} className="hover-anim overflow-hidden opacity-0 transition-opacity duration-500">
-            <svg viewBox="0 0 200 200" className="absolute -top-10 -right-10 w-44 h-44 text-indigo-500">
-              <path d="M 0 100 A 100 100 0 0 1 200 100" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="3,3" className="opacity-40" />
+            <svg viewBox="0 0 200 200" className="absolute top-4 right-4 w-28 h-28 text-indigo-500">
+              <path d="M 40 100 A 60 60 0 1 1 160 100 A 60 60 0 1 1 40 100" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="3,3" className="opacity-40" />
               <g className="animate-satellite-orbit" style={{ transformOrigin: "100px 100px" }}>
-                <rect x="90" y="5" width="20" height="12" rx="2" fill="currentColor" />
-                <rect x="75" y="9" width="15" height="4" fill="currentColor" opacity="0.8" />
-                <rect x="110" y="9" width="15" height="4" fill="currentColor" opacity="0.8" />
-                <path d="M 100 17 L 70 80 L 130 80 Z" fill="url(#sat-gradient)" opacity="0.2" />
+                <rect x="90" y="34" width="20" height="12" rx="2" fill="currentColor" />
+                <rect x="75" y="38" width="15" height="4" fill="currentColor" opacity="0.8" />
+                <rect x="110" y="38" width="15" height="4" fill="currentColor" opacity="0.8" />
+                <path d="M 100 46 L 80 100 L 120 100 Z" fill="url(#sat-gradient)" opacity="0.18" />
               </g>
               <defs>
                 <linearGradient id="sat-gradient" x1="0" y1="0" x2="0" y2="1">
@@ -1373,59 +1373,59 @@ function Interests() {
         return (
           <div style={{ position: "absolute", zIndex: 1, inset: 0, pointerEvents: "none" }} className="hover-anim overflow-hidden opacity-0 transition-opacity duration-500">
             <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full text-sky-500">
-              <line x1="40" y1="-20" x2="40" y2="0" stroke="currentColor" strokeWidth="1.5" className="animate-rain-1" />
-              <line x1="100" y1="-20" x2="100" y2="0" stroke="currentColor" strokeWidth="1.5" className="animate-rain-2" />
-              <line x1="160" y1="-20" x2="160" y2="0" stroke="currentColor" strokeWidth="1.5" className="animate-rain-3" />
-              <path d="M 0 180 Q 50 170 100 180 T 200 180 L 200 200 L 0 200 Z" fill="currentColor" opacity="0.3" className="animate-strata-slide" />
+              <line x1="40" y1="10" x2="40" y2="30" stroke="currentColor" strokeWidth="1.5" className="animate-rain-1" />
+              <line x1="100" y1="10" x2="100" y2="30" stroke="currentColor" strokeWidth="1.5" className="animate-rain-2" />
+              <line x1="160" y1="10" x2="160" y2="30" stroke="currentColor" strokeWidth="1.5" className="animate-rain-3" />
+              <path d="M 0 175 Q 50 165 100 175 T 200 175 L 200 200 L 0 200 Z" fill="currentColor" opacity="0.3" className="animate-strata-slide" />
             </svg>
           </div>
         );
       case "Shoreline Dynamics":
         return (
           <div style={{ position: "absolute", zIndex: 1, inset: 0, pointerEvents: "none" }} className="hover-anim overflow-hidden opacity-0 transition-opacity duration-500">
-            <svg viewBox="0 0 400 100" className="absolute bottom-0 left-0 w-[200%] h-12 text-teal-500 animate-wave-flow">
-              <path d="M 0 50 Q 50 40 100 50 T 200 50 T 300 50 T 400 50 L 400 100 L 0 100 Z" fill="currentColor" opacity="0.15" />
-              <path d="M 0 70 Q 60 78 120 70 T 240 70 T 360 70 T 400 70 L 400 100 L 0 100 Z" fill="currentColor" opacity="0.25" />
+            <svg viewBox="0 0 200 100" className="absolute bottom-0 inset-x-0 w-full h-14 text-teal-500">
+              <path d="M 0 50 Q 50 40 100 50 T 200 50 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.15" className="animate-strata-slide" />
+              <path d="M 0 70 Q 60 78 120 70 T 200 70 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.25" className="animate-strata-slide" style={{ animationDelay: "1.5s" }} />
             </svg>
           </div>
         );
       case "GeoAI":
         return (
           <div style={{ position: "absolute", zIndex: 1, inset: 0, pointerEvents: "none" }} className="hover-anim overflow-hidden opacity-0 transition-opacity duration-500">
-            <svg viewBox="0 0 200 200" className="absolute -bottom-6 -right-6 w-36 h-36 text-rose-500">
-              <line x1="40" y1="40" x2="100" y2="100" stroke="currentColor" strokeWidth="1" strokeDasharray="3,3" />
-              <line x1="160" y1="40" x2="100" y2="100" stroke="currentColor" strokeWidth="1" strokeDasharray="3,3" />
-              <line x1="100" y1="100" x2="100" y2="160" stroke="currentColor" strokeWidth="1" strokeDasharray="3,3" />
-              <line x1="40" y1="40" x2="100" y2="160" stroke="currentColor" strokeWidth="0.5" opacity="0.5" />
-              <line x1="160" y1="40" x2="100" y2="160" stroke="currentColor" strokeWidth="0.5" opacity="0.5" />
-              <circle cx="40" cy="40" r="5" fill="currentColor" className="animate-node-pulse" />
-              <circle cx="160" cy="40" r="5" fill="currentColor" className="animate-node-pulse" style={{ animationDelay: "0.5s" }} />
-              <circle cx="100" cy="100" r="8" fill="currentColor" className="animate-node-pulse" style={{ animationDelay: "1s" }} />
-              <circle cx="100" cy="160" r="5" fill="currentColor" className="animate-node-pulse" style={{ animationDelay: "1.5s" }} />
+            <svg viewBox="0 0 100 100" className="absolute right-4 bottom-4 w-24 h-24 text-rose-500">
+              <line x1="20" y1="20" x2="50" y2="50" stroke="currentColor" strokeWidth="0.8" strokeDasharray="2,2" />
+              <line x1="80" y1="20" x2="50" y2="50" stroke="currentColor" strokeWidth="0.8" strokeDasharray="2,2" />
+              <line x1="50" y1="50" x2="50" y2="80" stroke="currentColor" strokeWidth="0.8" strokeDasharray="2,2" />
+              <line x1="20" y1="20" x2="50" y2="80" stroke="currentColor" strokeWidth="0.4" opacity="0.4" />
+              <line x1="80" y1="20" x2="50" y2="80" stroke="currentColor" strokeWidth="0.4" opacity="0.4" />
+              <circle cx="20" cy="20" r="3.5" fill="currentColor" className="animate-node-pulse" />
+              <circle cx="80" cy="20" r="3.5" fill="currentColor" className="animate-node-pulse" style={{ animationDelay: "0.5s" }} />
+              <circle cx="50" cy="50" r="5.5" fill="currentColor" className="animate-node-pulse" style={{ animationDelay: "1s" }} />
+              <circle cx="50" cy="80" r="3.5" fill="currentColor" className="animate-node-pulse" style={{ animationDelay: "1.5s" }} />
             </svg>
           </div>
         );
       case "Disaster Management":
         return (
           <div style={{ position: "absolute", zIndex: 1, inset: 0, pointerEvents: "none" }} className="hover-anim overflow-hidden opacity-0 transition-opacity duration-500">
-            <svg viewBox="0 0 200 200" className="absolute -top-6 -right-6 w-32 h-32 text-red-500">
-              <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" strokeWidth="1" />
-              <circle cx="100" cy="100" r="50" fill="none" stroke="currentColor" strokeWidth="0.7" strokeDasharray="2,2" />
-              <circle cx="100" cy="100" r="20" fill="none" stroke="currentColor" strokeWidth="0.5" />
-              <line x1="100" y1="20" x2="100" y2="180" stroke="currentColor" strokeWidth="0.5" opacity="0.5" />
-              <line x1="20" y1="100" x2="180" y2="100" stroke="currentColor" strokeWidth="0.5" opacity="0.5" />
-              <line x1="100" y1="100" x2="100" y2="20" stroke="currentColor" strokeWidth="2" className="animate-radar-sweep" style={{ transformOrigin: "100px 100px" }} />
+            <svg viewBox="0 0 100 100" className="absolute top-4 right-4 w-24 h-24 text-red-500">
+              <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="0.8" />
+              <circle cx="50" cy="50" r="25" fill="none" stroke="currentColor" strokeWidth="0.6" strokeDasharray="1.5,1.5" />
+              <circle cx="50" cy="50" r="10" fill="none" stroke="currentColor" strokeWidth="0.4" />
+              <line x1="50" y1="10" x2="50" y2="90" stroke="currentColor" strokeWidth="0.4" opacity="0.4" />
+              <line x1="10" y1="50" x2="90" y2="50" stroke="currentColor" strokeWidth="0.4" opacity="0.4" />
+              <line x1="50" y1="50" x2="50" y2="10" stroke="currentColor" strokeWidth="1.5" className="animate-radar-sweep" style={{ transformOrigin: "50px 50px" }} />
             </svg>
           </div>
         );
       case "Environmental Modelling":
         return (
           <div style={{ position: "absolute", zIndex: 1, inset: 0, pointerEvents: "none" }} className="hover-anim overflow-hidden opacity-0 transition-opacity duration-500">
-            <svg viewBox="0 0 200 200" className="absolute -bottom-10 -right-10 w-40 h-40 text-emerald-500">
-              <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" strokeWidth="1" className="animate-node-pulse" />
-              <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" strokeWidth="1" className="animate-node-pulse" style={{ animationDelay: "0.6s" }} />
-              <circle cx="100" cy="100" r="50" fill="none" stroke="currentColor" strokeWidth="1.5" className="animate-node-pulse" style={{ animationDelay: "1.2s" }} />
-              <circle cx="100" cy="100" r="30" fill="none" stroke="currentColor" strokeWidth="2" className="animate-node-pulse" style={{ animationDelay: "1.8s" }} />
+            <svg viewBox="0 0 100 100" className="absolute right-4 bottom-4 w-24 h-24 text-emerald-500">
+              <circle cx="50" cy="50" r="45" fill="none" stroke="currentColor" strokeWidth="0.8" className="animate-node-pulse" />
+              <circle cx="50" cy="50" r="35" fill="none" stroke="currentColor" strokeWidth="0.8" className="animate-node-pulse" style={{ animationDelay: "0.6s" }} />
+              <circle cx="50" cy="50" r="25" fill="none" stroke="currentColor" strokeWidth="1.2" className="animate-node-pulse" style={{ animationDelay: "1.2s" }} />
+              <circle cx="50" cy="50" r="15" fill="none" stroke="currentColor" strokeWidth="1.6" className="animate-node-pulse" style={{ animationDelay: "1.8s" }} />
             </svg>
           </div>
         );
