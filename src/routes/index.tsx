@@ -1869,10 +1869,20 @@ function Education() {
               <span className="text-muted-foreground uppercase tracking-wider">Research Track</span>
               <span className="text-foreground/90 font-extrabold bg-secondary/60 px-2 py-0.5 rounded">Geoenvironmental</span>
             </div>
-            <div className="h-px bg-border/40" />
-            <div className="flex justify-between items-center text-[11px] font-mono">
-              <span className="text-muted-foreground uppercase tracking-wider">Primary Thesis Focus</span>
-              <span className="text-foreground/90 font-extrabold bg-secondary/60 px-2 py-0.5 rounded">Soil Seepage FEM</span>
+          </div>
+
+          {/* Graduation Picture Card */}
+          <div className="relative rounded-2xl overflow-hidden border border-border bg-card/45 backdrop-blur-sm p-2 shadow-md group">
+            <div className="relative aspect-[3/4] w-full rounded-xl overflow-hidden bg-slate-900/50">
+              <img
+                src="/images/graduation.jpeg"
+                alt="Md Ali Ahnaf Abid Mayukh Graduation"
+                className="object-cover w-full h-full grayscale-[15%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-65 pointer-events-none" />
+            </div>
+            <div className="absolute bottom-4 left-4 right-4 bg-slate-950/90 border border-border/40 p-2 rounded-lg backdrop-blur-md text-[10px] font-mono text-center text-foreground font-bold shadow-lg select-none">
+              🎓 B.Sc. Civil Engineering Graduation
             </div>
           </div>
         </div>
