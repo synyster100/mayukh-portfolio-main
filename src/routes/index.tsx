@@ -2904,14 +2904,15 @@ const RECOMMENDATIONS = [
 function Recommendations() {
   const [activeIndex, setActiveIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
-    if (isHovered) return;
+    if (isHovered || isModalOpen) return;
     const interval = setInterval(() => {
       setActiveIndex((prev) => (prev + 1) % RECOMMENDATIONS.length);
     }, 7500);
     return () => clearInterval(interval);
-  }, [isHovered]);
+  }, [isHovered, isModalOpen]);
 
   const handlePrev = () => {
     setActiveIndex((prev) => (prev - 1 + RECOMMENDATIONS.length) % RECOMMENDATIONS.length);
@@ -2919,6 +2920,35 @@ function Recommendations() {
 
   const handleNext = () => {
     setActiveIndex((prev) => (prev + 1) % RECOMMENDATIONS.length);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const formData = new FormData(e.currentTarget);
+    const name = formData.get("name") as string;
+    const title = formData.get("title") as string;
+    const company = formData.get("company") as string;
+    const context = formData.get("context") as string;
+    const text = formData.get("text") as string;
+
+    const subject = encodeURIComponent(`[Portfolio Recommendation] Endorsement from ${name}`);
+    const body = encodeURIComponent(
+      `Hi Ali,\n\n` +
+      `Here is my recommendation for your portfolio:\n\n` +
+      `--------------------------------------------------\n` +
+      `Name: ${name}\n` +
+      `Designation/Title: ${title}\n` +
+      `Company/Institution: ${company}\n` +
+      `Relationship/Context: ${context}\n` +
+      `--------------------------------------------------\n\n` +
+      `Recommendation Text:\n` +
+      `"${text}"\n\n` +
+      `Best regards,\n` +
+      `${name}`
+    );
+
+    window.open(`mailto:ahnafabid2@iut-dhaka.edu?subject=${subject}&body=${body}`, "_blank");
+    setIsModalOpen(false);
   };
 
   return (
@@ -3037,21 +3067,136 @@ function Recommendations() {
             </svg>
           </button>
 
-          {/* Navigation Dots Indicators */}
-          <div className="flex justify-center gap-2 mt-8">
-            {RECOMMENDATIONS.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveIndex(idx)}
-                className={`w-2.5 h-2 rounded-full transition-all duration-300 ${
-                  activeIndex === idx ? "bg-accent w-6" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
-                }`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
-            ))}
+          {/* Navigation Dots & Recommend Button Container */}
+          <div className="flex flex-col items-center gap-4 mt-8">
+            {/* Dots */}
+            <div className="flex justify-center gap-2">
+              {RECOMMENDATIONS.map((_, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => setActiveIndex(idx)}
+                  className={`w-2.5 h-2 rounded-full transition-all duration-300 ${
+                    activeIndex === idx ? "bg-accent w-6" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                  }`}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
+            </div>
+            
+            {/* Recommend Me Button */}
+            <button
+              onClick={() => setIsModalOpen(true)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl border border-accent/25 bg-accent/5 hover:bg-accent/15 text-accent hover:text-accent-foreground font-bold text-[11px] tracking-wider uppercase transition-all duration-300 shadow-sm hover:scale-[1.02] active:scale-95 mt-1"
+            >
+              <svg className="w-3.5 h-3.5 stroke-current fill-none stroke-[2.5]" viewBox="0 0 24 24">
+                <path d="M12 5v14M5 12h14" />
+              </svg>
+              Recommend Me
+            </button>
           </div>
         </div>
       </div>
+
+      {/* Recommend Me Form Modal overlay */}
+      {isModalOpen && (
+        <div className="fixed inset-0 z-50 bg-black/60 backdrop-blur-md flex items-center justify-center p-4 transition-all duration-300">
+          <div 
+            className="bg-card border border-border w-full max-w-md rounded-3xl p-6 shadow-2xl relative overflow-hidden flex flex-col justify-between max-h-[90vh] animate-in fade-in zoom-in-95 duration-200"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div>
+              <div className="flex items-center justify-between border-b border-border/40 pb-4 mb-4">
+                <div>
+                  <h3 className="font-display text-lg font-bold tracking-tight text-foreground">Write a Recommendation</h3>
+                  <p className="text-[11px] text-muted-foreground mt-0.5">Submit endorsement text directly to Ali's mail.</p>
+                </div>
+                <button 
+                  onClick={() => setIsModalOpen(false)}
+                  className="p-1 rounded-lg hover:bg-muted text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  <svg className="w-5 h-5 stroke-current fill-none stroke-2" viewBox="0 0 24 24">
+                    <path d="M18 6L6 18M6 6l12 12" />
+                  </svg>
+                </button>
+              </div>
+
+              <form onSubmit={handleFormSubmit} className="space-y-4 text-left">
+                <div>
+                  <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Full Name</label>
+                  <input 
+                    type="text" 
+                    name="name" 
+                    required 
+                    placeholder="e.g. Rozina Khanam"
+                    className="w-full rounded-xl border border-border bg-background/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
+                  />
+                </div>
+
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Designation / Role</label>
+                    <input 
+                      type="text" 
+                      name="title" 
+                      required 
+                      placeholder="e.g. Project Manager"
+                      className="w-full rounded-xl border border-border bg-background/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
+                    />
+                  </div>
+                  <div>
+                    <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Company / Org</label>
+                    <input 
+                      type="text" 
+                      name="company" 
+                      required 
+                      placeholder="e.g. DOHWA Engineering"
+                      className="w-full rounded-xl border border-border bg-background/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Relationship / Context</label>
+                  <input 
+                    type="text" 
+                    name="context" 
+                    required 
+                    placeholder="e.g. Mentor & Supervisor during Internship"
+                    className="w-full rounded-xl border border-border bg-background/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mb-1 block">Recommendation Text</label>
+                  <textarea 
+                    name="text" 
+                    required 
+                    rows={4}
+                    placeholder="Write your recommendation here..."
+                    className="w-full rounded-xl border border-border bg-background/50 px-3 py-2 text-sm text-foreground focus:outline-none focus:ring-1 focus:ring-accent min-h-[100px] resize-none"
+                  />
+                </div>
+
+                <div className="flex items-center justify-end gap-3 pt-2 border-t border-border/40 mt-4">
+                  <button 
+                    type="button"
+                    onClick={() => setIsModalOpen(false)}
+                    className="px-4 py-2 rounded-xl border border-border bg-background hover:bg-muted text-xs font-bold transition-all"
+                  >
+                    Cancel
+                  </button>
+                  <button 
+                    type="submit"
+                    className="px-4 py-2 rounded-xl bg-accent text-accent-foreground hover:opacity-90 text-xs font-bold transition-all shadow-sm"
+                  >
+                    Send Recommendation
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      )}
     </section>
   );
 }
