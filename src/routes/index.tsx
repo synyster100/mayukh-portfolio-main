@@ -2155,7 +2155,7 @@ function Education() {
         </div>
 
         {/* Academic Gallery - Big pictures underneath education */}
-        <div className="mt-16 border-t border-border/40 pt-12">
+        <div className="lg:col-span-12 mt-16 border-t border-border/40 pt-12">
           <div className="flex items-center gap-2 mb-8">
             <Sparkles className="w-4 h-4 text-accent animate-pulse" />
             <h3 className="font-display text-lg font-bold uppercase tracking-wider text-foreground">
