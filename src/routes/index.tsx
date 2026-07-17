@@ -1838,7 +1838,7 @@ function Experience() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* SKARION Card */}
             <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900/50">
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/skarion_team.jpeg"
                   alt="SKARION Engineering Design Team"
@@ -1857,7 +1857,7 @@ function Experience() {
 
             {/* DOHWA Card 1 */}
             <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900/50">
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/dohwa_internship.jpeg"
                   alt="DOHWA Engineering Internship Cohort"
@@ -1876,9 +1876,9 @@ function Experience() {
 
             {/* DOHWA Card 2 */}
             <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900/50">
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
                 <img
-                  src="/dohwa_certificate.jpg"
+                  src="/dohwa_certificate.jpeg"
                   alt="DOHWA Engineering Certificate Presentation"
                   className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
                 />
@@ -1895,9 +1895,9 @@ function Experience() {
 
             {/* DOHWA Card 3 */}
             <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900/50">
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
                 <img
-                  src="/dohwa_farewell.jpg"
+                  src="/dohwa_farewell.jpeg"
                   alt="DOHWA Engineering Farewell Group Picture"
                   className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
                 />
@@ -2195,7 +2195,7 @@ function Education() {
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {/* Photo 1: B.Sc. Graduation (Stage) */}
             <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900/50">
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/graduation.jpeg"
                   alt="37th Convocation of IUT"
@@ -2212,7 +2212,7 @@ function Education() {
 
             {/* Photo 2: Convocation Campus */}
             <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900/50">
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/graduation_2.jpeg"
                   alt="Convocation Ceremony at IUT Campus"
@@ -2229,7 +2229,7 @@ function Education() {
 
             {/* Photo 3: With Prof. Shahin */}
             <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900/50">
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/with_prof_shahin.jpeg"
                   alt="With Supervisor Prof. Dr. Hossain Md. Shahin"
@@ -2246,7 +2246,7 @@ function Education() {
 
             {/* Photo 4: Thesis Team */}
             <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[3/4] w-full overflow-hidden bg-slate-900/50">
+              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/thesis_team.jpeg"
                   alt="Research & Thesis Team at IUT Laboratory"
