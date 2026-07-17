@@ -2287,10 +2287,10 @@ function Experience() {
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
               </div>
               <div className="p-5 border-t border-border/40 text-left">
-                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">Heritage Restoration Fieldwork</div>
+                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">DOHWA Engineering Co. Ltd.</div>
                 <h4 className="font-display text-base font-bold text-foreground">Laalkuthi Restoration Project</h4>
                 <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                  Conducted on-site construction safety inspections and structural survey reviews at the historic Laalkuthi heritage restoration site in Old Dhaka.
+                  Conducted on-site construction safety inspections and structural survey reviews at the historic Laalkuthi heritage restoration site in Old Dhaka as a part of the DOHWA Internship with the DOHWA Team.
                 </p>
               </div>
             </div>
