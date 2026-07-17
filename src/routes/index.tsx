@@ -2077,51 +2077,51 @@ function Education() {
               <div className="border border-border/50 rounded-xl p-5 bg-secondary/10 flex flex-col justify-between">
                 <div>
                   <div className="flex justify-between items-center mb-5">
-                    <span className="text-sm font-bold font-display text-foreground">GRE General Test</span>
+                    <span className="text-base font-extrabold font-display text-foreground">GRE General Test</span>
                     <div className="text-right">
-                      <span className="text-2xl font-extrabold font-mono text-accent bg-accent/10 px-3 py-0.5 rounded-md border border-accent/25">312</span>
+                      <span className="text-2xl font-extrabold font-mono text-accent bg-accent/10 px-3 py-1 rounded-md border border-accent/25">312</span>
                     </div>
                   </div>
                   
                   {/* Circular Score Rings Grid */}
                   <div className="grid grid-cols-3 gap-3 text-center">
                     {/* Quant */}
-                    <div className="flex flex-col items-center bg-card/40 border border-border/40 rounded-xl p-2">
-                      <div className="relative w-12 h-12 flex items-center justify-center mt-1">
+                    <div className="flex flex-col items-center bg-card/40 border border-border/40 rounded-xl p-3">
+                      <div className="relative w-16 h-16 flex items-center justify-center mt-1">
                         <svg className="w-full h-full transform -rotate-90">
-                          <circle cx="24" cy="24" r="18" className="stroke-secondary" strokeWidth="2.5" fill="transparent" />
-                          <circle cx="24" cy="24" r="18" className="stroke-accent" strokeWidth="2.5" fill="transparent" strokeDasharray="113.1" strokeDashoffset={113.1 - (71 / 100) * 113.1} strokeLinecap="round" />
+                          <circle cx="32" cy="32" r="24" className="stroke-secondary/30" strokeWidth="3" fill="transparent" />
+                          <circle cx="32" cy="32" r="24" className="stroke-accent" strokeWidth="3" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (71 / 100) * 150.8} strokeLinecap="round" />
                         </svg>
-                        <div className="absolute font-mono text-xs font-bold text-foreground">161</div>
+                        <div className="absolute font-mono text-sm font-extrabold text-foreground">161</div>
                       </div>
-                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold mt-2">Quant</span>
-                      <span className="text-[8px] font-mono text-accent/80 font-bold">71% tile</span>
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground font-extrabold mt-3">Quant</span>
+                      <span className="text-[10px] font-mono text-accent/90 font-bold">71st percentile</span>
                     </div>
 
                     {/* Verbal */}
-                    <div className="flex flex-col items-center bg-card/40 border border-border/40 rounded-xl p-2">
-                      <div className="relative w-12 h-12 flex items-center justify-center mt-1">
+                    <div className="flex flex-col items-center bg-card/40 border border-border/40 rounded-xl p-3">
+                      <div className="relative w-16 h-16 flex items-center justify-center mt-1">
                         <svg className="w-full h-full transform -rotate-90">
-                          <circle cx="24" cy="24" r="18" className="stroke-secondary" strokeWidth="2.5" fill="transparent" />
-                          <circle cx="24" cy="24" r="18" className="stroke-accent" strokeWidth="2.5" fill="transparent" strokeDasharray="113.1" strokeDashoffset={113.1 - (49 / 100) * 113.1} strokeLinecap="round" />
+                          <circle cx="32" cy="32" r="24" className="stroke-secondary/30" strokeWidth="3" fill="transparent" />
+                          <circle cx="32" cy="32" r="24" className="stroke-accent" strokeWidth="3" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (49 / 100) * 150.8} strokeLinecap="round" />
                         </svg>
-                        <div className="absolute font-mono text-xs font-bold text-foreground">151</div>
+                        <div className="absolute font-mono text-sm font-extrabold text-foreground">151</div>
                       </div>
-                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold mt-2">Verbal</span>
-                      <span className="text-[8px] font-mono text-accent/80 font-bold">49% tile</span>
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground font-extrabold mt-3">Verbal</span>
+                      <span className="text-[10px] font-mono text-accent/90 font-bold">49th percentile</span>
                     </div>
 
                     {/* AWA */}
-                    <div className="flex flex-col items-center bg-card/40 border border-border/40 rounded-xl p-2">
-                      <div className="relative w-12 h-12 flex items-center justify-center mt-1">
+                    <div className="flex flex-col items-center bg-card/40 border border-border/40 rounded-xl p-3">
+                      <div className="relative w-16 h-16 flex items-center justify-center mt-1">
                         <svg className="w-full h-full transform -rotate-90">
-                          <circle cx="24" cy="24" r="18" className="stroke-secondary" strokeWidth="2.5" fill="transparent" />
-                          <circle cx="24" cy="24" r="18" className="stroke-accent" strokeWidth="2.5" fill="transparent" strokeDasharray="113.1" strokeDashoffset={113.1 - (37 / 100) * 113.1} strokeLinecap="round" />
+                          <circle cx="32" cy="32" r="24" className="stroke-secondary/30" strokeWidth="3" fill="transparent" />
+                          <circle cx="32" cy="32" r="24" className="stroke-accent" strokeWidth="3" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (37 / 100) * 150.8} strokeLinecap="round" />
                         </svg>
-                        <div className="absolute font-mono text-xs font-bold text-foreground">3.5</div>
+                        <div className="absolute font-mono text-sm font-extrabold text-foreground">3.5</div>
                       </div>
-                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold mt-2">AWA</span>
-                      <span className="text-[8px] font-mono text-accent/80 font-bold">37% tile</span>
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground font-extrabold mt-3">AWA</span>
+                      <span className="text-[10px] font-mono text-accent/90 font-bold">37th percentile</span>
                     </div>
                   </div>
                 </div>
@@ -2129,35 +2129,37 @@ function Education() {
 
               {/* IELTS Card */}
               <div className="border border-border/50 rounded-xl p-5 bg-secondary/10 flex flex-col justify-between">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-sm font-bold font-display text-foreground">IELTS Academic</span>
-                  <div className="text-right">
-                    <span className="text-2xl font-extrabold font-mono text-accent bg-accent/10 px-3 py-0.5 rounded-md border border-accent/25">7.5</span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-4 gap-2 text-center text-[10px] mb-3">
-                  {[
-                    ["L", "7.0", "Listening"],
-                    ["R", "7.0", "Reading"],
-                    ["W", "7.5", "Writing"],
-                    ["S", "8.0", "Speaking"],
-                  ].map(([k, v, name]) => (
-                    <div key={k} className="border border-border/40 bg-card/40 rounded-lg p-1.5">
-                      <div className="font-mono font-bold text-sm text-foreground">{v}</div>
-                      <div className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold mt-0.5">{k}</div>
-                      <div className="text-[7px] text-muted-foreground/60 leading-none mt-0.5">{name}</div>
+                <div>
+                  <div className="flex justify-between items-center mb-5">
+                    <span className="text-base font-extrabold font-display text-foreground">IELTS Academic</span>
+                    <div className="text-right">
+                      <span className="text-2xl font-extrabold font-mono text-accent bg-accent/10 px-3 py-1 rounded-md border border-accent/25">7.5</span>
                     </div>
-                  ))}
+                  </div>
+
+                  <div className="grid grid-cols-4 gap-2.5 text-center mb-4">
+                    {[
+                      ["L", "7.0", "Listening"],
+                      ["R", "7.0", "Reading"],
+                      ["W", "7.5", "Writing"],
+                      ["S", "8.0", "Speaking"],
+                    ].map(([k, v, name]) => (
+                      <div key={k} className="border border-border/40 bg-card/45 rounded-xl p-2.5 shadow-sm hover:border-accent/20 transition-colors">
+                        <div className="font-mono font-extrabold text-base text-foreground">{v}</div>
+                        <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-extrabold mt-1">{k}</div>
+                        <div className="text-[8px] text-muted-foreground/75 leading-none mt-1 font-semibold">{name}</div>
+                      </div>
+                    ))}
+                  </div>
                 </div>
 
                 {/* Progress bars to show balance */}
-                <div className="space-y-1.5 border-t border-border/30 pt-3">
-                  <div className="flex justify-between text-[9px] font-mono text-muted-foreground uppercase font-bold">
+                <div className="space-y-2 border-t border-border/30 pt-4">
+                  <div className="flex justify-between text-xs font-mono text-muted-foreground uppercase font-bold">
                     <span>Overall English Proficiency</span>
                     <span className="text-accent">CEFR C1 level</span>
                   </div>
-                  <div className="w-full bg-secondary/50 h-1.5 rounded-full overflow-hidden">
+                  <div className="w-full bg-secondary/50 h-2.5 rounded-full overflow-hidden">
                     <div className="bg-accent h-full rounded-full" style={{ width: "83.3%" }} />
                   </div>
                 </div>
