@@ -29,6 +29,9 @@ import {
   Sun,
   Moon,
   ArrowUp,
+  Award,
+  BookOpen,
+  ShieldCheck,
 } from "lucide-react";
 import { useReveal, useCountUp, useInView } from "@/hooks/use-reveal";
 import ProjectMap from "@/components/ProjectMap";
@@ -1842,125 +1845,216 @@ function Education() {
     : CERTIFICATIONS.filter((c) => c.category === activeCertTab);
 
   return (
-    <section id="education" className="py-16 relative overflow-hidden border-b border-border/50 bg-secondary/10">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-12 items-start">
-        <div className="lg:col-span-4">
+    <section id="education" className="py-20 relative overflow-hidden border-b border-border/50 bg-secondary/10">
+      {/* Background graphic elements */}
+      <div className="absolute top-0 right-0 w-80 h-80 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-12 items-start relative z-10">
+        {/* Left Column: Title & HUD Spec */}
+        <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
           <SectionHeader eyebrow="02 · Education" title="Academic foundation" />
-          <p className="text-muted-foreground mt-6 text-base leading-relaxed">
+          <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
             Standardized test scores, academic credentials, and professional certifications at the intersection of civil mechanics, geomorphology, and computational systems.
           </p>
-          <div className="mt-8 border-l-2 border-accent pl-4 py-1 text-xs text-muted-foreground font-mono space-y-2 uppercase tracking-wider">
-            <div>Degree Status: Conferred Oct 2025</div>
-            <div>Research Track: Geoenvironmental</div>
+
+          {/* Technical HUD Spec Box */}
+          <div className="border border-border/60 rounded-xl p-4 bg-card/60 backdrop-blur-sm space-y-3.5 shadow-sm">
+            <div className="flex justify-between items-center text-[11px] font-mono">
+              <span className="text-muted-foreground uppercase tracking-wider">Degree Status</span>
+              <span className="text-accent font-bold bg-accent/10 px-2 py-0.5 rounded border border-accent/20">Conferred Oct 2025</span>
+            </div>
+            <div className="h-px bg-border/40" />
+            <div className="flex justify-between items-center text-[11px] font-mono">
+              <span className="text-muted-foreground uppercase tracking-wider">Research Track</span>
+              <span className="text-foreground/90 font-extrabold bg-secondary/60 px-2 py-0.5 rounded">Geoenvironmental</span>
+            </div>
+            <div className="h-px bg-border/40" />
+            <div className="flex justify-between items-center text-[11px] font-mono">
+              <span className="text-muted-foreground uppercase tracking-wider">Primary Thesis Focus</span>
+              <span className="text-foreground/90 font-extrabold bg-secondary/60 px-2 py-0.5 rounded">Soil Seepage FEM</span>
+            </div>
           </div>
         </div>
-        <div className="lg:col-span-8 space-y-5">
+
+        {/* Right Column: Cards */}
+        <div className="lg:col-span-8 space-y-6">
           {/* Degree and Thesis Card */}
-          <div className="p-6 rounded-2xl border border-border bg-card/85 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300">
+          <div className="p-6 rounded-2xl border border-border bg-card/70 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300 relative group overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-2xl pointer-events-none group-hover:bg-accent/10 transition-colors" />
+            
             <div className="flex items-start justify-between gap-4 flex-wrap">
-              <div>
-                <h3 className="font-display text-2xl font-bold text-foreground">
-                  Islamic University of Technology (IUT)
-                </h3>
-                <p className="text-base text-accent font-semibold mt-1">
-                  B.Sc. in Civil Engineering
-                </p>
+              <div className="flex gap-4">
+                <div className="w-12 h-12 rounded-xl bg-accent/10 border border-accent/25 flex items-center justify-center text-accent shrink-0">
+                  <GraduationCap className="w-6 h-6" />
+                </div>
+                <div>
+                  <h3 className="font-display text-2xl font-bold text-foreground">
+                    Islamic University of Technology (IUT)
+                  </h3>
+                  <p className="text-sm text-accent font-bold mt-0.5 flex items-center gap-1.5">
+                    B.Sc. in Civil Engineering
+                  </p>
+                </div>
               </div>
-              <span className="font-mono text-xs text-muted-foreground bg-secondary/40 px-3 py-1 rounded-full border border-border/60 font-bold">
+              <span className="font-mono text-[10px] text-muted-foreground bg-secondary/50 px-3 py-1 rounded-full border border-border/60 font-bold uppercase tracking-wider">
                 Jun 2021 — Oct 2025
               </span>
             </div>
-            <div className="mt-4 text-base text-foreground/80 leading-relaxed">
-              Concentration: <strong className="text-foreground">Geoenvironmental Engineering</strong> · CGPA <strong className="text-foreground">3.09 / 4.00</strong>
+
+            <div className="mt-5 text-sm md:text-base text-foreground/80 leading-relaxed pl-0 sm:pl-16">
+              Concentration: <strong className="text-foreground font-semibold">Geoenvironmental Engineering</strong> · CGPA <span className="bg-accent/10 border border-accent/20 px-2 py-0.5 rounded-md font-mono text-accent font-bold text-sm">3.09 / 4.00</span>
             </div>
-            <div className="mt-6 rounded-xl border border-border/40 p-6 bg-secondary/15 relative">
+
+            {/* Thesis Card */}
+            <div className="mt-6 rounded-xl border border-border/50 p-5 bg-secondary/15 relative pl-5 sm:pl-16 text-left">
+              <div className="absolute left-5 top-5 text-accent hidden sm:block">
+                <BookOpen className="w-5 h-5" />
+              </div>
               <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold mb-2">
                 Undergraduate Thesis
               </div>
-              <p className="font-display text-lg font-bold text-foreground leading-snug">
+              <p className="font-display text-base md:text-lg font-bold text-foreground leading-snug">
                 Experimental Study on Seepage Control in Sand Embankments Stabilized with Sodium Lignosulfonate and Supplementary Polymers
               </p>
-              <p className="mt-3 text-sm text-muted-foreground">
-                Supervisor: <span className="text-foreground/80 font-medium">Prof. Dr. Hossain Md. Shahin</span>
+              <p className="mt-3.5 text-xs text-muted-foreground flex items-center gap-1.5">
+                <span>Supervisor:</span>
+                <span className="text-foreground/80 font-semibold bg-secondary/40 px-2 py-0.5 rounded">Prof. Dr. Hossain Md. Shahin</span>
               </p>
             </div>
           </div>
 
           {/* Standardized Tests Card */}
-          <div className="p-6 rounded-2xl border border-border bg-card/85 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300">
-            <h3 className="font-display text-xl font-bold text-foreground mb-6 pb-3 border-b border-border/60">
+          <div className="p-6 rounded-2xl border border-border bg-card/70 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300 relative group overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-2xl pointer-events-none group-hover:bg-accent/10 transition-colors" />
+            
+            <h3 className="font-display text-xl font-bold text-foreground mb-6 pb-3 border-b border-border/60 flex items-center gap-2">
+              <FileText className="w-5 h-5 text-accent" />
               Standardized Test Scores
             </h3>
             
             <div className="grid md:grid-cols-2 gap-6">
               {/* GRE Card */}
-              <div className="border border-border/60 rounded-xl p-5 bg-secondary/10 relative">
-                <div className="flex justify-between items-center mb-4">
-                  <span className="text-sm font-bold font-display text-foreground">GRE General Test</span>
-                  <span className="text-xl font-bold font-mono text-accent bg-accent/10 px-2.5 py-0.5 rounded-full border border-accent/20">312</span>
-                </div>
-                <div className="grid grid-cols-3 gap-2 text-center text-xs">
-                  {[
-                    ["Quant", "161", "71%"],
-                    ["Verbal", "151", "49%"],
-                    ["AWA", "3.5", "37%"],
-                  ].map(([k, v, pct]) => (
-                    <div key={k} className="border border-border/40 bg-card rounded-lg p-2.5">
-                      <div className="font-mono font-bold text-sm text-foreground">{v}</div>
-                      <div className="text-[9px] uppercase tracking-wider text-muted-foreground font-semibold mt-1">{k}</div>
-                      <div className="text-[8px] font-mono text-accent/80 font-medium">{pct}</div>
+              <div className="border border-border/50 rounded-xl p-5 bg-secondary/10 flex flex-col justify-between">
+                <div>
+                  <div className="flex justify-between items-center mb-5">
+                    <span className="text-sm font-bold font-display text-foreground">GRE General Test</span>
+                    <div className="text-right">
+                      <span className="text-2xl font-extrabold font-mono text-accent bg-accent/10 px-3 py-0.5 rounded-md border border-accent/25">312</span>
                     </div>
-                  ))}
+                  </div>
+                  
+                  {/* Circular Score Rings Grid */}
+                  <div className="grid grid-cols-3 gap-3 text-center">
+                    {/* Quant */}
+                    <div className="flex flex-col items-center bg-card/40 border border-border/40 rounded-xl p-2">
+                      <div className="relative w-12 h-12 flex items-center justify-center mt-1">
+                        <svg className="w-full h-full transform -rotate-90">
+                          <circle cx="24" cy="24" r="18" className="stroke-secondary" strokeWidth="2.5" fill="transparent" />
+                          <circle cx="24" cy="24" r="18" className="stroke-accent" strokeWidth="2.5" fill="transparent" strokeDasharray="113.1" strokeDashoffset={113.1 - (71 / 100) * 113.1} strokeLinecap="round" />
+                        </svg>
+                        <div className="absolute font-mono text-xs font-bold text-foreground">161</div>
+                      </div>
+                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold mt-2">Quant</span>
+                      <span className="text-[8px] font-mono text-accent/80 font-bold">71% tile</span>
+                    </div>
+
+                    {/* Verbal */}
+                    <div className="flex flex-col items-center bg-card/40 border border-border/40 rounded-xl p-2">
+                      <div className="relative w-12 h-12 flex items-center justify-center mt-1">
+                        <svg className="w-full h-full transform -rotate-90">
+                          <circle cx="24" cy="24" r="18" className="stroke-secondary" strokeWidth="2.5" fill="transparent" />
+                          <circle cx="24" cy="24" r="18" className="stroke-accent" strokeWidth="2.5" fill="transparent" strokeDasharray="113.1" strokeDashoffset={113.1 - (49 / 100) * 113.1} strokeLinecap="round" />
+                        </svg>
+                        <div className="absolute font-mono text-xs font-bold text-foreground">151</div>
+                      </div>
+                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold mt-2">Verbal</span>
+                      <span className="text-[8px] font-mono text-accent/80 font-bold">49% tile</span>
+                    </div>
+
+                    {/* AWA */}
+                    <div className="flex flex-col items-center bg-card/40 border border-border/40 rounded-xl p-2">
+                      <div className="relative w-12 h-12 flex items-center justify-center mt-1">
+                        <svg className="w-full h-full transform -rotate-90">
+                          <circle cx="24" cy="24" r="18" className="stroke-secondary" strokeWidth="2.5" fill="transparent" />
+                          <circle cx="24" cy="24" r="18" className="stroke-accent" strokeWidth="2.5" fill="transparent" strokeDasharray="113.1" strokeDashoffset={113.1 - (37 / 100) * 113.1} strokeLinecap="round" />
+                        </svg>
+                        <div className="absolute font-mono text-xs font-bold text-foreground">3.5</div>
+                      </div>
+                      <span className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold mt-2">AWA</span>
+                      <span className="text-[8px] font-mono text-accent/80 font-bold">37% tile</span>
+                    </div>
+                  </div>
                 </div>
               </div>
 
               {/* IELTS Card */}
-              <div className="border border-border/60 rounded-xl p-5 bg-secondary/10 relative">
+              <div className="border border-border/50 rounded-xl p-5 bg-secondary/10 flex flex-col justify-between">
                 <div className="flex justify-between items-center mb-4">
                   <span className="text-sm font-bold font-display text-foreground">IELTS Academic</span>
-                  <span className="text-xl font-bold font-mono text-accent bg-accent/10 px-2.5 py-0.5 rounded-full border border-accent/20">7.5</span>
+                  <div className="text-right">
+                    <span className="text-2xl font-extrabold font-mono text-accent bg-accent/10 px-3 py-0.5 rounded-md border border-accent/25">7.5</span>
+                  </div>
                 </div>
-                <div className="grid grid-cols-4 gap-1.5 text-center text-[10px]">
+
+                <div className="grid grid-cols-4 gap-2 text-center text-[10px] mb-3">
                   {[
-                    ["L", "7.0"],
-                    ["R", "7.0"],
-                    ["W", "7.5"],
-                    ["S", "8.0"],
-                  ].map(([k, v]) => (
-                    <div key={k} className="border border-border/40 bg-card rounded-lg p-2">
+                    ["L", "7.0", "Listening"],
+                    ["R", "7.0", "Reading"],
+                    ["W", "7.5", "Writing"],
+                    ["S", "8.0", "Speaking"],
+                  ].map(([k, v, name]) => (
+                    <div key={k} className="border border-border/40 bg-card/40 rounded-lg p-1.5">
                       <div className="font-mono font-bold text-sm text-foreground">{v}</div>
-                      <div className="text-[9px] uppercase tracking-wider text-muted-foreground font-semibold mt-1">{k}</div>
+                      <div className="text-[9px] uppercase tracking-wider text-muted-foreground font-bold mt-0.5">{k}</div>
+                      <div className="text-[7px] text-muted-foreground/60 leading-none mt-0.5">{name}</div>
                     </div>
                   ))}
+                </div>
+
+                {/* Progress bars to show balance */}
+                <div className="space-y-1.5 border-t border-border/30 pt-3">
+                  <div className="flex justify-between text-[9px] font-mono text-muted-foreground uppercase font-bold">
+                    <span>Overall English Proficiency</span>
+                    <span className="text-accent">CEFR C1 level</span>
+                  </div>
+                  <div className="w-full bg-secondary/50 h-1.5 rounded-full overflow-hidden">
+                    <div className="bg-accent h-full rounded-full" style={{ width: "83.3%" }} />
+                  </div>
                 </div>
               </div>
             </div>
           </div>
 
           {/* Certifications Portfolio Card */}
-          <div className="p-6 rounded-2xl border border-border bg-card/85 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300">
+          <div className="p-6 rounded-2xl border border-border bg-card/70 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300 relative group overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-2xl pointer-events-none group-hover:bg-accent/10 transition-colors" />
+            
             <div className="flex items-center justify-between gap-4 flex-wrap mb-6 pb-3 border-b border-border/60">
-              <h3 className="font-display text-xl font-bold text-foreground">
+              <h3 className="font-display text-xl font-bold text-foreground flex items-center gap-2">
+                <Award className="w-5 h-5 text-accent" />
                 Professional Credentials &amp; Certifications
               </h3>
-              <span className="text-xs font-mono font-bold bg-accent/10 text-accent border border-accent/25 px-2.5 py-1 rounded-full">
+              <span className="text-xs font-mono font-bold bg-accent/10 text-accent border border-accent/25 px-2.5 py-1 rounded-full flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-accent animate-pulse" />
                 {CERTIFICATIONS.length} Verified Credentials
               </span>
             </div>
             
-            {/* Category Tabs */}
-            <div className="flex flex-wrap gap-1.5 mb-6">
+            {/* Category Tabs Switcher */}
+            <div className="flex flex-wrap gap-1.5 mb-6 bg-secondary/30 border border-border/50 p-1 rounded-xl">
               {["All", "Geospatial & Remote Sensing", "Data Science, AI & Computing", "Civil Engineering & Sustainability", "Project Management & Leadership"].map((cat) => {
                 const count = cat === "All" ? CERTIFICATIONS.length : CERTIFICATIONS.filter(c => c.category === cat).length;
                 const label = cat === "All" ? "All" : cat.split(" & ")[0];
+                const isActive = activeCertTab === cat;
                 return (
                   <button
                     key={cat}
                     onClick={() => setActiveCertTab(cat as any)}
-                    className={`text-xs px-3 py-1.5 rounded-lg border transition-all duration-200 font-semibold ${
-                      activeCertTab === cat
-                        ? "bg-accent text-accent-foreground border-accent"
-                        : "bg-secondary/40 text-muted-foreground border-border hover:bg-secondary/70 hover:text-foreground"
+                    className={`text-[10px] px-3.5 py-2 rounded-lg transition-all duration-200 font-bold uppercase tracking-wider font-mono ${
+                      isActive
+                        ? "bg-foreground text-background shadow-sm"
+                        : "text-muted-foreground hover:text-foreground hover:bg-secondary/40"
                     }`}
                   >
                     {label} ({count})
@@ -1969,10 +2063,11 @@ function Education() {
               })}
             </div>
 
-            <div className="grid sm:grid-cols-2 gap-4 max-h-[260px] overflow-y-auto pr-2 custom-scrollbar">
+            {/* Certifications Scroll Grid */}
+            <div className="grid sm:grid-cols-2 gap-4 max-h-[290px] overflow-y-auto pr-2 custom-scrollbar text-left">
               {filteredCerts.map((cert, index) => (
-                <div key={index} className="border border-border/40 p-4 rounded-xl bg-secondary/15 space-y-2 hover:border-accent/30 transition-colors">
-                  <div className="flex justify-between items-start gap-2">
+                <div key={index} className="border border-border/40 p-4 rounded-xl bg-secondary/15 space-y-2.5 hover:border-accent/30 hover:bg-secondary/20 transition-all duration-200 relative group/cert">
+                  <div className="flex justify-between items-start gap-3">
                     <h4 className="font-display text-sm font-bold text-foreground leading-snug line-clamp-2">
                       {cert.title}
                     </h4>
@@ -1980,13 +2075,18 @@ function Education() {
                       {cert.date}
                     </span>
                   </div>
+                  
                   <div className="text-[11px] text-muted-foreground leading-relaxed flex items-center justify-between">
                     <span>Issued by: <strong className="text-foreground/80 font-semibold">{cert.issuer}</strong></span>
                   </div>
+
                   {cert.id && (
-                    <div className="font-mono text-[9px] text-muted-foreground border-t border-border/40 pt-2 flex justify-between items-center">
+                    <div className="font-mono text-[9px] text-muted-foreground border-t border-border/30 pt-2 flex justify-between items-center mt-2">
                       <span>ID: {cert.id}</span>
-                      <span className="text-[8px] uppercase tracking-wider text-accent font-extrabold">Verified</span>
+                      <span className="text-[8px] uppercase tracking-widest text-emerald-500 font-extrabold flex items-center gap-1 bg-emerald-500/10 border border-emerald-500/20 px-1.5 py-0.5 rounded-full">
+                        <ShieldCheck className="w-2.5 h-2.5" />
+                        Verified
+                      </span>
                     </div>
                   )}
                 </div>
