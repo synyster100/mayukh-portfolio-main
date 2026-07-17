@@ -462,6 +462,17 @@ const SKILL_ICONS: Record<string, React.ComponentType> = {
   "JavaScript": JavaScriptIcon,
 };
 
+const SKILL_IMAGES: Record<string, string> = {
+  "ArcGIS Pro": "/images/skills/arcgis_pro.png",
+  "QGIS": "/images/skills/qgis.png",
+  "Google Earth Engine": "/images/skills/google_earth_engine.png",
+  "AutoCAD": "/images/skills/autocad.png",
+  "ETABS": "/images/skills/etabs.png",
+  "PLAXIS": "/images/skills/plaxis.jpeg",
+  "HEC-RAS": "/images/skills/hec_ras.jpeg",
+  "EPANET": "/images/skills/epanet.png",
+};
+
 const EXTRACURRICULARS = [
   {
     role: "Expert Reviewer",
@@ -1831,18 +1842,25 @@ function Experience() {
                       )}
                     </div>
 
-                    {/* Interactive Help Pill */}
-                    <div className={`transition-all duration-300 flex items-center md:justify-end ${
-                      isHovered ? "opacity-0 max-h-0 overflow-hidden" : "opacity-100 max-h-[40px] mt-3"
-                    }`}>
-                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-mono tracking-wider font-bold bg-accent/5 border border-accent/15 text-accent animate-pulse">
-                        <span className="md:hidden">✦ Tap to view responsibilities</span>
-                        <span className="hidden md:inline">✦ Hover to view responsibilities</span>
-                      </span>
-                    </div>
                   </div>
 
-                  <div className="pl-10 md:pl-10 flex flex-col justify-center">
+                  <div className="pl-10 md:pl-10 flex flex-col justify-center min-h-[100px]">
+                    {/* Collapsed Preview Callout */}
+                    <div className={`transition-all duration-300 ${
+                      isHovered ? "opacity-0 max-h-0 overflow-hidden pointer-events-none" : "opacity-100 max-h-[150px]"
+                    }`}>
+                      <div className="border border-dashed border-border/80 rounded-xl p-4 bg-secondary/15 flex items-center justify-between group-hover:bg-secondary/25 transition-colors">
+                        <div className="space-y-1">
+                          <div className="text-xs font-bold text-foreground">Responsibilities &amp; Achievements</div>
+                          <div className="text-[10px] text-muted-foreground">Click or hover to reveal duties, projects, and outcomes</div>
+                        </div>
+                        <div className="w-7 h-7 rounded-full bg-accent/10 border border-accent/25 flex items-center justify-center text-accent shrink-0 animate-pulse">
+                          <span className="text-xs font-bold leading-none">+</span>
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Expanded Content */}
                     <div className={`transition-all duration-500 ease-in-out overflow-hidden ${
                       isHovered
                         ? "max-h-[600px] opacity-100"
@@ -2325,6 +2343,7 @@ function Skills() {
                 </h3>
                 <div className="flex flex-col gap-3">
                   {g.items.map((item) => {
+                    const imagePath = SKILL_IMAGES[item.name];
                     const IconComponent = SKILL_ICONS[item.name];
                     return (
                       <div
@@ -2332,7 +2351,15 @@ function Skills() {
                         className="flex items-center justify-between p-3 rounded-xl border border-border/40 bg-secondary/15 hover:bg-secondary/35 hover:border-accent/20 hover:translate-x-1.5 transition-all duration-300 group/skill"
                       >
                         <div className="flex items-center gap-3">
-                          {IconComponent ? (
+                          {imagePath ? (
+                            <div className="w-8 h-8 rounded-lg bg-background border border-border/50 flex items-center justify-center p-1 group-hover/skill:scale-110 transition-transform duration-200 shrink-0 overflow-hidden">
+                              <img
+                                src={imagePath}
+                                alt={`${item.name} logo`}
+                                className="object-contain max-w-full max-h-full"
+                              />
+                            </div>
+                          ) : IconComponent ? (
                             <div className="w-8 h-8 rounded-lg bg-background border border-border/50 flex items-center justify-center p-1 group-hover/skill:scale-110 transition-transform duration-200 shrink-0">
                               <IconComponent />
                             </div>
@@ -2401,7 +2428,7 @@ function Leadership() {
       <div className="absolute top-0 right-0 w-80 h-80 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
       <div className="mx-auto max-w-7xl px-6 lg:px-10 relative z-10">
         <SectionHeader eyebrow="08 · Extracurriculars" title="Leadership &amp; Engagement" />
-        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {EXTRACURRICULARS.map((item, idx) => {
             const Icon = getCategoryIcon(item.category || "");
             return (
@@ -2411,39 +2438,39 @@ function Leadership() {
               >
                 <div>
                   <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-4 mb-4">
-                    <span className="text-[9px] uppercase font-mono tracking-widest text-accent font-bold px-2 py-0.5 rounded bg-accent/10 border border-accent/15 select-none">
+                    <span className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold px-2.5 py-0.5 rounded bg-accent/10 border border-accent/15 select-none">
                       {item.category || "Activity"}
                     </span>
-                    <span className="font-mono text-[10px] text-muted-foreground font-bold">
+                    <span className="font-mono text-[11px] text-muted-foreground font-bold">
                       {item.period}
                     </span>
                   </div>
                   
                   <div className="flex items-start gap-3">
-                    <div className="w-9 h-9 rounded-lg bg-accent/5 border border-accent/15 flex items-center justify-center text-accent shrink-0 group-hover:scale-110 transition-transform">
-                      <Icon className="w-4.5 h-4.5" />
+                    <div className="w-10 h-10 rounded-lg bg-accent/5 border border-accent/15 flex items-center justify-center text-accent shrink-0 group-hover:scale-110 transition-transform">
+                      <Icon className="w-5 h-5" />
                     </div>
                     <div>
-                      <h3 className="font-display text-sm font-bold text-foreground leading-snug group-hover:text-accent transition-colors">
+                      <h3 className="font-display text-base font-extrabold text-foreground leading-snug group-hover:text-accent transition-colors">
                         {item.role}
                       </h3>
-                      <div className="text-[11px] text-muted-foreground font-semibold mt-0.5">
+                      <div className="text-xs text-muted-foreground font-bold mt-0.5">
                         {item.org}
                       </div>
                     </div>
                   </div>
 
                   {item.description && (
-                    <p className="mt-4 text-[11px] text-foreground/80 leading-relaxed font-sans font-medium">
+                    <p className="mt-4 text-xs md:text-sm text-foreground/80 leading-relaxed font-sans font-medium">
                       {item.description}
                     </p>
                   )}
 
                   {item.bullets && (
-                    <ul className="mt-4 text-[11px] text-foreground/75 space-y-1.5 leading-relaxed font-sans pl-1 border-t border-border/20 pt-3">
+                    <ul className="mt-4 text-xs md:text-sm text-foreground/75 space-y-1.5 leading-relaxed font-sans pl-1 border-t border-border/20 pt-3">
                       {item.bullets.slice(0, 5).map((bullet, bIdx) => (
                         <li key={bIdx} className="flex gap-2">
-                          <span className="text-accent shrink-0">▪</span>
+                          <span className="text-accent shrink-0 font-bold">▪</span>
                           <span>{bullet}</span>
                         </li>
                       ))}
