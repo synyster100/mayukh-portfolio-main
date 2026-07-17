@@ -32,10 +32,31 @@ import {
   Award,
   BookOpen,
   ShieldCheck,
+  Heart,
+  Trophy,
+  Palette,
+  MessageSquare,
+  Briefcase,
 } from "lucide-react";
 import { useReveal, useCountUp, useInView } from "@/hooks/use-reveal";
 import ProjectMap from "@/components/ProjectMap";
 import { GeospatialMethodologyVisualizer } from "@/components/GeospatialMethodologyVisualizer";
+import {
+  AutoCADIcon,
+  QGISIcon,
+  ArcGISIcon,
+  GEEIcon,
+  ETABSIcon,
+  PlaxisIcon,
+  HecRasIcon,
+  EpanetIcon,
+  ETankIcon,
+  SWMMIcon,
+  PythonIcon,
+  CPlusPlusIcon,
+  JavaScriptIcon,
+} from "@/components/SkillIcons";
+import { Wrench } from "lucide-react";
 
 import { PROJECT_CATEGORIES, PROJECTS } from "@/data/projects";
 import { PROJECT_IMAGE_URLS } from "@/assets/project-images";
@@ -424,6 +445,22 @@ const SKILL_GROUPS = [
     ],
   },
 ];
+
+const SKILL_ICONS: Record<string, React.ComponentType> = {
+  "ArcGIS Pro": ArcGISIcon,
+  "QGIS": QGISIcon,
+  "Google Earth Engine": GEEIcon,
+  "AutoCAD": AutoCADIcon,
+  "ETABS": ETABSIcon,
+  "PLAXIS": PlaxisIcon,
+  "HEC-RAS": HecRasIcon,
+  "EPANET": EpanetIcon,
+  "eTank": ETankIcon,
+  "SWMM": SWMMIcon,
+  "Python": PythonIcon,
+  "C++": CPlusPlusIcon,
+  "JavaScript": JavaScriptIcon,
+};
 
 const EXTRACURRICULARS = [
   {
@@ -2287,25 +2324,39 @@ function Skills() {
                   {g.group}
                 </h3>
                 <div className="flex flex-col gap-3">
-                  {g.items.map((item) => (
-                    <div
-                      key={item.name}
-                      className="flex items-center justify-between p-3.5 rounded-xl border border-border/40 bg-secondary/15 hover:bg-secondary/35 hover:border-accent/20 hover:translate-x-1.5 transition-all duration-300"
-                    >
-                      <span className="text-base text-foreground font-bold tracking-wide">{item.name}</span>
-                      {"level" in item && item.level && (
-                        <span className={`text-[9px] uppercase font-mono tracking-widest px-2.5 py-0.5 rounded-full font-bold shadow-sm ${
-                          item.level === "Advanced"
-                            ? "bg-accent/10 text-accent border border-accent/30"
-                            : item.level === "Intermediate"
-                            ? "bg-amber-500/10 text-amber-500 border border-amber-500/30"
-                            : "bg-muted text-muted-foreground border border-border"
-                        }`}>
-                          {item.level}
-                        </span>
-                      )}
-                    </div>
-                  ))}
+                  {g.items.map((item) => {
+                    const IconComponent = SKILL_ICONS[item.name];
+                    return (
+                      <div
+                        key={item.name}
+                        className="flex items-center justify-between p-3 rounded-xl border border-border/40 bg-secondary/15 hover:bg-secondary/35 hover:border-accent/20 hover:translate-x-1.5 transition-all duration-300 group/skill"
+                      >
+                        <div className="flex items-center gap-3">
+                          {IconComponent ? (
+                            <div className="w-8 h-8 rounded-lg bg-background border border-border/50 flex items-center justify-center p-1 group-hover/skill:scale-110 transition-transform duration-200 shrink-0">
+                              <IconComponent />
+                            </div>
+                          ) : (
+                            <div className="w-8 h-8 rounded-lg bg-background border border-border/50 flex items-center justify-center p-1 shrink-0">
+                              <Wrench className="w-4 h-4 text-muted-foreground" />
+                            </div>
+                          )}
+                          <span className="text-base text-foreground font-bold tracking-wide">{item.name}</span>
+                        </div>
+                        {"level" in item && item.level && (
+                          <span className={`text-[9px] uppercase font-mono tracking-widest px-2.5 py-0.5 rounded-full font-bold shadow-sm ${
+                            item.level === "Advanced"
+                              ? "bg-accent/10 text-accent border border-accent/30"
+                              : item.level === "Intermediate"
+                              ? "bg-amber-500/10 text-amber-500 border border-amber-500/30"
+                              : "bg-muted text-muted-foreground border border-border"
+                          }`}>
+                            {item.level}
+                          </span>
+                        )}
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
@@ -2319,51 +2370,89 @@ function Skills() {
 /* ---------- Leadership ---------- */
 
 function Leadership() {
+  const getCategoryIcon = (category: string) => {
+    switch (category.toLowerCase()) {
+      case "environment":
+        return Globe2;
+      case "education":
+        return BookOpen;
+      case "disaster management":
+        return Satellite;
+      case "social services":
+      case "earthquake vulnerability":
+        return Heart;
+      case "event planning":
+        return Trophy;
+      case "arts and culture":
+        return Palette;
+      case "debate":
+        return MessageSquare;
+      case "leadership":
+        return Compass;
+      case "professional development":
+        return Briefcase;
+      default:
+        return Award;
+    }
+  };
+
   return (
-    <section className="py-24 bg-secondary/30">
-      <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <SectionHeader eyebrow="08 · Extracurriculars" title="Extracurricular activities" />
-        <div className="mt-10 grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {EXTRACURRICULARS.map((item, idx) => (
-            <div
-              key={idx}
-              className="rounded-2xl border border-border bg-card/60 p-6 flex flex-col justify-between hover:border-accent/40 transition-all duration-300"
-            >
-              <div>
-                <div className="flex items-center justify-between gap-2">
-                  <span className="text-[10px] uppercase font-mono tracking-widest text-accent font-semibold px-2 py-0.5 rounded bg-accent/10 border border-accent/10">
-                    {item.category || "Activity"}
-                  </span>
-                  <span className="font-mono text-xs text-muted-foreground">
-                    {item.period}
-                  </span>
+    <section id="leadership" className="py-20 bg-secondary/30 relative overflow-hidden border-t border-border/50">
+      <div className="absolute top-0 right-0 w-80 h-80 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="mx-auto max-w-7xl px-6 lg:px-10 relative z-10">
+        <SectionHeader eyebrow="08 · Extracurriculars" title="Leadership &amp; Engagement" />
+        <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          {EXTRACURRICULARS.map((item, idx) => {
+            const Icon = getCategoryIcon(item.category || "");
+            return (
+              <div
+                key={idx}
+                className="group relative rounded-2xl border border-border bg-card/65 p-6 shadow-sm hover:border-accent/40 hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between gap-2 border-b border-border/40 pb-4 mb-4">
+                    <span className="text-[9px] uppercase font-mono tracking-widest text-accent font-bold px-2 py-0.5 rounded bg-accent/10 border border-accent/15 select-none">
+                      {item.category || "Activity"}
+                    </span>
+                    <span className="font-mono text-[10px] text-muted-foreground font-bold">
+                      {item.period}
+                    </span>
+                  </div>
+                  
+                  <div className="flex items-start gap-3">
+                    <div className="w-9 h-9 rounded-lg bg-accent/5 border border-accent/15 flex items-center justify-center text-accent shrink-0 group-hover:scale-110 transition-transform">
+                      <Icon className="w-4.5 h-4.5" />
+                    </div>
+                    <div>
+                      <h3 className="font-display text-sm font-bold text-foreground leading-snug group-hover:text-accent transition-colors">
+                        {item.role}
+                      </h3>
+                      <div className="text-[11px] text-muted-foreground font-semibold mt-0.5">
+                        {item.org}
+                      </div>
+                    </div>
+                  </div>
+
+                  {item.description && (
+                    <p className="mt-4 text-[11px] text-foreground/80 leading-relaxed font-sans font-medium">
+                      {item.description}
+                    </p>
+                  )}
+
+                  {item.bullets && (
+                    <ul className="mt-4 text-[11px] text-foreground/75 space-y-1.5 leading-relaxed font-sans pl-1 border-t border-border/20 pt-3">
+                      {item.bullets.slice(0, 5).map((bullet, bIdx) => (
+                        <li key={bIdx} className="flex gap-2">
+                          <span className="text-accent shrink-0">▪</span>
+                          <span>{bullet}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
-                <h3 className="mt-4 font-display text-2xl text-foreground font-semibold">
-                  {item.role}
-                </h3>
-                <div className="text-sm text-foreground/75 font-medium mt-1">
-                  {item.org}
-                </div>
-                
-                {item.description && (
-                  <p className="mt-4 text-sm text-foreground/85 leading-relaxed border-t border-border/20 pt-3">
-                    {item.description}
-                  </p>
-                )}
-                
-                {item.bullets && (
-                  <ul className="mt-4 text-xs text-foreground/75 space-y-1.5 border-t border-border/20 pt-3 leading-relaxed">
-                    {item.bullets.map((bullet, bIdx) => (
-                      <li key={bIdx} className="flex gap-2">
-                        <span className="text-accent shrink-0">▪</span>
-                        <span>{bullet}</span>
-                      </li>
-                    ))}
-                  </ul>
-                )}
               </div>
-            </div>
-          ))}
+            );
+          })}
         </div>
       </div>
     </section>
