@@ -293,6 +293,7 @@ const TIMELINE = [
     role: "Outside Plant Engineer — Civil Infrastructure (Remote)",
     org: "SKARION Engineering, Virginia, USA",
     orgUrl: "https://skarionengineering.com/",
+    image: "/skarion_team.jpeg",
     bullets: [
       "Designed 400,000+ ft (500+ residential fiber deployments) of XGS-PON fiber networks, HLD/LLD packages and detailed BOMs.",
       "Delivered end-to-end OSP designs (aerial & underground) using ArcGIS Pro and AutoCAD, ensuring full compliance with NESC/NEC standards across projects in Williamson County, TX and North Carolina markets (Holly Springs, Greensboro).",
@@ -363,6 +364,7 @@ const TIMELINE = [
     role: "Industrial Trainee",
     org: "DOHWA Engineering Co. Ltd., Dhaka, Bangladesh",
     orgUrl: "https://www.dohwa.co.kr/?lang=en",
+    image: "/dohwa_internship.jpeg",
     bullets: [
       "Participated in 6 different heritage site restoration projects and construction site inspections inside Dhaka.",
       "Attended 2 interim workshops on coastal, water resource, and transportation engineering at Bangladesh Inland Water Transport Corporation (BIWTC) Headquarters and Roads and Highways Department (RHD).",
@@ -1817,6 +1819,20 @@ function Experience() {
                           </li>
                         ))}
                       </ul>
+
+                      {t.image && (
+                        <div className="mt-4 relative rounded-xl overflow-hidden border border-border/50 bg-card shadow-md max-w-sm group/img">
+                          <img
+                            src={t.image}
+                            alt={`${t.org} team`}
+                            className="object-cover w-full h-40 group-hover/img:scale-[1.03] transition-transform duration-300"
+                          />
+                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-65 pointer-events-none" />
+                          <div className="absolute bottom-2 left-3 text-[9px] font-mono text-white/95 uppercase tracking-wider font-bold">
+                            {t.org.includes("SKARION") ? "SKARION Team Collaboration" : "DOHWA Site Inspection Team"}
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -1839,6 +1855,14 @@ function Education() {
     | "Civil Engineering & Sustainability"
     | "Project Management & Leadership"
   >("All");
+
+  const [activePhotoIndex, setActivePhotoIndex] = useState(0);
+
+  const eduPhotos = [
+    { src: "/graduation.jpeg", caption: "37th convocation of Islamic University of Technology" },
+    { src: "/graduation_2.jpeg", caption: "Convocation Ceremony at IUT Campus" },
+    { src: "/thesis_team.jpeg", caption: "Research & Thesis Team at IUT Laboratory" }
+  ];
 
   const filteredCerts = activeCertTab === "All"
     ? CERTIFICATIONS
@@ -1871,21 +1895,56 @@ function Education() {
             </div>
           </div>
 
-          {/* Graduation Picture Card */}
+          {/* Education Gallery Carousel */}
           <div className="space-y-3">
             <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden border border-border bg-card/45 shadow-md group">
-              <img
-                src="/graduation.jpeg"
-                alt="Md Ali Ahnaf Abid Mayukh Graduation"
-                className="object-cover w-full h-full grayscale-[15%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
-              />
+              {eduPhotos.map((photo, idx) => (
+                <img
+                  key={idx}
+                  src={photo.src}
+                  alt={photo.caption}
+                  className={`absolute inset-0 object-cover w-full h-full transition-all duration-700 ease-in-out ${
+                    activePhotoIndex === idx
+                      ? "opacity-100 scale-100 pointer-events-auto"
+                      : "opacity-0 scale-95 pointer-events-none"
+                  }`}
+                />
+              ))}
               <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-65 pointer-events-none" />
+
+              {/* Arrow controls on hover */}
+              <button
+                onClick={() => setActivePhotoIndex((prev) => (prev === 0 ? eduPhotos.length - 1 : prev - 1))}
+                className="absolute left-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-slate-900/80 border border-slate-700/50 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 hover:bg-accent transition-all duration-200 z-20 font-bold"
+              >
+                ‹
+              </button>
+              <button
+                onClick={() => setActivePhotoIndex((prev) => (prev === eduPhotos.length - 1 ? 0 : prev + 1))}
+                className="absolute right-2 top-1/2 -translate-y-1/2 w-7 h-7 rounded-full bg-slate-900/80 border border-slate-700/50 flex items-center justify-center text-white opacity-0 group-hover:opacity-100 hover:bg-accent transition-all duration-200 z-20 font-bold"
+              >
+                ›
+              </button>
+
+              {/* Dot indicators */}
+              <div className="absolute bottom-12 left-0 right-0 flex justify-center gap-1.5 z-20">
+                {eduPhotos.map((_, idx) => (
+                  <button
+                    key={idx}
+                    onClick={() => setActivePhotoIndex(idx)}
+                    className={`w-1.5 h-1.5 rounded-full transition-all duration-300 ${
+                      activePhotoIndex === idx ? "bg-accent w-4" : "bg-white/40 hover:bg-white/70"
+                    }`}
+                  />
+                ))}
+              </div>
             </div>
+            
             {/* Subtle high-contrast caption below picture */}
-            <div className="flex justify-center px-1">
+            <div className="flex justify-center px-1 min-h-[36px]">
               <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary/50 border border-border/60 text-[9px] font-mono tracking-wider text-foreground font-extrabold shadow-sm uppercase text-center leading-normal">
-                <span className="w-1 h-1 rounded-full bg-accent shrink-0 animate-pulse" />
-                37th convocation of Islamic University of Technology
+                <span className="w-1.5 h-1.5 rounded-full bg-accent shrink-0 animate-pulse" />
+                {eduPhotos[activePhotoIndex].caption}
               </div>
             </div>
           </div>
@@ -1928,13 +1987,31 @@ function Education() {
               <div className="text-[10px] uppercase font-mono tracking-widest text-accent font-bold mb-2">
                 Undergraduate Thesis
               </div>
-              <p className="font-display text-base md:text-lg font-bold text-foreground leading-snug">
-                Experimental Study on Seepage Control in Sand Embankments Stabilized with Sodium Lignosulfonate and Supplementary Polymers
-              </p>
-              <p className="mt-3.5 text-xs text-muted-foreground flex items-center gap-1.5">
-                <span>Supervisor:</span>
-                <span className="text-foreground/80 font-semibold bg-secondary/40 px-2 py-0.5 rounded">Prof. Dr. Hossain Md. Shahin</span>
-              </p>
+              
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-5 items-center">
+                <div className="md:col-span-7 space-y-3">
+                  <p className="font-display text-base md:text-lg font-bold text-foreground leading-snug">
+                    Experimental Study on Seepage Control in Sand Embankments Stabilized with Sodium Lignosulfonate and Supplementary Polymers
+                  </p>
+                  <p className="text-xs text-muted-foreground flex items-center gap-1.5">
+                    <span>Supervisor:</span>
+                    <span className="text-foreground/80 font-semibold bg-secondary/40 px-2 py-0.5 rounded">Prof. Dr. Hossain Md. Shahin</span>
+                  </p>
+                </div>
+                <div className="md:col-span-5">
+                  <div className="relative rounded-xl overflow-hidden border border-border/50 bg-card shadow-sm group/img">
+                    <img
+                      src="/with_prof_shahin.jpeg"
+                      alt="Md Ali Ahnaf Abid Mayukh with Prof. Dr. Hossain Md. Shahin"
+                      className="object-cover w-full h-32 group-hover/img:scale-105 transition-transform duration-300"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 to-transparent opacity-60 pointer-events-none" />
+                    <div className="absolute bottom-2 left-3 text-[9px] font-mono text-white/95 font-bold uppercase tracking-wider">
+                      With Prof. Shahin
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
