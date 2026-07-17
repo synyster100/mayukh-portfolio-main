@@ -1835,10 +1835,10 @@ function Experience() {
               Professional Collaboration &amp; Fieldwork
             </h3>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* SKARION Card */}
-            <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
+            <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/skarion_team.jpeg"
                   alt="SKARION Engineering Design Team"
@@ -1846,18 +1846,18 @@ function Experience() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
               </div>
-              <div className="p-3 border-t border-border/40 text-left">
-                <div className="text-[9px] font-mono font-bold tracking-widest text-accent uppercase mb-0.5">SKARION Engineering</div>
-                <h4 className="font-display text-xs font-bold text-foreground line-clamp-1">Design Team</h4>
-                <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed line-clamp-3">
+              <div className="p-5 border-t border-border/40 text-left">
+                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">SKARION Engineering</div>
+                <h4 className="font-display text-base font-bold text-foreground">Design Team</h4>
+                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
                   Collaborative workshop with engineering peers and Director of Engineering, Al Saki focusing on infrastructure route optimization.
                 </p>
               </div>
             </div>
 
             {/* DOHWA Card 1 */}
-            <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
+            <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/dohwa_internship.jpeg"
                   alt="DOHWA Engineering Internship Cohort"
@@ -1865,18 +1865,18 @@ function Experience() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
               </div>
-              <div className="p-3 border-t border-border/40 text-left">
-                <div className="text-[9px] font-mono font-bold tracking-widest text-accent uppercase mb-0.5">DOHWA Engineering Co. Ltd.</div>
-                <h4 className="font-display text-xs font-bold text-foreground line-clamp-1">Internship Cohort</h4>
-                <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed line-clamp-3">
+              <div className="p-5 border-t border-border/40 text-left">
+                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">DOHWA Engineering Co. Ltd.</div>
+                <h4 className="font-display text-base font-bold text-foreground">Internship Cohort</h4>
+                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
                   Inside DOHWA's Dhaka office with Jinha Bok, Deputy General Manager / Global Marketing.
                 </p>
               </div>
             </div>
 
             {/* DOHWA Card 2 */}
-            <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
+            <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/dohwa_certificate.jpeg"
                   alt="DOHWA Engineering Certificate Presentation"
@@ -1884,18 +1884,18 @@ function Experience() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
               </div>
-              <div className="p-3 border-t border-border/40 text-left">
-                <div className="text-[9px] font-mono font-bold tracking-widest text-accent uppercase mb-0.5">DOHWA Engineering Co. Ltd.</div>
-                <h4 className="font-display text-xs font-bold text-foreground line-clamp-1">Certificate Presentation</h4>
-                <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed line-clamp-3">
+              <div className="p-5 border-t border-border/40 text-left">
+                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">DOHWA Engineering Co. Ltd.</div>
+                <h4 className="font-display text-base font-bold text-foreground">Certificate Presentation</h4>
+                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
                   Receiving the industrial training certification from Hong, Jong Wook, Bangladesh Country Director.
                 </p>
               </div>
             </div>
 
             {/* DOHWA Card 3 */}
-            <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
+            <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/dohwa_farewell.jpeg"
                   alt="DOHWA Engineering Farewell Group Picture"
@@ -1903,10 +1903,10 @@ function Experience() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
               </div>
-              <div className="p-3 border-t border-border/40 text-left">
-                <div className="text-[9px] font-mono font-bold tracking-widest text-accent uppercase mb-0.5">DOHWA Engineering Co. Ltd.</div>
-                <h4 className="font-display text-xs font-bold text-foreground line-clamp-1">Farewell Group Photo</h4>
-                <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed line-clamp-3">
+              <div className="p-5 border-t border-border/40 text-left">
+                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">DOHWA Engineering Co. Ltd.</div>
+                <h4 className="font-display text-base font-bold text-foreground">Farewell Group Photo</h4>
+                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
                   Farewell day group picture with Rozina Khanam, General Manager.
                 </p>
               </div>
@@ -2192,10 +2192,10 @@ function Education() {
               Academic Milestones &amp; Research Gallery
             </h3>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Photo 1: B.Sc. Graduation (Stage) */}
-            <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
+            <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/graduation.jpeg"
                   alt="37th Convocation of IUT"
@@ -2203,16 +2203,16 @@ function Education() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
               </div>
-              <div className="p-3 border-t border-border/40 text-left">
-                <div className="text-[9px] font-mono font-bold tracking-widest text-accent uppercase mb-0.5">IUT Stage</div>
-                <h4 className="font-display text-xs font-bold text-foreground line-clamp-1">37th Convocation of IUT</h4>
-                <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed">Conferring of B.Sc. in Civil Engineering degree.</p>
+              <div className="p-5 border-t border-border/40 text-left">
+                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">IUT Stage</div>
+                <h4 className="font-display text-base font-bold text-foreground">37th Convocation of IUT</h4>
+                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">Conferring of B.Sc. in Civil Engineering degree.</p>
               </div>
             </div>
 
             {/* Photo 2: Convocation Campus */}
-            <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
+            <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/graduation_2.jpeg"
                   alt="Convocation Ceremony at IUT Campus"
@@ -2220,16 +2220,16 @@ function Education() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
               </div>
-              <div className="p-3 border-t border-border/40 text-left">
-                <div className="text-[9px] font-mono font-bold tracking-widest text-accent uppercase mb-0.5">IUT Campus</div>
-                <h4 className="font-display text-xs font-bold text-foreground line-clamp-1">Convocation Ceremony</h4>
-                <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed">Commemorative photos at the iconic IUT red campus.</p>
+              <div className="p-5 border-t border-border/40 text-left">
+                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">IUT Campus</div>
+                <h4 className="font-display text-base font-bold text-foreground">Convocation Ceremony</h4>
+                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">Commemorative photos at the iconic IUT red campus.</p>
               </div>
             </div>
 
             {/* Photo 3: With Prof. Shahin */}
-            <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
+            <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/with_prof_shahin.jpeg"
                   alt="With Supervisor Prof. Dr. Hossain Md. Shahin"
@@ -2237,16 +2237,16 @@ function Education() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
               </div>
-              <div className="p-3 border-t border-border/40 text-left">
-                <div className="text-[9px] font-mono font-bold tracking-widest text-accent uppercase mb-0.5">Research Discussion</div>
-                <h4 className="font-display text-xs font-bold text-foreground line-clamp-1">With Prof. Shahin</h4>
-                <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed">Thesis discussion on seepage control with supervisor.</p>
+              <div className="p-5 border-t border-border/40 text-left">
+                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">Research Discussion</div>
+                <h4 className="font-display text-base font-bold text-foreground">With Prof. Shahin</h4>
+                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">Thesis discussion on seepage control with supervisor.</p>
               </div>
             </div>
 
             {/* Photo 4: Thesis Team */}
-            <div className="rounded-xl border border-border bg-card/60 overflow-hidden shadow-sm group hover:border-accent/40 transition-all duration-300">
-              <div className="relative aspect-[4/3] w-full overflow-hidden bg-slate-900/50">
+            <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
                 <img
                   src="/thesis_team.jpeg"
                   alt="Research & Thesis Team at IUT Laboratory"
@@ -2254,10 +2254,10 @@ function Education() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
               </div>
-              <div className="p-3 border-t border-border/40 text-left">
-                <div className="text-[9px] font-mono font-bold tracking-widest text-accent uppercase mb-0.5">IUT Laboratory</div>
-                <h4 className="font-display text-xs font-bold text-foreground line-clamp-1">Research &amp; Thesis Team</h4>
-                <p className="text-[10px] text-muted-foreground mt-1 leading-relaxed">Thesis co-researchers at the Civil Engineering lab.</p>
+              <div className="p-5 border-t border-border/40 text-left">
+                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">IUT Laboratory</div>
+                <h4 className="font-display text-base font-bold text-foreground">Research &amp; Thesis Team</h4>
+                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">Thesis co-researchers at the Civil Engineering lab.</p>
               </div>
             </div>
           </div>
