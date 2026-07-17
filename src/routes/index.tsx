@@ -1341,7 +1341,7 @@ function Interests() {
     switch (label) {
       case "Geoenvironmental Engineering":
         return (
-          <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-15 transition-opacity duration-500 pointer-events-none z-0">
+          <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-25 transition-opacity duration-500 pointer-events-none z-0">
             <svg viewBox="0 0 200 100" className="absolute bottom-0 inset-x-0 w-full h-16 text-amber-500 animate-strata-slide">
               <path d="M 0 40 Q 50 30 100 50 T 200 40 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.1" />
               <path d="M 0 60 Q 60 70 120 50 T 200 65 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.15" />
@@ -1351,19 +1351,19 @@ function Interests() {
         );
       case "GIS & Remote Sensing":
         return (
-          <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none z-0">
+          <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none z-0">
             <svg viewBox="0 0 200 200" className="absolute -top-10 -right-10 w-44 h-44 text-indigo-500">
               <path d="M 0 100 A 100 100 0 0 1 200 100" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="3,3" className="opacity-40" />
               <g className="animate-satellite-orbit" style={{ transformOrigin: "100px 100px" }}>
                 <rect x="90" y="5" width="20" height="12" rx="2" fill="currentColor" />
                 <rect x="75" y="9" width="15" height="4" fill="currentColor" opacity="0.8" />
                 <rect x="110" y="9" width="15" height="4" fill="currentColor" opacity="0.8" />
-                <path d="M 100 17 L 70 80 L 130 80 Z" fill="url(#sat-gradient)" opacity="0.15" />
+                <path d="M 100 17 L 70 80 L 130 80 Z" fill="url(#sat-gradient)" opacity="0.2" />
               </g>
               <defs>
                 <linearGradient id="sat-gradient" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="currentColor" stopOpacity="0.8" stopColor-opacity="0.8" />
-                  <stop offset="100%" stopColor="currentColor" stopOpacity="0" stopColor-opacity="0" />
+                  <stop offset="0%" stopColor="currentColor" stopOpacity="0.8" />
+                  <stop offset="100%" stopColor="currentColor" stopOpacity="0" />
                 </linearGradient>
               </defs>
             </svg>
@@ -1371,7 +1371,7 @@ function Interests() {
         );
       case "Flood Risk Management":
         return (
-          <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-[0.18] transition-opacity duration-500 pointer-events-none z-0">
+          <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none z-0">
             <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full text-sky-500">
               <line x1="40" y1="-20" x2="40" y2="0" stroke="currentColor" strokeWidth="1.5" className="animate-rain-1" />
               <line x1="100" y1="-20" x2="100" y2="0" stroke="currentColor" strokeWidth="1.5" className="animate-rain-2" />
@@ -1382,7 +1382,7 @@ function Interests() {
         );
       case "Shoreline Dynamics":
         return (
-          <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-[0.16] transition-opacity duration-500 pointer-events-none z-0">
+          <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-25 transition-opacity duration-500 pointer-events-none z-0">
             <svg viewBox="0 0 400 100" className="absolute bottom-0 left-0 w-[200%] h-12 text-teal-500 animate-wave-flow">
               <path d="M 0 50 Q 50 40 100 50 T 200 50 T 300 50 T 400 50 L 400 100 L 0 100 Z" fill="currentColor" opacity="0.15" />
               <path d="M 0 70 Q 60 78 120 70 T 240 70 T 360 70 T 400 70 L 400 100 L 0 100 Z" fill="currentColor" opacity="0.25" />
@@ -1391,7 +1391,7 @@ function Interests() {
         );
       case "GeoAI":
         return (
-          <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-20 transition-opacity duration-500 pointer-events-none z-0">
+          <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-30 transition-opacity duration-500 pointer-events-none z-0">
             <svg viewBox="0 0 200 200" className="absolute -bottom-6 -right-6 w-36 h-36 text-rose-500">
               <line x1="40" y1="40" x2="100" y2="100" stroke="currentColor" strokeWidth="1" strokeDasharray="3,3" />
               <line x1="160" y1="40" x2="100" y2="100" stroke="currentColor" strokeWidth="1" strokeDasharray="3,3" />
@@ -1407,7 +1407,7 @@ function Interests() {
         );
       case "Disaster Management":
         return (
-          <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-15 transition-opacity duration-500 pointer-events-none z-0">
+          <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-25 transition-opacity duration-500 pointer-events-none z-0">
             <svg viewBox="0 0 200 200" className="absolute -top-6 -right-6 w-32 h-32 text-red-500">
               <circle cx="100" cy="100" r="80" fill="none" stroke="currentColor" strokeWidth="1" />
               <circle cx="100" cy="100" r="50" fill="none" stroke="currentColor" strokeWidth="0.7" strokeDasharray="2,2" />
@@ -1420,7 +1420,7 @@ function Interests() {
         );
       case "Environmental Modelling":
         return (
-          <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-15 transition-opacity duration-500 pointer-events-none z-0">
+          <div className="absolute inset-0 overflow-hidden opacity-0 group-hover:opacity-25 transition-opacity duration-500 pointer-events-none z-0">
             <svg viewBox="0 0 200 200" className="absolute -bottom-10 -right-10 w-40 h-40 text-emerald-500">
               <circle cx="100" cy="100" r="90" fill="none" stroke="currentColor" strokeWidth="1" className="animate-node-pulse" />
               <circle cx="100" cy="100" r="70" fill="none" stroke="currentColor" strokeWidth="1" className="animate-node-pulse" style={{ animationDelay: "0.6s" }} />
