@@ -12,6 +12,7 @@ export function EnvironmentalModelSandbox() {
   const [infiltration, setInfiltration] = useState(25); // mm/hr (Ksat)
   const [drainage, setDrainage] = useState(45); // % (drainage network density)
   const [antecedent, setAntecedent] = useState(30); // mm (24h antecedent precipitation)
+  const [showShapInfo, setShowShapInfo] = useState(false);
 
   // Normalize parameters (0 to 1 scale)
   const normRain = Math.min(rainfall / 300, 1);
@@ -579,17 +580,38 @@ export function EnvironmentalModelSandbox() {
  
               {/* SHAP Feature Attribution Panel */}
               <div className="mt-5 border border-border/50 bg-secondary/10 p-5 rounded-xl space-y-4">
-                <div className="flex items-center justify-between">
+                <div className="flex items-center justify-between flex-wrap gap-2">
                   <div className="flex items-center gap-2">
                     <Cpu className="w-3.5 h-3.5 text-accent" />
                     <span className="text-xs font-bold uppercase tracking-wider text-foreground">
                       SHAP Feature Attribution (Explainable AI)
                     </span>
                   </div>
-                  <div className="text-[9px] font-mono text-muted-foreground uppercase bg-secondary/80 border border-border/60 px-2 py-0.5 rounded-full font-bold">
-                    Zone: <span className="text-accent">{selectedZone}</span>
+                  <div className="flex items-center gap-2">
+                    <button
+                      onClick={() => setShowShapInfo(!showShapInfo)}
+                      className="text-[10px] font-mono text-accent hover:underline uppercase font-bold bg-accent/5 px-2 py-0.5 rounded border border-accent/15"
+                    >
+                      {showShapInfo ? "Close Guide ▲" : "What is SHAP? 🛈"}
+                    </button>
+                    <div className="text-[9px] font-mono text-muted-foreground uppercase bg-secondary/80 border border-border/60 px-2 py-0.5 rounded-full font-bold">
+                      Zone: <span className="text-accent">{selectedZone}</span>
+                    </div>
                   </div>
                 </div>
+
+                {showShapInfo && (
+                  <div className="border border-accent/20 bg-accent/5 rounded-xl p-3.5 text-xs text-foreground/80 leading-relaxed font-sans space-y-2 text-left">
+                    <p>
+                      <strong>SHAP (SHapley Additive exPlanations)</strong> is a game-theoretic approach to explain machine learning predictions. It attributes a score to each feature based on how much it changes the prediction relative to a baseline susceptibility level (35% in this catchment watershed).
+                    </p>
+                    <ul className="list-disc pl-4 space-y-1.5 mt-2">
+                      <li><strong className="text-rose-500">Positive SHAP values (+)</strong> push the risk index higher (e.g. heavy rainfall or steep slope increases flood susceptibility).</li>
+                      <li><strong className="text-emerald-500">Negative SHAP values (-)</strong> pull the risk index lower (e.g. dense vegetation/NDVI or high soil infiltration mitigates risk).</li>
+                    </ul>
+                  </div>
+                )}
+
                 <p className="text-[11px] text-muted-foreground leading-relaxed">
                   SHAP values explain the model contribution of each geological or hydrologic factor relative to a baseline susceptibility expectation of 35.0%. Click on any zone on the map above or select the buttons to inspect its local feature attribution.
                 </p>

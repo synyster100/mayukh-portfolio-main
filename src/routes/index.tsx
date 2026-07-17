@@ -1371,8 +1371,42 @@ function Interests() {
 
 /* ---------- Publications ---------- */
 
+function getBibtex(pub: { title: string; authors: string; venue: string; year: number }, type: "journal" | "conference") {
+  const cleanAuthors = pub.authors.replace(/<\/?strong>/g, ""); // strip HTML tags
+  const firstAuthorLast = cleanAuthors.split(",")[0].trim().split(" ").pop() ?? "Mayukh";
+  const citeKey = `${firstAuthorLast.toLowerCase()}${pub.year}${pub.title.split(" ")[0].toLowerCase().replace(/[^a-z0-9]/g, "")}`;
+  
+  if (type === "journal") {
+    return `@article{${citeKey},
+  author    = {${cleanAuthors.replace(/&amp;/g, "and").replace(/,/g, " and")}},
+  title     = {${pub.title}},
+  journal   = {${pub.venue.split(".")[0].trim()}},
+  year      = {${pub.year}},
+  note      = {${pub.venue}}
+}`;
+  } else {
+    return `@inproceedings{${citeKey},
+  author    = {${cleanAuthors.replace(/&amp;/g, "and").replace(/,/g, " and")}},
+  title     = {${pub.title}},
+  booktitle = {${pub.venue}},
+  year      = {${pub.year}}
+}`;
+  }
+}
+
 function Publications() {
   const [tab, setTab] = useState<"journal" | "conference">("journal");
+  const [openCiteIndex, setOpenCiteIndex] = useState<string | null>(null);
+  const [copiedIndex, setCopiedIndex] = useState<string | null>(null);
+
+  const handleCopy = (text: string, indexKey: string) => {
+    navigator.clipboard.writeText(text);
+    setCopiedIndex(indexKey);
+    setTimeout(() => {
+      setCopiedIndex(null);
+    }, 2000);
+  };
+
   return (
     <section id="publications" className="py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
@@ -1386,7 +1420,10 @@ function Publications() {
           ).map(([key, label]) => (
             <button
               key={key}
-              onClick={() => setTab(key)}
+              onClick={() => {
+                setTab(key);
+                setOpenCiteIndex(null);
+              }}
               className={`px-5 py-3 text-sm font-semibold transition-colors border-b-2 -mb-px ${
                 tab === key
                   ? "border-accent text-foreground"
@@ -1425,7 +1462,17 @@ function Publications() {
                       {p.venue}
                     </p>
                   </div>
-                  <div className="md:col-span-3 md:text-right flex items-start md:justify-end">
+                  <div className="md:col-span-3 md:text-right flex flex-wrap gap-2 items-start md:justify-end">
+                    <button
+                      onClick={() => setOpenCiteIndex(openCiteIndex === `journal-${i}` ? null : `journal-${i}`)}
+                      className={`inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all duration-200 ${
+                        openCiteIndex === `journal-${i}`
+                          ? "bg-accent/15 text-accent border-accent/40 animate-pulse"
+                          : "text-muted-foreground hover:text-accent border-border bg-card hover:bg-accent/5"
+                      }`}
+                    >
+                      <FileText className="w-3.5 h-3.5" /> Cite
+                    </button>
                     {p.link && (
                       <a
                         href={p.link}
@@ -1438,6 +1485,22 @@ function Publications() {
                       </a>
                     )}
                   </div>
+                  {openCiteIndex === `journal-${i}` && (
+                    <div className="md:col-span-12 mt-4 p-4 rounded-xl bg-card border border-border/80 text-left relative group">
+                      <div className="flex items-center justify-between border-b border-border/40 pb-2 mb-3">
+                        <span className="text-[10px] uppercase font-mono tracking-widest text-muted-foreground">BibTeX Citation</span>
+                        <button
+                          onClick={() => handleCopy(getBibtex(p, "journal"), `journal-${i}`)}
+                          className="text-[10px] uppercase font-mono font-bold tracking-wider text-accent hover:underline flex items-center gap-1"
+                        >
+                          {copiedIndex === `journal-${i}` ? "Copied!" : "Copy"}
+                        </button>
+                      </div>
+                      <pre className="text-xs text-foreground/85 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed select-all">
+                        {getBibtex(p, "journal")}
+                      </pre>
+                    </div>
+                  )}
                 </article>
               ))
             : CONFERENCE.map((p, i) => (
@@ -1470,7 +1533,17 @@ function Publications() {
                       {p.venue} ({p.year})
                     </p>
                   </div>
-                  <div className="md:col-span-3 md:text-right flex items-start md:justify-end">
+                  <div className="md:col-span-3 md:text-right flex flex-wrap gap-2 items-start md:justify-end">
+                    <button
+                      onClick={() => setOpenCiteIndex(openCiteIndex === `conf-${i}` ? null : `conf-${i}`)}
+                      className={`inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all duration-200 ${
+                        openCiteIndex === `conf-${i}`
+                          ? "bg-accent/15 text-accent border-accent/40 animate-pulse"
+                          : "text-muted-foreground hover:text-accent border-border bg-card hover:bg-accent/5"
+                      }`}
+                    >
+                      <FileText className="w-3.5 h-3.5" /> Cite
+                    </button>
                     {p.link && (
                       <a
                         href={p.link}
@@ -1483,6 +1556,22 @@ function Publications() {
                       </a>
                     )}
                   </div>
+                  {openCiteIndex === `conf-${i}` && (
+                    <div className="md:col-span-12 mt-4 p-4 rounded-xl bg-card border border-border/80 text-left relative group">
+                      <div className="flex items-center justify-between border-b border-border/40 pb-2 mb-3">
+                        <span className="text-[10px] uppercase font-mono tracking-widest text-muted-foreground">BibTeX Citation</span>
+                        <button
+                          onClick={() => handleCopy(getBibtex(p, "conference"), `conf-${i}`)}
+                          className="text-[10px] uppercase font-mono font-bold tracking-wider text-accent hover:underline flex items-center gap-1"
+                        >
+                          {copiedIndex === `conf-${i}` ? "Copied!" : "Copy"}
+                        </button>
+                      </div>
+                      <pre className="text-xs text-foreground/85 font-mono overflow-x-auto whitespace-pre-wrap leading-relaxed select-all">
+                        {getBibtex(p, "conference")}
+                      </pre>
+                    </div>
+                  )}
                 </article>
               ))}
         </div>
@@ -2056,10 +2145,24 @@ function Education() {
               <p className="font-display text-base md:text-lg font-bold text-foreground leading-snug">
                 Experimental Study on Seepage Control in Sand Embankments Stabilized with Sodium Lignosulfonate and Supplementary Polymers
               </p>
-              <p className="mt-3.5 text-xs text-muted-foreground flex items-center gap-1.5">
+              <p className="mt-2 text-xs text-muted-foreground flex items-center gap-1.5">
                 <span>Supervisor:</span>
                 <span className="text-foreground/80 font-semibold bg-secondary/40 px-2 py-0.5 rounded">Prof. Dr. Hossain Md. Shahin</span>
               </p>
+              <ul className="mt-4 space-y-2.5 text-xs text-foreground/80 leading-relaxed border-t border-border/20 pt-4 pl-1">
+                <li className="flex gap-2">
+                  <span className="text-accent shrink-0 font-bold">▪</span>
+                  <span><strong>Chemical Stabilization:</strong> Evaluated the efficacy of eco-friendly, lignin-based industrial byproducts (Sodium Lignosulfonate) and organic polymers to modify hydraulic conductivity and increase shear strength in permeable sand models.</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-accent shrink-0 font-bold">▪</span>
+                  <span><strong>FEM Hydrodynamic Simulation:</strong> Developed finite element modeling of seepage lines, phreatic surfaces, and hydraulic gradient vectors within sand embankments to verify safety coefficients against internal piping.</span>
+                </li>
+                <li className="flex gap-2">
+                  <span className="text-accent shrink-0 font-bold">▪</span>
+                  <span><strong>Key Results:</strong> Achieved a <strong>60-70% reduction in seepage discharge velocity</strong> and secured structural stability against piping failures under high hydrostatic gradients.</span>
+                </li>
+              </ul>
             </div>
           </div>
 
