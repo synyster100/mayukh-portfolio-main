@@ -1405,8 +1405,8 @@ function Interests() {
             <svg viewBox="0 0 100 100" className="absolute right-4 bottom-4 w-24 h-24 text-teal-500">
               <path d="M 0 0 L 30 0 Q 45 40 25 75 T 35 100 L 0 100 Z" fill="currentColor" opacity="0.15" className="animate-coastline-shift" />
               <path d="M 30 0 Q 45 40 25 75 T 35 100" fill="none" stroke="currentColor" strokeWidth="2" className="animate-coastline-line" />
-              <text x="6" y="20" className="font-mono text-[8px] font-bold fill-rose-500 animate-erosion-tag pointer-events-none">EROSION</text>
-              <text x="42" y="85" className="font-mono text-[8px] font-bold fill-emerald-500 animate-deposition-tag pointer-events-none">ACCRETION</text>
+              <text x="50" y="15" textAnchor="middle" className="font-mono text-[7px] font-extrabold fill-rose-500 animate-erosion-tag pointer-events-none">EROSION</text>
+              <text x="50" y="15" textAnchor="middle" className="font-mono text-[7px] font-extrabold fill-emerald-500 animate-deposition-tag pointer-events-none">ACCRETION</text>
             </svg>
           </div>
         );
