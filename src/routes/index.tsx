@@ -1342,19 +1342,16 @@ function Interests() {
       case "Geoenvironmental Engineering":
         return (
           <div style={{ position: "absolute", zIndex: 1, inset: 0, pointerEvents: "none" }} className="hover-anim overflow-hidden opacity-0 transition-opacity duration-500">
-            <svg viewBox="0 0 100 100" className="absolute right-4 bottom-4 w-24 h-24 text-amber-600">
-              {/* Soil particles/grains */}
-              <circle cx="25" cy="30" r="5" fill="currentColor" opacity="0.3" />
-              <circle cx="45" cy="65" r="6" fill="currentColor" opacity="0.3" />
-              <circle cx="65" cy="40" r="4.5" fill="currentColor" opacity="0.3" />
-              <circle cx="80" cy="70" r="5.5" fill="currentColor" opacity="0.3" />
-              {/* Polymer chains wrapping/binding */}
-              <path d="M 10 35 C 20 20, 35 45, 50 45 C 65 45, 75 25, 90 35" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3,3" className="animate-polymer-flow" />
-              <path d="M 20 75 C 35 60, 50 80, 65 60 C 80 40, 70 85, 90 75" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3,3" className="animate-polymer-flow" style={{ animationDelay: "1s" }} />
-              {/* Binding nodes */}
-              <circle cx="32" cy="35" r="2" fill="currentColor" className="animate-node-pulse" />
-              <circle cx="58" cy="52" r="2" fill="currentColor" className="animate-node-pulse" style={{ animationDelay: "0.5s" }} />
-              <circle cx="74" cy="56" r="2" fill="currentColor" className="animate-node-pulse" style={{ animationDelay: "1s" }} />
+            <svg viewBox="0 0 100 100" className="absolute top-4 right-4 w-24 h-24 text-amber-500">
+              {/* Embankment Cross-section */}
+              <path d="M 10 80 L 40 35 L 70 35 L 90 80 Z" fill="currentColor" opacity="0.12" stroke="currentColor" strokeWidth="1" />
+              {/* Stabilized Soil Core (Polymer block) */}
+              <rect x="45" y="35" width="12" height="45" fill="currentColor" opacity="0.25" stroke="currentColor" strokeWidth="1" strokeDasharray="2,2" />
+              {/* Seepage Flow Lines (blocked by core) */}
+              <path d="M 0 60 Q 25 62 45 78" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3,3" className="animate-polymer-flow" />
+              <path d="M 0 70 Q 25 71 45 79" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3,3" className="animate-polymer-flow" style={{ animationDelay: "0.8s" }} />
+              {/* Deflection arrow */}
+              <path d="M 45 78 L 48 80 L 45 82" fill="none" stroke="currentColor" strokeWidth="1.5" />
             </svg>
           </div>
         );
@@ -1381,11 +1378,24 @@ function Interests() {
       case "Flood Risk Management":
         return (
           <div style={{ position: "absolute", zIndex: 1, inset: 0, pointerEvents: "none" }} className="hover-anim overflow-hidden opacity-0 transition-opacity duration-500">
-            <svg viewBox="0 0 200 200" className="absolute inset-0 w-full h-full text-sky-500">
-              <line x1="40" y1="10" x2="40" y2="30" stroke="currentColor" strokeWidth="1.5" className="animate-rain-1" />
-              <line x1="100" y1="10" x2="100" y2="30" stroke="currentColor" strokeWidth="1.5" className="animate-rain-2" />
-              <line x1="160" y1="10" x2="160" y2="30" stroke="currentColor" strokeWidth="1.5" className="animate-rain-3" />
-              <path d="M 0 175 Q 50 165 100 175 T 200 175 L 200 200 L 0 200 Z" fill="currentColor" opacity="0.3" className="animate-strata-slide" />
+            <svg viewBox="0 0 100 100" className="absolute right-4 bottom-4 w-24 h-24 text-sky-500">
+              {/* House 1 (Left, small) */}
+              <g opacity="0.6">
+                <polygon points="15,55 30,40 45,55" fill="none" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="18" y="55" width="24" height="20" fill="none" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="27" y="65" width="6" height="10" fill="none" stroke="currentColor" strokeWidth="1" />
+              </g>
+              {/* House 2 (Right, large) */}
+              <g opacity="0.8">
+                <polygon points="45,45 65,25 85,45" fill="none" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="50" y="45" width="30" height="30" fill="none" stroke="currentColor" strokeWidth="1.5" />
+                <rect x="62" y="60" width="8" height="15" fill="none" stroke="currentColor" strokeWidth="1" />
+              </g>
+              {/* Inundating flood water level */}
+              <g className="animate-flood-inundate">
+                <path d="M 0 58 Q 25 54 50 60 T 100 58 L 100 100 L 0 100 Z" fill="currentColor" opacity="0.3" />
+                <path d="M 0 58 Q 25 54 50 60 T 100 58" fill="none" stroke="currentColor" strokeWidth="1.5" />
+              </g>
             </svg>
           </div>
         );
@@ -1393,14 +1403,10 @@ function Interests() {
         return (
           <div style={{ position: "absolute", zIndex: 1, inset: 0, pointerEvents: "none" }} className="hover-anim overflow-hidden opacity-0 transition-opacity duration-500">
             <svg viewBox="0 0 100 100" className="absolute right-4 bottom-4 w-24 h-24 text-teal-500">
-              {/* Land/Sand Area */}
-              <path d="M 0 0 L 35 0 Q 45 50 30 100 L 0 100 Z" fill="currentColor" opacity="0.1" />
-              {/* Historical shoreline contours */}
-              <path d="M 35 0 Q 45 50 30 100" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.4" className="animate-strata-slide" />
-              <path d="M 42 0 Q 32 50 48 100" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2,2" opacity="0.3" className="animate-strata-slide" style={{ animationDelay: "1s" }} />
-              <path d="M 48 0 Q 58 50 42 100" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2,2" opacity="0.2" className="animate-strata-slide" style={{ animationDelay: "2s" }} />
-              {/* Satellite Sweep Line representing shoreline tracking */}
-              <line x1="10" y1="0" x2="10" y2="100" stroke="currentColor" strokeWidth="1.5" opacity="0.6" className="animate-shoreline-sweep" />
+              <path d="M 0 0 L 30 0 Q 45 40 25 75 T 35 100 L 0 100 Z" fill="currentColor" opacity="0.15" className="animate-coastline-shift" />
+              <path d="M 30 0 Q 45 40 25 75 T 35 100" fill="none" stroke="currentColor" strokeWidth="2" className="animate-coastline-line" />
+              <text x="6" y="20" className="font-mono text-[8px] font-bold fill-rose-500 animate-erosion-tag pointer-events-none">EROSION</text>
+              <text x="42" y="85" className="font-mono text-[8px] font-bold fill-emerald-500 animate-deposition-tag pointer-events-none">ACCRETION</text>
             </svg>
           </div>
         );
@@ -1517,20 +1523,49 @@ function Interests() {
         .animate-polymer-flow {
           animation: polymer-flow 3s linear infinite;
         }
-        @keyframes shoreline-sweep {
-          0% { transform: translateX(0); opacity: 0.1; }
-          50% { transform: translateX(65px); opacity: 0.8; }
-          100% { transform: translateX(0); opacity: 0.1; }
-        }
-        .animate-shoreline-sweep {
-          animation: shoreline-sweep 4s ease-in-out infinite;
-        }
         @keyframes drainage-flow {
           0% { stroke-dashoffset: 16; }
           100% { stroke-dashoffset: 0; }
         }
         .animate-drainage-flow {
           animation: drainage-flow 1.5s linear infinite;
+        }
+        @keyframes coastline-shift {
+          0%, 100% { transform: translateX(0); }
+          35% { transform: translateX(-8px); fill: #f43f5e; }
+          70% { transform: translateX(12px); fill: #10b981; }
+        }
+        .animate-coastline-shift {
+          animation: coastline-shift 6s ease-in-out infinite;
+        }
+        @keyframes coastline-line {
+          0%, 100% { transform: translateX(0); stroke: #2dd4bf; }
+          35% { transform: translateX(-8px); stroke: #f43f5e; }
+          70% { transform: translateX(12px); stroke: #10b981; }
+        }
+        .animate-coastline-line {
+          animation: coastline-line 6s ease-in-out infinite;
+        }
+        @keyframes erosion-tag {
+          0%, 70%, 100% { opacity: 0; }
+          35% { opacity: 1; }
+        }
+        .animate-erosion-tag {
+          animation: erosion-tag 6s ease-in-out infinite;
+        }
+        @keyframes deposition-tag {
+          0%, 35%, 100% { opacity: 0; }
+          70% { opacity: 1; }
+        }
+        .animate-deposition-tag {
+          animation: deposition-tag 6s ease-in-out infinite;
+        }
+        @keyframes flood-inundate {
+          0%, 100% { transform: translateY(22px); }
+          50% { transform: translateY(0px); }
+        }
+        .animate-flood-inundate {
+          animation: flood-inundate 5s ease-in-out infinite;
         }
       `}} />
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
