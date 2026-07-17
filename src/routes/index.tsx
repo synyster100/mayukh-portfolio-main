@@ -300,7 +300,8 @@ const TIMELINE = [
     category: "professional",
     year: "Jan 2025 — Jun 2025",
     role: "CAD Specialist & Technology Research Coordinator (Contract)",
-    org: "Micromaster Corporation",
+    org: "Micromaster Corporation, Dhaka, Bangladesh",
+    orgUrl: "https://micromasterbd.com/",
     bullets: [
       "Developed 2D & 3D CAD models for aquaculture, water treatment, and ETP systems.",
       "Designed and studied fiberglass tanks, RAS, and IPRS technologies with precision.",
@@ -1706,6 +1707,7 @@ function WorldMap() {
 function Experience() {
   const ref = useReveal<HTMLDivElement>();
   const [activeTab, setActiveTab] = useState<"all" | "professional" | "teaching-research" | "internship">("all");
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const filteredTimeline = TIMELINE.filter(
     (t) => activeTab === "all" || t.category === activeTab
@@ -1744,47 +1746,79 @@ function Experience() {
 
         <div ref={ref} className="reveal mt-14 relative">
           <div className="absolute left-3 md:left-1/2 top-0 bottom-0 w-px bg-border" />
-          <div className="space-y-12">
-            {filteredTimeline.map((t, i) => (
-              <div
-                key={i}
-                className={`relative md:grid md:grid-cols-2 md:gap-12 ${
-                  i % 2 === 0 ? "" : "md:[&>*:first-child]:order-2"
-                }`}
-              >
-                <div className="absolute left-3 md:left-1/2 top-2 -translate-x-1/2 w-3 h-3 rounded-full bg-accent ring-4 ring-background" />
-                <div className="pl-10 md:pl-0 md:pr-10 md:text-right">
-                  <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
-                    {t.year}
+          <div className="space-y-6">
+            {filteredTimeline.map((t, i) => {
+              const isHovered = hoveredIndex === i;
+              return (
+                <div
+                  key={i}
+                  onMouseEnter={() => setHoveredIndex(i)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                  onClick={() => setHoveredIndex(hoveredIndex === i ? null : i)}
+                  className={`relative md:grid md:grid-cols-2 md:gap-12 p-6 rounded-2xl border transition-all duration-300 cursor-pointer ${
+                    isHovered
+                      ? "bg-card/75 border-border/80 shadow-[0_4px_20px_rgba(0,0,0,0.06)] backdrop-blur-sm"
+                      : "bg-transparent border-transparent hover:bg-secondary/5"
+                  } ${i % 2 === 0 ? "" : "md:[&>*:first-child]:order-2"}`}
+                >
+                  {/* Timeline Node Icon */}
+                  <div className={`absolute left-3 md:left-1/2 top-8 -translate-x-1/2 w-4 h-4 rounded-full border-2 transition-all duration-300 z-10 ${
+                    isHovered
+                      ? "bg-accent border-accent scale-125 shadow-[0_0_12px_rgba(251,113,133,0.7)]"
+                      : "bg-background border-border"
+                  }`} />
+                  
+                  <div className="pl-10 md:pl-0 md:pr-10 md:text-right flex flex-col justify-center">
+                    <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                      {t.year}
+                    </div>
+                    <h3 className="font-display text-2xl mt-2 transition-colors duration-300 group-hover:text-accent">{t.role}</h3>
+                    <div className="text-sm text-foreground/75 font-medium mt-1">
+                      {t.orgUrl ? (
+                        <a
+                          href={t.orgUrl}
+                          target="_blank"
+                          rel="noopener"
+                          className="hover:text-accent transition-colors underline decoration-border hover:decoration-accent"
+                          onClick={(e) => e.stopPropagation()}
+                        >
+                          {t.org}
+                        </a>
+                      ) : (
+                        t.org
+                      )}
+                    </div>
+
+                    {/* Interactive Help Pill */}
+                    <div className={`transition-all duration-300 flex items-center md:justify-end ${
+                      isHovered ? "opacity-0 max-h-0 overflow-hidden" : "opacity-100 max-h-[40px] mt-3"
+                    }`}>
+                      <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-[9px] font-mono tracking-wider font-bold bg-accent/5 border border-accent/15 text-accent animate-pulse">
+                        <span className="md:hidden">✦ Tap to view responsibilities</span>
+                        <span className="hidden md:inline">✦ Hover to view responsibilities</span>
+                      </span>
+                    </div>
                   </div>
-                  <h3 className="font-display text-2xl mt-2">{t.role}</h3>
-                  <div className="text-sm text-foreground/70">
-                    {t.orgUrl ? (
-                      <a
-                        href={t.orgUrl}
-                        target="_blank"
-                        rel="noopener"
-                        className="hover:text-accent transition-colors underline decoration-border hover:decoration-accent"
-                      >
-                        {t.org}
-                      </a>
-                    ) : (
-                      t.org
-                    )}
+
+                  <div className="pl-10 md:pl-10 flex flex-col justify-center">
+                    <div className={`transition-all duration-500 ease-in-out overflow-hidden ${
+                      isHovered
+                        ? "max-h-[600px] opacity-100"
+                        : "max-h-0 opacity-0 pointer-events-none"
+                    }`}>
+                      <ul className="space-y-2 text-sm text-foreground/80 leading-relaxed">
+                        {t.bullets.map((b, idx) => (
+                          <li key={idx} className="flex gap-2">
+                            <span className="text-accent shrink-0">→</span>
+                            <span dangerouslySetInnerHTML={{ __html: b }} />
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
                   </div>
                 </div>
-                <div className="pl-10 md:pl-10 mt-3 md:mt-0">
-                  <ul className="space-y-2 text-sm text-foreground/80 leading-relaxed">
-                    {t.bullets.map((b, idx) => (
-                      <li key={idx} className="flex gap-2">
-                        <span className="text-accent shrink-0">→</span>
-                        <span dangerouslySetInnerHTML={{ __html: b }} />
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </div>
