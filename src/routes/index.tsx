@@ -2931,8 +2931,8 @@ function Recommendations() {
                   className="w-full shrink-0 px-2 md:px-4"
                 >
                   <div className="group glow-card relative rounded-2xl border border-border bg-card p-5 md:p-6 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[220px]">
-                    <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-                    <QuoteIcon className="w-10 h-10 text-muted-foreground/10 group-hover:text-accent/10 absolute top-6 right-6 transition-colors duration-300 pointer-events-none" />
+                    <div style={{ position: "absolute" }} className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    <QuoteIcon style={{ position: "absolute" }} className="w-10 h-10 text-muted-foreground/10 group-hover:text-accent/10 absolute top-6 right-6 transition-colors duration-300 pointer-events-none" />
                     
                     <div>
                       {/* Header */}
