@@ -2152,15 +2152,15 @@ function Education() {
               <ul className="mt-4 space-y-2.5 text-xs text-foreground/80 leading-relaxed border-t border-border/20 pt-4 pl-1">
                 <li className="flex gap-2">
                   <span className="text-accent shrink-0 font-bold">▪</span>
-                  <span><strong>Chemical Stabilization:</strong> Evaluated the efficacy of eco-friendly, lignin-based industrial byproducts (Sodium Lignosulfonate) and organic polymers to modify hydraulic conductivity and increase shear strength in permeable sand models.</span>
+                  <span><strong>Soil Characterization:</strong> Tested local sandy soil sample containing <strong>95.81% sand</strong> with a specific gravity of <strong>2.71</strong> and baseline coefficient of permeability of <strong>0.0088 cm/sec</strong>.</span>
                 </li>
                 <li className="flex gap-2">
                   <span className="text-accent shrink-0 font-bold">▪</span>
-                  <span><strong>FEM Hydrodynamic Simulation:</strong> Developed finite element modeling of seepage lines, phreatic surfaces, and hydraulic gradient vectors within sand embankments to verify safety coefficients against internal piping.</span>
+                  <span><strong>UCS Strength Enhancement:</strong> Sourced Sodium Lignosulfonate (SLS), SB-95 (sodium silicate-based), and TX-95 (polymer-based) stabilizers. Curing for 21 days with <strong>5% SLS + 10% SB-95 &amp; TX-95</strong> achieved a peak compressive strength of <strong>108.57 kPa</strong>, representing a 25% improvement over SLS-only treatment (87.2 kPa).</span>
                 </li>
                 <li className="flex gap-2">
                   <span className="text-accent shrink-0 font-bold">▪</span>
-                  <span><strong>Key Results:</strong> Achieved a <strong>60-70% reduction in seepage discharge velocity</strong> and secured structural stability against piping failures under high hydrostatic gradients.</span>
+                  <span><strong>Seepage &amp; Permeability Reduction:</strong> Conducted constant-head tests showing a <strong>30-fold reduction in coefficient of permeability</strong> (from <strong>6 &times; 10⁻³ cm/s</strong> down to <strong>2 &times; 10⁻⁴ cm/s</strong>), demonstrating strong polymeric film encapsulation and resistance to piping failure.</span>
                 </li>
               </ul>
             </div>
