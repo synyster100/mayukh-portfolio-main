@@ -2256,6 +2256,44 @@ function Experience() {
                 </p>
               </div>
             </div>
+
+            {/* DOHWA / BIWTC Workshop Card */}
+            <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
+                <img
+                  src="/biwtc_workshop.jpeg"
+                  alt="Interim workshops at Bangladesh Inland Water Transport Corporation Headquarters"
+                  className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
+              </div>
+              <div className="p-5 border-t border-border/40 text-left">
+                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">DOHWA Engineering Co. Ltd.</div>
+                <h4 className="font-display text-base font-bold text-foreground">BIWTC Headquarters Workshop</h4>
+                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
+                  Participated in interim technical workshops and project presentations at the Bangladesh Inland Water Transport Corporation (BIWTC) Headquarters during the DOHWA Internship.
+                </p>
+              </div>
+            </div>
+
+            {/* Laalkuthi Site Card */}
+            <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
+                <img
+                  src="/laalkuthi_inspection.jpeg"
+                  alt="Laalkuthi heritage site restoration and construction inspections"
+                  className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
+              </div>
+              <div className="p-5 border-t border-border/40 text-left">
+                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">Heritage Restoration Fieldwork</div>
+                <h4 className="font-display text-base font-bold text-foreground">Laalkuthi Restoration Project</h4>
+                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
+                  Conducted on-site construction safety inspections and structural survey reviews at the historic Laalkuthi heritage restoration site in Old Dhaka.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
