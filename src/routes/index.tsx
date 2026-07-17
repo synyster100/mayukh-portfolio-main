@@ -1872,8 +1872,8 @@ function Education() {
           </div>
 
           {/* Graduation Picture Card */}
-          <div className="relative rounded-2xl overflow-hidden border border-border bg-card/45 backdrop-blur-sm p-2 shadow-md group">
-            <div className="relative aspect-[3/4] w-full rounded-xl overflow-hidden bg-slate-900/50">
+          <div className="space-y-3">
+            <div className="relative aspect-[3/4] w-full rounded-2xl overflow-hidden border border-border bg-card/45 shadow-md group">
               <img
                 src="/graduation.jpeg"
                 alt="Md Ali Ahnaf Abid Mayukh Graduation"
@@ -1881,8 +1881,12 @@ function Education() {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-background/90 via-transparent to-transparent opacity-65 pointer-events-none" />
             </div>
-            <div className="absolute bottom-4 left-4 right-4 bg-slate-950/90 border border-border/40 p-2 rounded-lg backdrop-blur-md text-[10px] font-mono text-center text-foreground font-bold shadow-lg select-none">
-              🎓 B.Sc. Civil Engineering Graduation
+            {/* Subtle high-contrast caption below picture */}
+            <div className="flex justify-center px-1">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-secondary/50 border border-border/60 text-[9px] font-mono tracking-wider text-foreground font-extrabold shadow-sm uppercase text-center leading-normal">
+                <span className="w-1 h-1 rounded-full bg-accent shrink-0 animate-pulse" />
+                37th convocation of Islamic University of Technology
+              </div>
             </div>
           </div>
         </div>
