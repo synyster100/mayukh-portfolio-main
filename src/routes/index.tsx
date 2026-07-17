@@ -3285,6 +3285,21 @@ function Contact() {
           ref={formRef}
           onSubmit={(e) => {
             e.preventDefault();
+            const formData = new FormData(e.currentTarget);
+            const name = formData.get("name") as string;
+            const email = formData.get("email") as string;
+            const subjectInput = formData.get("subject") as string;
+            const message = formData.get("message") as string;
+
+            const mailSubject = encodeURIComponent(`[Portfolio Contact] ${subjectInput}`);
+            const mailBody = encodeURIComponent(
+              `Name: ${name}\n` +
+              `Email: ${email}\n\n` +
+              `Message:\n` +
+              `${message}`
+            );
+
+            window.open(`mailto:ahnafabid2@iut-dhaka.edu?subject=${mailSubject}&body=${mailBody}`, "_blank");
             setSent(true);
             formRef.current?.reset();
             setTimeout(() => setSent(false), 4000);
