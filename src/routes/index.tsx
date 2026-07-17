@@ -2833,6 +2833,42 @@ const QuoteIcon = (props: React.SVGProps<SVGSVGElement>) => (
 
 const RECOMMENDATIONS = [
   {
+    name: "Rozina Khanam, PMP®",
+    role: "Project Portfolio Management | Donor-Funded Projects | Contract & Resource Management | PMO Leadership | Business Development | International Consultancy Services | Infrastructure Development",
+    context: "Mentor & Supervisor (Industrial Training at DOHWA, 2024)",
+    text: (
+      <>
+        I am pleased to recommend Ali Ahnaf Abid Mayukh, who completed his 4-week Industrial Training under my supervision in 2024 as a final-year Civil Engineering student from IUT. Throughout the training, Mayukh demonstrated <strong className="text-foreground font-bold bg-accent/5 px-1 rounded">strong enthusiasm for learning</strong>, <strong className="text-foreground font-bold">quick adaptability</strong>, and a <strong className="text-foreground font-bold">professional attitude</strong>. He grasped technical concepts well, communicated effectively, and consistently showed initiative in assigned tasks. His curiosity, discipline, and positive approach made him stand out. I am confident that he has the potential to excel in his engineering career and will be an asset to any team.
+      </>
+    ),
+    initials: "RK",
+    gradient: "from-amber-500 to-orange-500",
+  },
+  {
+    name: "Abdullah Al Saki",
+    role: "Founder @ SKARION | Engineering Talent & Career Growth",
+    context: "Manager & Supervisor (SKARION)",
+    text: (
+      <>
+        I have had the opportunity to supervise Mayukh closely, and his performance has consistently been marked by <strong className="text-foreground font-bold bg-accent/5 px-1 rounded">discipline</strong>, <strong className="text-foreground font-bold">technical clarity</strong>, and a <strong className="text-foreground font-bold">strong sense of responsibility</strong>. He demonstrates impressive proficiency in CAD and analytical tasks, and he approaches every assignment with initiative and a <strong className="text-foreground font-bold text-accent bg-accent/5 px-1 rounded">problem-solving mindset</strong>. His ability to learn quickly, communicate effectively, and deliver high-quality work under pressure has made a measurable contribution to our projects. Mayukh is dependable, collaborative, and truly committed to professional growth, and I strongly recommend him for any opportunity that values technical competence and dedication.
+      </>
+    ),
+    initials: "AS",
+    gradient: "from-emerald-500 to-teal-500",
+  },
+  {
+    name: "Adnan Arsalan, PMP®",
+    role: "Project Manager @ RocketPhone.ai | Driving AI & SaaS Innovation | Waterfall & Agile | Salesforce | MS Project, Jira & Monday",
+    context: "Manager (AutoCAD Course at LEAD Academy)",
+    text: (
+      <>
+        I’ve had the pleasure of working with Ali Ahnaf Abid Mayukh on the AutoCAD from Scratch: 2D & 3D course at LEAD Academy, and he’s been nothing short of outstanding. His <strong className="text-foreground font-bold bg-accent/5 px-1 rounded">commitment to timeliness</strong>, <strong className="text-foreground font-bold">clarity in delivery</strong>, and <strong className="text-foreground font-bold">overall professionalism</strong> set a benchmark that’s hard to match. Mayukh brings a calm, structured teaching style that makes even complex concepts feel approachable. Anyone looking to work with a reliable, skilled, and highly professional individual will find him to be a fantastic choice.
+      </>
+    ),
+    initials: "AA",
+    gradient: "from-purple-500 to-pink-500",
+  },
+  {
     name: "Ishmam Labib",
     role: "Graduate Civil Engineer | Transportation Planning Research Enthusiast",
     context: "Studied together (Feb 2026)",
@@ -2850,112 +2886,136 @@ const RECOMMENDATIONS = [
     initials: "IL",
     gradient: "from-blue-500 to-indigo-500",
   },
-  {
-    name: "Rozina Khanam, PMP®",
-    role: "Project Portfolio Management | Donor-Funded Projects | Contract & Resource Management | PMO Leadership | Business Development | International Consultancy Services | Infrastructure Development",
-    context: "Mentor & Supervisor (Industrial Training at DOHWA, 2024)",
-    text: (
-      <>
-        I am pleased to recommend Ali Ahnaf Abid Mayukh, who completed his 4-week Industrial Training under my supervision in 2024 as a final-year Civil Engineering student from IUT. Throughout the training, Mayukh demonstrated <strong className="text-foreground font-bold bg-accent/5 px-1 rounded">strong enthusiasm for learning</strong>, <strong className="text-foreground font-bold">quick adaptability</strong>, and a <strong className="text-foreground font-bold">professional attitude</strong>. He grasped technical concepts well, communicated effectively, and consistently showed initiative in assigned tasks. His curiosity, discipline, and positive approach made him stand out. I am confident that he has the potential to excel in his engineering career and will be an asset to any team.
-      </>
-    ),
-    initials: "RK",
-    gradient: "from-amber-500 to-orange-500",
-  },
-  {
-    name: "Adnan Arsalan, PMP®",
-    role: "Project Manager @ RocketPhone.ai | Driving AI & SaaS Innovation | Waterfall & Agile | Salesforce | MS Project, Jira & Monday",
-    context: "Manager (AutoCAD Course at LEAD Academy)",
-    text: (
-      <>
-        I’ve had the pleasure of working with Ali Ahnaf Abid Mayukh on the AutoCAD from Scratch: 2D & 3D course at LEAD Academy, and he’s been nothing short of outstanding. His <strong className="text-foreground font-bold bg-accent/5 px-1 rounded">commitment to timeliness</strong>, <strong className="text-foreground font-bold">clarity in delivery</strong>, and <strong className="text-foreground font-bold">overall professionalism</strong> set a benchmark that’s hard to match. Mayukh brings a calm, structured teaching style that makes even complex concepts feel approachable. Anyone looking to work with a reliable, skilled, and highly professional individual will find him to be a fantastic choice.
-      </>
-    ),
-    initials: "AA",
-    gradient: "from-purple-500 to-pink-500",
-  },
-  {
-    name: "Abdullah Al Saki",
-    role: "Founder @ SKARION | Engineering Talent & Career Growth",
-    context: "Manager & Supervisor (SKARION)",
-    text: (
-      <>
-        I have had the opportunity to supervise Mayukh closely, and his performance has consistently been marked by <strong className="text-foreground font-bold bg-accent/5 px-1 rounded">discipline</strong>, <strong className="text-foreground font-bold">technical clarity</strong>, and a <strong className="text-foreground font-bold">strong sense of responsibility</strong>. He demonstrates impressive proficiency in CAD and analytical tasks, and he approaches every assignment with initiative and a <strong className="text-foreground font-bold text-accent bg-accent/5 px-1 rounded">problem-solving mindset</strong>. His ability to learn quickly, communicate effectively, and deliver high-quality work under pressure has made a measurable contribution to our projects. Mayukh is dependable, collaborative, and truly committed to professional growth, and I strongly recommend him for any opportunity that values technical competence and dedication.
-      </>
-    ),
-    initials: "AS",
-    gradient: "from-emerald-500 to-teal-500",
-  },
 ];
 
 function Recommendations() {
-  const { ref, reveal } = useReveal();
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    if (isHovered) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % RECOMMENDATIONS.length);
+    }, 7500);
+    return () => clearInterval(interval);
+  }, [isHovered]);
+
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev - 1 + RECOMMENDATIONS.length) % RECOMMENDATIONS.length);
+  };
+
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev + 1) % RECOMMENDATIONS.length);
+  };
 
   return (
     <section id="recommendations" className="py-16 bg-background relative overflow-hidden border-t border-border/50">
       <div className="absolute inset-0 bg-grid-pattern opacity-[0.02] pointer-events-none" />
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <SectionHeader eyebrow="09 · Endorsements" title="LinkedIn Recommendations" />
+        <SectionHeader eyebrow="09 · Endorsements" title="Recommendations" />
         
         <div 
-          ref={ref}
-          className="reveal mt-12 grid grid-cols-1 lg:grid-cols-2 gap-8"
+          className="relative mt-12 max-w-4xl mx-auto"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
-          {RECOMMENDATIONS.map((rec, idx) => (
+          {/* Main Slider Window */}
+          <div className="overflow-hidden rounded-2xl">
             <div 
-              key={idx}
-              className="group glow-card relative rounded-2xl border border-border bg-card p-6 md:p-8 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col justify-between"
+              className="flex transition-transform duration-700 ease-in-out"
+              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
             >
-              {/* Background gradient glow and Quote mark watermark */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
-              <QuoteIcon className="w-10 h-10 text-muted-foreground/10 group-hover:text-accent/10 absolute top-6 right-6 transition-colors duration-300 pointer-events-none" />
-              
-              <div>
-                {/* Recommender Info Header */}
-                <div className="flex items-start gap-4">
-                  {/* Initials Avatar */}
-                  <div className={`w-11 h-11 rounded-full flex items-center justify-center text-sm font-extrabold text-white bg-gradient-to-br ${rec.gradient} shadow-sm shrink-0`}>
-                    {rec.initials}
-                  </div>
-                  
-                  {/* Name and LinkedIn link/tag */}
-                  <div className="space-y-1 min-w-0 flex-1">
-                    <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="font-display text-base font-extrabold text-foreground leading-tight">
-                        {rec.name}
-                      </h3>
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 shrink-0">
-                        <Linkedin className="w-2.5 h-2.5" />
-                        1st
+              {RECOMMENDATIONS.map((rec, idx) => (
+                <div 
+                  key={idx}
+                  className="w-full shrink-0 px-2 md:px-4"
+                >
+                  <div className="group glow-card relative rounded-2xl border border-border bg-card p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[350px]">
+                    <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                    <QuoteIcon className="w-10 h-10 text-muted-foreground/10 group-hover:text-accent/10 absolute top-6 right-6 transition-colors duration-300 pointer-events-none" />
+                    
+                    <div>
+                      {/* Header */}
+                      <div className="flex items-start gap-4">
+                        <div className={`w-11 h-11 rounded-full flex items-center justify-center text-sm font-extrabold text-white bg-gradient-to-br ${rec.gradient} shadow-sm shrink-0`}>
+                          {rec.initials}
+                        </div>
+                        
+                        <div className="space-y-1 min-w-0 flex-1">
+                          <div className="flex items-center gap-2 flex-wrap">
+                            <h3 className="font-display text-base font-extrabold text-foreground leading-tight">
+                              {rec.name}
+                            </h3>
+                            <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 shrink-0">
+                              <Linkedin className="w-2.5 h-2.5" />
+                              1st
+                            </span>
+                          </div>
+                          
+                          <div className="text-[11px] text-muted-foreground font-semibold leading-relaxed line-clamp-2 hover:line-clamp-none transition-all duration-300 cursor-help" title={rec.role}>
+                            {rec.role}
+                          </div>
+                        </div>
+                      </div>
+
+                      {/* Body */}
+                      <div className="mt-6 border-l-2 border-accent/20 pl-4 py-1">
+                        <div className="text-xs md:text-sm text-foreground/80 leading-relaxed font-sans font-medium italic">
+                          {rec.text}
+                        </div>
+                      </div>
+                    </div>
+
+                    {/* Footer / Context */}
+                    <div className="mt-6 pt-4 border-t border-border/40 flex items-center justify-between text-[11px] text-muted-foreground font-bold">
+                      <span className="text-accent/80 font-extrabold uppercase tracking-wider text-[9px]">
+                        {rec.context}
+                      </span>
+                      <span className="text-[10px] opacity-60">
+                        Endorsed Profile
                       </span>
                     </div>
-                    
-                    {/* Role / Title */}
-                    <div className="text-[11px] text-muted-foreground font-semibold leading-relaxed line-clamp-2 hover:line-clamp-none transition-all duration-300 cursor-help" title={rec.role}>
-                      {rec.role}
-                    </div>
                   </div>
                 </div>
-
-                {/* Testimonial Quote body */}
-                <div className="mt-6 border-l-2 border-accent/20 pl-4 py-1">
-                  <div className="text-xs md:text-sm text-foreground/80 leading-relaxed font-sans font-medium italic">
-                    {rec.text}
-                  </div>
-                </div>
-              </div>
-
-              {/* Relationship context banner */}
-              <div className="mt-6 pt-4 border-t border-border/40 flex items-center justify-between text-[11px] text-muted-foreground font-bold">
-                <span className="text-accent/80 font-extrabold uppercase tracking-wider text-[9px]">
-                  {rec.context}
-                </span>
-                <span className="text-[10px] opacity-60">
-                  Via LinkedIn
-                </span>
-              </div>
+              ))}
             </div>
-          ))}
+          </div>
+
+          {/* Left Navigation Arrow */}
+          <button
+            onClick={handlePrev}
+            className="absolute left-[-20px] md:left-[-50px] top-[45%] z-20 p-2 rounded-full border border-border bg-card/85 backdrop-blur shadow-sm hover:scale-105 hover:bg-card active:scale-95 transition-all text-muted-foreground hover:text-foreground hidden sm:flex items-center justify-center"
+            aria-label="Previous recommendation"
+          >
+            <svg className="w-4 h-4 stroke-current fill-none stroke-2" viewBox="0 0 24 24">
+              <path d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+
+          {/* Right Navigation Arrow */}
+          <button
+            onClick={handleNext}
+            className="absolute right-[-20px] md:right-[-50px] top-[45%] z-20 p-2 rounded-full border border-border bg-card/85 backdrop-blur shadow-sm hover:scale-105 hover:bg-card active:scale-95 transition-all text-muted-foreground hover:text-foreground hidden sm:flex items-center justify-center"
+            aria-label="Next recommendation"
+          >
+            <svg className="w-4 h-4 stroke-current fill-none stroke-2" viewBox="0 0 24 24">
+              <path d="M9 5l7 7-7 7" />
+            </svg>
+          </button>
+
+          {/* Navigation Dots Indicators */}
+          <div className="flex justify-center gap-2 mt-8">
+            {RECOMMENDATIONS.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setActiveIndex(idx)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  activeIndex === idx ? "bg-accent w-5" : "bg-muted-foreground/30 hover:bg-muted-foreground/50"
+                }`}
+                aria-label={`Go to slide ${idx + 1}`}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </section>
