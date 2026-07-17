@@ -2323,25 +2323,12 @@ function Education() {
       <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
 
       <div className="mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-12 items-start relative z-10">
-        {/* Left Column: Title & HUD Spec */}
+        {/* Left Column: Title */}
         <div className="lg:col-span-4 lg:sticky lg:top-24 space-y-6">
           <SectionHeader eyebrow="02 · Education" title="Academic foundation" />
           <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
             Standardized test scores, academic credentials, and professional certifications at the intersection of civil mechanics, geomorphology, and computational systems.
           </p>
-
-          {/* Technical HUD Spec Box */}
-          <div className="border border-border/60 rounded-xl p-4 bg-card/60 backdrop-blur-sm space-y-3.5 shadow-sm">
-            <div className="flex justify-between items-center text-[11px] font-mono">
-              <span className="text-muted-foreground uppercase tracking-wider">Degree Status</span>
-              <span className="text-accent font-bold bg-accent/10 px-2 py-0.5 rounded border border-accent/20">Conferred Oct 2025</span>
-            </div>
-            <div className="h-px bg-border/40" />
-            <div className="flex justify-between items-center text-[11px] font-mono">
-              <span className="text-muted-foreground uppercase tracking-wider">Research Track</span>
-              <span className="text-foreground/90 font-extrabold bg-secondary/60 px-2 py-0.5 rounded">Geoenvironmental</span>
-            </div>
-          </div>
         </div>
 
         {/* Right Column: Cards */}
@@ -2364,9 +2351,15 @@ function Education() {
                   </p>
                 </div>
               </div>
-              <span className="font-mono text-[10px] text-muted-foreground bg-secondary/50 px-3 py-1 rounded-full border border-border/60 font-bold uppercase tracking-wider">
-                Jun 2021 — Oct 2025
-              </span>
+              
+              <div className="flex flex-col sm:items-end gap-1.5 shrink-0">
+                <span className="font-mono text-[10px] text-muted-foreground bg-secondary/50 px-3 py-1 rounded-full border border-border/60 font-bold uppercase tracking-wider text-center">
+                  Jun 2021 — Oct 2025
+                </span>
+                <span className="font-mono text-[9px] text-emerald-500 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 font-bold uppercase tracking-wider text-center">
+                  Conferred Oct 2025
+                </span>
+              </div>
             </div>
 
             <div className="mt-5 text-sm md:text-base text-foreground/80 leading-relaxed pl-0 sm:pl-16">
