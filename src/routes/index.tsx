@@ -2915,7 +2915,7 @@ function Recommendations() {
         <SectionHeader eyebrow="09 · Endorsements" title="Recommendations" />
         
         <div 
-          className="relative mt-12 max-w-4xl mx-auto"
+          className="relative mt-6 max-w-3xl mx-auto"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -2930,7 +2930,7 @@ function Recommendations() {
                   key={idx}
                   className="w-full shrink-0 px-2 md:px-4"
                 >
-                  <div className="group glow-card relative rounded-2xl border border-border bg-card p-6 md:p-8 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[350px]">
+                  <div className="group glow-card relative rounded-2xl border border-border bg-card p-5 md:p-6 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden flex flex-col justify-between min-h-[220px]">
                     <div className="absolute top-0 right-0 w-24 h-24 bg-gradient-to-bl from-accent/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                     <QuoteIcon className="w-10 h-10 text-muted-foreground/10 group-hover:text-accent/10 absolute top-6 right-6 transition-colors duration-300 pointer-events-none" />
                     
@@ -2959,7 +2959,7 @@ function Recommendations() {
                       </div>
 
                       {/* Body */}
-                      <div className="mt-6 border-l-2 border-accent/20 pl-4 py-1">
+                      <div className="mt-4 border-l-2 border-accent/20 pl-4 py-1">
                         <div className="text-xs md:text-sm text-foreground/80 leading-relaxed font-sans font-medium italic">
                           {rec.text}
                         </div>
@@ -2967,7 +2967,7 @@ function Recommendations() {
                     </div>
 
                     {/* Footer / Context */}
-                    <div className="mt-6 pt-4 border-t border-border/40 flex items-center justify-between text-[11px] text-muted-foreground font-bold">
+                    <div className="mt-4 pt-3 border-t border-border/40 flex items-center justify-between text-[11px] text-muted-foreground font-bold">
                       <span className="text-accent/80 font-extrabold uppercase tracking-wider text-[9px]">
                         {rec.context}
                       </span>
