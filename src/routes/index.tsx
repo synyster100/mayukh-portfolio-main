@@ -1342,10 +1342,19 @@ function Interests() {
       case "Geoenvironmental Engineering":
         return (
           <div style={{ position: "absolute", zIndex: 1, inset: 0, pointerEvents: "none" }} className="hover-anim overflow-hidden opacity-0 transition-opacity duration-500">
-            <svg viewBox="0 0 200 100" className="absolute bottom-0 inset-x-0 w-full h-20 text-amber-500 animate-strata-slide">
-              <path d="M 0 50 Q 50 40 100 60 T 200 50 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.1" />
-              <path d="M 0 68 Q 60 78 120 58 T 200 73 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.15" />
-              <path d="M 0 84 Q 40 79 100 89 T 200 84 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.2" />
+            <svg viewBox="0 0 100 100" className="absolute right-4 bottom-4 w-24 h-24 text-amber-600">
+              {/* Soil particles/grains */}
+              <circle cx="25" cy="30" r="5" fill="currentColor" opacity="0.3" />
+              <circle cx="45" cy="65" r="6" fill="currentColor" opacity="0.3" />
+              <circle cx="65" cy="40" r="4.5" fill="currentColor" opacity="0.3" />
+              <circle cx="80" cy="70" r="5.5" fill="currentColor" opacity="0.3" />
+              {/* Polymer chains wrapping/binding */}
+              <path d="M 10 35 C 20 20, 35 45, 50 45 C 65 45, 75 25, 90 35" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3,3" className="animate-polymer-flow" />
+              <path d="M 20 75 C 35 60, 50 80, 65 60 C 80 40, 70 85, 90 75" fill="none" stroke="currentColor" strokeWidth="1.5" strokeDasharray="3,3" className="animate-polymer-flow" style={{ animationDelay: "1s" }} />
+              {/* Binding nodes */}
+              <circle cx="32" cy="35" r="2" fill="currentColor" className="animate-node-pulse" />
+              <circle cx="58" cy="52" r="2" fill="currentColor" className="animate-node-pulse" style={{ animationDelay: "0.5s" }} />
+              <circle cx="74" cy="56" r="2" fill="currentColor" className="animate-node-pulse" style={{ animationDelay: "1s" }} />
             </svg>
           </div>
         );
@@ -1383,9 +1392,15 @@ function Interests() {
       case "Shoreline Dynamics":
         return (
           <div style={{ position: "absolute", zIndex: 1, inset: 0, pointerEvents: "none" }} className="hover-anim overflow-hidden opacity-0 transition-opacity duration-500">
-            <svg viewBox="0 0 200 100" className="absolute bottom-0 inset-x-0 w-full h-14 text-teal-500">
-              <path d="M 0 50 Q 50 40 100 50 T 200 50 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.15" className="animate-strata-slide" />
-              <path d="M 0 70 Q 60 78 120 70 T 200 70 L 200 100 L 0 100 Z" fill="currentColor" opacity="0.25" className="animate-strata-slide" style={{ animationDelay: "1.5s" }} />
+            <svg viewBox="0 0 100 100" className="absolute right-4 bottom-4 w-24 h-24 text-teal-500">
+              {/* Land/Sand Area */}
+              <path d="M 0 0 L 35 0 Q 45 50 30 100 L 0 100 Z" fill="currentColor" opacity="0.1" />
+              {/* Historical shoreline contours */}
+              <path d="M 35 0 Q 45 50 30 100" fill="none" stroke="currentColor" strokeWidth="1.5" opacity="0.4" className="animate-strata-slide" />
+              <path d="M 42 0 Q 32 50 48 100" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2,2" opacity="0.3" className="animate-strata-slide" style={{ animationDelay: "1s" }} />
+              <path d="M 48 0 Q 58 50 42 100" fill="none" stroke="currentColor" strokeWidth="1" strokeDasharray="2,2" opacity="0.2" className="animate-strata-slide" style={{ animationDelay: "2s" }} />
+              {/* Satellite Sweep Line representing shoreline tracking */}
+              <line x1="10" y1="0" x2="10" y2="100" stroke="currentColor" strokeWidth="1.5" opacity="0.6" className="animate-shoreline-sweep" />
             </svg>
           </div>
         );
@@ -1485,6 +1500,21 @@ function Interests() {
         }
         .animate-strata-slide {
           animation: strata-slide 3.5s ease-in-out infinite;
+        }
+        @keyframes polymer-flow {
+          0% { stroke-dashoffset: 24; }
+          100% { stroke-dashoffset: 0; }
+        }
+        .animate-polymer-flow {
+          animation: polymer-flow 3s linear infinite;
+        }
+        @keyframes shoreline-sweep {
+          0% { transform: translateX(0); opacity: 0.1; }
+          50% { transform: translateX(65px); opacity: 0.8; }
+          100% { transform: translateX(0); opacity: 0.1; }
+        }
+        .animate-shoreline-sweep {
+          animation: shoreline-sweep 4s ease-in-out infinite;
         }
       `}} />
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
