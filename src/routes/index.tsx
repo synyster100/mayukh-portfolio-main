@@ -2479,7 +2479,7 @@ function Education() {
                         </svg>
                         <div className="absolute font-mono text-sm font-bold text-foreground">151</div>
                       </div>
-                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mt-3">Verbal</span>
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground font-bold mt-3">Verbal</span>
                       <span className="text-[10px] font-mono text-blue-400 font-bold mt-1">49th pct</span>
                     </div>
 
@@ -2492,7 +2492,7 @@ function Education() {
                         </svg>
                         <div className="absolute font-mono text-sm font-bold text-foreground">3.5</div>
                       </div>
-                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mt-3">AWA</span>
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground font-bold mt-3">AWA</span>
                       <span className="text-[10px] font-mono text-blue-400 font-bold mt-1">37th pct</span>
                     </div>
                   </div>
