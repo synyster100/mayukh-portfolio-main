@@ -2206,7 +2206,7 @@ function Experience() {
                 <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">SKARION Engineering</div>
                 <h4 className="font-display text-base font-bold text-foreground">Design Team</h4>
                 <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                  Collaborative workshop with engineering peers and Director of Engineering, Al Saki focusing on infrastructure route optimization.
+                  Collaborative workshop with engineering peers and Abdullah Al Saki (Director of SKARION Engineering), focusing on infrastructure route optimization.
                 </p>
               </div>
             </div>
