@@ -2844,9 +2844,9 @@ const RECOMMENDATIONS = [
   },
   {
     name: "Abdullah Al Saki",
-    role: "Founder @ SKARION | Engineering Talent & Career Growth",
-    context: "Manager & Supervisor (SKARION)",
-    company: "SKARION",
+    role: "Director of SKARION Engineering | Engineering Talent & Career Growth",
+    context: "Manager & Supervisor (SKARION Engineering)",
+    company: "SKARION Engineering",
     text: (
       <>
         I have had the opportunity to supervise Mayukh closely, and his performance has consistently been marked by <span className="bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 px-1.5 py-0.5 rounded font-semibold border-b border-emerald-500/20">discipline</span>, <span className="bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 px-1.5 py-0.5 rounded font-semibold border-b border-emerald-500/20">technical clarity</span>, and a <span className="bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 px-1.5 py-0.5 rounded font-semibold border-b border-emerald-500/20">strong sense of responsibility</span>. He demonstrates impressive proficiency in CAD and analytical tasks, and he approaches every assignment with initiative and a <span className="bg-emerald-500/10 text-emerald-500 dark:text-emerald-400 px-1.5 py-0.5 rounded font-semibold border-b border-emerald-500/20">problem-solving mindset</span>. His ability to learn quickly, communicate effectively, and deliver high-quality work under pressure has made a measurable contribution to our projects. Mayukh is dependable, collaborative, and truly committed to professional growth, and I strongly recommend him.
