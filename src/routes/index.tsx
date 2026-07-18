@@ -1347,8 +1347,8 @@ function About() {
               />
             </div>
           </div>
-          <div className="lg:col-span-7 order-1 lg:order-2 flex items-center">
-            <p className="text-lg text-pretty text-foreground/85 leading-relaxed text-left">
+          <div className="lg:col-span-7 order-1 lg:order-2 text-left pt-2 flex flex-col justify-start">
+            <p className="text-lg text-pretty text-foreground/85 leading-relaxed">
               I am a civil engineer and researcher dedicated to understanding and addressing environmental hazards. My research focus lies at the intersection of <strong className="text-foreground font-semibold">geospatial data science (GIS &amp; Remote Sensing), hydrodynamic modeling, and geoenvironmental engineering</strong>, with a focus on building resilient systems for disaster mitigation and sustainable infrastructure. From analyzing long-term shoreline dynamics and urban stormwater grids to soil-structure stabilization studies, I integrate data-driven insights with physical modeling to design solutions that adapt to changing climatic patterns and protect vulnerable communities. Beyond research, I have experience designing telecommunication networks and instructing hundreds of professionals and students in structural CAD modeling, motivated by a commitment to lifelong learning, collaborative science, and translating complex environmental data into policy-actionable solutions.
             </p>
           </div>
@@ -2437,22 +2437,22 @@ function Education() {
           </div>
 
           {/* Standardized Tests Card */}
-          <div className="p-6 rounded-2xl border border-border bg-card/70 backdrop-blur-sm shadow-md hover:border-primary/40 transition-all duration-300 relative group overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none group-hover:bg-primary/10 transition-colors" />
+          <div className="p-6 rounded-2xl border border-border bg-card/70 backdrop-blur-sm shadow-md hover:border-blue-500/40 transition-all duration-300 relative group overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-blue-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-blue-500/10 transition-colors" />
             
-            <h3 className="font-display text-xl font-bold text-foreground mb-6 pb-3 border-b border-border/60 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-primary" />
+            <h3 className="font-display text-xl font-bold text-foreground mb-6 pb-3 border-b border-border/60 flex items-center gap-2 text-left">
+              <FileText className="w-5 h-5 text-blue-500" />
               Standardized Test Scores
             </h3>
             
             <div className="grid md:grid-cols-2 gap-6">
               {/* GRE Card */}
-              <div className="border border-border/50 rounded-xl p-5 bg-secondary/15 flex flex-col justify-between shadow-sm relative overflow-hidden group/gre">
-                <div className="absolute top-0 right-0 w-20 h-20 bg-primary/5 rounded-full blur-xl pointer-events-none" />
+              <div className="border border-border/50 rounded-xl p-5 bg-secondary/15 flex flex-col justify-between shadow-sm relative overflow-hidden group/gre text-left">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-blue-500/5 rounded-full blur-xl pointer-events-none" />
                 <div>
-                  <div className="flex justify-between items-center mb-6 pb-2 border-b border-border/30">
+                  <div className="flex justify-between items-center mb-5 pb-2 border-b border-border/30">
                     <span className="text-sm font-bold font-sans text-foreground uppercase tracking-wide">GRE General Test</span>
-                    <span className="text-lg font-bold font-mono text-primary bg-primary/10 px-2.5 py-0.5 rounded-md border border-primary/25">312</span>
+                    <span className="text-lg font-bold font-mono text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded-md border border-blue-500/25">312</span>
                   </div>
                   
                   {/* Circular Score Rings */}
@@ -2461,78 +2461,79 @@ function Education() {
                     <div className="flex flex-col items-center bg-card/45 border border-border/40 rounded-xl p-3 shadow-inner">
                       <div className="relative w-16 h-16 flex items-center justify-center mt-1">
                         <svg className="w-full h-full transform -rotate-90">
-                          <circle cx="32" cy="32" r="24" className="stroke-secondary/35" strokeWidth="2.5" fill="transparent" />
-                          <circle cx="32" cy="32" r="24" className="stroke-primary" strokeWidth="3.5" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (71 / 100) * 150.8} strokeLinecap="round" />
+                          <circle cx="32" cy="32" r="24" className="stroke-secondary/30" strokeWidth="3" fill="transparent" />
+                          <circle cx="32" cy="32" r="24" className="stroke-blue-500" strokeWidth="3" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (71 / 100) * 150.8} strokeLinecap="round" />
                         </svg>
                         <div className="absolute font-mono text-sm font-bold text-foreground">161</div>
                       </div>
-                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mt-3">Quant</span>
-                      <span className="text-[8px] font-mono text-primary/80 font-semibold mt-0.5">71st pct</span>
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground font-bold mt-3">Quant</span>
+                      <span className="text-[10px] font-mono text-blue-400 font-bold mt-1">71st pct</span>
                     </div>
 
                     {/* Verbal */}
                     <div className="flex flex-col items-center bg-card/45 border border-border/40 rounded-xl p-3 shadow-inner">
                       <div className="relative w-16 h-16 flex items-center justify-center mt-1">
                         <svg className="w-full h-full transform -rotate-90">
-                          <circle cx="32" cy="32" r="24" className="stroke-secondary/35" strokeWidth="2.5" fill="transparent" />
-                          <circle cx="32" cy="32" r="24" className="stroke-primary" strokeWidth="3.5" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (49 / 100) * 150.8} strokeLinecap="round" />
+                          <circle cx="32" cy="32" r="24" className="stroke-secondary/30" strokeWidth="3" fill="transparent" />
+                          <circle cx="32" cy="32" r="24" className="stroke-blue-500" strokeWidth="3" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (49 / 100) * 150.8} strokeLinecap="round" />
                         </svg>
                         <div className="absolute font-mono text-sm font-bold text-foreground">151</div>
                       </div>
                       <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mt-3">Verbal</span>
-                      <span className="text-[8px] font-mono text-primary/80 font-semibold mt-0.5">49th pct</span>
+                      <span className="text-[10px] font-mono text-blue-400 font-bold mt-1">49th pct</span>
                     </div>
 
                     {/* AWA */}
                     <div className="flex flex-col items-center bg-card/45 border border-border/40 rounded-xl p-3 shadow-inner">
                       <div className="relative w-16 h-16 flex items-center justify-center mt-1">
                         <svg className="w-full h-full transform -rotate-90">
-                          <circle cx="32" cy="32" r="24" className="stroke-secondary/35" strokeWidth="2.5" fill="transparent" />
-                          <circle cx="32" cy="32" r="24" className="stroke-primary" strokeWidth="3.5" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (37 / 100) * 150.8} strokeLinecap="round" />
+                          <circle cx="32" cy="32" r="24" className="stroke-secondary/30" strokeWidth="3" fill="transparent" />
+                          <circle cx="32" cy="32" r="24" className="stroke-blue-500" strokeWidth="3" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (37 / 100) * 150.8} strokeLinecap="round" />
                         </svg>
                         <div className="absolute font-mono text-sm font-bold text-foreground">3.5</div>
                       </div>
                       <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mt-3">AWA</span>
-                      <span className="text-[8px] font-mono text-primary/80 font-semibold mt-0.5">37th pct</span>
+                      <span className="text-[10px] font-mono text-blue-400 font-bold mt-1">37th pct</span>
                     </div>
                   </div>
                 </div>
               </div>
 
               {/* IELTS Card */}
-              <div className="border border-border/50 rounded-xl p-5 bg-secondary/15 flex flex-col justify-between shadow-sm relative overflow-hidden group/ielts">
-                <div className="absolute top-0 right-0 w-20 h-20 bg-primary/5 rounded-full blur-xl pointer-events-none" />
+              <div className="border border-border/50 rounded-xl p-5 bg-secondary/15 flex flex-col justify-between shadow-sm relative overflow-hidden group/ielts text-left">
+                <div className="absolute top-0 right-0 w-20 h-20 bg-blue-500/5 rounded-full blur-xl pointer-events-none" />
                 <div>
                   <div className="flex justify-between items-center mb-5 pb-2 border-b border-border/30">
                     <span className="text-sm font-bold font-sans text-foreground uppercase tracking-wide">IELTS Academic</span>
-                    <span className="text-lg font-bold font-mono text-primary bg-primary/10 px-2.5 py-0.5 rounded-md border border-primary/25">7.5</span>
+                    <span className="text-lg font-bold font-mono text-blue-400 bg-blue-500/10 px-2.5 py-0.5 rounded-md border border-blue-500/25">7.5</span>
                   </div>
 
-                  {/* Progress Telemetry Meters */}
-                  <div className="space-y-3.5">
+                  {/* 4-Box Metrics Grid */}
+                  <div className="grid grid-cols-4 gap-2 text-center mb-4">
                     {[
-                      { label: "Listening", score: "7.0", pct: 77.7, color: "bg-primary/80" },
-                      { label: "Reading", score: "7.0", pct: 77.7, color: "bg-primary/80" },
-                      { label: "Writing", score: "7.5", pct: 83.3, color: "bg-primary" },
-                      { label: "Speaking", score: "8.0", pct: 88.8, color: "bg-primary" },
-                    ].map((item) => (
-                      <div key={item.label} className="space-y-1">
-                        <div className="flex justify-between text-[10px] font-mono text-muted-foreground uppercase font-bold">
-                          <span>{item.label}</span>
-                          <span className="text-foreground">{item.score}</span>
-                        </div>
-                        <div className="w-full bg-secondary/50 h-2 rounded-full overflow-hidden border border-border/40 p-0.5">
-                          <div className={`${item.color} h-full rounded-full transition-all duration-1000`} style={{ width: `${item.pct}%` }} />
-                        </div>
+                      ["L", "7.0", "Listening"],
+                      ["R", "7.0", "Reading"],
+                      ["W", "7.5", "Writing"],
+                      ["S", "8.0", "Speaking"],
+                    ].map(([k, v, name]) => (
+                      <div key={k} className="border border-border/40 bg-card/45 rounded-xl p-2 shadow-sm hover:border-blue-500/30 transition-colors">
+                        <div className="font-mono font-bold text-base text-foreground">{v}</div>
+                        <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mt-1">{k}</div>
+                        <div className="text-[8px] text-muted-foreground/75 leading-none mt-1 font-semibold">{name}</div>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                {/* CEFR Indicator */}
-                <div className="mt-5 border-t border-border/30 pt-3 flex items-center justify-between text-[10px] font-mono text-muted-foreground uppercase font-bold">
-                  <span>CEFR Level:</span>
-                  <span className="text-primary font-sans text-xs font-semibold">C1 (Effective Operational Proficiency)</span>
+                {/* Progress bars to show balance */}
+                <div className="space-y-2 border-t border-border/30 pt-4">
+                  <div className="flex justify-between text-xs font-mono text-muted-foreground uppercase font-bold">
+                    <span>Overall English Proficiency</span>
+                    <span className="text-blue-400">CEFR C1 level</span>
+                  </div>
+                  <div className="w-full bg-secondary/50 h-2.5 rounded-full overflow-hidden border border-border/40 p-0.5">
+                    <div className="bg-blue-500 h-full rounded-full transition-all duration-1000" style={{ width: "83.3%" }} />
+                  </div>
                 </div>
               </div>
             </div>
