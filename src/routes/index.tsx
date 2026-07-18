@@ -37,6 +37,8 @@ import {
   Palette,
   MessageSquare,
   Briefcase,
+  Menu,
+  X,
 } from "lucide-react";
 import { useReveal, useCountUp, useInView } from "@/hooks/use-reveal";
 import ProjectMap from "@/components/ProjectMap";
@@ -1034,6 +1036,7 @@ function Portfolio() {
 function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [theme, setTheme] = useState<"light" | "dark">("light");
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const on = () => setScrolled(window.scrollY > 12);
@@ -1047,6 +1050,16 @@ function Nav() {
     const isDark = document.documentElement.classList.contains("dark");
     setTheme(isDark ? "dark" : "light");
   }, []);
+
+  // Lock body scroll when mobile menu is open
+  useEffect(() => {
+    if (mobileOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
 
   const toggleTheme = () => {
     const nextTheme = theme === "light" ? "dark" : "light";
@@ -1113,8 +1126,73 @@ function Nav() {
           >
             Let's collaborate <ArrowUpRight className="w-3.5 h-3.5" />
           </a>
+
+          {/* Mobile Hamburger Button */}
+          <button
+            onClick={() => setMobileOpen(!mobileOpen)}
+            className="lg:hidden p-2 rounded-xl border border-border bg-card/80 backdrop-blur-sm hover:bg-secondary transition-colors"
+            aria-label="Toggle mobile menu"
+          >
+            {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+          </button>
         </div>
       </div>
+
+      {/* Mobile Navigation Overlay */}
+      {mobileOpen && (
+        <div className="fixed inset-0 z-[100] lg:hidden">
+          {/* Dark backdrop */}
+          <div
+            className="absolute inset-0 bg-background/60 backdrop-blur-sm mobile-overlay-enter"
+            onClick={() => setMobileOpen(false)}
+          />
+          {/* Slide-in panel */}
+          <div className="absolute top-0 right-0 h-full w-[280px] max-w-[85vw] bg-card border-l border-border shadow-2xl mobile-nav-enter flex flex-col">
+            {/* Close button */}
+            <div className="flex items-center justify-between px-6 h-16 border-b border-border/50">
+              <span className="font-display text-lg font-bold">Menu</span>
+              <button
+                onClick={() => setMobileOpen(false)}
+                className="p-2 rounded-xl hover:bg-secondary transition-colors"
+                aria-label="Close menu"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            </div>
+            {/* Nav links */}
+            <nav className="flex-1 overflow-y-auto py-4 px-4">
+              {NAV.map((n) => (
+                <a
+                  key={n.id}
+                  href={`#${n.id}`}
+                  onClick={() => setMobileOpen(false)}
+                  className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-foreground/85 hover:text-foreground hover:bg-secondary/60 transition-all duration-200 font-semibold text-sm"
+                >
+                  <n.icon className={`w-4.5 h-4.5 ${n.color}`} />
+                  <span>{n.label}</span>
+                </a>
+              ))}
+            </nav>
+            {/* Bottom actions */}
+            <div className="px-6 py-5 border-t border-border/50 space-y-3">
+              <button
+                onClick={toggleTheme}
+                className="w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border border-border bg-secondary/50 text-sm font-semibold hover:bg-secondary transition-colors"
+              >
+                {theme === "dark" ? <Sun className="w-4 h-4 text-amber-500" /> : <Moon className="w-4 h-4 text-indigo-400" />}
+                {theme === "dark" ? "Light Mode" : "Dark Mode"}
+              </button>
+              <a
+                href="#contact"
+                onClick={() => setMobileOpen(false)}
+                className="block w-full text-center px-4 py-2.5 rounded-xl bg-primary text-primary-foreground text-sm font-semibold hover:bg-primary/90 transition-colors"
+              >
+                Let's collaborate
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </header>
   );
 }
@@ -1130,6 +1208,8 @@ function Hero() {
         <img
           src="/satellite_hero.jpg"
           alt="Satellite coastal city view background"
+          loading="eager"
+          decoding="async"
           className="w-full h-full object-cover opacity-[0.25] dark:opacity-[0.16] scale-100 animate-footer-zoom"
         />
       </div>
@@ -1140,22 +1220,22 @@ function Hero() {
           <h1 className="font-display text-[clamp(2.75rem,7vw,6.5rem)] leading-[0.95] tracking-tight text-balance">
             Md Ali Ahnaf
             <br />
-            Abid <em className="text-accent not-italic">Mayukh</em>
+            Abid <em className="animate-shimmer not-italic">Mayukh</em>
             <span className="text-primary">.</span>
           </h1>
           <p className="mt-8 text-base md:text-lg text-muted-foreground max-w-2xl text-pretty leading-relaxed">
-            Fresh graduate Civil &amp; Environmental Engineering specializing in <strong className="text-foreground font-semibold">Geospatial Data Analysis and CAD systems</strong>.
+            Civil &amp; Environmental Engineer | <strong className="text-foreground font-semibold">GIS, Remote Sensing &amp; GeoAI Researcher</strong>
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <a
               href="#publications"
-              className="inline-flex items-center gap-2 bg-primary text-primary-foreground rounded-full px-5 py-2.5 text-sm hover:bg-primary/90 transition-colors"
+              className="inline-flex items-center gap-2 bg-primary text-primary-foreground rounded-full px-5 py-2.5 text-sm font-semibold hover:bg-primary/90 transition-colors shadow-md hover:shadow-lg"
             >
               View Research <ArrowUpRight className="w-4 h-4" />
             </a>
             <a
               href="#projects"
-              className="inline-flex items-center gap-2 border border-foreground/30 rounded-full px-5 py-2.5 text-sm hover:border-foreground transition-colors"
+              className="inline-flex items-center gap-2 border border-foreground/30 rounded-full px-5 py-2.5 text-sm font-semibold hover:border-foreground hover:bg-foreground/5 transition-colors"
             >
               Explore Projects <ArrowUpRight className="w-4 h-4" />
             </a>
@@ -1165,12 +1245,6 @@ function Hero() {
               className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
             >
               <Download className="w-4 h-4" /> Download CV
-            </a>
-            <a
-              href="#contact"
-              className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              <Mail className="w-4 h-4" /> Contact
             </a>
           </div>
         </div>
@@ -1264,6 +1338,8 @@ function About() {
               <img
                 src="/profile.jpeg"
                 alt="Profile picture of Md Ali Ahnaf Abid Mayukh"
+                loading="lazy"
+                decoding="async"
                 className="relative w-full aspect-[4/5] rounded-2xl object-cover border-4 border-card shadow-lg"
               />
             </div>
@@ -1467,110 +1543,8 @@ function Interests() {
 
   return (
     <section id="research" className="py-16 bg-secondary/30 relative overflow-hidden border-y border-border/50">
-      <style dangerouslySetInnerHTML={{ __html: `
-        .glow-card:hover .hover-anim {
-          opacity: 0.35 !important;
-        }
-        @keyframes satellite-orbit {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        .animate-satellite-orbit {
-          animation: satellite-orbit 14s linear infinite;
-        }
-        @keyframes wave-flow {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-        .animate-wave-flow {
-          animation: wave-flow 6s linear infinite;
-        }
-        @keyframes rain-fall {
-          0% { transform: translateY(-20px); opacity: 0; }
-          40% { opacity: 0.7; }
-          100% { transform: translateY(160px); opacity: 0; }
-        }
-        .animate-rain-1 { animation: rain-fall 1.7s linear infinite; }
-        .animate-rain-2 { animation: rain-fall 2.1s linear infinite; animation-delay: 0.5s; }
-        .animate-rain-3 { animation: rain-fall 1.4s linear infinite; animation-delay: 0.9s; }
-        
-        @keyframes pulse-node {
-          0%, 100% { transform: scale(1); opacity: 0.25; }
-          50% { transform: scale(1.15); opacity: 0.85; }
-        }
-        .animate-node-pulse {
-          animation: pulse-node 2.2s ease-in-out infinite;
-        }
-        
-        @keyframes radar-sweep {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-        .animate-radar-sweep {
-          animation: radar-sweep 6s linear infinite;
-        }
-        
-        @keyframes strata-slide {
-          0%, 100% { transform: translateY(0); }
-          50% { transform: translateY(3px); }
-        }
-        .animate-strata-slide {
-          animation: strata-slide 3.5s ease-in-out infinite;
-        }
-        @keyframes polymer-flow {
-          0% { stroke-dashoffset: 24; }
-          100% { stroke-dashoffset: 0; }
-        }
-        .animate-polymer-flow {
-          animation: polymer-flow 3s linear infinite;
-        }
-        @keyframes drainage-flow {
-          0% { stroke-dashoffset: 16; }
-          100% { stroke-dashoffset: 0; }
-        }
-        .animate-drainage-flow {
-          animation: drainage-flow 1.5s linear infinite;
-        }
-        @keyframes coastline-shift {
-          0%, 100% { transform: translateX(0); }
-          35% { transform: translateX(-8px); fill: #f43f5e; }
-          70% { transform: translateX(12px); fill: #10b981; }
-        }
-        .animate-coastline-shift {
-          animation: coastline-shift 6s ease-in-out infinite;
-        }
-        @keyframes coastline-line {
-          0%, 100% { transform: translateX(0); stroke: #2dd4bf; }
-          35% { transform: translateX(-8px); stroke: #f43f5e; }
-          70% { transform: translateX(12px); stroke: #10b981; }
-        }
-        .animate-coastline-line {
-          animation: coastline-line 6s ease-in-out infinite;
-        }
-        @keyframes erosion-tag {
-          0%, 70%, 100% { opacity: 0; }
-          35% { opacity: 1; }
-        }
-        .animate-erosion-tag {
-          animation: erosion-tag 6s ease-in-out infinite;
-        }
-        @keyframes deposition-tag {
-          0%, 35%, 100% { opacity: 0; }
-          70% { opacity: 1; }
-        }
-        .animate-deposition-tag {
-          animation: deposition-tag 6s ease-in-out infinite;
-        }
-        @keyframes flood-inundate {
-          0%, 100% { transform: translateY(22px); }
-          50% { transform: translateY(0px); }
-        }
-        .animate-flood-inundate {
-          animation: flood-inundate 5s ease-in-out infinite;
-        }
-      `}} />
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <SectionHeader eyebrow="03a · Research interests" title="Research interests" />
+        <SectionHeader eyebrow="03 · Research Interests" title="Research interests" />
         <div
           ref={ref}
           className="reveal mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
@@ -1579,7 +1553,7 @@ function Interests() {
             <div
               key={label}
               style={{ transitionDelay: `${i * 45}ms` }}
-              className={`group glow-card relative rounded-2xl border border-border bg-card p-6 shadow-sm hover:-translate-y-1 hover:shadow-md transition-all duration-300 ${theme.bg} ${theme.border} ${theme.shadow} overflow-hidden`}
+              className={`group glow-card relative rounded-2xl border border-border bg-card p-6 shadow-sm hover:shadow-md transition-all duration-300 ${theme.bg} ${theme.border} ${theme.shadow} overflow-hidden`}
             >
               {renderCardAnimation(label)}
               <div className="relative z-10">
@@ -1642,7 +1616,7 @@ function Publications() {
   return (
     <section id="publications" className="py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <SectionHeader eyebrow="03b · Publications" title="Selected publications" />
+        <SectionHeader eyebrow="04 · Publications" title="Selected publications" />
         <div className="mt-10 flex items-center gap-2 border-b border-border">
           {(
             [
@@ -1845,7 +1819,7 @@ function Projects() {
     <section id="projects" className="py-16 bg-secondary/60">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="flex items-end justify-between gap-6 flex-wrap">
-          <SectionHeader eyebrow="05 · Projects" title="Featured projects" />
+          <SectionHeader eyebrow="06 · Projects" title="Featured projects" />
           <Link
             to="/projects"
             className="inline-flex items-center gap-2 rounded-full border border-foreground/30 px-4 py-2 text-sm text-muted-foreground hover:border-foreground hover:text-foreground transition-colors"
@@ -2090,7 +2064,7 @@ function Experience() {
     <section id="experience" className="py-16">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <SectionHeader
-          eyebrow="06 · Experience"
+          eyebrow="07 · Experience"
           title="Professional Experience"
         />
 
@@ -2187,6 +2161,8 @@ function Experience() {
                 <img
                   src="/skarion_team.jpeg"
                   alt="SKARION Engineering Design Team"
+                  loading="lazy"
+                  decoding="async"
                   className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
@@ -2206,6 +2182,8 @@ function Experience() {
                 <img
                   src="/dohwa_internship.jpeg"
                   alt="DOHWA Engineering Internship Cohort"
+                  loading="lazy"
+                  decoding="async"
                   className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
@@ -2225,6 +2203,8 @@ function Experience() {
                 <img
                   src="/dohwa_certificate.jpeg"
                   alt="DOHWA Engineering Certificate Presentation"
+                  loading="lazy"
+                  decoding="async"
                   className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
@@ -2244,6 +2224,8 @@ function Experience() {
                 <img
                   src="/dohwa_farewell.jpeg"
                   alt="DOHWA Engineering Farewell Group Picture"
+                  loading="lazy"
+                  decoding="async"
                   className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
@@ -2263,6 +2245,8 @@ function Experience() {
                 <img
                   src="/biwtc_workshop.jpeg"
                   alt="Interim workshops at Bangladesh Inland Water Transport Corporation Headquarters"
+                  loading="lazy"
+                  decoding="async"
                   className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
@@ -2282,6 +2266,8 @@ function Experience() {
                 <img
                   src="/laalkuthi_inspection.jpeg"
                   alt="Laalkuthi heritage site restoration and construction inspections"
+                  loading="lazy"
+                  decoding="async"
                   className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
@@ -2427,9 +2413,9 @@ function Education() {
                           <circle cx="32" cy="32" r="24" className="stroke-secondary/30" strokeWidth="3" fill="transparent" />
                           <circle cx="32" cy="32" r="24" className="stroke-accent" strokeWidth="3" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (71 / 100) * 150.8} strokeLinecap="round" />
                         </svg>
-                        <div className="absolute font-mono text-sm font-extrabold text-foreground">161</div>
+                        <div className="absolute font-mono text-sm font-bold text-foreground">161</div>
                       </div>
-                      <span className="text-xs uppercase tracking-wider text-muted-foreground font-extrabold mt-3">Quant</span>
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground font-bold mt-3">Quant</span>
                       <span className="text-[10px] font-mono text-accent/90 font-bold">71st percentile</span>
                     </div>
 
@@ -2440,9 +2426,9 @@ function Education() {
                           <circle cx="32" cy="32" r="24" className="stroke-secondary/30" strokeWidth="3" fill="transparent" />
                           <circle cx="32" cy="32" r="24" className="stroke-accent" strokeWidth="3" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (49 / 100) * 150.8} strokeLinecap="round" />
                         </svg>
-                        <div className="absolute font-mono text-sm font-extrabold text-foreground">151</div>
+                        <div className="absolute font-mono text-sm font-bold text-foreground">151</div>
                       </div>
-                      <span className="text-xs uppercase tracking-wider text-muted-foreground font-extrabold mt-3">Verbal</span>
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground font-bold mt-3">Verbal</span>
                       <span className="text-[10px] font-mono text-accent/90 font-bold">49th percentile</span>
                     </div>
 
@@ -2453,9 +2439,9 @@ function Education() {
                           <circle cx="32" cy="32" r="24" className="stroke-secondary/30" strokeWidth="3" fill="transparent" />
                           <circle cx="32" cy="32" r="24" className="stroke-accent" strokeWidth="3" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (37 / 100) * 150.8} strokeLinecap="round" />
                         </svg>
-                        <div className="absolute font-mono text-sm font-extrabold text-foreground">3.5</div>
+                        <div className="absolute font-mono text-sm font-bold text-foreground">3.5</div>
                       </div>
-                      <span className="text-xs uppercase tracking-wider text-muted-foreground font-extrabold mt-3">AWA</span>
+                      <span className="text-xs uppercase tracking-wider text-muted-foreground font-bold mt-3">AWA</span>
                       <span className="text-[10px] font-mono text-accent/90 font-bold">37th percentile</span>
                     </div>
                   </div>
@@ -2480,8 +2466,8 @@ function Education() {
                       ["S", "8.0", "Speaking"],
                     ].map(([k, v, name]) => (
                       <div key={k} className="border border-border/40 bg-card/45 rounded-xl p-2.5 shadow-sm hover:border-accent/20 transition-colors">
-                        <div className="font-mono font-extrabold text-base text-foreground">{v}</div>
-                        <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-extrabold mt-1">{k}</div>
+                        <div className="font-mono font-bold text-base text-foreground">{v}</div>
+                        <div className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mt-1">{k}</div>
                         <div className="text-[8px] text-muted-foreground/75 leading-none mt-1 font-semibold">{name}</div>
                       </div>
                     ))}
@@ -2591,6 +2577,8 @@ function Education() {
                 <img
                   src="/graduation.jpeg"
                   alt="37th Convocation of IUT"
+                  loading="lazy"
+                  decoding="async"
                   className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
@@ -2608,6 +2596,8 @@ function Education() {
                 <img
                   src="/graduation_2.jpeg"
                   alt="Convocation Ceremony at IUT Campus"
+                  loading="lazy"
+                  decoding="async"
                   className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
@@ -2625,6 +2615,8 @@ function Education() {
                 <img
                   src="/with_prof_shahin.jpeg"
                   alt="With Supervisor Prof. Dr. Hossain Md. Shahin"
+                  loading="lazy"
+                  decoding="async"
                   className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
@@ -2642,6 +2634,8 @@ function Education() {
                 <img
                   src="/thesis_team.jpeg"
                   alt="Research & Thesis Team at IUT Laboratory"
+                  loading="lazy"
+                  decoding="async"
                   className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
@@ -2666,7 +2660,7 @@ function Skills() {
   return (
     <section id="skills" className="py-16 relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
-        <SectionHeader eyebrow="07 · Skills" title="Technical toolkit" />
+        <SectionHeader eyebrow="08 · Skills" title="Technical toolkit" />
         <div ref={ref} className="reveal mt-14 grid sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {SKILL_GROUPS.map((g) => (
             <div
@@ -2693,6 +2687,8 @@ function Skills() {
                               <img
                                 src={imagePath}
                                 alt={`${item.name} logo`}
+                                loading="lazy"
+                                decoding="async"
                                 className="object-contain max-w-full max-h-full"
                               />
                             </div>
@@ -2764,7 +2760,7 @@ function Leadership() {
     <section id="leadership" className="py-20 bg-secondary/30 relative overflow-hidden border-t border-border/50">
       <div className="absolute top-0 right-0 w-80 h-80 bg-accent/5 rounded-full blur-3xl pointer-events-none" />
       <div className="mx-auto max-w-7xl px-6 lg:px-10 relative z-10">
-        <SectionHeader eyebrow="08 · Extracurriculars" title="Leadership &amp; Engagement" />
+        <SectionHeader eyebrow="09 · Extracurriculars" title="Leadership & Engagement" />
         <div className="mt-12 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {EXTRACURRICULARS.map((item, idx) => {
             const Icon = getCategoryIcon(item.category || "");
@@ -2955,7 +2951,7 @@ function Recommendations() {
       />
 
       <div className="mx-auto max-w-7xl px-6 lg:px-10 relative z-10">
-        <SectionHeader eyebrow="09 · Endorsements" title="Recommendations" />
+        <SectionHeader eyebrow="10 · Endorsements" title="Recommendations" />
         
         <div 
           className="relative mt-6 max-w-3xl mx-auto"
@@ -2995,7 +2991,7 @@ function Recommendations() {
                           {/* Name & Title */}
                           <div className="space-y-1 min-w-0 flex-1">
                             <div className="flex items-center gap-2 flex-wrap">
-                              <h3 className="font-display text-base font-black tracking-tight text-foreground leading-tight">
+                              <h3 className="font-display text-base font-bold tracking-tight text-foreground leading-tight">
                                 {rec.name}
                               </h3>
                               <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[9px] font-bold bg-indigo-500/10 text-indigo-500 border border-indigo-500/20 shrink-0">
@@ -3026,7 +3022,7 @@ function Recommendations() {
 
                     {/* Footer Row */}
                     <div className="mt-4 pt-3 border-t border-border/30 flex items-center justify-between text-[10px] text-muted-foreground font-bold">
-                      <span className="text-accent/80 font-extrabold uppercase tracking-widest text-[9px]">
+                      <span className="text-accent/80 font-bold uppercase tracking-wider text-[9px]">
                         {rec.context}
                       </span>
                       <span className="px-2 py-0.5 rounded bg-muted/40 text-[9px] font-bold border border-border/40 text-muted-foreground">
@@ -3087,7 +3083,7 @@ function Recommendations() {
             {/* Recommend Me Button */}
             <button
               onClick={() => setIsModalOpen(true)}
-              className="relative inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl border border-accent/40 bg-accent/10 hover:bg-accent/20 text-accent font-extrabold text-[11px] tracking-wider uppercase transition-all duration-300 shadow-[0_0_15px_rgba(251,113,133,0.08)] hover:shadow-[0_0_25px_rgba(251,113,133,0.18)] hover:scale-[1.03] active:scale-95 mt-1 cursor-pointer"
+              className="relative inline-flex items-center gap-2.5 px-6 py-3 rounded-2xl border border-accent/40 bg-accent/10 hover:bg-accent/20 text-accent font-bold text-[11px] tracking-wider uppercase transition-all duration-300 shadow-[0_0_15px_rgba(251,113,133,0.08)] hover:shadow-[0_0_25px_rgba(251,113,133,0.18)] hover:scale-[1.03] active:scale-95 mt-1 cursor-pointer"
             >
               <svg className="w-3.5 h-3.5 stroke-current fill-none stroke-[2.5]" viewBox="0 0 24 24">
                 <path d="M12 5v14M5 12h14" />
@@ -3132,7 +3128,7 @@ function Recommendations() {
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-display text-lg font-black text-foreground">Thanks for your recommendation!</h3>
+                    <h3 className="font-display text-lg font-bold text-foreground">Thanks for your recommendation!</h3>
                     <p className="text-xs text-muted-foreground mt-1 max-w-[260px] leading-relaxed">
                       Your endorsement draft has been created. Mayukh will review and showcase it on this board shortly!
                     </p>
@@ -3242,7 +3238,7 @@ function Contact() {
     <section id="contact" className="py-16 bg-secondary/60 relative overflow-hidden">
       <div className="relative mx-auto max-w-7xl px-6 lg:px-10 grid lg:grid-cols-12 gap-12">
         <div className="lg:col-span-5">
-          <SectionHeader eyebrow="10 · Contact" title="Let's build something resilient." />
+          <SectionHeader eyebrow="11 · Contact" title="Let's build something resilient." />
           <p className="mt-6 text-lg text-foreground/80 max-w-md">
             Open to research collaboration, consulting, and graduate opportunities
             in GIS, GeoAI, and climate resilience.
@@ -3281,45 +3277,65 @@ function Contact() {
           </div>
         </div>
 
-        <form
-          ref={formRef}
-          onSubmit={(e) => {
-            e.preventDefault();
-            const formData = new FormData(e.currentTarget);
-            const name = formData.get("name") as string;
-            const email = formData.get("email") as string;
-            const subjectInput = formData.get("subject") as string;
-            const message = formData.get("message") as string;
+        <div className="lg:col-span-7 rounded-2xl border border-border bg-card p-8 shadow-lg hover:border-accent/30 transition-all duration-300 relative overflow-hidden flex flex-col justify-center min-h-[440px]">
+          {sent ? (
+            <div className="flex flex-col items-center justify-center py-10 text-center space-y-5 animate-in fade-in zoom-in duration-300">
+              <div className="w-16 h-16 rounded-full bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-500">
+                <ShieldCheck className="w-8 h-8" />
+              </div>
+              <div>
+                <h3 className="font-display text-xl font-bold text-foreground">Message Draft Created!</h3>
+                <p className="text-sm text-muted-foreground mt-2 max-w-sm leading-relaxed">
+                  Thanks for reaching out! Your email composer has been opened with the pre-formatted request. Send the email to establish contact with Mayukh.
+                </p>
+              </div>
+              <button
+                onClick={() => setSent(false)}
+                className="text-xs font-mono font-bold text-accent hover:underline uppercase tracking-wider"
+              >
+                Send another message
+              </button>
+            </div>
+          ) : (
+            <form
+              ref={formRef}
+              onSubmit={(e) => {
+                e.preventDefault();
+                const formData = new FormData(e.currentTarget);
+                const name = formData.get("name") as string;
+                const email = formData.get("email") as string;
+                const subjectInput = formData.get("subject") as string;
+                const message = formData.get("message") as string;
 
-            const mailSubject = encodeURIComponent(`[Portfolio Contact] ${subjectInput}`);
-            const mailBody = encodeURIComponent(
-              `Name: ${name}\n` +
-              `Email: ${email}\n\n` +
-              `Message:\n` +
-              `${message}`
-            );
+                const mailSubject = encodeURIComponent(`[Portfolio Contact] ${subjectInput}`);
+                const mailBody = encodeURIComponent(
+                  `Name: ${name}\n` +
+                  `Email: ${email}\n\n` +
+                  `Message:\n` +
+                  `${message}`
+                );
 
-            window.open(`mailto:ahnafabid2@iut-dhaka.edu?subject=${mailSubject}&body=${mailBody}`, "_blank");
-            setSent(true);
-            formRef.current?.reset();
-            setTimeout(() => setSent(false), 4000);
-          }}
-          className="lg:col-span-7 rounded-2xl border border-border bg-card p-8 space-y-5"
-        >
-          <div className="grid md:grid-cols-2 gap-5">
-            <Field label="Name" name="name" required />
-            <Field label="Email" name="email" type="email" required />
-          </div>
-          <Field label="Subject" name="subject" required />
-          <Field label="Message" name="message" required textarea />
-          <button
-            type="submit"
-            className="inline-flex items-center gap-2 bg-foreground text-background rounded-full px-6 py-3 text-sm hover:bg-accent transition-colors"
-          >
-            {sent ? "Sent — thanks!" : "Let's Collaborate"}
-            <ArrowUpRight className="w-4 h-4" />
-          </button>
-        </form>
+                window.open(`mailto:ahnafabid2@iut-dhaka.edu?subject=${mailSubject}&body=${mailBody}`, "_blank");
+                setSent(true);
+                formRef.current?.reset();
+              }}
+              className="space-y-5"
+            >
+              <div className="grid md:grid-cols-2 gap-5">
+                <Field label="Name" name="name" required />
+                <Field label="Email" name="email" type="email" required />
+              </div>
+              <Field label="Subject" name="subject" required />
+              <Field label="Message" name="message" required textarea />
+              <button
+                type="submit"
+                className="inline-flex items-center gap-2 bg-foreground text-background rounded-full px-6 py-3 text-sm font-semibold hover:bg-accent hover:text-white transition-all duration-300 shadow-md hover:shadow-lg active:scale-95 animate-pulse-ring"
+              >
+                Let's Collaborate <ArrowUpRight className="w-4 h-4" />
+              </button>
+            </form>
+          )}
+        </div>
       </div>
     </section>
   );
@@ -3339,23 +3355,23 @@ function Field({
   textarea?: boolean;
 }) {
   return (
-    <label className="block">
-      <span className="text-xs uppercase tracking-widest text-muted-foreground">
+    <label className="block space-y-2 text-left">
+      <span className="text-xs uppercase tracking-wider text-muted-foreground font-bold">
         {label}
       </span>
       {textarea ? (
         <textarea
           name={name}
           required={required}
-          rows={5}
-          className="mt-2 w-full bg-transparent border-b border-border focus:border-accent outline-none py-2 resize-none transition-colors"
+          rows={4}
+          className="w-full bg-secondary/15 border border-border/60 focus:border-accent focus:ring-2 focus:ring-accent/15 outline-none px-4 py-3 rounded-xl resize-none transition-all duration-200"
         />
       ) : (
         <input
           name={name}
           type={type}
           required={required}
-          className="mt-2 w-full bg-transparent border-b border-border focus:border-accent outline-none py-2 transition-colors"
+          className="w-full bg-secondary/15 border border-border/60 focus:border-accent focus:ring-2 focus:ring-accent/15 outline-none px-4 py-2.5 rounded-xl transition-all duration-200"
         />
       )}
     </label>
@@ -3373,6 +3389,8 @@ function Footer() {
         <img
           src="/satellite_footer.jpg"
           alt="Satellite earth observation background"
+          loading="lazy"
+          decoding="async"
           className="w-full h-full object-cover opacity-45 scale-100 animate-footer-zoom"
         />
       </div>

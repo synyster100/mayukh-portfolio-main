@@ -170,12 +170,12 @@
 /* Global aesthetic reveal — auto-applied to cards, headings, list items */
 .anim-init {
   opacity: 0;
-  transform: translateY(28px) scale(0.985);
-  filter: blur(6px);
+  transform: translateY(18px) scale(0.985);
+  filter: blur(3px);
   transition:
-    opacity 0.95s cubic-bezier(0.16, 1, 0.3, 1),
-    transform 1.05s cubic-bezier(0.16, 1, 0.3, 1),
-    filter 0.9s cubic-bezier(0.16, 1, 0.3, 1);
+    opacity 0.75s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
   will-change: opacity, transform, filter;
 }
 .anim-in {
@@ -266,6 +266,149 @@
 .glow-card > * {
   position: relative;
   z-index: 10;
+}
+
+/* Research Interest Card SVG Animations */
+.glow-card:hover .hover-anim {
+  opacity: 0.35 !important;
+}
+
+@keyframes satellite-orbit {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.animate-satellite-orbit {
+  animation: satellite-orbit 14s linear infinite;
+}
+
+@keyframes wave-flow {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.animate-wave-flow {
+  animation: wave-flow 6s linear infinite;
+}
+
+@keyframes rain-fall {
+  0% { transform: translateY(-20px); opacity: 0; }
+  40% { opacity: 0.7; }
+  100% { transform: translateY(160px); opacity: 0; }
+}
+.animate-rain-1 { animation: rain-fall 1.7s linear infinite; }
+.animate-rain-2 { animation: rain-fall 2.1s linear infinite; animation-delay: 0.5s; }
+.animate-rain-3 { animation: rain-fall 1.4s linear infinite; animation-delay: 0.9s; }
+
+@keyframes pulse-node {
+  0%, 100% { transform: scale(1); opacity: 0.25; }
+  50% { transform: scale(1.15); opacity: 0.85; }
+}
+.animate-node-pulse {
+  animation: pulse-node 2.2s ease-in-out infinite;
+}
+
+@keyframes radar-sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+.animate-radar-sweep {
+  animation: radar-sweep 6s linear infinite;
+}
+
+@keyframes strata-slide {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(3px); }
+}
+.animate-strata-slide {
+  animation: strata-slide 3.5s ease-in-out infinite;
+}
+
+@keyframes polymer-flow {
+  0% { stroke-dashoffset: 24; }
+  100% { stroke-dashoffset: 0; }
+}
+.animate-polymer-flow {
+  animation: polymer-flow 3s linear infinite;
+}
+
+@keyframes drainage-flow {
+  0% { stroke-dashoffset: 16; }
+  100% { stroke-dashoffset: 0; }
+}
+.animate-drainage-flow {
+  animation: drainage-flow 1.5s linear infinite;
+}
+
+@keyframes coastline-shift {
+  0%, 100% { transform: translateX(0); }
+  35% { transform: translateX(-8px); fill: #f43f5e; }
+  70% { transform: translateX(12px); fill: #10b981; }
+}
+.animate-coastline-shift {
+  animation: coastline-shift 6s ease-in-out infinite;
+}
+
+@keyframes coastline-line {
+  0%, 100% { transform: translateX(0); stroke: #2dd4bf; }
+  35% { transform: translateX(-8px); stroke: #f43f5e; }
+  70% { transform: translateX(12px); stroke: #10b981; }
+}
+.animate-coastline-line {
+  animation: coastline-line 6s ease-in-out infinite;
+}
+
+@keyframes erosion-tag {
+  0%, 70%, 100% { opacity: 0; }
+  35% { opacity: 1; }
+}
+.animate-erosion-tag {
+  animation: erosion-tag 6s ease-in-out infinite;
+}
+
+@keyframes deposition-tag {
+  0%, 35%, 100% { opacity: 0; }
+  70% { opacity: 1; }
+}
+.animate-deposition-tag {
+  animation: deposition-tag 6s ease-in-out infinite;
+}
+
+@keyframes flood-inundate {
+  0%, 100% { transform: translateY(22px); }
+  50% { transform: translateY(0px); }
+}
+.animate-flood-inundate {
+  animation: flood-inundate 5s ease-in-out infinite;
+}
+
+/* Animated gradient shimmer for hero name */
+@keyframes shimmer-gradient {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+.animate-shimmer {
+  background: linear-gradient(90deg, var(--accent), var(--primary), var(--accent));
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: shimmer-gradient 4s ease-in-out infinite;
+}
+
+/* Mobile navigation overlay */
+@keyframes mobile-nav-in {
+  from { opacity: 0; transform: translateX(100%); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.mobile-nav-enter {
+  animation: mobile-nav-in 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+@keyframes mobile-overlay-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.mobile-overlay-enter {
+  animation: mobile-overlay-in 0.25s ease forwards;
 }
 
 @keyframes footer-zoom {

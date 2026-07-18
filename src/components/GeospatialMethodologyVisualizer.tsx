@@ -201,7 +201,7 @@ export function GeospatialMethodologyVisualizer() {
     <section id="sandbox" className="py-24 bg-secondary/15 relative overflow-hidden border-y border-border/50">
       <div className="mx-auto max-w-7xl px-6 lg:px-10">
         <div className="text-xs uppercase tracking-widest text-accent font-mono font-semibold mb-3">
-          04 · Geospatial & Hydro-Environmental Simulation Lab
+          05 · Geospatial & Hydro-Environmental Simulation Lab
         </div>
         <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-6 mb-12">
           <div>
