@@ -1200,15 +1200,7 @@ function Nav() {
 /* ---------- Hero ---------- */
 
 function Hero() {
-  const [hudCoords, setHudCoords] = useState({ lat: "23.8103", lon: "90.4125" });
-  const handleHudMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    const lat = (23.8103 + (y - rect.height / 2) * 0.00015).toFixed(4);
-    const lon = (90.4125 + (x - rect.width / 2) * 0.00015).toFixed(4);
-    setHudCoords({ lat, lon });
-  };
+
 
   return (
     <section id="top" className="relative pt-32 pb-12 overflow-hidden border-b border-border/20 bg-background/5">
@@ -1260,65 +1252,43 @@ function Hero() {
         </div>
 
         {/* Profile picture and side card */}
-        <div className="lg:col-span-4 lg:pl-6 order-1 lg:order-2 flex flex-col gap-6 w-full">
+        <div className="lg:col-span-4 lg:pl-6 order-1 lg:order-2 flex flex-col gap-6">
           <div className="relative">
           </div>
-          <div 
-            onMouseMove={handleHudMouseMove}
-            className="rounded-2xl border border-border bg-card/65 backdrop-blur-md p-6 shadow-xl hover:border-accent/40 transition-colors duration-300 relative group overflow-hidden select-none cursor-crosshair"
-          >
-            <div className="absolute top-0 right-0 w-24 h-24 bg-accent/5 rounded-full blur-2xl pointer-events-none group-hover:bg-accent/10 transition-colors" />
-            
-            <div className="flex items-center justify-between text-[10px] font-mono tracking-wider text-accent font-bold pb-3 border-b border-border/40">
+          <div className="rounded-2xl border border-border/80 bg-card/70 backdrop-blur-sm p-6 shadow-lg hover:border-accent/30 transition-colors duration-300">
+            <div className="flex items-center gap-3 text-xs uppercase tracking-widest text-accent font-bold">
+              <span className="w-2 h-2 rounded-full bg-accent animate-pulse" />
+              Status &amp; Footprint
+            </div>
+            <div className="mt-4 space-y-4 text-sm">
+              <div className="flex items-start gap-3 text-left">
+                <span className="mt-1.5 w-2 h-2 rounded-full bg-accent shrink-0" />
+                <div>
+                  <div className="font-bold text-foreground">Outside Plant Engineer</div>
+                  <div className="text-muted-foreground text-xs">SKARION Engineering</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 text-left">
+                <span className="mt-1.5 w-2 h-2 rounded-full bg-amber-500 shrink-0" />
+                <div>
+                  <div className="font-bold text-foreground">Former Research Assistant</div>
+                  <div className="text-muted-foreground text-xs">North South University (NSU)</div>
+                </div>
+              </div>
+              <div className="flex items-start gap-3 text-left">
+                <span className="mt-1.5 w-2 h-2 rounded-full bg-primary shrink-0" />
+                <div>
+                  <div className="font-bold text-foreground">Civil Engineering Alumnus</div>
+                  <div className="text-muted-foreground text-xs">Islamic University of Technology (IUT)</div>
+                </div>
+              </div>
+            </div>
+            <div className="mt-6 border-t border-border pt-4 text-xs text-muted-foreground space-y-2 text-left">
               <div className="flex items-center gap-2">
-                <span className="w-2.5 h-2.5 rounded-full bg-accent animate-pulse" />
-                <span>HUD_STATUS: MONITORING</span>
+                <MapPin className="w-3.5 h-3.5 text-accent" /> Dhaka, Bangladesh
               </div>
-              <span className="text-muted-foreground/60">v2.0</span>
-            </div>
-
-            <div className="mt-4 space-y-3 text-sm">
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-accent/10 border border-accent/20 flex items-center justify-center shrink-0 text-accent">
-                  <Compass className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="font-bold text-foreground text-xs leading-tight">Outside Plant Engineer</div>
-                  <div className="text-muted-foreground text-[10px] mt-0.5">SKARION Engineering</div>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shrink-0 text-amber-500">
-                  <Satellite className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="font-bold text-foreground text-xs leading-tight">Former Research Assistant</div>
-                  <div className="text-muted-foreground text-[10px] mt-0.5">North South University (NSU)</div>
-                </div>
-              </div>
-              <div className="flex items-start gap-3">
-                <div className="w-8 h-8 rounded-lg bg-primary/10 border border-primary/20 flex items-center justify-center shrink-0 text-primary">
-                  <GraduationCap className="w-4 h-4" />
-                </div>
-                <div>
-                  <div className="font-bold text-foreground text-xs leading-tight">Civil Engineering Alumnus</div>
-                  <div className="text-muted-foreground text-[10px] mt-0.5">Islamic University of Technology (IUT)</div>
-                </div>
-              </div>
-            </div>
-
-            <div className="mt-4 pt-4 border-t border-border/40 text-[10px] font-mono text-muted-foreground space-y-2">
-              <div className="flex items-center justify-between">
-                <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5 text-accent" /> Location:</span>
-                <span className="text-foreground font-bold font-sans text-xs">Dhaka, Bangladesh</span>
-              </div>
-              <div className="flex items-center justify-between">
-                <span className="flex items-center gap-1.5"><GraduationCap className="w-3.5 h-3.5 text-accent" /> Degree:</span>
-                <span className="text-foreground font-bold font-sans text-xs">B.Sc. CE (Oct 2025)</span>
-              </div>
-              <div className="pt-2 border-t border-border/20 text-[9px] text-accent/80 flex justify-between items-center">
-                <span>TELEMETRY_GRID:</span>
-                <span className="text-foreground font-bold">LAT {hudCoords.lat}° N / LON {hudCoords.lon}° E</span>
+              <div className="flex items-center gap-2">
+                <GraduationCap className="w-3.5 h-3.5 text-accent" /> B.Sc. Civil Engineering (Oct 2025)
               </div>
             </div>
           </div>
@@ -1359,7 +1329,6 @@ function Hero() {
 
 function About() {
   const ref = useReveal<HTMLDivElement>();
-  const [activeTab, setActiveTab] = useState<"profile" | "research" | "philosophy">("profile");
 
   return (
     <section id="about" className="pt-12 pb-16">
@@ -1378,43 +1347,10 @@ function About() {
               />
             </div>
           </div>
-          <div className="lg:col-span-7 order-1 lg:order-2 flex flex-col justify-start">
-            {/* Tab switchers */}
-            <div className="flex border-b border-border/40 gap-6 mb-6 overflow-x-auto custom-scrollbar whitespace-nowrap">
-              {(["profile", "research", "philosophy"] as const).map((tab) => (
-                <button
-                  key={tab}
-                  onClick={() => setActiveTab(tab)}
-                  className={`pb-3 text-xs uppercase font-mono tracking-wider font-bold transition-all relative cursor-pointer ${
-                    activeTab === tab ? "text-accent" : "text-muted-foreground hover:text-foreground"
-                  }`}
-                >
-                  {tab === "profile" ? "01 · Profile" : tab === "research" ? "02 · Research Focus" : "03 · Philosophy"}
-                  {activeTab === tab && (
-                    <span className="absolute bottom-0 left-0 w-full h-0.5 bg-accent rounded-full" />
-                  )}
-                </button>
-              ))}
-            </div>
-
-            {/* Tab content panel */}
-            <div className="text-lg text-pretty text-foreground/85 leading-relaxed min-h-[160px] flex items-center">
-              {activeTab === "profile" && (
-                <p className="animate-in fade-in slide-in-from-bottom-3 duration-300">
-                  I am a civil engineer and researcher dedicated to understanding and addressing environmental hazards. My research focus lies at the intersection of <strong className="text-foreground font-semibold">geospatial data science (GIS &amp; Remote Sensing), hydrodynamic modeling, and geoenvironmental engineering</strong>, with a focus on building resilient systems for disaster mitigation and sustainable infrastructure.
-                </p>
-              )}
-              {activeTab === "research" && (
-                <p className="animate-in fade-in slide-in-from-bottom-3 duration-300">
-                  From analyzing long-term shoreline dynamics and urban stormwater grids to conducting soil-structure stabilization studies, I enjoy bridging the gap between theoretical research and practical infrastructure engineering. By integrating data-driven insights with physical modeling, my goal is to design solutions that adapt to changing climatic patterns and protect vulnerable communities.
-                </p>
-              )}
-              {activeTab === "philosophy" && (
-                <p className="animate-in fade-in slide-in-from-bottom-3 duration-300">
-                  Beyond research, I have experience designing telecommunication networks and instructing hundreds of professionals and students in structural CAD modeling. I am motivated by a commitment to lifelong learning, collaborative science, and translating complex environmental data into policy-actionable solutions.
-                </p>
-              )}
-            </div>
+          <div className="lg:col-span-7 order-1 lg:order-2 flex items-center">
+            <p className="text-lg text-pretty text-foreground/85 leading-relaxed text-left">
+              I am a civil engineer and researcher dedicated to understanding and addressing environmental hazards. My research focus lies at the intersection of <strong className="text-foreground font-semibold">geospatial data science (GIS &amp; Remote Sensing), hydrodynamic modeling, and geoenvironmental engineering</strong>, with a focus on building resilient systems for disaster mitigation and sustainable infrastructure. From analyzing long-term shoreline dynamics and urban stormwater grids to soil-structure stabilization studies, I integrate data-driven insights with physical modeling to design solutions that adapt to changing climatic patterns and protect vulnerable communities. Beyond research, I have experience designing telecommunication networks and instructing hundreds of professionals and students in structural CAD modeling, motivated by a commitment to lifelong learning, collaborative science, and translating complex environmental data into policy-actionable solutions.
+            </p>
           </div>
         </div>
 
@@ -1666,27 +1602,7 @@ function getBibtex(pub: { title: string; authors: string; venue: string; year: n
 function Publications() {
   const [tab, setTab] = useState<"journal" | "conference">("journal");
   const [openCiteIndex, setOpenCiteIndex] = useState<string | null>(null);
-  const [openAbstractIndex, setOpenAbstractIndex] = useState<string | null>(null);
   const [copiedIndex, setCopiedIndex] = useState<string | null>(null);
-
-  const ABSTRACTS: Record<string, string> = {
-    "Governance Models for Urban Environmental Infrastructure in the Global South: A Scoping Review of Socio-Economic Implications for Pathways to Sustainable Cities (SDG 11) and Institutional Partnerships (SDG 17)": 
-      "This scoping review maps urban environmental infrastructure governance models in the Global South. It synthesizes institutional partnerships (SDG 17) and pathways to resilient, sustainable cities (SDG 11), detailing the socio-economic implications of public, private, and community-led utility management frameworks.",
-    "Spatiotemporal Shoreline Change Assessment And Machine Learning Projections For Coastal Louisiana":
-      "This research conducts a spatiotemporal assessment of shoreline dynamics along Cameron Beach, Louisiana. By integrating multi-decadal satellite imagery with machine learning, the study models shoreline change rates (EPR/LRR) and projects future vulnerability under sea-level rise scenarios.",
-    "Improvement Of Engineering Properties Of Different Materials Using Microbial Treatment - A Review":
-      "An extensive review of microbial-induced carbonate precipitation (MICP) and microbial treatment protocols. The study analyzes bio-mediated stabilization across different soil types, cementitious matrixes, and recycled aggregates, highlighting engineering improvements and challenges.",
-    "Analyzing the Traffic Efficiency and Environmental Impact of the Cloverleaf Interchange at Bhanga, Bangladesh by Simulation":
-      "Micro-simulation modeling of the Bhanga cloverleaf interchange in Bangladesh. The study utilizes VISSIM to analyze traffic delays, level of service (LOS), queue lengths, and associated carbon emissions under multi-modal traffic distributions.",
-    "Comparative Machine Learning and Explainable Flood Susceptibility Mapping in Humphreys County, Tennessee Using AHP and SHAP":
-      "Proposes a machine learning flood susceptibility mapping workflow for Humphreys County, Tennessee. By combining Analytical Hierarchy Process (AHP) with Random Forest and XGBoost models, explainable AI (SHAP) is applied to identify spatial drivers of flood vulnerability.",
-    "GeoAI-Enabled Remote Sensing Framework for Shoreline Change Forecasting at Pensacola Beach, Florida":
-      "Develops a novel remote sensing and deep learning forecasting framework for shoreline change rates at Pensacola Beach, Florida. Incorporates CNNs and LSTMs with multi-temporal imagery to predict coastal retreat boundaries.",
-    "GIS-Based Multi-Temporal Land Cover Dynamics in Terrell County, Texas: Assessing Oil-Driven Desertification and Rangeland Resilience (2001–2021)":
-      "Analyzes 20 years of satellite land cover data to evaluate desertification risks driven by intensive petroleum extraction and climate oscillations in Terrell County, Texas, measuring ecological rangeland resilience.",
-    "Hybrid Hydro-Geomorphic AHP Framework for Flash Flood Susceptibility: A Case Study of the Limestone Karst Terrain in Kerr County, Texas":
-      "Implements a hybrid GIS multi-criteria evaluation combining geotechnical parameters and drainage morphometry to model flash flood hazards within the complex limestone karst topography of Kerr County, Texas."
-  };
 
   const handleCopy = (text: string, indexKey: string) => {
     navigator.clipboard.writeText(text);
@@ -1712,7 +1628,6 @@ function Publications() {
               onClick={() => {
                 setTab(key);
                 setOpenCiteIndex(null);
-                setOpenAbstractIndex(null);
               }}
               className={`px-5 py-3 text-sm font-semibold transition-colors border-b-2 -mb-px cursor-pointer ${
                 tab === key
@@ -1774,16 +1689,6 @@ function Publications() {
                     </div>
                     <div className="md:col-span-3 md:text-right flex flex-wrap gap-2 items-start md:justify-end">
                       <button
-                        onClick={() => setOpenAbstractIndex(openAbstractIndex === `journal-abs-${i}` ? null : `journal-abs-${i}`)}
-                        className={`inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all duration-200 cursor-pointer ${
-                          openAbstractIndex === `journal-abs-${i}`
-                            ? "bg-accent/15 text-accent border-accent/40"
-                            : "text-muted-foreground hover:text-foreground border-border bg-card hover:bg-secondary/40"
-                        }`}
-                      >
-                        Abstract
-                      </button>
-                      <button
                         onClick={() => setOpenCiteIndex(openCiteIndex === `journal-${i}` ? null : `journal-${i}`)}
                         className={`inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all duration-200 cursor-pointer ${
                           openCiteIndex === `journal-${i}`
@@ -1805,16 +1710,6 @@ function Publications() {
                         </a>
                       )}
                     </div>
-
-                    {/* Abstract Drawer Panel */}
-                    {openAbstractIndex === `journal-abs-${i}` && (
-                      <div className="md:col-span-12 mt-4 p-5 rounded-xl bg-secondary/15 border border-border/50 text-left animate-in fade-in slide-in-from-top-2 duration-300">
-                        <h4 className="text-[10px] uppercase font-mono tracking-wider text-accent font-bold mb-2">Research Abstract</h4>
-                        <p className="text-xs text-foreground/80 leading-relaxed font-sans font-medium">
-                          {ABSTRACTS[p.title] || "Abstract summary details are undergoing database compilation. Please refer to the direct DOI link for full text preview."}
-                        </p>
-                      </div>
-                    )}
 
                     {/* Citation Drawer Panel */}
                     {openCiteIndex === `journal-${i}` && (
@@ -1868,16 +1763,6 @@ function Publications() {
                   </div>
                   <div className="md:col-span-3 md:text-right flex flex-wrap gap-2 items-start md:justify-end">
                     <button
-                      onClick={() => setOpenAbstractIndex(openAbstractIndex === `conf-abs-${i}` ? null : `conf-abs-${i}`)}
-                      className={`inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all duration-200 cursor-pointer ${
-                        openAbstractIndex === `conf-abs-${i}`
-                          ? "bg-accent/15 text-accent border-accent/40"
-                          : "text-muted-foreground hover:text-foreground border-border bg-card hover:bg-secondary/40"
-                      }`}
-                    >
-                      Abstract
-                    </button>
-                    <button
                       onClick={() => setOpenCiteIndex(openCiteIndex === `conf-${i}` ? null : `conf-${i}`)}
                       className={`inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all duration-200 cursor-pointer ${
                         openCiteIndex === `conf-${i}`
@@ -1899,16 +1784,6 @@ function Publications() {
                       </a>
                     )}
                   </div>
-
-                  {/* Abstract Drawer Panel */}
-                  {openAbstractIndex === `conf-abs-${i}` && (
-                    <div className="md:col-span-12 mt-4 p-5 rounded-xl bg-secondary/15 border border-border/50 text-left animate-in fade-in slide-in-from-top-2 duration-300">
-                      <h4 className="text-[10px] uppercase font-mono tracking-wider text-accent font-bold mb-2">Research Abstract</h4>
-                      <p className="text-xs text-foreground/80 leading-relaxed font-sans font-medium">
-                        {ABSTRACTS[p.title] || "Abstract summary details are undergoing database compilation. Please refer to the conference proceedings for full preview."}
-                      </p>
-                    </div>
-                  )}
 
                   {/* Citation Drawer Panel */}
                   {openCiteIndex === `conf-${i}` && (
@@ -2251,72 +2126,54 @@ function Experience() {
           ))}
         </div>
 
-        <div ref={ref} className="reveal mt-14 relative pl-4 md:pl-8">
-          <div className="absolute left-4 md:left-8 top-0 bottom-0 w-px bg-border/80" />
-          <div className="space-y-12">
+        <div ref={ref} className="reveal mt-14 relative">
+          <div className="absolute left-3 md:left-1/2 top-0 bottom-0 w-px bg-border" />
+          <div className="space-y-6">
             {filteredTimeline.map((t, i) => {
-              const skills = getExperienceSkills(t.org);
               return (
                 <div
                   key={i}
-                  className="group relative pl-8 md:pl-12 pb-2 text-left"
+                  className={`group relative md:grid md:grid-cols-2 md:gap-12 p-6 rounded-2xl border border-transparent hover:bg-card/75 hover:border-border/80 hover:shadow-[0_4px_20px_rgba(0,0,0,0.06)] hover:backdrop-blur-sm transition-all duration-300 ${
+                    i % 2 === 0 ? "" : "md:[&>*:first-child]:order-2"
+                  }`}
                 >
                   {/* Timeline Node Icon */}
-                  <div className="absolute left-[-21px] md:left-[-37px] top-1.5 w-4 h-4 rounded-full border-2 border-border bg-background transition-all duration-300 z-10 group-hover:bg-accent group-hover:border-accent group-hover:scale-125 group-hover:shadow-[0_0_12px_rgba(251,113,133,0.7)]" />
+                  <div className="absolute left-3 md:left-1/2 top-8 -translate-x-1/2 w-4 h-4 rounded-full border border-border bg-background transition-all duration-300 z-10 group-hover:bg-accent group-hover:border-accent group-hover:scale-125 group-hover:shadow-[0_0_12px_rgba(251,113,133,0.7)]" />
                   
-                  <div className="grid md:grid-cols-12 gap-4 items-start">
-                    {/* Year & Metadata (3 cols) */}
-                    <div className="md:col-span-3 space-y-1 pt-0.5">
-                      <span className="font-mono text-xs uppercase tracking-wider text-accent font-bold">
-                        {t.year}
-                      </span>
-                      <span className="block text-[10px] uppercase tracking-widest text-muted-foreground font-mono">
-                        {t.category === "professional" ? "Professional" : t.category === "internship" ? "Internship" : "Teaching & Research"}
-                      </span>
+                  {/* Left Column */}
+                  <div className="pl-10 md:pl-0 md:pr-10 md:text-left md:group-[.md\:\[\&\>\*\:first-child\]\:order-2]:text-left md:text-right flex flex-col justify-start pt-1">
+                    <div className="font-mono text-xs uppercase tracking-widest text-muted-foreground">
+                      {t.year}
                     </div>
-
-                    {/* Roles & Content (9 cols) */}
-                    <div className="md:col-span-9 space-y-3">
-                      <div>
-                        <h3 className="font-display text-xl font-bold text-foreground transition-colors group-hover:text-accent leading-snug">
-                          {t.role}
-                        </h3>
-                        <div className="text-xs text-muted-foreground font-semibold mt-1 flex items-center gap-1.5">
-                          {t.orgUrl ? (
-                            <a
-                              href={t.orgUrl}
-                              target="_blank"
-                              rel="noopener"
-                              className="hover:text-accent transition-colors underline decoration-border/50 hover:decoration-accent/60"
-                            >
-                              {t.org}
-                            </a>
-                          ) : (
-                            t.org
-                          )}
-                        </div>
-                      </div>
-
-                      <ul className="space-y-2.5 text-xs text-foreground/80 leading-relaxed font-sans font-medium">
-                        {t.bullets.map((b, idx) => (
-                          <li key={idx} className="flex gap-2">
-                            <span className="text-accent shrink-0 font-bold">•</span>
-                            <span dangerouslySetInnerHTML={{ __html: b }} />
-                          </li>
-                        ))}
-                      </ul>
-
-                      {/* Experience Skill Tags */}
-                      {skills.length > 0 && (
-                        <div className="pt-2 flex flex-wrap gap-1.5">
-                          {skills.map((s) => (
-                            <span key={s} className="text-[10px] font-mono font-bold text-foreground/75 bg-secondary/50 border border-border/50 px-2 py-0.5 rounded-md hover:border-accent/30 hover:text-accent transition-colors duration-200">
-                              {s}
-                            </span>
-                          ))}
-                        </div>
+                    <h3 className="font-display text-2xl mt-2 font-bold text-foreground transition-colors duration-300 group-hover:text-accent">
+                      {t.role}
+                    </h3>
+                    <div className="text-sm text-foreground/75 font-medium mt-1">
+                      {t.orgUrl ? (
+                        <a
+                          href={t.orgUrl}
+                          target="_blank"
+                          rel="noopener"
+                          className="hover:text-accent transition-colors underline decoration-border hover:decoration-accent"
+                        >
+                          {t.org}
+                        </a>
+                      ) : (
+                        t.org
                       )}
                     </div>
+                  </div>
+
+                  {/* Right Column (Duties / Achievements) */}
+                  <div className="pl-10 md:pl-0 flex flex-col justify-start">
+                    <ul className="space-y-3 text-sm text-foreground/80 leading-relaxed font-sans font-medium">
+                      {t.bullets.map((b, idx) => (
+                        <li key={idx} className="flex gap-2 text-left">
+                          <span className="text-accent shrink-0 font-extrabold">•</span>
+                          <span dangerouslySetInnerHTML={{ __html: b }} />
+                        </li>
+                      ))}
+                    </ul>
                   </div>
                 </div>
               );
