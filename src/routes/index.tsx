@@ -1365,47 +1365,49 @@ function About() {
 
 function Stats() {
   const { ref, inView } = useInView<HTMLDivElement>();
+  const statDetails = [
+    { ...STATS[0], icon: Compass, color: "text-emerald-500 bg-emerald-500/10 border-emerald-500/20" },
+    { ...STATS[1], icon: FileText, color: "text-amber-500 bg-amber-500/10 border-amber-500/20" },
+    { ...STATS[2], icon: Briefcase, color: "text-indigo-500 bg-indigo-500/10 border-indigo-500/20" },
+    { ...STATS[3], icon: GraduationCap, color: "text-sky-500 bg-sky-500/10 border-sky-500/20" },
+  ];
   return (
     <div
       ref={ref}
-      className="mt-20 grid grid-cols-2 md:grid-cols-4 max-w-5xl mx-auto border-y border-border"
+      className="mt-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 max-w-6xl mx-auto text-left"
     >
-      {STATS.map((s, i) => (
-        <Stat key={i} {...s} start={inView} />
+      {statDetails.map((s, i) => (
+        <div 
+          key={i}
+          className="relative p-6 rounded-2xl border border-border/80 bg-card/45 backdrop-blur-sm shadow-md hover:border-accent/40 hover:shadow-lg transition-all duration-300 group overflow-hidden"
+        >
+          <div className="absolute top-0 right-0 w-24 h-24 bg-accent/5 rounded-full blur-2xl pointer-events-none group-hover:bg-accent/10 transition-colors" />
+          <div className="flex items-center gap-4 relative z-10">
+            <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 ${s.color}`}>
+              <s.icon className="w-5 h-5" />
+            </div>
+            <div>
+              <div className="font-display text-3xl font-bold tracking-tight text-foreground flex items-baseline">
+                <StatValue value={s.value} start={inView} suffix={s.suffix} />
+              </div>
+              <div className="mt-1.5 text-[10px] font-mono uppercase tracking-wider text-muted-foreground font-bold">
+                {s.label}
+              </div>
+            </div>
+          </div>
+        </div>
       ))}
     </div>
   );
 }
 
-function Stat({
-  value,
-  suffix,
-  label,
-  start,
-  compact,
-}: {
-  value: number;
-  suffix: string;
-  label: string;
-  start: boolean;
-  compact?: boolean;
-}) {
+function StatValue({ value, start, suffix }: { value: number; start: boolean; suffix: string }) {
   const v = useCountUp(value, start);
-  const display = compact
-    ? v >= 1000
-      ? `${(v / 1000).toFixed(0)}k`
-      : v.toString()
-    : v.toLocaleString();
   return (
-    <div className="p-6 lg:p-8 text-center border-border border-b [&:nth-last-child(-n+2)]:border-b-0 md:border-b-0 odd:border-r md:odd:border-r-0 md:[&:not(:last-child)]:border-r">
-      <div className="font-display text-4xl lg:text-5xl tracking-tight">
-        {display}
-        <span className="text-accent">{suffix}</span>
-      </div>
-      <div className="mt-2 text-xs uppercase tracking-widest text-muted-foreground">
-        {label}
-      </div>
-    </div>
+    <>
+      <span>{v.toLocaleString()}</span>
+      <span className="text-accent ml-0.5">{suffix}</span>
+    </>
   );
 }
 
@@ -2367,7 +2369,24 @@ function Education() {
                 <span>Supervisor:</span>
                 <span className="text-foreground/80 font-semibold bg-secondary/40 px-2 py-0.5 rounded">Prof. Dr. Hossain Md. Shahin</span>
               </p>
-              <ul className="mt-4 space-y-2.5 text-xs text-foreground/80 leading-relaxed border-t border-border/20 pt-4 pl-1">
+
+              {/* Technical Highlights Dashboard */}
+              <div className="mt-5 grid grid-cols-3 gap-3">
+                <div className="border border-border/50 rounded-xl p-3 bg-card/50 backdrop-blur-sm text-center shadow-sm">
+                  <div className="text-lg md:text-xl font-bold font-mono text-accent">95.8%</div>
+                  <div className="text-[8px] md:text-[9px] uppercase tracking-wider text-muted-foreground font-bold mt-1">Sand Content</div>
+                </div>
+                <div className="border border-border/50 rounded-xl p-3 bg-card/50 backdrop-blur-sm text-center shadow-sm">
+                  <div className="text-lg md:text-xl font-bold font-mono text-emerald-500">108.5 kPa</div>
+                  <div className="text-[8px] md:text-[9px] uppercase tracking-wider text-muted-foreground font-bold mt-1">Peak UCS</div>
+                </div>
+                <div className="border border-border/50 rounded-xl p-3 bg-card/50 backdrop-blur-sm text-center shadow-sm">
+                  <div className="text-lg md:text-xl font-bold font-mono text-amber-500">30x Drop</div>
+                  <div className="text-[8px] md:text-[9px] uppercase tracking-wider text-muted-foreground font-bold mt-1">Permeability</div>
+                </div>
+              </div>
+
+              <ul className="mt-5 space-y-2.5 text-xs text-foreground/80 leading-relaxed border-t border-border/20 pt-5 pl-1">
                 <li className="flex gap-2">
                   <span className="text-accent shrink-0 font-bold">▪</span>
                   <span><strong>Soil Characterization:</strong> Tested local sandy soil sample containing <strong>95.81% sand</strong> with a specific gravity of <strong>2.71</strong> and baseline coefficient of permeability of <strong>0.0088 cm/sec</strong>.</span>
