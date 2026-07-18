@@ -2190,7 +2190,7 @@ function Experience() {
             </h3>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* SKARION Card */}
+            {/* SKARION Card 1 */}
             <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
                 <img
@@ -2207,6 +2207,27 @@ function Experience() {
                 <h4 className="font-display text-base font-bold text-foreground">Design Team</h4>
                 <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
                   Collaborative workshop with engineering peers and Abdullah Al Saki (Director of SKARION Engineering), focusing on infrastructure route optimization.
+                </p>
+              </div>
+            </div>
+
+            {/* SKARION Card 2 */}
+            <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
+              <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
+                <img
+                  src="/skarion_outreach.jpeg"
+                  alt="SKARION Engineering Design & Marketing Outreach Team"
+                  loading="lazy"
+                  decoding="async"
+                  className="object-cover w-full h-full grayscale-[10%] group-hover:grayscale-0 group-hover:scale-[1.02] transition-all duration-500"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-transparent opacity-60 pointer-events-none" />
+              </div>
+              <div className="p-5 border-t border-border/40 text-left">
+                <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">SKARION Engineering</div>
+                <h4 className="font-display text-base font-bold text-foreground">Outreach &amp; Engineering Team</h4>
+                <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
+                  Group photograph of the engineering design and marketing outreach departments with Abdullah Al Saki (Director of SKARION Engineering).
                 </p>
               </div>
             </div>
