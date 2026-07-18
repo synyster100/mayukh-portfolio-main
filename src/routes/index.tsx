@@ -1376,18 +1376,18 @@ function Stats() {
       {statDetails.map((s, i) => (
         <div 
           key={i}
-          className="relative p-6 rounded-2xl border border-border/80 bg-card/45 backdrop-blur-sm shadow-md hover:border-accent/40 hover:shadow-lg transition-all duration-300 group overflow-hidden"
+          className="relative p-6 rounded-2xl border border-border/80 bg-card/45 backdrop-blur-sm shadow-md hover:border-blue-500/30 hover:shadow-lg transition-all duration-300 group overflow-hidden"
         >
-          <div className="absolute top-0 right-0 w-24 h-24 bg-accent/5 rounded-full blur-2xl pointer-events-none group-hover:bg-accent/10 transition-colors" />
+          <div className="absolute top-0 right-0 w-24 h-24 bg-blue-500/5 rounded-full blur-2xl pointer-events-none group-hover:bg-blue-500/10 transition-colors" />
           <div className="flex items-center gap-4 relative z-10">
-            <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 ${s.color}`}>
-              <s.icon className="w-5 h-5" />
+            <div className={`w-12 h-12 rounded-xl flex items-center justify-center shrink-0 transition-transform duration-300 group-hover:scale-110 ${s.color}`}>
+              <s.icon className="w-6 h-6" />
             </div>
-            <div>
-              <div className="font-display text-3xl font-bold tracking-tight text-foreground flex items-baseline">
+            <div className="min-w-0">
+              <div className="font-display text-3xl md:text-4xl font-extrabold tracking-tight text-foreground flex items-baseline whitespace-nowrap">
                 <StatValue value={s.value} start={inView} suffix={s.suffix} />
               </div>
-              <div className="mt-1.5 text-[10px] font-mono uppercase tracking-wider text-muted-foreground font-bold">
+              <div className="mt-1 text-xs md:text-sm font-semibold text-muted-foreground">
                 {s.label}
               </div>
             </div>
@@ -2403,36 +2403,9 @@ function Education() {
                 <span className="text-foreground/80 font-semibold bg-secondary/40 px-2 py-0.5 rounded">Prof. Dr. Hossain Md. Shahin</span>
               </p>
 
-              {/* Technical Highlights Dashboard */}
-              <div className="mt-5 grid grid-cols-3 gap-3">
-                <div className="border border-border/50 rounded-xl p-3 bg-card/50 backdrop-blur-sm text-center shadow-sm">
-                  <div className="text-lg md:text-xl font-bold font-mono text-accent">95.8%</div>
-                  <div className="text-[8px] md:text-[9px] uppercase tracking-wider text-muted-foreground font-bold mt-1">Sand Content</div>
-                </div>
-                <div className="border border-border/50 rounded-xl p-3 bg-card/50 backdrop-blur-sm text-center shadow-sm">
-                  <div className="text-lg md:text-xl font-bold font-mono text-emerald-500">108.5 kPa</div>
-                  <div className="text-[8px] md:text-[9px] uppercase tracking-wider text-muted-foreground font-bold mt-1">Peak UCS</div>
-                </div>
-                <div className="border border-border/50 rounded-xl p-3 bg-card/50 backdrop-blur-sm text-center shadow-sm">
-                  <div className="text-lg md:text-xl font-bold font-mono text-amber-500">30x Drop</div>
-                  <div className="text-[8px] md:text-[9px] uppercase tracking-wider text-muted-foreground font-bold mt-1">Permeability</div>
-                </div>
-              </div>
-
-              <ul className="mt-5 space-y-2.5 text-xs text-foreground/80 leading-relaxed border-t border-border/20 pt-5 pl-1">
-                <li className="flex gap-2">
-                  <span className="text-accent shrink-0 font-bold">▪</span>
-                  <span><strong>Soil Characterization:</strong> Tested local sandy soil sample containing <strong>95.81% sand</strong> with a specific gravity of <strong>2.71</strong> and baseline coefficient of permeability of <strong>0.0088 cm/sec</strong>.</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-accent shrink-0 font-bold">▪</span>
-                  <span><strong>UCS Strength Enhancement:</strong> Sourced Sodium Lignosulfonate (SLS), SB-95 (sodium silicate-based), and TX-95 (polymer-based) stabilizers. Curing for 21 days with <strong>5% SLS + 10% SB-95 &amp; TX-95</strong> achieved a peak compressive strength of <strong>108.57 kPa</strong>, representing a 25% improvement over SLS-only treatment (87.2 kPa).</span>
-                </li>
-                <li className="flex gap-2">
-                  <span className="text-accent shrink-0 font-bold">▪</span>
-                  <span><strong>Seepage &amp; Permeability Reduction:</strong> Conducted constant-head tests showing a <strong>30-fold reduction in coefficient of permeability</strong> (from <strong>6 &times; 10⁻³ cm/s</strong> down to <strong>2 &times; 10⁻⁴ cm/s</strong>), demonstrating strong polymeric film encapsulation and resistance to piping failure.</span>
-                </li>
-              </ul>
+              <p className="mt-4 text-xs md:text-sm text-foreground/80 leading-relaxed font-sans font-medium">
+                Conducted experimental research on sand stabilization using eco-friendly Sodium Lignosulfonate and supplementary polymers to control seepage and piping failure in embankments, successfully achieving a 30-fold reduction in permeability and enhancing soil peak compressive strength.
+              </p>
             </div>
           </div>
 
