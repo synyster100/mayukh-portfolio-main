@@ -2227,7 +2227,7 @@ function Experience() {
                 <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">DOHWA Engineering Co. Ltd.</div>
                 <h4 className="font-display text-base font-bold text-foreground">Internship Cohort</h4>
                 <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                  Inside DOHWA's Dhaka office with Jinha Bok, Deputy General Manager / Global Marketing.
+                  Inside DOHWA's Dhaka branch office with Jinha Bok (Deputy General Manager of Global Marketing) and Samrat Dasgupta (General Manager).
                 </p>
               </div>
             </div>
@@ -2269,7 +2269,7 @@ function Experience() {
                 <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">DOHWA Engineering Co. Ltd.</div>
                 <h4 className="font-display text-base font-bold text-foreground">Farewell Group Photo</h4>
                 <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                  Farewell day group picture with Rozina Khanam, General Manager.
+                  Group photograph on the final day of industrial training with Rozina Khanam (Deputy General Manager of Project Management).
                 </p>
               </div>
             </div>
@@ -2311,7 +2311,7 @@ function Experience() {
                 <div className="text-[10px] font-mono font-bold tracking-widest text-accent uppercase mb-1">DOHWA Engineering Co. Ltd.</div>
                 <h4 className="font-display text-base font-bold text-foreground">Laalkuthi Restoration Project</h4>
                 <p className="text-xs text-muted-foreground mt-2 leading-relaxed">
-                  Conducted on-site construction safety inspections and structural survey reviews at the historic Laalkuthi heritage restoration site in Old Dhaka as a part of the DOHWA Internship with the DOHWA Team.
+                  Conducted on-site construction safety inspections and structural survey reviews at the historic Laalkuthi heritage restoration site in Old Dhaka under the guidance of Noor Ahammad (Quantity Surveyor, DOHWA Engineering).
                 </p>
               </div>
             </div>
