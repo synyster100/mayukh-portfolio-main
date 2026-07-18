@@ -2437,46 +2437,37 @@ function Education() {
           </div>
 
           {/* Standardized Tests Card */}
-          <div className="p-6 rounded-2xl border border-border bg-card/70 backdrop-blur-sm shadow-md hover:border-accent/40 transition-all duration-300 relative group overflow-hidden">
-            <div className="absolute top-0 right-0 w-32 h-32 bg-accent/5 rounded-full blur-2xl pointer-events-none group-hover:bg-accent/10 transition-colors" />
+          <div className="p-6 rounded-2xl border border-border bg-card/70 backdrop-blur-sm shadow-md hover:border-primary/40 transition-all duration-300 relative group overflow-hidden">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none group-hover:bg-primary/10 transition-colors" />
             
             <h3 className="font-display text-xl font-bold text-foreground mb-6 pb-3 border-b border-border/60 flex items-center gap-2">
-              <FileText className="w-5 h-5 text-accent" />
+              <FileText className="w-5 h-5 text-primary" />
               Standardized Test Scores
             </h3>
             
             <div className="grid md:grid-cols-2 gap-6">
               {/* GRE Card */}
               <div className="border border-border/50 rounded-xl p-5 bg-secondary/15 flex flex-col justify-between shadow-sm relative overflow-hidden group/gre">
-                <div className="absolute top-0 right-0 w-20 h-20 bg-accent/5 rounded-full blur-xl pointer-events-none" />
+                <div className="absolute top-0 right-0 w-20 h-20 bg-primary/5 rounded-full blur-xl pointer-events-none" />
                 <div>
                   <div className="flex justify-between items-center mb-6 pb-2 border-b border-border/30">
                     <span className="text-sm font-bold font-sans text-foreground uppercase tracking-wide">GRE General Test</span>
-                    <span className="text-lg font-bold font-mono text-accent bg-accent/10 px-2.5 py-0.5 rounded-md border border-accent/25">312</span>
+                    <span className="text-lg font-bold font-mono text-primary bg-primary/10 px-2.5 py-0.5 rounded-md border border-primary/25">312</span>
                   </div>
                   
-                  {/* Circular Holographic Score Rings */}
+                  {/* Circular Score Rings */}
                   <div className="grid grid-cols-3 gap-3 text-center">
                     {/* Quant */}
                     <div className="flex flex-col items-center bg-card/45 border border-border/40 rounded-xl p-3 shadow-inner">
                       <div className="relative w-16 h-16 flex items-center justify-center mt-1">
                         <svg className="w-full h-full transform -rotate-90">
-                          <defs>
-                            <filter id="ringGlow" x="-20%" y="-20%" width="140%" height="140%">
-                              <feGaussianBlur stdDeviation="1.5" result="blur" />
-                              <feMerge>
-                                <feMergeNode in="blur" />
-                                <feMergeNode in="SourceGraphic" />
-                              </feMerge>
-                            </filter>
-                          </defs>
                           <circle cx="32" cy="32" r="24" className="stroke-secondary/35" strokeWidth="2.5" fill="transparent" />
-                          <circle cx="32" cy="32" r="24" className="stroke-accent" strokeWidth="3.5" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (71 / 100) * 150.8} strokeLinecap="round" filter="url(#ringGlow)" />
+                          <circle cx="32" cy="32" r="24" className="stroke-primary" strokeWidth="3.5" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (71 / 100) * 150.8} strokeLinecap="round" />
                         </svg>
                         <div className="absolute font-mono text-sm font-bold text-foreground">161</div>
                       </div>
                       <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mt-3">Quant</span>
-                      <span className="text-[8px] font-mono text-accent/80 font-semibold mt-0.5">71st pct</span>
+                      <span className="text-[8px] font-mono text-primary/80 font-semibold mt-0.5">71st pct</span>
                     </div>
 
                     {/* Verbal */}
@@ -2484,12 +2475,12 @@ function Education() {
                       <div className="relative w-16 h-16 flex items-center justify-center mt-1">
                         <svg className="w-full h-full transform -rotate-90">
                           <circle cx="32" cy="32" r="24" className="stroke-secondary/35" strokeWidth="2.5" fill="transparent" />
-                          <circle cx="32" cy="32" r="24" className="stroke-accent" strokeWidth="3.5" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (49 / 100) * 150.8} strokeLinecap="round" filter="url(#ringGlow)" />
+                          <circle cx="32" cy="32" r="24" className="stroke-primary" strokeWidth="3.5" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (49 / 100) * 150.8} strokeLinecap="round" />
                         </svg>
                         <div className="absolute font-mono text-sm font-bold text-foreground">151</div>
                       </div>
                       <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mt-3">Verbal</span>
-                      <span className="text-[8px] font-mono text-accent/80 font-semibold mt-0.5">49th pct</span>
+                      <span className="text-[8px] font-mono text-primary/80 font-semibold mt-0.5">49th pct</span>
                     </div>
 
                     {/* AWA */}
@@ -2497,12 +2488,12 @@ function Education() {
                       <div className="relative w-16 h-16 flex items-center justify-center mt-1">
                         <svg className="w-full h-full transform -rotate-90">
                           <circle cx="32" cy="32" r="24" className="stroke-secondary/35" strokeWidth="2.5" fill="transparent" />
-                          <circle cx="32" cy="32" r="24" className="stroke-accent" strokeWidth="3.5" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (37 / 100) * 150.8} strokeLinecap="round" filter="url(#ringGlow)" />
+                          <circle cx="32" cy="32" r="24" className="stroke-primary" strokeWidth="3.5" fill="transparent" strokeDasharray="150.8" strokeDashoffset={150.8 - (37 / 100) * 150.8} strokeLinecap="round" />
                         </svg>
                         <div className="absolute font-mono text-sm font-bold text-foreground">3.5</div>
                       </div>
                       <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-bold mt-3">AWA</span>
-                      <span className="text-[8px] font-mono text-accent/80 font-semibold mt-0.5">37th pct</span>
+                      <span className="text-[8px] font-mono text-primary/80 font-semibold mt-0.5">37th pct</span>
                     </div>
                   </div>
                 </div>
@@ -2510,20 +2501,20 @@ function Education() {
 
               {/* IELTS Card */}
               <div className="border border-border/50 rounded-xl p-5 bg-secondary/15 flex flex-col justify-between shadow-sm relative overflow-hidden group/ielts">
-                <div className="absolute top-0 right-0 w-20 h-20 bg-accent/5 rounded-full blur-xl pointer-events-none" />
+                <div className="absolute top-0 right-0 w-20 h-20 bg-primary/5 rounded-full blur-xl pointer-events-none" />
                 <div>
                   <div className="flex justify-between items-center mb-5 pb-2 border-b border-border/30">
                     <span className="text-sm font-bold font-sans text-foreground uppercase tracking-wide">IELTS Academic</span>
-                    <span className="text-lg font-bold font-mono text-accent bg-accent/10 px-2.5 py-0.5 rounded-md border border-accent/25">7.5</span>
+                    <span className="text-lg font-bold font-mono text-primary bg-primary/10 px-2.5 py-0.5 rounded-md border border-primary/25">7.5</span>
                   </div>
 
                   {/* Progress Telemetry Meters */}
                   <div className="space-y-3.5">
                     {[
-                      { label: "Listening", score: "7.0", pct: 77.7, color: "bg-accent/80" },
-                      { label: "Reading", score: "7.0", pct: 77.7, color: "bg-accent/80" },
-                      { label: "Writing", score: "7.5", pct: 83.3, color: "bg-accent" },
-                      { label: "Speaking", score: "8.0", pct: 88.8, color: "bg-accent" },
+                      { label: "Listening", score: "7.0", pct: 77.7, color: "bg-primary/80" },
+                      { label: "Reading", score: "7.0", pct: 77.7, color: "bg-primary/80" },
+                      { label: "Writing", score: "7.5", pct: 83.3, color: "bg-primary" },
+                      { label: "Speaking", score: "8.0", pct: 88.8, color: "bg-primary" },
                     ].map((item) => (
                       <div key={item.label} className="space-y-1">
                         <div className="flex justify-between text-[10px] font-mono text-muted-foreground uppercase font-bold">
@@ -2531,7 +2522,7 @@ function Education() {
                           <span className="text-foreground">{item.score}</span>
                         </div>
                         <div className="w-full bg-secondary/50 h-2 rounded-full overflow-hidden border border-border/40 p-0.5">
-                          <div className={`${item.color} h-full rounded-full transition-all duration-1000 shadow-[0_0_10px_rgba(251,113,133,0.3)]`} style={{ width: `${item.pct}%` }} />
+                          <div className={`${item.color} h-full rounded-full transition-all duration-1000`} style={{ width: `${item.pct}%` }} />
                         </div>
                       </div>
                     ))}
@@ -2541,7 +2532,7 @@ function Education() {
                 {/* CEFR Indicator */}
                 <div className="mt-5 border-t border-border/30 pt-3 flex items-center justify-between text-[10px] font-mono text-muted-foreground uppercase font-bold">
                   <span>CEFR Level:</span>
-                  <span className="text-accent font-sans text-xs">C1 (Effective Operational Proficiency)</span>
+                  <span className="text-primary font-sans text-xs font-semibold">C1 (Effective Operational Proficiency)</span>
                 </div>
               </div>
             </div>
