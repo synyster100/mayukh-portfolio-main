@@ -192,6 +192,14 @@ const INTERESTS = [
 
 const JOURNAL = [
   {
+    authors: "<strong>Mayukh, A. A.</strong>, Chowdhury, M. S. &amp; Kim, Y. J.",
+    title: "Seasonal Compositing and Pixel-Level Cloud Detection for Sentinel-2 in Tropical Monsoon Regions: A Dual-Paradigm Evaluation of Rule-Based, Machine Learning, and Deep Learning Strategies",
+    venue: "In Preparation",
+    year: 2026,
+    status: "In Preparation",
+    link: null,
+  },
+  {
     authors: "Ahmed, M. F., Sadik, M. S., <strong>Mayukh, A. A.</strong>, Labib, M. I.",
     title: "Governance Models for Urban Environmental Infrastructure in the Global South: A Scoping Review of Socio-Economic Implications for Pathways to Sustainable Cities (SDG 11) and Institutional Partnerships (SDG 17)",
     venue: "Journal of Lifestyle & SDGs Review. 6, e08255, 1-21",
@@ -1657,9 +1665,15 @@ function Publications() {
                     </div>
                     <div className="md:col-span-8 space-y-2.5">
                       <div className="flex items-center gap-2 flex-wrap">
-                        <span className="inline-flex items-center text-[9px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 shrink-0">
-                          Peer-Reviewed Journal
-                        </span>
+                        {p.status === "In Preparation" ? (
+                          <span className="inline-flex items-center text-[9px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-700 border border-amber-500/25 shrink-0">
+                            In Preparation
+                          </span>
+                        ) : (
+                          <span className="inline-flex items-center text-[9px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-emerald-500/10 text-emerald-600 border border-emerald-500/20 shrink-0">
+                            Peer-Reviewed Journal
+                          </span>
+                        )}
                         {isSDG && (
                           <span className="inline-flex items-center text-[9px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20 shrink-0">
                             Latindex / SciELO
@@ -1688,16 +1702,18 @@ function Publications() {
                       </p>
                     </div>
                     <div className="md:col-span-3 md:text-right flex flex-wrap gap-2 items-start md:justify-end">
-                      <button
-                        onClick={() => setOpenCiteIndex(openCiteIndex === `journal-${i}` ? null : `journal-${i}`)}
-                        className={`inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all duration-200 cursor-pointer ${
-                          openCiteIndex === `journal-${i}`
-                            ? "bg-accent/15 text-accent border-accent/40 animate-pulse"
-                            : "text-muted-foreground hover:text-accent border-border bg-card hover:bg-accent/5"
-                        }`}
-                      >
-                        <FileText className="w-3.5 h-3.5" /> Cite
-                      </button>
+                      {p.status !== "In Preparation" && (
+                        <button
+                          onClick={() => setOpenCiteIndex(openCiteIndex === `journal-${i}` ? null : `journal-${i}`)}
+                          className={`inline-flex items-center gap-1.5 text-xs font-mono font-bold uppercase tracking-wider px-3 py-1.5 rounded-lg border transition-all duration-200 cursor-pointer ${
+                            openCiteIndex === `journal-${i}`
+                              ? "bg-accent/15 text-accent border-accent/40 animate-pulse"
+                              : "text-muted-foreground hover:text-accent border-border bg-card hover:bg-accent/5"
+                          }`}
+                        >
+                          <FileText className="w-3.5 h-3.5" /> Cite
+                        </button>
+                      )}
                       {p.link && (
                         <a
                           href={p.link}

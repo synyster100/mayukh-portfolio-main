@@ -20,35 +20,6 @@ export const PROJECT_CATEGORIES: ProjectCategory[] = ["Remote Sensing", "Structu
 
 export const PROJECTS: Project[] = [
   {
-    slug: "sentinel-2-cloud-masking-framework",
-    title:
-      "Developed and Evaluated a Multi-Method Cloud Masking and Compositing Framework for Sentinel-2 Imagery",
-    tech: ["GEE", "Python", "Machine Learning", "Deep Learning"],
-    desc:
-      "Implemented rule-based, machine learning, and deep learning cloud-masking workflows in GEE and Python for Sentinel-2 imagery.",
-    category: "Remote Sensing",
-    year: "Sentinel-2 Study",
-    overview:
-      "This project compared several approaches for cloud masking and compositing Sentinel-2 imagery to improve the quality of analysis-ready remote sensing products.",
-    highlights: [
-      "Implemented rule-based cloud masking workflows for baseline preprocessing.",
-      "Tested machine learning and deep learning methods for more adaptive cloud screening.",
-      "Compared compositing strategies to improve clarity and reliability in final imagery outputs.",
-    ],
-    workflow: [
-      "Prepared Sentinel-2 image collections and preprocessing routines in Google Earth Engine.",
-      "Ran cloud masking experiments in both GEE and Python across conventional and learned approaches.",
-      "Evaluated the strengths of each method for building cleaner composite imagery.",
-    ],
-    deliverables: [
-      "Cloud-masking workflow comparison",
-      "Composite image outputs",
-      "Evaluation-ready preprocessing framework",
-    ],
-    impact:
-      "The framework improves image preparation reliability and creates a reusable basis for downstream land, water, and environmental analysis.",
-  },
-  {
     slug: "uav-topographic-survey-rbd-eco-resort",
     title:
       "UAV-Based Digital Topographic Survey of RBD Eco Resort, Sreepur, Gazipur for ANTS Drone Hub",
