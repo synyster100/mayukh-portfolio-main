@@ -46,6 +46,8 @@ import lulcNdwiGaibandha from "./images/projects/lulc-ndwi-gaibandha-serc.jpg";
 import floodRiskDhaka from "./images/projects/flood-risk-dhaka-district-gis.jpg";
 // @ts-ignore
 import ndviSylhet2023 from "./images/projects/ndvi-sylhet-2023.jpg";
+// @ts-ignore
+import meteorologicalBrahmanbaria from "./images/projects/meteorological-brahmanbaria.jpg";
 
 export const PROJECT_IMAGE_URLS: Record<string, string> = {
   "uav-topographic-survey-rbd-eco-resort": uavTopographicSurvey,
@@ -67,6 +69,7 @@ export const PROJECT_IMAGE_URLS: Record<string, string> = {
   "lulc-ndwi-gaibandha-serc": lulcNdwiGaibandha,
   "flood-risk-dhaka-district-gis": floodRiskDhaka,
   "ndvi-sylhet-2023": ndviSylhet2023,
+  "meteorological-brahmanbaria-2015-2024": meteorologicalBrahmanbaria,
 };
 
 /**
