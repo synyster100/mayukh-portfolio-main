@@ -1226,7 +1226,7 @@ function Hero() {
             <span className="text-primary">.</span>
           </h1>
           <p className="mt-8 text-base md:text-lg text-muted-foreground max-w-2xl text-pretty leading-relaxed">
-            Civil &amp; Environmental Engineer | <strong className="text-foreground font-semibold">GIS, Remote Sensing &amp; GeoAI Researcher</strong>
+            Fresh Graduate | Civil &amp; Environmental Engineer | Geospatial Data Analyst | <strong className="text-foreground font-semibold">CAD Expert</strong>
           </p>
           <div className="mt-10 flex flex-wrap gap-3">
             <a
