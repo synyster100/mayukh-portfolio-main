@@ -2231,7 +2231,7 @@ function Experience() {
             <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
                 <img
-                  src="/skarion_outreach.jpeg"
+                  src="/skarion_outreach_team.jpg"
                   alt="SKARION Engineering Design & Marketing Outreach Team"
                   loading="lazy"
                   decoding="async"
