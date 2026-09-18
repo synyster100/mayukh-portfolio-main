@@ -320,14 +320,14 @@ const PROJECT_FILTERS = ["All", ...PROJECT_CATEGORIES] as const;
 const TIMELINE = [
   {
     category: "professional",
-    year: "Oct 2025 — Present",
-    role: "Outside Plant Engineer — Civil Infrastructure (Remote)",
+    year: "Feb 2026 — Jun 2026",
+    role: "Outside Plant Engineer — Civil Infrastructure",
     org: "SKARION Engineering, Virginia, USA",
     orgUrl: "https://skarionengineering.com/",
     image: "/skarion_team.jpeg",
     bullets: [
-      "Designed 400,000+ ft (500+ residential fiber deployments) of XGS-PON fiber networks, HLD/LLD packages and detailed BOMs.",
-      "Delivered end-to-end OSP designs (aerial & underground) using ArcGIS Pro and AutoCAD, ensuring full compliance with NESC/NEC standards across projects in Williamson County, TX and North Carolina markets (Holly Springs, Greensboro).",
+      "Designed 5000+ ft (100+ residential fiber deployments) of XGS-PON fiber networks, HLD/LLD packages and detailed BOMs.",
+      "Delivered OSP designs (aerial & underground) using ArcGIS Pro and AutoCAD, ensuring full compliance with NESC/NEC standards.",
       "Mentored 25+ junior designers, cutting onboarding time by ~50% and improving overall team delivery efficiency."
     ],
   },
@@ -353,13 +353,13 @@ const TIMELINE = [
     org: "North South University, Dhaka, Bangladesh",
     orgUrl: "https://www.northsouth.edu/",
     bullets: [
-      "Collaborated with faculty at the Department of Civil and Environmental Engineering to develop course materials for the Advanced Foundation Analysis course, applying FEM-based numerical modeling to analyze soil–structure interaction and evaluate foundation performance under complex loading scenarios.",
-      "Contributed to a review paper using a PRISMA-ScR-based scoping review on urban environmental infrastructure governance and a book chapter on sustainable construction materials, conducting large-scale literature synthesis (500+ sources) and supporting technical writing and content development."
+      "Collaborated with faculty (Dr. Nur Mohammad Shuman, Dr. Asef Mohammad Redwan and Prof. Dr. Nehreen Majed) at the Department of Civil and Environmental Engineering to develop course materials for the Advanced Foundation Analysis course, applying FEM-based numerical modeling to analyze soil–structure interaction and evaluate foundation performance under complex loading scenarios.",
+      "Contributed to a book chapter on sustainable construction materials, conducting large-scale literature synthesis (500+ sources) and supporting technical writing and content development."
     ],
   },
   {
     category: "teaching-research",
-    year: "Jan 2025 — Present",
+    year: "Jan 2025 — Feb 2026",
     role: "Instructor",
     org: "LEAD Academy, Dhaka, Bangladesh",
     orgUrl: "https://lead.academy/",
@@ -369,7 +369,7 @@ const TIMELINE = [
   },
   {
     category: "teaching-research",
-    year: "Apr 2025 — Present",
+    year: "Apr 2025 — May 2026",
     role: "AutoCAD Instructor",
     org: "Caturjo Architecture Academy, Chattogram, Bangladesh",
     orgUrl: "https://caturjosthapotto.com/",
@@ -387,6 +387,18 @@ const TIMELINE = [
     bullets: [
       "Taken live classes of a batch of over 30 undergrad students from various departments both online and offline.",
       "Made the question paper and managed 104 participants as the Head Organizer of the Drafting Contest in the Cennovation 2025."
+    ],
+  },
+  {
+    category: "internship",
+    year: "Oct 2025 — Jan 2026",
+    role: "Outside Plant Engineer Intern",
+    org: "SKARION Engineering, Virginia, USA",
+    orgUrl: "https://skarionengineering.com/",
+    image: "/skarion_outreach_team.jpg",
+    bullets: [
+      "Assisted in outside plant (OSP) fiber optic route planning (aerial & underground) and preliminary drafting using ArcGIS Pro and AutoCAD.",
+      "Collaborated with senior engineers on High-Level / Low-Level Design (HLD/LLD) packages, field data verification, and Bill of Materials (BOM) preparation under NESC/NEC standards."
     ],
   },
   {
@@ -1272,7 +1284,7 @@ function Hero() {
               <div className="flex items-start gap-3 text-left">
                 <span className="mt-1.5 w-2 h-2 rounded-full bg-accent shrink-0" />
                 <div>
-                  <div className="font-bold text-foreground">Outside Plant Engineer</div>
+                  <div className="font-bold text-foreground">Former Outside Plant Engineer</div>
                   <div className="text-muted-foreground text-xs">SKARION Engineering</div>
                 </div>
               </div>
@@ -2231,7 +2243,7 @@ function Experience() {
             <div className="rounded-2xl border border-border bg-card/60 overflow-hidden shadow-md group hover:border-accent/40 transition-all duration-300">
               <div className="relative aspect-[16/10] w-full overflow-hidden bg-slate-900/50">
                 <img
-                  src="/skarion_outreach.jpeg"
+                  src="/skarion_outreach_team.jpg"
                   alt="SKARION Engineering Design & Marketing Outreach Team"
                   loading="lazy"
                   decoding="async"
