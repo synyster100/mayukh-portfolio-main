@@ -320,7 +320,7 @@ const PROJECT_FILTERS = ["All", ...PROJECT_CATEGORIES] as const;
 const TIMELINE = [
   {
     category: "professional",
-    year: "Feb 2026 — Jun 2026",
+    year: "Feb 2026 — Sep 2026",
     role: "Outside Plant Engineer — Civil Infrastructure",
     org: "SKARION Engineering, Virginia, USA",
     orgUrl: "https://skarionengineering.com/",
