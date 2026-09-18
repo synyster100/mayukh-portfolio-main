@@ -371,8 +371,8 @@ const TIMELINE = [
     orgUrl: "https://skarionengineering.com/",
     image: "/skarion_outreach_team.jpg",
     bullets: [
-      "Assisted in outside plant (OSP) fiber optic route planning (aerial & underground) and preliminary drafting using ArcGIS Pro and AutoCAD.",
-      "Collaborated with senior engineers on High-Level / Low-Level Design (HLD/LLD) packages, field data verification, and Bill of Materials (BOM) preparation under NESC/NEC standards."
+      "Assisted in outside plant (OSP) fiber optic route planning (underground) and preliminary drafting using ArcGIS Pro and AutoCAD.",
+      "Collaborated with senior engineers on High-Level / Low-Level Design (HLD/LLD) packages."
     ],
   },
   {
