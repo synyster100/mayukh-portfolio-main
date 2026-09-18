@@ -332,21 +332,6 @@ const TIMELINE = [
     ],
   },
   {
-    category: "professional",
-    year: "Jan 2025 — Jun 2025",
-    role: "CAD Specialist & Technology Research Coordinator (Contract)",
-    org: "Micromaster Corporation, Dhaka, Bangladesh",
-    orgUrl: "https://micromasterbd.com/",
-    bullets: [
-      "Developed 2D & 3D CAD models for aquaculture, water treatment, and ETP systems.",
-      "Designed and studied fiberglass tanks, RAS, and IPRS technologies with precision.",
-      "Optimized manufacturing drawings & BOM for cost-efficient production.",
-      "Collaborated with engineers & technicians to refine system layouts.",
-      "Ensured compliance with industry standards in water treatment design.",
-      "Managed technical documentation & CAD data for streamlined workflows."
-    ],
-  },
-  {
     category: "teaching-research",
     year: "Jan 2026 — Jun 2026",
     role: "Research Assistant (RA)",
@@ -355,16 +340,6 @@ const TIMELINE = [
     bullets: [
       "Collaborated with faculty (Dr. Nur Mohammad Shuman, Dr. Asef Mohammad Redwan and Prof. Dr. Nehreen Majed) at the Department of Civil and Environmental Engineering to develop course materials for the Advanced Foundation Analysis course, applying FEM-based numerical modeling to analyze soil–structure interaction and evaluate foundation performance under complex loading scenarios.",
       "Contributed to a book chapter on sustainable construction materials, conducting large-scale literature synthesis (500+ sources) and supporting technical writing and content development."
-    ],
-  },
-  {
-    category: "teaching-research",
-    year: "Jan 2025 — Feb 2026",
-    role: "Instructor",
-    org: "LEAD Academy, Dhaka, Bangladesh",
-    orgUrl: "https://lead.academy/",
-    bullets: [
-      "Developed an AutoCAD course with 13 learning modules with 87 video lectures (9+ hours) with 30 quizzes and 4 final projects. <a href='https://lead.academy/course/autocad-from-scratch-2d-3d' target='_blank' rel='noopener' class='text-accent hover:underline'>Course Link</a> (Published on November, 2025)."
     ],
   },
   {
@@ -380,13 +355,12 @@ const TIMELINE = [
   },
   {
     category: "teaching-research",
-    year: "Nov 2023 — Oct 2025",
-    role: "Chief Instructor: AutoCAD",
-    org: "IUT CAD Society, Gazipur, Bangladesh",
-    orgUrl: "https://www.facebook.com/iutcadsociety/",
+    year: "Jan 2025 — Feb 2026",
+    role: "Instructor",
+    org: "LEAD Academy, Dhaka, Bangladesh",
+    orgUrl: "https://lead.academy/",
     bullets: [
-      "Taken live classes of a batch of over 30 undergrad students from various departments both online and offline.",
-      "Made the question paper and managed 104 participants as the Head Organizer of the Drafting Contest in the Cennovation 2025."
+      "Developed an AutoCAD course with 13 learning modules with 87 video lectures (9+ hours) with 30 quizzes and 4 final projects. <a href='https://lead.academy/course/autocad-from-scratch-2d-3d' target='_blank' rel='noopener' class='text-accent hover:underline'>Course Link</a> (Published on November, 2025)."
     ],
   },
   {
@@ -399,6 +373,32 @@ const TIMELINE = [
     bullets: [
       "Assisted in outside plant (OSP) fiber optic route planning (aerial & underground) and preliminary drafting using ArcGIS Pro and AutoCAD.",
       "Collaborated with senior engineers on High-Level / Low-Level Design (HLD/LLD) packages, field data verification, and Bill of Materials (BOM) preparation under NESC/NEC standards."
+    ],
+  },
+  {
+    category: "teaching-research",
+    year: "Nov 2023 — Oct 2025",
+    role: "Chief Instructor: AutoCAD",
+    org: "IUT CAD Society, Gazipur, Bangladesh",
+    orgUrl: "https://www.facebook.com/iutcadsociety/",
+    bullets: [
+      "Taken live classes of a batch of over 30 undergrad students from various departments both online and offline.",
+      "Made the question paper and managed 104 participants as the Head Organizer of the Drafting Contest in the Cennovation 2025."
+    ],
+  },
+  {
+    category: "professional",
+    year: "Jan 2025 — Jun 2025",
+    role: "CAD Specialist & Technology Research Coordinator (Contract)",
+    org: "Micromaster Corporation, Dhaka, Bangladesh",
+    orgUrl: "https://micromasterbd.com/",
+    bullets: [
+      "Developed 2D & 3D CAD models for aquaculture, water treatment, and ETP systems.",
+      "Designed and studied fiberglass tanks, RAS, and IPRS technologies with precision.",
+      "Optimized manufacturing drawings & BOM for cost-efficient production.",
+      "Collaborated with engineers & technicians to refine system layouts.",
+      "Ensured compliance with industry standards in water treatment design.",
+      "Managed technical documentation & CAD data for streamlined workflows."
     ],
   },
   {
