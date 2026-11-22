@@ -279,12 +279,12 @@ const CONFERENCE = [
   },
   {
     authors: "<strong>Mayukh, A. A.</strong>, Chowdhury, M. S., Kim, Y. J. & Youn, S.",
-    title: "Flood Susceptibility Mapping In San Antonio, Texas Using Multi-Criteria AHP-GIS Integration",
-    venue: "International Geoscience and Remote Sensing Symposium (IGARSS 2026)",
-    year: 2025,
-    status: "[Accepted for presentation]",
+    title: "Flood Susceptibility Mapping in San Antonio, Texas Using the Analytical Hierarchy Process and GIS",
+    venue: "2026 IEEE International Geoscience and Remote Sensing Symposium (IGARSS 2026) (pp. 3683–3687)",
+    year: 2026,
+    status: "",
     location: { lng: -98.4936, lat: 29.4241, label: "IGARSS 2026 — San Antonio, Texas, USA" },
-    link: null,
+    link: "https://doi.org/10.1109/igarss60577.2026.11730587",
   },
   {
     authors: "Prantor, R., <strong>Mayukh, A. A.</strong>, Abid, R. N., Rimi, N. N., Sharaf, K., Fariha, Z., & Joy, R.",
@@ -1772,6 +1772,11 @@ function Publications() {
                       <span className="inline-flex items-center text-[9px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-accent/10 text-accent border border-accent/25 shrink-0">
                         {p.venue}
                       </span>
+                      {p.venue.includes("IGARSS") && (
+                        <span className="inline-flex items-center text-[9px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-blue-500/10 text-blue-500 border border-blue-500/20 shrink-0">
+                          IEEE Xplore / Scopus Indexed
+                        </span>
+                      )}
                       {p.status && (
                         <span className="inline-flex items-center text-[9px] font-mono font-bold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-amber-500/10 text-amber-700 border border-amber-500/25 shrink-0">
                           {p.status.replace("[", "").replace("]", "")}
